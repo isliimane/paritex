@@ -9,7 +9,7 @@
                     $logo = settingHelper('light_logo');
                 @endphp
                 <img src="{{($logo != [] && is_file_exists($logo['original_image'])) ? static_asset($logo['original_image']) : static_asset('images/default/logo.png') }}"
-                     alt="Logo"></a>
+                     alt="Logo"></a> 
         </div>
         <ul class="sidebar-menu">
             <li class="@yield('dashboard')"><a class="nav-link" href="{{ route('seller.dashboard') }}"><i

@@ -18,11 +18,12 @@
     </form>
 
     <ul class="navbar-nav navbar-right">
-        <li>
+    <!--c'est pas la paine   
+    <li>
             <a href="{{ route('cache.clear') }}" class="btn btn-outline-danger btn-cache" tabindex="4">
                 {{ __('Cache') }}<i class="bx bx-trash"></i>
             </a>
-        </li>
+        </li>-->
         @if (addon_is_activated('pos_system') && authUser()->user_type != 'seller')
             <li>
                 <a href="{{ route('admin.pos.system') }}" target="_blank" class="nav-link nav-link-lg"

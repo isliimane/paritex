@@ -8,6 +8,7 @@
 @endsection
 
 @section('main-content')
+
     <section class="section">
         @if(settingHelper('purchase_code') == '' && !config('app.demo_mode'))
             <div class="row">

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    @include('admin.partials.header-assets')
+@include('admin.partials.header-assets')
 
     <body class="{{ request()->route()->getName() == 'admin.pos.system' ||  request()->route()->getName() == 'seller.pos.system' ? 'sidebar-mini' : '' }}">
         <div id="app">

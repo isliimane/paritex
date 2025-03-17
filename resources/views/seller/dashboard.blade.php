@@ -19,7 +19,7 @@
                                 <div class="wave"></div>
                                 <div class="d-flex">
                                     <div class="flex-grow-1">
-                                        <p class="text-muted fw-medium">{{ __('Orders')}}</p>
+                                        <p class="text-muted fw-medium">{{ __('Orderssss')}}</p>
                                         <h4 class="mb-0">{{ $total_orders }}</h4>
                                     </div>
                                     <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">

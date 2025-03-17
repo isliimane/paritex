@@ -19,7 +19,7 @@
     <!-- General CSS Files -->
     <link rel="stylesheet" href="{{ static_asset('admin/css/bootstrap.min.css') }}">
 
-    <!-- Icon -->
+    <!-- Icon dashbord -->
     <link rel="stylesheet" href="{{ static_asset('admin/boxicons/css/boxicons.css') }}">
     <link rel="stylesheet" href="{{ static_asset('frontend/css/materialdesignicons.min.css') }}">
 
