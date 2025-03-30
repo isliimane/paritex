@@ -30,6 +30,18 @@
 
     @yield('page-style')
 
+    <style>/* Appliquer la couleur verte au lien Bootstrap */
+link[href*="bootstrap.min.css"] {
+    color:rgb(137, 231, 173) !important;
+}
+
+/* Appliquer la couleur rouge aux icônes */
+i.bx, /* Boxicons */
+i.mdi { /* Material Design Icons */
+    color:#00a241 !important;
+}
+</style>
+
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ static_asset('admin/css/bootstrap-tagsinput.css') }}">
     <link rel="stylesheet" href="{{ static_asset('admin/css/components.css') }}">

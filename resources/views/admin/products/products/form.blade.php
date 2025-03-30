@@ -26,23 +26,29 @@
 @section('main-content')
     <section class="section">
         <div class="section-body">
-            <div class="d-flex justify-content-between">
-                <div class="d-block">
-                    <h2 class="section-title">
-                        {{ $title }}
-                    </h2>
-                </div>
-                <div class="buttons add-button">
-                    <a href="{{ old('r') != '' ? old('r') : (@$r ? $r : url()->previous() )}}"
-                       class="btn btn-outline-primary"><i class='bx bx-arrow-back'></i>{{ __('Back') }}</a>
-                </div>
-            </div>
+        <div class="d-flex justify-content-between middle">
+    <div class="d-block">
+        <h2 class="section-title">
+            {{ $title }}
+        </h2>
+    </div>
+    <div class="buttons add-button">
+        <a href="{{ old('r') != '' ? old('r') : (@$r ? $r : url()->previous() )}}" class="button custom-button">
+            <i class='bx bx-arrow-back icon'></i>
+            {{ __('Back') }}
+        </a>
+    </div>
+</div>
+
 
             <form action="{{ route('admin.product.store') }}" method="post" enctype="multipart/form-data"
-                  data-form="{{ route('get-variants') }}" id="variant">
+                  data-form="{{ route('get-variants') }}" id="variant" class="col-12 col-sm-12 col-md-12 col-lg-12 middle">
                 @csrf
-                <div class="col-12 col-sm-12 col-md-8 col-lg-9 middle">
-                    <div class="mb-3 bg-white px-4 py-2">
+               
+                  
+           <div class="row">
+                 <div class="col-12 col-sm-12 col-md-8 col-lg-9 middle">
+                    <div class="mb-3 bg-white px-4 py-2 mod">
                         <ul class="nav nav-pills" id="myTab3" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link bar active {{ has_key(['name','category','brand','unit','minimum_order_quantity','barcode','tags','slug','is_digital','product_file','external_link'],$errors) ? 'error' : '' }}"
@@ -50,12 +56,12 @@
                                    aria-controls="home"
                                    aria-selected="true">{{ __('Product Information') }}</a>
                             </li>
-                            <li class="nav-item">
+                            <!--<li class="nav-item">
                                 <a class="nav-link bar {{ has_key(['thumbnail','images','video_provider','video_url'],$errors) ? 'error' : '' }}"
                                    id="images-and-videos-tab" data-toggle="tab" href="#images-and-videos" role="tab"
                                    aria-controls="home"
                                    aria-selected="true">{{ __('Images & Videos') }}</a>
-                            </li>
+                            </li>-->
                             <li class="nav-item">
                                 <a class="nav-link bar {{ has_key(['price','special_discount_type','special_discount','special_discount_period','vat_taxes','has_variant','low_stock_to_notify','stock_visibility',
                                                     'sku','current_stock','colors','variant_sku.*'],$errors) ? 'error' : '' }}"
@@ -68,7 +74,7 @@
                                    id="description-and-specification-tab" data-toggle="tab"
                                    href="#description-and-specification" role="tab"
                                    aria-controls="contact"
-                                   aria-selected="false">{{ __('Description & Specification') }}</a>
+                                   aria-selected="false">{{ __('Description ') }}</a>
                             </li>
                             @if(!isset($is_digital) && !isset($is_catalog) && !isset($is_classified))
                                 <li class="nav-item">
@@ -101,13 +107,15 @@
                                    aria-selected="false">{{ __('SEO') }}</a>
                             </li>
                         </ul>
-                    </div>
-                </div>
+                      </div>
+                     </div>
+                 </div>
                 <div class="row">
                     <div class="col-12 col-sm-12 col-md-8 col-lg-9 middle">
                         <div class="tab-content no-padding" id="myTabContent2">
-                            <div class="tab-pane fade show active" id="product-info" role="tabpanel"
+                        <div class="tab-pane fade show active" id="product-info" role="tabpanel"
                                  aria-labelledby="product-info-tab">
+                                 <!-- product information -->
                                 <div class="card">
                                     <div class="card-header extra-padding">
                                         <h4>{{ __('Product Information') }}</h4>
@@ -118,7 +126,13 @@
                                         </div>
                                     @endif
                                     <div class="card-body">
+                                        <!--<div class="form-group">-->
+                                        
+                                    <div class="row"> 
+                                      <div class="col-md-6 ">
                                         <div class="form-group">
+                                   
+                                          <div class="col-md-12">
                                             <label for="name">{{ __('Product Name') }} *</label>
                                             <input type="hidden"
                                                    value="{{ old('r') !='' ? old('r') : (@$r ? $r : url()->previous() )}}"
@@ -132,12 +146,177 @@
                                                     <p>{{ $errors->first('name') }}</p>
                                                 </div>
                                             @endif
+                                          </div>
+                                        
+                                            <!-- Button trigger modal -->
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="logo">{{ __('Gallery Image') }}</label>
+                                                    <div class="form-group">
+                                                        <div class="input-group gallery-modal" id="btnSubmit"
+                                                             data-for="image"
+                                                             data-selection="multiple"
+                                                             data-target="#galleryModal" data-dismiss="modal">
+                                                            <input type="hidden" name="images"
+                                                                   value="{{ old('images') !='' ? old('images') : ''}}"
+                                                                   class="image-selected">
+                                                            <span class="form-control"><span
+                                                                        class="counter">{{ old('images') != '' ? substr_count(old('images'), ',') + 1  : 0 }}</span> {{ __('file chosen') }}</span>
+                                                            <div class="input-group-prepend">
+                                                                <div class="input-group-text">
+                                                                    {{ __('Choose File') }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                       
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                               <label for="thumbnail">{{ __('Thumbnail') }} </label>
+                                             <div class="input-group gallery-modal" id="btnSubmit"
+                                                             data-for="image"
+                                                             data-selection="single"
+                                                             data-target="#galleryModal" data-dismiss="modal">
+                                                            <input type="hidden" name="thumbnail"
+                                                                   value="{{ old('thumbnail') !='' ? old('thumbnail') : ''}}"
+                                                                   class="image-selected">
+                                                            <span class="form-control"><span
+                                                                        class="counter">{{ old('thumbnail') != '' ? substr_count(old('thumbnail'), ',') + 1  : 0 }}</span> {{ __('file chosen') }}</span>
+                                                            <div class="input-group-prepend">
+                                                                <div class="input-group-text">
+                                                                    {{ __('Choose File') }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                            </div>                                            
+                                       </div>
+                                     </div>
+
+                                          <div class="col-md-6">
+                                            <div class="col-md-12">
+                                            <div class="selected-media-box">
+                                                            <div class="mt-12 gallery gallery-md d-flex">
+                                                                @if(old('images') != null)
+                                                                    @php
+                                                                        $images = explode(',', old('images'));
+                                                                        $images = \App\Models\Media::find($images);
+                                                                    @endphp
+                                                                    @foreach($images as $key => $media)
+                                                                        <div class="selected-media mr-2 mb-2 mt-3 ml-0"
+                                                                             data-id="{{ $media->id }}">
+                                                                            @if(@is_file_exists($media->image_variants['image_72x72'], $media->image_variants['storage']))
+                                                                                <img
+                                                                                        src="{{ get_media($media->image_variants['image_72x72'], $media->image_variants['storage']) }}"
+                                                                                        alt="img-thumbnail"
+                                                                                        class="img-thumbnail logo-profile">
+                                                                            @else
+                                                                                <img
+                                                                                        src="{{ static_asset('images/default/default-image-72x72.png') }}"
+                                                                                        alt="img-thumbnail"
+                                                                                        class="img-thumbnail logo-profile">
+                                                                            @endif
+                                                                            <div class="image-remove">
+                                                                                <a href="javascript:void(0)"
+                                                                                   class="remove"><i
+                                                                                            class="bx bx-x"></i></a>
+                                                                            </div>
+                                                                        </div>
+                                                                    @endforeach
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                             </div>
+                                                            </div>
+                                                
+                                                        <div class="selected-media-box">
+                                                            <div class="mt-2 gallery gallery-md d-flex">
+                                                                @if(old('thumbnail') != null)
+                                                                    <div class="selected-media mr-2 mb-2 mt-3 ml-0"
+                                                                         data-id="{{ old('thumbnail') }}">
+                                                                        @php
+                                                                            $media = \App\Models\Media::find(old('thumbnail'));
+                                                                        @endphp
+                                                                        @if(@is_file_exists($media->image_variants['image_72x72'], $media->image_variants['storage']))
+                                                                            <img
+                                                                                    src="{{ get_media($media->image_variants['image_72x72'], $media->image_variants['storage']) }}"
+                                                                                    alt="img-thumbnail"
+                                                                                    class="img-thumbnail logo-profile">
+                                                                        @else
+                                                                            <img
+                                                                                    src="{{ static_asset('images/default/default-image-72x72.png') }}"
+                                                                                    alt="img-thumbnail"
+                                                                                    class="img-thumbnail logo-profile">
+                                                                        @endif
+                                                                        <div class="image-remove">
+                                                                            <a href="javascript:void(0)" class="remove"><i
+                                                                                        class="bx bx-x"></i></a>
+                                                                        </div>
+                                                                    </div>
+                                                                @else
+                                                                    <div class="selected-media mr-2 mb-2 mt-3 ml-0">
+                                                                        <img
+                                                                                src="{{ static_asset('images/default/default-image-72x72.png') }}"
+                                                                                data-default="{{ static_asset('images/default/default-image-72x72.png') }}"
+                                                                                alt="brand-logo"
+                                                                                class="img-thumbnail logo-profile">
+                                                                    </div>
+                                                                @endif
+                                                            </div>
+                                                       </div>
+                                                    
+                                             
+                                           
+                                        
+                                        
+                                     </div>
+                                     <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="video_provider">{{ __('Video Provider') }}</label>
+                                                    <select class="form-control selectric" name="video_provider"
+                                                            id="video_provider">
+                                                        <option value=""
+                                                                selected>{{ __('Select video provider') }}</option>
+                                                        <option
+                                                                value="youtube" {{ old('video_provider') == 'youtube' ? 'selected' : '' }}>{{ __('Youtube') }}</option>
+                                                        <option
+                                                                value="vimeo" {{ old('video_provider') == 'vimeo' ? 'selected' : '' }}>{{ __('Vimeo') }}</option>
+                                                        <option
+                                                                value="mp4" {{ old('video_provider') == 'mp4' ? 'selected' : '' }}>{{ __('Mp4') }}</option>
+                                                    </select>
+                                                    @if ($errors->has('video_provider'))
+                                                        <div class="invalid-feedback">
+                                                            <p>{{ $errors->first('video_provider') }}</p>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <div class="form-group">
+                                                    <label for="video_url">{{ __('Video URL') }}</label>
+                                                    <input type="text" name="video_url" id="video_url"
+                                                           value="{{ old('video_url') != '' ? old('video_url') : '' }}"
+                                                           class="form-control" placeholder="https://">
+                                                    @if ($errors->has('video_url'))
+                                                        <div class="invalid-feedback">
+                                                            <p>{{ $errors->first('video_url') }}</p>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
                                         </div>
+                                       
                                         <div class="row">
+                                            <style>
+                                               
+                                            </style>
+                                            <!--Category -->
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="category">{{ __('Category') }} *</label>
-                                                    <select class="form-control filter-categories-by-ajax"
+                                                    <select class="form-control filter-categories-by-ajax "
                                                             name="category" id="category">
                                                         @if($category)
                                                             <option value="{{ $category->id }}">{{ $category->getTranslation('title', App::getLocale()) }}</option>
@@ -151,6 +330,7 @@
                                                     @endif
                                                 </div>
                                             </div>
+                                            <!--Brand -->
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="brand">{{ __('Brand') }}</label>
@@ -168,6 +348,7 @@
                                             </div>
                                         </div>
                                         <div class="row">
+                                            <!--unit -->
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="unit">{{__('Unit') }} *</label>
@@ -183,6 +364,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
+                                                <!--min order quantity -->
                                                 <div class="form-group">
                                                     <label for="minimum_order_quantity">{{ __('Min. Order Quantity') }}
                                                         *</label>
@@ -221,7 +403,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="tags">{{ __('Tags') }}</label>
-                                            <input type="text" name="tags" id="tags" class="form-control inputtags"
+                                         <!-- c'été class="form-control inputtags"-->   <input type="text" name="tags" id="tags" class="form-control "  
                                                    value="{{ old('tags') ? old('tags') : '' }}"
                                                    placeholder="{{ __('Write & hit enter') }}">
                                             @if ($errors->has('tags'))
@@ -241,7 +423,7 @@
                                                 </div>
                                             @endif
                                         </div>
-                                        @if(!isset($is_digital) && !isset($is_catalog) && !isset($is_classified))
+                                      <!--  @if(!isset($is_digital) && !isset($is_catalog) && !isset($is_classified))
                                             <div class="form-group row mt-2">
                                                 <label class="col-md-5 col-from-label">{{ __('Digital') }}</label>
                                                 <div class="col-md-7">
@@ -306,7 +488,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>-->
                                         @if(isset($is_catalog))
                                             <input type="hidden" name="is_catalog" value="1">
                                             <div class="form-group mt-2">
@@ -391,7 +573,7 @@
                                                 </div>
                                             </div>
                                             <!-- Button trigger modal -->
-                                            <div class="col-md-6">
+                                           <!-- <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="logo">{{ __('Gallery Image') }}(320X320)</label>
                                                     <div class="form-group">
@@ -443,11 +625,11 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div>-->
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card">
+                               <!-- <div class="card">
                                     <div class="card-header extra-padding">
                                         <h4>{{ __('Product Video') }}</h4>
                                     </div>
@@ -489,7 +671,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div>-->
                             </div>
                             <div class="tab-pane fade" id="price-and-stock" role="tabpane1"
                                  aria-labelledby="price-and-stock-tab">
@@ -583,7 +765,7 @@
                                                 @endif
                                             </div>
                                         @else
-                                            {{ __('Product base VAT & Tax is disabled. Configure your VAT & Tax here') }}
+                                          <!--  {{ __('Product base VAT & Tax is disabled. Configure your VAT & Tax here') }}-->
                                             <a
                                                     href="{{ route('vat.tax') }}">{{ __('VAT & Tax Configuration') }}</a>
                                         @endif
@@ -1355,11 +1537,13 @@
 @endsection
 
 @section('style')
-    <link rel="stylesheet" href="{{ static_asset('admin/css/dropzone.css') }}">
+    <rel="stylesheet" href="{{ static_asset('admin/css/dropzone.css') }}">
 @endsection
 @section('page-style')
     <link rel="stylesheet" href="{{ static_asset('admin/css/summernote-bs4.css') }}">
     <link rel="stylesheet" href="{{ static_asset('admin/css/daterangepicker.css') }}">
+    <link rel="stylesheet" href="{{ static_asset('admin/css/formulair.css') }}">
+    
 @endsection
 @push('page-script')
     <script src="{{ static_asset('admin/js/summernote-bs4.js') }}"></script>

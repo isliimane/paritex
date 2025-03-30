@@ -251,6 +251,7 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ static_asset('admin/css/dropzone.css') }}">
+    <link rel="stylesheet" href="{{ static_asset('admin/css/formulair.css') }}">
 @endsection
 @push('script')
     <script type="text/javascript" src="{{ static_asset('admin/js/dropzone.min.js') }}"></script>

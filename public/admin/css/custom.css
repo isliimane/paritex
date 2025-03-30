@@ -1348,7 +1348,7 @@ ul.global-list.lnt-height {
     width: 180px;
 }
 .select2.select2-container.select2-container--default{
-    width: 100% !important;
+    width: 50% !important;
 }
 
 .disable_btn{

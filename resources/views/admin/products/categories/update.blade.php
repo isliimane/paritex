@@ -259,7 +259,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label for="logo">{{ __('Banner') }} ({{ __('835*200') }})</label>
                                     <div class="form-group">
                                         <div class="input-group gallery-modal" id="btnSubmit" data-for="image"
@@ -312,7 +312,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="form-group">
                                     <label for="meta_title">{{__('Meta Title')}}</label>
                                     <input id="meta_title" type="text" class="form-control" name="meta_title"
@@ -360,6 +360,7 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ static_asset('admin/css/dropzone.css') }}">
+    <link rel="stylesheet" href="{{ static_asset('admin/css/formulair.css') }}">
 @endsection
 @push('script')
     <script type="text/javascript" src="{{ static_asset('admin/js/dropzone.min.js') }}"></script>

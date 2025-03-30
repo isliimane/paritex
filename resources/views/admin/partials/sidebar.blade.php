@@ -10,9 +10,11 @@
         <div class="sidebar-brand">
             <a href="{{ route('dashboard') }}">
                 <img
-                        src="{{($logo != [] && is_file_exists($logo['image_100x38'])) ? static_asset($logo['image_100x38']) : static_asset('images/default/logo.png') }}"
+                        src="{{($logo != [] && is_file_exists($logo['image_100x38'])) ? static_asset($logo['image_100x38']) : static_asset('images/default/logo3.png') }}"
                         alt="Logo"></a>
         </div>
+    
+
         <ul class="sidebar-menu">
             <li class="@yield('dashboard')"><a class="nav-link" href="{{ route('dashboard') }}"><i
                             class="bx bxs-dashboard"></i>
@@ -99,16 +101,16 @@
                                                              href="{{ route('products') }}">{{ __('All Product') }}</a>
                             </li>
                             @if(settingHelper('seller_system') == 1)
-                                <li class="@yield('admin-product')"><a class="nav-link"
+                                <!-- <li class="@yield('admin-product')"><a class="nav-link"
                                                                        href="{{ route('admin.products') }}">{{ __('Admin Products') }}</a>
-                                </li>
-                                <li class="@yield('seller-product')"><a class="nav-link"
+                                </li> -->
+                                <!-- <li class="@yield('seller-product')"><a class="nav-link"
                                                                         href="{{ route('admin.seller.products') }}">{{ __('Seller Products') }}</a>
                                 </li>
                             @endif
                             <li class="@yield('digital-product')"><a class="nav-link"
                                                                      href="{{ route('digital.products') }}">{{ __('Digital Products') }}</a>
-                            </li>
+                            </li> -->
                             <li class="@yield('catalog-product')"><a class="nav-link"
                                                                      href="{{ route('catalog.products') }}">{{ __('Catalog Products') }}</a>
                             </li>
@@ -967,3 +969,8 @@
         </ul>
     </aside>
 </div>
+@section('page-style')
+   
+    <link rel="stylesheet" href="{{ static_asset('admin/css/formulair.css') }}">
+    
+@endsection

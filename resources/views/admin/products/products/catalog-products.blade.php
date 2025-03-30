@@ -66,27 +66,27 @@
                             <form id="my_form" method="get" action="">
                                 <ul class="nav nav-pills">
                                     <li class="nav-item">
-                                        <a class="nav-link {{ $status === null  ? 'active' : '' }}"
+                                        <a class="nav-link bar {{ $status === null  ? 'active' : '' }}"
                                            href="{{ route('catalog.products') }}">{{__('All')}} <span
                                                 class="badge badge-primary">{{ $total - $trash }}</span></a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link {{ $status === 'published' && $status != 'trash' ? 'active' : '' }}"
+                                        <a class="nav-link bar {{ $status === 'published' && $status != 'trash' ? 'active' : '' }}"
                                            href="{{ route('catalog.products','published') }}">{{__('Published')}} <span
                                                 class="badge badge-primary">{{ $published }}</span></a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link {{ $status === 'unpublished' && $status != 'trash' ? 'active' : '' }}"
+                                        <a class="nav-link bar {{ $status === 'unpublished' && $status != 'trash' ? 'active' : '' }}"
                                            href="{{ route('catalog.products','unpublished') }}">{{__('Unpublished')}}
                                             <span class="badge badge-primary">{{ $unpublished }}</span></a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link {{ $status === 'pending' && $status != 'trash'? 'active' : '' }}"
+                                        <a class="nav-link bar {{ $status === 'pending' && $status != 'trash'? 'active' : '' }}"
                                            href="{{ route('catalog.products','pending') }}">{{__('Pending')}} <span
                                                 class="badge badge-primary">{{ $pending }}</span></a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link {{ $status === 'trash' ? 'active' : '' }}"
+                                        <a class="nav-link bar {{ $status === 'trash' ? 'active' : '' }}"
                                            href="{{ route('catalog.products','trash') }}">{{__('Trash')}} <span
                                                 class="badge badge-primary">{{ $trash }}</span></a>
                                     </li>
@@ -169,7 +169,7 @@
                                 <table class="table table-striped table-md">
                                     <thead>
                                     <tr>
-                                        <th>{{ __('#') }}</th>
+                                        <th>{{ __('') }}</th>
                                         <th>{{ __('Title') }}</th>
                                         @if(settingHelper('seller_system') == 1)
                                             <th>{{ __('Seller') }}</th>
@@ -189,7 +189,7 @@
                                     @foreach($products as $key => $product)
                                         <tr id="row_{{$product->id}}">
                                             <td>{{ $key+1 }}</td>
-                                            <td width="300">
+                                            <td width="180">
                                                 <div class="d-flex">
                                                     <div class="text-left">
                                                         @if ($product->thumbnail != [] && is_file_exists($product->thumbnail['image_40x40'], $product->thumbnail['storage']))
@@ -224,7 +224,7 @@
                                                     @endif
                                                 </td>
                                             @endif
-                                            <td>
+                                            <td width="150">
                                                 <span>{{ __('Price').': '.get_price($product->price,user_curr()) }} / {{ $product->getTranslation('unit', \App::getLocale()) }}</span><br>
                                                 <span>{{ __('Total Sale').': '.$product->total_sale }}</span><br>
                                                 <span>{{ __('Rating').': '.$product->rating }}</span><br>
@@ -381,6 +381,12 @@
             </div>
         </div>
     </section>
+@endsection
+
+@section('page-style')
+
+    <link rel="stylesheet" href="{{ static_asset('admin/css/formulair.css') }}">
+    
 @endsection
 
 @include('admin.common.delete-ajax')

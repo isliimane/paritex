@@ -51,8 +51,8 @@
                                         <th>{{__('Title')}}</th>
                                         <th>{{__('Root Category')}}</th>
                                         <th>{{__('Order')}}</th>
-                                        <th>{{__('Thumbnail')}}</th>
-                                        <th>{{__('Banner')}}</th>
+                                        <!-- <th>{{__('Thumbnail')}}</th> -->
+                                        <!-- <th>{{__('Banner')}}</th> -->
                                         <th>{{__('Commission')}}</th>
                                         <th>{{__('Featured')}}</th>
                                         <th>{{__('Status')}}</th>
@@ -80,7 +80,7 @@
                                                 {{ $category->ordering }}
                                             </td>
                                             <td><img src="{{ getFileLink('40x40',$category->logo) }}" alt="{{ $title }}" class="mr-3 rounded" width="40"></td>
-                                            <td><img src="{{ getFileLink('40x40',$category->banner) }}" alt="{{ $title }}" class="mr-3 rounded" width="40"></td>
+                                            <!-- <td><img src="{{ getFileLink('40x40',$category->banner) }}" alt="{{ $title }}" class="mr-3 rounded" width="40"></td> -->
                                             <td>{{ $category->commission }} %</td>
                                             <td>
                                                 <label class="custom-switch mt-2 {{ hasPermission('category_update') ? '' : 'cursor-not-allowed' }}">
@@ -223,7 +223,7 @@
                                             </div>
                                         @endif
                                     </div>
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <label for="logo">{{ __('Thumbnail') }} ({{ __('72*72') }})</label>
                                         <div class="form-group">
                                             <div class="input-group gallery-modal" id="btnSubmit" data-for="image"
@@ -274,8 +274,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
+                                    </div> -->
+                                    <!-- <div class="form-group">
                                         <label for="logo">{{ __('Banner') }} ({{ __('835*200') }})</label>
                                         <div class="form-group">
                                             <div class="input-group gallery-modal" id="btnSubmit" data-for="image"
@@ -327,7 +327,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="form-group">
                                         <label for="meta_title">{{__('Meta Title')}}</label>
                                         <input id="meta_title" type="text" class="form-control" name="meta_title"
@@ -368,6 +368,7 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ static_asset('admin/css/dropzone.css') }}">
+    <link rel="stylesheet" href="{{ static_asset('admin/css/formulair.css') }}">
 @endsection
 @push('script')
     <script type="text/javascript" src="{{ static_asset('admin/js/dropzone.min.js') }}"></script>

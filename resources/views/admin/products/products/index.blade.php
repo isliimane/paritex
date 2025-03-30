@@ -19,11 +19,11 @@
                     </p>
                 </div>
                 @if(hasPermission('product_create'))
-                    <div class="buttons add-button">
-                        <a href="{{ route('product.create') }}" class="btn btn-icon icon-left btn-outline-primary">
-                            <i class='bx bx-plus'></i>{{ __('Add new Product') }}
+                    <div class="buttons add-button ">
+                        <a href="{{ route('product.create') }}" class="btn btn-icon icon-left btn-outline-primary custom-button">
+                            <i class='bx bx-plus '></i>{{ __('Add new Product') }}
                         </a>
-                        <button class="btn btn-icon icon-left btn-outline-primary menu-button" type="button"
+                        <button class="btn btn-icon icon-left btn-outline-primary menu-button " type="button"
                                 data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
                             <i class='bx bx-dots-horizontal'></i>
@@ -61,27 +61,27 @@
                             <form id="my_form" method="get" action="">
                                 <ul class="nav nav-pills">
                                     <li class="nav-item">
-                                        <a class="nav-link {{ $status === null  ? 'active' : '' }}"
+                                        <a class="nav-link bar {{ $status === null  ? 'active' : '' }}"
                                            href="{{ route('products') }}">{{__('All')}} <span
                                                     class="badge badge-primary">{{ $total - $trash }}</span></a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link {{ $status === 'published' && $status != 'trash' ? 'active' : '' }}"
+                                        <a class="nav-link bar {{ $status === 'published' && $status != 'trash' ? 'active' : '' }}"
                                            href="{{ route('products','published') }}">{{__('Published')}} <span
                                                     class="badge badge-primary">{{ $published }}</span></a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link {{ $status === 'unpublished' && $status != 'trash' ? 'active' : '' }}"
+                                        <a class="nav-link bar {{ $status === 'unpublished' && $status != 'trash' ? 'active' : '' }}"
                                            href="{{ route('products','unpublished') }}">{{__('Unpublished')}} <span
                                                     class="badge badge-primary">{{ $unpublished }}</span></a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link {{ $status === 'pending' && $status != 'trash'? 'active' : '' }}"
+                                        <a class="nav-link bar {{ $status === 'pending' && $status != 'trash'? 'active' : '' }}"
                                            href="{{ route('products','pending') }}">{{__('Pending')}} <span
                                                     class="badge badge-primary">{{ $pending }}</span></a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link {{ $status === 'trash' ? 'active' : '' }}"
+                                        <a class="nav-link bar {{ $status === 'trash' ? 'active' : '' }}"
                                            href="{{ route('products','trash') }}">{{__('Trash')}} <span
                                                     class="badge badge-primary">{{ $trash }}</span></a>
                                     </li>
@@ -167,7 +167,7 @@
                                 <table class="table table-striped table-md">
                                     <thead>
                                     <tr>
-                                        <th>{{ __('#') }}</th>
+                                        <th>{{ __(' ') }}</th>
                                         <th>{{ __('Title') }}</th>
                                         @if(settingHelper('seller_system') == 1)
                                             <th>{{ __('Seller') }}</th>
@@ -187,7 +187,7 @@
                                     @foreach($products as $key => $product)
                                         <tr id="row_{{$product->id}}">
                                             <td>{{ $products->firstItem() + $key }}</td>
-                                            <td width="300">
+                                            <td width="180">
                                                 <div class="d-flex">
                                                     <div class="text-left">
                                                         <img src="{{ getFileLink('40x40', $product->thumbnail) }}"
@@ -215,7 +215,7 @@
                                                     @endif
                                                 </td>
                                             @endif
-                                            <td>
+                                            <td width="200">
                                                 <span>
                                                     {{ __('Base Price').': ' .get_price($product->price,user_curr()).' /'.$product->getTranslation('unit', \App::getLocale()) }}</span>
                                                 <br>
@@ -378,6 +378,12 @@
             </div>
         </div>
     </section>
+@endsection
+
+@section('page-style')
+    
+    <link rel="stylesheet" href="{{ static_asset('admin/css/formulair.css') }}">
+    
 @endsection
 
 @include('admin.common.delete-ajax')

@@ -1,0 +1,346 @@
+
+/* Bouton Back  */
+.custom-button {
+  position: relative;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0px 10px 20px rgba(234, 224, 224, 0.88);
+  padding-block: 0.5rem;
+  padding-inline: 1.25rem;
+  background-color:  #00a241; /* ✅ Vert */
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #ffffff;
+  gap: 10px;
+  font-weight: bold;
+  border: 3px solidrgba(186, 43, 43, 0.3);
+  outline: none;
+  overflow: hidden;
+  font-size: 15px;
+  text-decoration: none; /* Supprime le soulignement */
+}
+
+.icon {
+    color:#ffffff;
+  width: 24px;
+  height: 24px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Effet au survol */
+.custom-button:hover {
+  transform: scale(1.05);
+  border-color: (250, 246, 247);
+}
+
+.custom-button:hover .icon {
+  transform: translate(4px);
+}
+
+.custom-button:hover::before {
+  animation: shine 1.5s ease-out infinite;
+}
+
+/* Animation brillance */
+.custom-button::before {
+  content: "";
+  position: absolute;
+  width: 100px;
+  height: 100%;
+  background-image: linear-gradient(
+    120deg,
+    rgba(229, 21, 21, 0) 30%,
+    rgba(255, 255, 255, 0.8),
+    rgba(224, 18, 18, 0) 70%
+  );
+  top: 0;
+  left: -100px;
+  opacity: 0.6;
+}
+
+@keyframes shine {
+  0% {
+    left: -100px;
+  }
+  60% {
+    left: 100%;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+
+
+                    .nav-link.bar {
+                        color: #00a241 !important;
+                    }
+
+                    .nav-link.bar.active {
+                        color: #fff !important;
+                        background-color: #00a24c !important;
+                        border-color: #00a241 !important;
+                    }
+                    
+                    /*button */
+                    .bottom-button {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.bottom-button button {
+    cursor: pointer;
+    font-size: 1.2rem;
+    border-radius: 16px;
+    border: none;
+    padding: 12px 24px;
+    background: radial-gradient(circle 80px at 80% -10%, #ffffff, #008000);
+    position: relative;
+    transition: background 0.3s, transform 0.3s;
+    color: white;
+    font-weight: bold;
+}
+
+.bottom-button button:hover {
+    transform: scale(0.98);
+    background: radial-gradient(circle 80px at 80% -10%, #008000, #006400);
+}
+
+.bottom-button button::after {
+    content: "";
+    position: absolute;
+    width: 65%;
+    height: 60%;
+    border-radius: 120px;
+    top: 0;
+    right: 0;
+    box-shadow: 0 0 20px #ffffff38;
+    z-index: -1;
+    transition: box-shadow 0.3s;
+}
+
+.bottom-button button:hover::after {
+    box-shadow: 0 0 10px #ffffff18;
+}
+
+.inner {
+    padding: 14px 25px;
+    border-radius: 14px;
+    color: white;
+    z-index: 3;
+    position: relative;
+    background: radial-gradient(circle 80px at 80% -50%, #77dd77, #006400);
+    transition: background 0.3s;
+}
+
+.bottom-button button:hover .inner {
+    background: radial-gradient(circle 80px at 80% -50%, #55aa55, #004d00);
+}
+/* **/
+.mod {
+    background-color:rgb(167, 166, 210); /* Vert Bootstrap */
+    padding: 20px;
+    border-radius: 10px;
+}
+/* Arrière-plan vert pour la section contenant les onglets */
+.middle {
+    background-color:rgb(238, 238, 238) !important ; /* Vert Bootstrap */
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* Onglets avec un design amélioré */
+.nav-pills .nav-link {
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    margin-right: 5px;
+    padding: 10px 15px;
+    transition: all 0.3s ease-in-out;
+}
+
+.nav-pills .nav-link.active {
+    background-color: #fff;
+    color: #28a745;
+    font-weight: bold;
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.3);
+}
+
+/* Effet au survol des onglets */
+.nav-pills .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    color: #fff;
+}
+/****/
+/* Bordure verte pour les champs de formulaire */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+textarea, 
+select {
+    border: 2px solid #28a745;
+    border-radius: 5px;
+    padding: 8px;
+    transition: all 0.3s ease-in-out;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: #218838;
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+    outline: none;
+}
+#category {
+    border: 2px solid green !important;
+    border-radius: 5px;
+    padding: 8px;
+    background-color: #fff; /* Pour s'assurer que le fond reste blanc */
+}
+
+/* Empêcher Bootstrap de changer la bordure en cas d'erreur */
+#category.is-invalid, 
+#category:focus {
+    border-color: green !important;
+    box-shadow: 0 0 5px rgba(0, 128, 0, 0.5) !important;
+}
+/* Custom Switch Styling */
+.custom-switch {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.custom-switch-input {
+  display: none;
+}
+
+.custom-switch-indicator {
+  position: relative;
+  display: inline-block;
+  width: 65px;
+  height: 20px;
+  background: #d13613;
+  border-radius: 80px;
+  box-shadow: inset 0 0 16px rgba(0, 0, 0, 0.3);
+  transition: background 0.5s;
+}
+
+.custom-switch-input:checked + .custom-switch-indicator {
+  background: #13d162;
+}
+
+.custom-switch-indicator::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: -10px;
+  width: 35px;
+  height: 35px;
+  border: 1px solid #e5e5e5;
+  background: repeating-radial-gradient(circle at 50% 50%, rgba(200, 200, 200, 0.2) 0%, rgba(200, 200, 200, 0.2) 2%, transparent 2%, transparent 3%, rgba(200, 200, 200, 0.2) 3%, transparent 3%), conic-gradient(white 0%, silver 10%, white 35%, silver 45%, white 60%, silver 70%, white 80%, silver 95%, white 100%);
+  border-radius: 50%;
+  box-shadow: 3px 5px 10px 0 rgba(0, 0, 0, 0.4);
+  transition: left 0.4s;
+}
+
+.custom-switch-input:checked + .custom-switch-indicator::before {
+  left: calc(100% - 35px + 10px);
+}
+
+.custom-switch-description {
+  margin-left: 10px;
+  font-size: 14px;
+}
+
+/*****//* From Uiverse.io by RaspberryBee */ 
+/* The switch - the box around the slider */
+.custom-switch {
+  font-size: 12px !important;
+  position: relative !important;
+  display: inline-block !important;
+  width: 4.5em !important;
+  height: 4em !important;
+}
+
+/* Hide default HTML checkbox */
+.custom-switch input {
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* The slider */
+.custom-switch-indicator {
+  position: absolute !important;
+  cursor: pointer !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background-color: rgb(182, 182, 182) !important;
+  transition: .4s !important;
+  border-radius: 5px !important;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Le petit cercle du switch */
+.custom-switch-indicator:before {
+  position: absolute !important;
+  content: "" !important;
+  height: 1.4em !important;
+  width: 1.4em !important;
+  border-radius: 5px !important;
+  left: 0 em !important;
+  bottom: 0.3em !important;
+  background-color: rgb(255, 255, 255) !important;
+  transition: .4s !important;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Quand le switch est activé */
+.custom-switch input:checked + .custom-switch-indicator {
+  background-color: #21cc4c !important;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2) !important;
+}
+
+.custom-switch input:checked + .custom-switch-indicator:before {
+  transform: translateX(0em) !important;
+}
+
+/* Quand le switch est désactivé */
+.custom-switch input:disabled + .custom-switch-indicator {
+  background-color: #b0b0b0 !important;
+  box-shadow: none !important;
+  cursor: not-allowed !important;
+}
+
+.custom-switch input:disabled + .custom-switch-indicator:before {
+  background-color: rgb(230, 230, 230) !important;
+  box-shadow: none !important;
+}
+
+/* styl said bar */
+.sidebar-brand {
+  width: 500px;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ /* background-color: #f0f0f0;*/ /* Facultatif : couleur de fond */
+  overflow: hidden; /* Évite tout dépassement */
+}
+
+.sidebar-brand img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Garde les proportions du logo sans le couper */
+}
+/**************************************/
