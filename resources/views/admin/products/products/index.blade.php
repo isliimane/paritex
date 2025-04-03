@@ -136,7 +136,7 @@
                                     <div class="form-group">
                                         <select class="form-control selectric" name="s">
                                             <option
-                                                    value="latest_on_top" {{ $s == 'latest_on_top' ? 'selected' : '' }}>{{ __('Latest On Top') }}</option>
+                                                    value="latest_on_top" {{ $s == 'latest_on_top' ? "selected' : '' }}>{{ __('Latest On Top') }}</option>
                                             <option
                                                     value="oldest_on_top" {{ $s == 'oldest_on_top' ? 'selected' : '' }}>{{ __('Oldest On Top') }}</option>
                                             <option
@@ -314,7 +314,7 @@
                                                            target="{{ isAppMode() ? '_parent' : '_blank' }}"
                                                            class="dropdown-item has-icon"><i
                                                                     class='bx bx-show'></i>{{ __('Show') }}</a>
-                                                        <a href="{{ url("admin/product-reviews?product_id=$product->id") }}"
+                                                        <a href="{{ url('admin/product-reviews', ['product_id' => $product->id]) }}" 
                                                            target="_blank"
                                                            class="dropdown-item has-icon"><i
                                                                     class='bx bx-star'></i>{{ __('Reviews') }}</a>

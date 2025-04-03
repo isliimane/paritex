@@ -1,4 +1,4 @@
-xx<?php
+<?php
 
 
 use App\Http\Controllers\Admin\WalletController;
