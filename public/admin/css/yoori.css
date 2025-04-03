@@ -1,11 +1,11 @@
 @charset "UTF-8";
 :root {
-    --primary-color:#dc3545;
+    --primary-color: #556ee6;
     --primary-font: 'Inter', sans-serif;
-    --primary-bg: linear-gradient(to right, #00e14b, #710051);
+    --primary-bg: linear-gradient(to right, #0068e1, #003471);
     /* Colors */
     --primary: var(--primary-color);
-    --secondary-color: #cdd528;
+    --secondary-color: #333333;
     --success: #47c363;
     --info: #3abaf4;
     --warning: #ffa426;

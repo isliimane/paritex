@@ -168,7 +168,7 @@
                                     <thead>
                                     <tr>
                                         <th>{{ __(' ') }}</th>
-                                        <th>{{ __('Title') }}</th>
+                                        <th>{{ __('titre') }}</th>
                                         @if(settingHelper('seller_system') == 1)
                                             <th>{{ __('Seller') }}</th>
                                         @endif

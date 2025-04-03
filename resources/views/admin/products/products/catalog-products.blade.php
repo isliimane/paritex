@@ -102,7 +102,7 @@
                         <div class="card-header">
                             <h4>{{ __('Products') }}</h4>
                             <div class="card-header-form">
-                                <form class="form-inline">
+                                <form class="form-inline"> 
                                     @if(settingHelper('seller_system') == 1)
                                         <div class="form-group">
                                             <select class="seller-by-ajax form-control select2" name="sl" id ="seller_id"  aria-hidden="true" >

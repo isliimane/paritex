@@ -15,7 +15,7 @@
         </div>
     
 
-        <ul class="sidebar-menu">
+        <ul class="sidebar-menu" >
             <li class="@yield('dashboard')"><a class="nav-link" href="{{ route('dashboard') }}"><i
                             class="bx bxs-dashboard"></i>
                     <span>{{ __('Dashboard') }}</span></a>

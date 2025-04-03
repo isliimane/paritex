@@ -343,4 +343,18 @@ select:focus {
   height: 100%;
   object-fit: contain; /* Garde les proportions du logo sans le couper */
 }
+
+.main-sidebar {
+  background-color: white !important; /* Fond blanc */
+}
+
+.sidebar-menu {
+  background-color: white !important; /* S'assure que la liste a aussi un fond blanc */
+}
+
+.sidebar-menu li a {
+  color: black !important; /* Texte en noir pour une meilleure lisibilité */
+}
+
+
 /**************************************/
