@@ -28,7 +28,7 @@ class SellerController extends Controller
 
     public function __construct(SellerInterface $sellers)
     {
-        if(settingHelper('seller_system') != 1){
+        if (settingHelper('seller_system') != 1) {
             abort(403);
         }
         $this->sellers = $sellers;
@@ -36,14 +36,13 @@ class SellerController extends Controller
 
     public function index(Request $request)
     {
-        try{
+        try {
             $users = $this->sellers->paginate($request, get_pagination('pagination'));
             return view('admin.sellers.index', compact('users'));
         } catch (\Exception $e) {
             Toastr::error($e->getMessage());
             return back();
         }
-
     }
     public function create()
     {
@@ -51,7 +50,7 @@ class SellerController extends Controller
             'currency_list' => currencyList(),
         ];
 
-        return view('admin.sellers.form',$data);
+        return view('admin.sellers.form', $data);
     }
 
     public function store(UserStoreRequest $request)
@@ -93,7 +92,7 @@ class SellerController extends Controller
 
     public function update(UserUpdateRequest $request)
     {
-        if (config('app.demo_mode')):
+        if (config('app.demo_mode')) :
             Toastr::info(__('This function is disabled in demo server.'));
             return redirect()->back();
         endif;
@@ -110,14 +109,15 @@ class SellerController extends Controller
             return redirect()->back();
         }
     }
-    public function verify($id, $user_id) {
-        if (config('app.demo_mode')):
+    public function verify($id, $user_id)
+    {
+        if (config('app.demo_mode')) :
             Toastr::info(__('This function is disabled in demo server.'));
             return redirect()->back();
         endif;
-        if($id == 0):
+        if ($id == 0) :
             Toastr::error(__('Please complete your shop details.'));
-            return redirect()->route('admin.seller.edit',$user_id);
+            return redirect()->route('admin.seller.edit', $user_id);
         endif;
         DB::beginTransaction();
         try {
@@ -131,15 +131,16 @@ class SellerController extends Controller
             return redirect()->back();
         }
     }
-    public function sellerByAjax(Request $request){
+    public function sellerByAjax(Request $request)
+    {
         $term           = trim($request->q);
         if (empty($term)) {
             return \Response::json([]);
         }
 
         $sellers = $this->sellers->shop()
-            ->where('shop_name', 'like', '%'.$term.'%')
-            ->where('verified_at','!=',null)
+            ->where('shop_name', 'like', '%' . $term . '%')
+            ->where('verified_at', '!=', null)
             ->limit(30)
             ->get();
 
@@ -152,7 +153,7 @@ class SellerController extends Controller
         return \Response::json($formatted_seller);
     }
 
-    public function shop(SellerProfileInterface $seller,MediaInterface $media,ProductInterface $product,CouponInterface $coupon, $slug): \Illuminate\Http\JsonResponse
+    public function shop(SellerProfileInterface $seller, MediaInterface $media, ProductInterface $product, CouponInterface $coupon, $slug): \Illuminate\Http\JsonResponse
     {
         try {
             $shop = $seller->shopDetails($slug);
@@ -163,13 +164,13 @@ class SellerController extends Controller
                 'shop' => [
                     'id'                    => $shop->id,
                     'slug'                  => $slug,
-                    'contents'              => $this->parseShopData($shop,$media,$product),
+                    'contents'              => $this->parseShopData($shop, $media, $product),
                     'component_names'       => $contents ? array_keys(array_merge(...$contents)) : [],
                     'image_82x82'           => $shop->image_82x82,
                     'image_899x480'         => $shop->image_899x480,
                     'shop_name'             => $shop->shop_name,
                     'shop_page_contents'    => $shop->shop_page_contents,
-                    'rating_count'          => round($shop->rating_count,2),
+                    'rating_count'          => round($shop->rating_count, 2),
                     'reviews_count'         => (int)$shop->reviews_count,
                     'shop_tagline'          => $shop->shop_tagline,
                     'image_297x203'         => $shop->image_297x203,
@@ -198,7 +199,7 @@ class SellerController extends Controller
         ]);
         $extension = request()->file('file')->getClientOriginalExtension();
 
-        if ($extension != 'xlsx' && $extension != 'xls' && $extension != 'csv'):
+        if ($extension != 'xlsx' && $extension != 'xls' && $extension != 'csv') :
             return back()->with('danger', __('file_type_not_supported'));
         endif;
 
@@ -206,7 +207,7 @@ class SellerController extends Controller
         $import = new SellerImport();
         $import->import($file);
 
-        unlink(storage_path('app/'.$file));
+        unlink(storage_path('app/' . $file));
         Toastr::success(__('successfully_imported'));
         return back();
     }

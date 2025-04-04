@@ -21,21 +21,24 @@ class WalletController extends Controller
 {
     protected $wallet;
 
-    public function __construct(\App\Repositories\Interfaces\Admin\Addon\WalletInterface $wallet){
+    public function __construct(\App\Repositories\Interfaces\Admin\Addon\WalletInterface $wallet)
+    {
         $this->wallet = $wallet;
     }
 
-    public function walletRechargeRequests(Request $request){
+    public function walletRechargeRequests(Request $request)
+    {
         try {
             $wallet_recharge_requests = $this->wallet->paginate(get_pagination('pagination'), 'wallet_recharge', $request);
             return view('admin.wallet.wallet-recharge-requests', compact('wallet_recharge_requests'));
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             Toastr::error($e->getMessage());
             return redirect()->back();
         }
     }
 
-    public function walletApproveRequest($id){
+    public function walletApproveRequest($id)
+    {
         try {
             $this->wallet->walletApproveRequest($id);
             $response['message'] = __('Approved Successfully');
@@ -61,26 +64,25 @@ class WalletController extends Controller
         }
     }
 
-    public function mercadoPago(Request $request,OrderInterface $order)
+    public function mercadoPago(Request $request, OrderInterface $order)
     {
         $paymentController = new paymentController($order);
 
         $access_key = settingHelper('mercadopago_access_key');
 
-        if (!$access_key)
-        {
+        if (!$access_key) {
             return back()->with(['warning' => __('provide_correct_credential')]);
         }
 
         $data                       = $request->all();
         $request['payment_mode']    = 'wallet_recharge';
         $request['payment_type']    = 'mercadopago';
-//        $data                       = $paymentController->tokenGenerator($data);
+        //        $data                       = $paymentController->tokenGenerator($data);
         $success_url                = $paymentController->successUrl($request);
 
         $billing_details = [
-            'name'=> '',
-            'postal_code'=> '',
+            'name' => '',
+            'postal_code' => '',
         ];
 
         $data = [
@@ -90,17 +92,16 @@ class WalletController extends Controller
             'amount'            => $request->amount
         ];
 
-        return view('frontend.payments.mercado_pago',$data);
+        return view('frontend.payments.mercado_pago', $data);
     }
 
-    public function bkashRedirect(Request $request,OrderInterface $order)
+    public function bkashRedirect(Request $request, OrderInterface $order)
     {
         $paymentController = new paymentController($order);
 
         $bdt_currency = $this->getCurrency();
 
-        if (!$bdt_currency)
-        {
+        if (!$bdt_currency) {
             return false;
         }
 
@@ -112,9 +113,9 @@ class WalletController extends Controller
 
         $data                       = $request->all();
         $request['payment_type']    = 'bKash';
-//        $active_currency          = $paymentController->activeCurrencyCheck($data);
-//        $token                      = $paymentController->apiToken($data);
-//        $trx_id                     = $paymentController->tokenGenerator($data);
+        //        $active_currency          = $paymentController->activeCurrencyCheck($data);
+        //        $token                      = $paymentController->apiToken($data);
+        //        $trx_id                     = $paymentController->tokenGenerator($data);
         $total_amount                 = $request->amount;
 
         $request_data = [
@@ -179,14 +180,13 @@ class WalletController extends Controller
         }
         return back()->with(['error' => __('Oops...Something Went Wrong')]);
     }
-    public function bkashExecute(Request $request,OfflineMethodInterface $offlineMethod,OrderInterface $order,WalletInterface $wallet)
+    public function bkashExecute(Request $request, OfflineMethodInterface $offlineMethod, OrderInterface $order, WalletInterface $wallet)
     {
         $paymentController = new paymentController($order);
 
         if (settingHelper('is_bkash_sandbox_mode_activated') == 1) {
             $base_url = 'https://checkout.sandbox.bka.sh';
-        }
-        else {
+        } else {
             $base_url = 'https://checkout.pay.bka.sh';
         }
 
@@ -196,13 +196,11 @@ class WalletController extends Controller
         $status = $request->status;
         $auth   = session()->get('bkash_token');
 
-        if (!$id || $status != 'success' || !$auth)
-        {
+        if (!$id || $status != 'success' || !$auth) {
             return redirect('payment')->with(['error' =>  __('Something went wrong, please try again.')]);
         }
 
-        if ($status == 'success')
-        {
+        if ($status == 'success') {
             $post_token = array(
                 'paymentID' => $id
             );
@@ -213,7 +211,7 @@ class WalletController extends Controller
             $header = array(
                 'Content-Type:application/json',
                 'Authorization:' . $auth,
-                "X-APP-Key:".settingHelper('bkash_app_key')." "
+                "X-APP-Key:" . settingHelper('bkash_app_key') . " "
             );
             curl_setopt($url, CURLOPT_HTTPHEADER, $header);
             curl_setopt($url, CURLOPT_CUSTOMREQUEST, "POST");
@@ -227,8 +225,7 @@ class WalletController extends Controller
 
             $obj = json_decode($resultdata);
 
-            if ($obj->statusCode == '0000')
-            {
+            if ($obj->statusCode == '0000') {
                 $payment_details = [
                     'trx_id'                => $request->trx,
                     'payment_type'          => 'bKash',
@@ -250,7 +247,7 @@ class WalletController extends Controller
 
                 $user_id =  authId();
                 $data['payment_type']      = 'bkash';
-                $paymentController->storeWallet($request,$user_id,$wallet,$payment_details,$data);
+                $paymentController->storeWallet($request, $user_id, $wallet, $payment_details, $data);
             }
             return redirect('payment')->with(['error' =>  __('Something went wrong, please try again.')]);
         }
@@ -259,40 +256,37 @@ class WalletController extends Controller
 
 
 
-    public function walletStore(Request $request, \App\Repositories\Interfaces\Admin\Addon\WalletInterface $wallet, OrderInterface $order, $other=null)
+    public function walletStore(Request $request, \App\Repositories\Interfaces\Admin\Addon\WalletInterface $wallet, OrderInterface $order, $other = null)
     {
         $paymentController = new paymentController($order);
         $user_id =  authId();
-        if($request->payment_type == 'google_pay'){
+        if ($request->payment_type == 'google_pay') {
             $payment_details = [
-                'name'=> '',
-                'postal_code'=> '',
+                'name' => '',
+                'postal_code' => '',
             ];
             $data['payment_type']      = 'google_pay';
-        }else if($request->merchant_id == 'aamarpay'){
-            $token = DB::table('payment_method')->where('trx_id',$request->opt_b)->first();
-            if($token && $token->type == 'api'){
+        } else if ($request->merchant_id == 'aamarpay') {
+            $token = DB::table('payment_method')->where('trx_id', $request->opt_b)->first();
+            if ($token && $token->type == 'api') {
                 $request['amount'] = $token->amount;
                 $payment_details = $request->all();
                 $data['payment_type']      = 'aamarpay';
                 $user_id = $token->is_guest;
-            }else{
+            } else {
                 $request['amount'] = $token->amount;
                 $payment_details = $request->all();
                 $data['payment_type']      = 'aamarpay';
                 $user_id = $token->is_guest;
             }
-
-        }
-        else if($request->payment_type == 'mercadopago'){
+        } else if ($request->payment_type == 'mercadopago') {
             $payment_details = [
-                'name'=> '',
-                'postal_code'=> '',
+                'name' => '',
+                'postal_code' => '',
             ];
             $data['payment_type']      = 'mercadopago';
         }
-        $paymentController->storeWallet($request,$user_id,$wallet,$payment_details,$data);
-
+        $paymentController->storeWallet($request, $user_id, $wallet, $payment_details, $data);
     }
 
     public function nagadRedirect(Request $request)
@@ -307,9 +301,9 @@ class WalletController extends Controller
             $data                       = $request->all();
             $request['payment_type']    = 'NAGAD';
 
-//        $token                      = $this->apiToken($data);
-//        $trx_id                     = $this->tokenGenerator($data);
-//        $code                       = $this->codeGenerator($data);
+            //        $token                      = $this->apiToken($data);
+            //        $trx_id                     = $this->tokenGenerator($data);
+            //        $code                       = $this->codeGenerator($data);
 
 
             $config = [
@@ -323,17 +317,16 @@ class WalletController extends Controller
             ];
 
             $nagad = new Base($config, [
-                'amount' => round($request->amount,2),
+                'amount' => round($request->amount, 2),
                 'invoice' => Helper::generateFakeInvoice(15, true),
                 'merchantCallback' => url("nagad/callback/wallet?amount=$request->amount&lang=$request->lang&curr=$request->curr"),
             ]);
 
             return redirect($nagad->payNow($nagad));
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             Toastr::error($e->getMessage());
             return back();
         }
-
     }
 
 
@@ -353,8 +346,7 @@ class WalletController extends Controller
         $helper = new Helper($config);
         $response = $helper->verifyPayment($request->payment_ref_id);
 
-        if ($response && $response['statusCode'] == "000")
-        {
+        if ($response && $response['statusCode'] == "000") {
             $payment_details = [
                 'merchantId'                => $response['merchantId'],
                 'orderId'                   => $response['orderId'],
@@ -377,12 +369,12 @@ class WalletController extends Controller
             ];
             $user_id =  authId();
             $data['payment_type']      = 'nagad';
-            $paymentController->storeWallet($request,$user_id,$wallet,$payment_details,$data);
+            $paymentController->storeWallet($request, $user_id, $wallet, $payment_details, $data);
         }
         return redirect('payment')->with(['error' =>  __('Something went wrong, please try again.')]);
     }
 
-    public function aamarpayRedirect(Request $request,OrderInterface $order)
+    public function aamarpayRedirect(Request $request, OrderInterface $order)
     {
 
         try {
@@ -408,7 +400,7 @@ class WalletController extends Controller
             $total_amount = $amount['total_amount'];
             $transaction_id = str::random(10);
             $user_data = ['user_id' => $user->id, 'amount' => $request->amount, 'trx_id' => $transaction_id, 'response' => 'yes', 'expires' => Carbon::now()->addMinutes(1)->timestamp, 'signature' => Str::random()];
-            $success_url = URL::temporarySignedRoute('wallet.complete.recharge', now()->addMinutes(5));//        http://ftp.lzk.ssu.mybluehost.me
+            $success_url = URL::temporarySignedRoute('wallet.complete.recharge', now()->addMinutes(5)); //        http://ftp.lzk.ssu.mybluehost.me
 
             $payment['trx_id']     = $trx_id;
             $payment['code']       = $code;
@@ -466,28 +458,33 @@ class WalletController extends Controller
             curl_close($ch);
             $this->redirect_to_merchant($url_forward);
         } catch (\Exception $e) {
-
         }
-
     }
 
     public function redirect_to_merchant($url)
     {
-        ?>
+?>
         <html xmlns="http://www.w3.org/1999/xhtml">
-        <head><script type="text/javascript">
-                function closethisasap() { document.forms["redirectpost"].submit(); }
-            </script></head>
+
+        <head>
+            <script type="text/javascript">
+                function closethisasap() {
+                    document.forms["redirectpost"].submit();
+                }
+            </script>
+        </head>
+
         <body onLoad="closethisasap();">
 
-        <form name="redirectpost" method="post" action="<?php echo 'https://sandbox.aamarpay.com/'.$url; ?>"></form>
+            <form name="redirectpost" method="post" action="<?php echo 'https://sandbox.aamarpay.com/' . $url; ?>"></form>
         </body>
+
         </html>
-        <?php
+<?php
         exit;
     }
 
-    public function skrillRedirect(Request $request,OrderInterface $order,WalletInterface $wallet): \Illuminate\Http\RedirectResponse
+    public function skrillRedirect(Request $request, OrderInterface $order, WalletInterface $wallet): \Illuminate\Http\RedirectResponse
     {
         $paymentController = new paymentController($order);
         $data                               = $request->all();
@@ -502,7 +499,7 @@ class WalletController extends Controller
         $skrilRequest->cancel_url           = url()->previous();
         $skrilRequest->logo_url             = $logo;  // optional
         $skrilRequest->status_url           = $success_url;
-        $skrilRequest->amount               = round($request->amount * $active_currency->exchange_rate,2);
+        $skrilRequest->amount               = round($request->amount * $active_currency->exchange_rate, 2);
         $skrilRequest->currency             = $active_currency->code;
         $skrilRequest->language             = 'EN';
         $skrilRequest->country              = $paymentController->findSystemCountry();
@@ -519,14 +516,14 @@ class WalletController extends Controller
             return $jsonSID->message;
 
         $data_info = [
-                'amount'=>$request->amount,
-                'payment_type'=>'skrill',
+            'amount' => $request->amount,
+            'payment_type' => 'skrill',
         ];
 
-        $this->walletStore($request,$wallet,$order,$data_info);
+        $this->walletStore($request, $wallet, $order, $data_info);
 
-//        $redirectUrl = $client->paymentRedirectUrl($sid); //return redirect url
-//        return redirect()->to($redirectUrl);
+        //        $redirectUrl = $client->paymentRedirectUrl($sid); //return redirect url
+        //        return redirect()->to($redirectUrl);
     }
 
     public function iyzicoRedirect(Request $request, OrderInterface $order, \App\Repositories\Interfaces\Admin\Addon\WalletInterface $wallet)
@@ -588,12 +585,11 @@ class WalletController extends Controller
             $firstBasketItem->setItemType(\Iyzipay\Model\BasketItemType::VIRTUAL);
             $firstBasketItem->setPrice($amount);
             $basket_items[0] = $firstBasketItem;
-            $request->setBasketItems($basket_items);# make request
+            $request->setBasketItems($basket_items); # make request
             $payWithIyzicoInitialize = \Iyzipay\Model\PayWithIyzicoInitialize::create($request, $options);
 
-            session()->put('iyzico_token',$payWithIyzicoInitialize->getToken());
+            session()->put('iyzico_token', $payWithIyzicoInitialize->getToken());
             return redirect($payWithIyzicoInitialize->getPayWithIyzicoPageUrl());
-
         } catch (\Exception $e) {
             return back()->with(['error' => $e->getMessage()]);
         }
@@ -604,18 +600,16 @@ class WalletController extends Controller
         $options->setApiKey(settingHelper('iyzico_api_key'));
         $options->setSecretKey(settingHelper('iyzico_secret_key'));
 
-        if(settingHelper('is_iyzico_sandbox_mode') == 1) {
+        if (settingHelper('is_iyzico_sandbox_mode') == 1) {
             $options->setBaseUrl("https://sandbox-api.iyzipay.com");
         } else {
             $options->setBaseUrl("https://api.iyzipay.com");
         }
 
         $iyzico_request = new \Iyzipay\Request\RetrievePayWithIyzicoRequest();
-        if (settingHelper('default_language') == 'tr')
-        {
+        if (settingHelper('default_language') == 'tr') {
             $iyzico_request->setLocale(\Iyzipay\Model\Locale::TR);
-        }
-        else{
+        } else {
             $iyzico_request->setLocale(\Iyzipay\Model\Locale::EN);
         }
         $iyzico_request->setConversationId($request->conversation_id);
@@ -624,7 +618,7 @@ class WalletController extends Controller
         return \Iyzipay\Model\PayWithIyzico::retrieve($iyzico_request, $options);
     }
 
-    public function telrRedirect(Request $request,OrderInterface $order)
+    public function telrRedirect(Request $request, OrderInterface $order)
     {
         $paymentController = new paymentController($order);
         $data                       = $request->all();
@@ -638,8 +632,8 @@ class WalletController extends Controller
             'ivp_authkey' => settingHelper('telr_auth_key'),
             'ivp_cart'    => rand(),
             'ivp_test'    => '1',
-            'ivp_amount'  => round($request->amount,2),
-            'ivp_currency'=> 'AED',
+            'ivp_amount'  => round($request->amount, 2),
+            'ivp_currency' => 'AED',
             'ivp_desc'    => 'Recharge Wallet',
             'return_auth' => $success_url,
             'return_can'  => $paymentController->cancelUrl($request),
@@ -649,18 +643,17 @@ class WalletController extends Controller
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "https://secure.telr.com/gateway/order.json");
         curl_setopt($ch, CURLOPT_POST, count($params));
-        curl_setopt($ch, CURLOPT_POSTFIELDS,$params);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:'));
         $results = curl_exec($ch);
         curl_close($ch);
-        $results = json_decode($results,true);
-        $ref= isset($results['order']) ? trim($results['order']['ref']) : '';
-        $url= isset($results['order']) ? trim($results['order']['url']) : '';
+        $results = json_decode($results, true);
+        $ref = isset($results['order']) ? trim($results['order']['ref']) : '';
+        $url = isset($results['order']) ? trim($results['order']['url']) : '';
         if (empty($ref) || empty($url)) {
             return back()->with(['error' => __('failed_to_create_telr')]);
-        }
-        else{
+        } else {
             return redirect($url);
         }
     }
