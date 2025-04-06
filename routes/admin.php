@@ -55,6 +55,8 @@ use App\Http\Controllers\Admin\StoreFront\StoreFrontController;
 use App\Http\Controllers\Admin\Payment\PaymentGatewayController;
 use App\Http\Controllers\Admin\Setup\AdminPanelSettingController;
 use App\Http\Controllers\Admin\Support\SupportDepartmentController;
+use App\Http\Controllers\Admin\Warehouse\WarehouseController;
+use App\Http\Controllers\Admin\Warehouse\WarehouseProductController;
 
 Route::get('change-currency/{id}', [GeneralSettingsController::class, 'currencyChange'])->name('admin.change.currency');
 Route::get('change-lang/{id}', [GeneralSettingsController::class, 'langChange'])->name('admin.change.lang');
@@ -595,6 +597,25 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 Route::get('import-sellers',[SellerController::class, 'sellerImport'])->name('admin.seller.import')->middleware('PermissionCheck:seller_create');
                 Route::post('import-sellers',[SellerController::class, 'importSeller'])->name('admin.seller.import.post')->middleware('PermissionCheck:seller_create');
                 Route::get('import-cities',[ShippingController::class, 'importCity'])->name('import.city');
+
+                // Warehouse routes
+                Route::get('warehouses', [WarehouseController::class, 'index'])->name('warehouse.index')->middleware('PermissionCheck:warehouse_read');
+                Route::post('warehouse-store', [WarehouseController::class, 'store'])->name('warehouse.store')->middleware('PermissionCheck:warehouse_create');
+                Route::put('warehouse-status-change', [WarehouseController::class, 'statusChange'])->name('warehouse.status.change')->middleware('PermissionCheck:warehouse_update');
+                Route::get('warehouse-edit/{id}', [WarehouseController::class, 'edit'])->name('warehouse.edit')->middleware('PermissionCheck:warehouse_update');
+                Route::put('warehouse-update', [WarehouseController::class, 'update'])->name('warehouse.update')->middleware('PermissionCheck:warehouse_update');
+                Route::delete('delete/warehouses/{id}', [CommonController::class, 'delete'])->name('warehouse.delete')->middleware('PermissionCheck:warehouse_destroy');
+            
+                
+            // Warehouse Products Routes
+            Route::prefix('warehouses/{warehouse}/products')->name('warehouse.products.')->group(function () {
+                Route::get('/', [WarehouseProductController::class, 'index'])->name('index');
+                Route::post('/', [WarehouseProductController::class, 'store'])->name('store');
+                Route::put('/{id}', [WarehouseProductController::class, 'update'])->name('update');
+                Route::delete('/{id}', [WarehouseProductController::class, 'destroy'])->name('destroy');
+                Route::get('products/{product}/stocks', [WarehouseProductController::class, 'getStocks'])->name('products.stocks');
+            });
+
             });
         });
     });

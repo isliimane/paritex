@@ -340,7 +340,16 @@ class UserSeeder extends Seeder
             'addon_update',
 
             'font_update',
-
+            
+            'warehouse_read',
+            'warehouse_create',
+            'warehouse_update',
+            'warehouse_destroy',
+            
+            'warehouse_product_read',
+            'warehouse_product_create',
+            'warehouse_product_edit',
+            'warehouse_product_delete',
         ];
     }
 

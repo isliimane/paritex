@@ -966,6 +966,14 @@
                     </li>
                 @endif
             @endif
+            @if(hasPermission('warehouse_read'))
+                <li class="dropdown {{ request()->is('admin/warehouses*') ? 'active' : '' }}">
+                    <a href="{{ route('warehouse.index') }}" class="nav-link">
+                        <i class="fas fa-warehouse"></i>
+                        <span>{{ __('Warehouses') }}</span>
+                    </a>
+                </li>
+            @endif
         </ul>
     </aside>
 </div>

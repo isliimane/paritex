@@ -136,7 +136,7 @@
                                     <div class="form-group">
                                         <select class="form-control selectric" name="s">
                                             <option
-                                                    value="latest_on_top" {{ $s == 'latest_on_top' ? "selected' : '' }}>{{ __('Latest On Top') }}</option>
+                                                    value="latest_on_top" {{ $s == 'latest_on_top' ? 'selected' : '' }}>{{ __('Latest On Top') }}</option>
                                             <option
                                                     value="oldest_on_top" {{ $s == 'oldest_on_top' ? 'selected' : '' }}>{{ __('Oldest On Top') }}</option>
                                             <option
@@ -379,7 +379,6 @@
         </div>
     </section>
 @endsection
-
 @section('page-style')
     
     <link rel="stylesheet" href="{{ static_asset('admin/css/formulair.css') }}">
@@ -391,3 +390,4 @@
 @push('script')
     <script type="text/javascript" src="{{ static_asset('admin/js/ajax-live-search.js') }}"></script>
 @endpush
+

@@ -351,5 +351,18 @@ class RepositoryServiceProvider extends ServiceProvider{
             'App\Repositories\Interfaces\Admin\FontInterface',
             'App\Repositories\Admin\FontRepository'
         );
+
+        $this->app->bind(
+            'App\Repositories\Interfaces\Admin\Warehouse\WarehouseInterface',
+            'App\Repositories\Admin\Warehouse\WarehouseRepository'
+        );
+        
+        $this->app->bind(
+            'App\Repositories\Interfaces\Admin\Warehouse\WarehouseProductInterface',
+            'App\Repositories\Admin\Warehouse\WarehouseProductRepository'
+        );
+
+        
+
     }
 }

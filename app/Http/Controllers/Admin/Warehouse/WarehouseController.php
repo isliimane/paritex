@@ -1,0 +1,103 @@
+<?php
+
+namespace App\Http\Controllers\Admin\Warehouse;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\WarehouseRequest;
+use App\Repositories\Interfaces\Admin\LanguageInterface;
+use App\Repositories\Interfaces\Admin\Warehouse\WarehouseInterface;
+use Brian2694\Toastr\Facades\Toastr;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+class WarehouseController extends Controller
+{
+    private $warehouse;
+    private $languages;
+
+    public function __construct(WarehouseInterface $warehouse, LanguageInterface $languages)
+    {
+        $this->warehouse = $warehouse;
+        $this->languages = $languages;
+    }
+
+    public function index()
+    {
+        $warehouses = $this->warehouse->paginate(get_pagination('pagination'));
+        $staffs = $this->warehouse->getStaffUsers();
+        return view('admin.warehouses.index', compact('warehouses', 'staffs'));
+    }
+
+    public function store(WarehouseRequest $request)
+    {
+        if (config('app.demo_mode')) {
+            Toastr::info(__('This function is disabled in demo server.'));
+            return redirect()->back();
+        }
+
+        DB::beginTransaction();
+        try {
+            $this->warehouse->store($request);
+            Toastr::success(__('Setting Updated Successfully'));
+            DB::commit();
+            return redirect()->back();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Toastr::error($e->getMessage());
+            return redirect()->back();
+        }
+    }
+
+    public function edit(Request $request, $id)
+    {
+        $languages = $this->languages->all()->orderBy('id', 'asc')->get();
+        $lang = $request->lang == '' ? \App::getLocale() : $request->lang;
+        $warehouse_lang = $this->warehouse->getByLang($id, $lang);
+        $staffs = $this->warehouse->getStaffUsers();
+        return view('admin.warehouses.edit', compact('warehouse_lang', 'languages', 'lang', 'staffs'));
+    }
+
+    public function update(WarehouseRequest $request)
+    {
+        if (config('app.demo_mode')) {
+            Toastr::info(__('This function is disabled in demo server.'));
+            return redirect()->back();
+        }
+
+        DB::beginTransaction();
+        try {
+            $this->warehouse->update($request);
+            Toastr::success(__('Setting Updated Successfully'));
+            DB::commit();
+            return redirect()->back();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Toastr::error($e->getMessage());
+            return redirect()->back();
+        }
+    }
+
+    public function statusChange(Request $request)
+    {
+        if (config('app.demo_mode')) {
+            $response['message'] = __('This function is disabled in demo server.');
+            $response['title'] = __('Ops..!');
+            $response['status'] = 'error';
+            return response()->json($response);
+        }
+
+        DB::beginTransaction();
+        try {
+            $this->warehouse->statusChange($request['data']);
+            $response['message'] = __('Updated Successfully');
+            $response['title'] = __('Success');
+            $response['status'] = 'success';
+            DB::commit();
+            return response()->json($response);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Toastr::error($e->getMessage());
+            return redirect()->back();
+        }
+    }
+} 

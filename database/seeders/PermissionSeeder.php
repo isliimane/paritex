@@ -219,6 +219,19 @@ class PermissionSeeder extends Seeder
                 'read'                  => 'pos_order',
                 'update'                => 'pos_config_update',
             ],
+            'warehouse'        => [
+                'read'                  => 'warehouse_read',
+                'create'                => 'warehouse_create',
+                'update'                => 'warehouse_update',
+                'destroy'                => 'warehouse_destroy',
+            ],
+            'warehouse_product'        => [
+                'read'                  => 'warehouse_product_read',
+                'create'                => 'warehouse_product_create',
+                'edit'                => 'warehouse_product_edit',
+                'delete'                => 'warehouse_product_delete',
+            ],
+
 
         ];
 

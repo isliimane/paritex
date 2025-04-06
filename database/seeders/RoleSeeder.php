@@ -11,11 +11,13 @@ class RoleSeeder extends Seeder
     public function run()
     {
         //role seed
-        Role::create(['name' => 'Superadmin',
+        Role::updateOrCreate(['name' => 'Superadmin'],
+        ['name' => 'Superadmin',
             'slug' => 'superadmin',
             'permissions' => $this->superAdminPermissions(),
         ]);
-        Role::create(['name' => 'Staff',
+        Role::updateOrCreate(['name' => 'Staff'],
+            ['name' => 'Staff',
             'slug' => 'staff',
             'permissions' => $this->managerPermissions(),
         ]);
@@ -299,6 +301,15 @@ class RoleSeeder extends Seeder
             'addon_read',
             'addon_update',
 
+            'warehouse_read',
+            'warehouse_create',
+            'warehouse_update',
+            'warehouse_destroy',
+ 
+            'warehouse_product_read',
+            'warehouse_product_create',
+            'warehouse_product_edit',
+            'warehouse_product_delete',
         ];
     }
 
