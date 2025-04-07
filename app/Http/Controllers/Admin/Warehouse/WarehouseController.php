@@ -21,29 +21,34 @@ class WarehouseController extends Controller
         $this->languages = $languages;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $warehouses = $this->warehouse->paginate(get_pagination('pagination'));
+        $search = $request->search;
+        if ($search) {
+            $warehouses = $this->warehouse->search($search)->paginate(get_pagination('pagination'));
+        } else {
+            $warehouses = $this->warehouse->paginate(get_pagination('pagination'));
+        }
         $staffs = $this->warehouse->getStaffUsers();
-        return view('admin.warehouses.index', compact('warehouses', 'staffs'));
+        return view('admin.warehouses.index', compact('warehouses', 'staffs', 'search'));
     }
 
     public function store(WarehouseRequest $request)
     {
         if (config('app.demo_mode')) {
-            Toastr::info(__('This function is disabled in demo server.'));
+            Toastr::info(__('This function is disabled in demo server.'), __('Demo Mode'));
             return redirect()->back();
         }
 
         DB::beginTransaction();
         try {
             $this->warehouse->store($request);
-            Toastr::success(__('Setting Updated Successfully'));
+            Toastr::success(__('Warehouse created successfully'), __('Success'));
             DB::commit();
             return redirect()->back();
         } catch (\Exception $e) {
             DB::rollBack();
-            Toastr::error($e->getMessage());
+            Toastr::error($e->getMessage(), __('Error'));
             return redirect()->back();
         }
     }
@@ -60,19 +65,19 @@ class WarehouseController extends Controller
     public function update(WarehouseRequest $request)
     {
         if (config('app.demo_mode')) {
-            Toastr::info(__('This function is disabled in demo server.'));
+            Toastr::info(__('This function is disabled in demo server.'), __('Demo Mode'));
             return redirect()->back();
         }
 
         DB::beginTransaction();
         try {
             $this->warehouse->update($request);
-            Toastr::success(__('Setting Updated Successfully'));
+            Toastr::success(__('Warehouse updated successfully'), __('Success'));
             DB::commit();
             return redirect()->back();
         } catch (\Exception $e) {
             DB::rollBack();
-            Toastr::error($e->getMessage());
+            Toastr::error($e->getMessage(), __('Error'));
             return redirect()->back();
         }
     }
@@ -81,7 +86,7 @@ class WarehouseController extends Controller
     {
         if (config('app.demo_mode')) {
             $response['message'] = __('This function is disabled in demo server.');
-            $response['title'] = __('Ops..!');
+            $response['title'] = __('Demo Mode');
             $response['status'] = 'error';
             return response()->json($response);
         }
@@ -89,14 +94,14 @@ class WarehouseController extends Controller
         DB::beginTransaction();
         try {
             $this->warehouse->statusChange($request['data']);
-            $response['message'] = __('Updated Successfully');
+            $response['message'] = __('Warehouse status updated successfully');
             $response['title'] = __('Success');
             $response['status'] = 'success';
             DB::commit();
             return response()->json($response);
         } catch (\Exception $e) {
             DB::rollBack();
-            Toastr::error($e->getMessage());
+            Toastr::error($e->getMessage(), __('Error'));
             return redirect()->back();
         }
     }

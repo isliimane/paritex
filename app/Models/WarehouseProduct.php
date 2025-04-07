@@ -11,9 +11,7 @@ class WarehouseProduct extends Model
         'warehouse_id',
         'product_id',
         'product_stock_id',
-        'quantity',
-        'shelf_number',
-        'column_number'
+        'quantity'
     ];
 
     public function warehouse()

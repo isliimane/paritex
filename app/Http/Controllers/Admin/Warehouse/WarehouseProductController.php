@@ -26,7 +26,21 @@ class WarehouseProductController extends Controller
     {
         try {
             $warehouse = Warehouse::findOrFail($warehouseId);
-            $products = $warehouse->warehouseProducts()->with(['product', 'productStock'])->paginate(10);
+            $search = request()->search;
+            
+            $query = $warehouse->warehouseProducts()->with(['product', 'productStock']);
+            
+            if ($search) {
+                $query->whereHas('product', function($q) use ($search) {
+                    $q->whereHas('productLanguages', function($q) use ($search) {
+                        $q->where('name', 'like', '%' . $search . '%');
+                    });
+                })->orWhereHas('productStock', function($q) use ($search) {
+                    $q->where('sku', 'like', '%' . $search . '%');
+                });
+            }
+            
+            $products = $query->paginate(10);
             
             // Get all products with their stocks and calculate available quantities
             $allProducts = Product::with(['stock' => function($query) {
@@ -46,7 +60,7 @@ class WarehouseProductController extends Controller
                 return $product;
             });
             
-            return view('admin.warehouses.products.index', compact('warehouse', 'products', 'allProducts'));
+            return view('admin.warehouses.products.index', compact('warehouse', 'products', 'allProducts', 'search'));
         } catch (\Exception $e) {
             Toastr::error($e->getMessage());
             return back();
@@ -102,28 +116,19 @@ class WarehouseProductController extends Controller
 
             // Validate stock availability
             if (($totalStockInWarehouses + $request->quantity) > $stock->current_stock) {
-                throw new \Exception(__('Not enough stock available. Available quantity: ') . ($stock->current_stock - $totalStockInWarehouses));
+                $availableQuantity = $stock->current_stock - $totalStockInWarehouses;
+                throw new \Exception(__('Not enough stock available. Available quantity: :quantity', ['quantity' => $availableQuantity]));
             }
 
             // Validate warehouse capacity
             if (($totalQuantityInWarehouse + $request->quantity) > $warehouse->storage_capacity) {
-                throw new \Exception(__('Warehouse capacity exceeded. Available space: ') . ($warehouse->storage_capacity - $totalQuantityInWarehouse));
-            }
-
-            // Validate shelf and column numbers
-            if ($request->shelf_number > $warehouse->number_of_shelves) {
-                throw new \Exception(__('Invalid shelf number. Maximum shelves: ') . $warehouse->number_of_shelves);
-            }
-
-            if ($request->column_number > $warehouse->columns_per_shelf) {
-                throw new \Exception(__('Invalid column number. Maximum columns per shelf: ') . $warehouse->columns_per_shelf);
+                $availableSpace = $warehouse->storage_capacity - $totalQuantityInWarehouse;
+                throw new \Exception(__('Warehouse capacity exceeded. Available space: :space', ['space' => $availableSpace]));
             }
 
             if ($existingProduct) {
                 // Update existing product
                 $existingProduct->quantity += $request->quantity;
-                $existingProduct->shelf_number = $request->shelf_number;
-                $existingProduct->column_number = $request->column_number;
                 $existingProduct->save();
             } else {
                 // Create new warehouse product
@@ -132,8 +137,6 @@ class WarehouseProductController extends Controller
                 $warehouseProduct->product_id = $product->id;
                 $warehouseProduct->product_stock_id = $stock->id;
                 $warehouseProduct->quantity = $request->quantity;
-                $warehouseProduct->shelf_number = $request->shelf_number;
-                $warehouseProduct->column_number = $request->column_number;
                 $warehouseProduct->save();
             }
 
@@ -142,20 +145,24 @@ class WarehouseProductController extends Controller
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
-                    'message' => __('Product added to warehouse successfully')
+                    'message' => __('Product added to warehouse successfully'),
+                    'title' => __('Success')
                 ]);
             }
             
-            Toastr::success(__('Product added to warehouse successfully'));
+            Toastr::success(__('Product added to warehouse successfully'), __('Success'));
             return redirect()->route('warehouse.products.index', $warehouseId);
         } catch (\Exception $e) {
             DB::rollBack();
             
             if ($request->ajax()) {
-                return response()->json(['error' => $e->getMessage()], 500);
+                return response()->json([
+                    'error' => $e->getMessage(),
+                    'title' => __('Error')
+                ], 500);
             }
             
-            Toastr::error($e->getMessage());
+            Toastr::error($e->getMessage(), __('Error'));
             return back();
         }
     }
@@ -167,8 +174,6 @@ class WarehouseProductController extends Controller
             
             $warehouseProduct = WarehouseProduct::findOrFail($id);
             $warehouseProduct->quantity = $request->quantity;
-            $warehouseProduct->shelf_number = $request->shelf_number;
-            $warehouseProduct->column_number = $request->column_number;
             $warehouseProduct->save();
 
             DB::commit();
@@ -176,27 +181,30 @@ class WarehouseProductController extends Controller
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
-                    'message' => __('Product updated successfully')
+                    'message' => __('Product updated successfully'),
+                    'title' => __('Success')
                 ]);
             }
             
-            Toastr::success(__('Product updated successfully'));
+            Toastr::success(__('Product updated successfully'), __('Success'));
             return redirect()->route('warehouse.products.index', $warehouseId);
         } catch (\Exception $e) {
             DB::rollBack();
             
             if ($request->ajax()) {
-                return response()->json(['error' => $e->getMessage()], 500);
+                return response()->json([
+                    'error' => $e->getMessage(),
+                    'title' => __('Error')
+                ], 500);
             }
             
-            Toastr::error($e->getMessage());
+            Toastr::error($e->getMessage(), __('Error'));
             return back();
         }
     }
 
     public function destroy($warehouseId, $id)
     {
-
         try {
             DB::beginTransaction();
             
@@ -208,20 +216,24 @@ class WarehouseProductController extends Controller
             if (request()->ajax()) {
                 return response()->json([
                     'success' => true,
-                    'message' => __('Product removed from warehouse successfully')
+                    'message' => __('Product removed from warehouse successfully'),
+                    'title' => __('Success')
                 ]);
             }
             
-            Toastr::success(__('Product removed from warehouse successfully'));
+            Toastr::success(__('Product removed from warehouse successfully'), __('Success'));
             return redirect()->route('warehouse.products.index', $warehouseId);
         } catch (\Exception $e) {
             DB::rollBack();
             
             if (request()->ajax()) {
-                return response()->json(['error' => $e->getMessage()], 500);
+                return response()->json([
+                    'error' => $e->getMessage(),
+                    'title' => __('Error')
+                ], 500);
             }
             
-            Toastr::error($e->getMessage());
+            Toastr::error($e->getMessage(), __('Error'));
             return back();
         }
     }

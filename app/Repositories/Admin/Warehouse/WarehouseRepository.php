@@ -137,4 +137,15 @@ class WarehouseRepository implements WarehouseInterface
     {
         return User::where('user_type', 'staff')->get();
     }
+
+    public function search($query)
+    {
+        return Warehouse::with('incharge')
+            ->whereHas('warehouseLanguages', function($q) use ($query) {
+                $q->where('name', 'like', '%' . $query . '%');
+            })
+            ->orWhere('code', 'like', '%' . $query . '%')
+            ->orWhere('phone', 'like', '%' . $query . '%')
+            ->latest();
+    }
 } 

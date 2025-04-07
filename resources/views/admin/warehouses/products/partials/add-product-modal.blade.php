@@ -40,17 +40,6 @@
                         </small>
                     </div>
 
-                    <div class="form-group">
-                        <label for="shelf_number">{{ __('Shelf Number') }} *</label>
-                        <input type="number" name="shelf_number" id="shelf_number" class="form-control" required min="1" max="{{ $warehouse->number_of_shelves }}">
-                        <small class="form-text text-muted">{{ __('Maximum:') }} {{ $warehouse->number_of_shelves }}</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="column_number">{{ __('Column Number') }} *</label>
-                        <input type="number" name="column_number" id="column_number" class="form-control" required min="1" max="{{ $warehouse->columns_per_shelf }}">
-                        <small class="form-text text-muted">{{ __('Maximum:') }} {{ $warehouse->columns_per_shelf }}</small>
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close') }}</button>

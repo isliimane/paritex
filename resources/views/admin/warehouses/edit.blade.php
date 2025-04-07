@@ -1,7 +1,7 @@
 @extends('admin.partials.master')
 
 @section('title')
-    {{ __('Warehouse Update') }}
+    {{ __('Edit Warehouse') }}
 @endsection
 
 @section('warehouses_active')
@@ -13,7 +13,10 @@
         <div class="section-body">
             <div class="d-flex justify-content-between">
                 <div class="d-block">
-                    <h2 class="section-title">{{ __('Update Warehouse') }}</h2>
+                    <h2 class="section-title">{{ __('Edit Warehouse') }}</h2>
+                    <p class="section-lead">
+                        {{ __('Edit warehouse information') }}
+                    </p>
                 </div>
                 <div class="buttons add-button">
                     <a href="{{ old('r') ? old('r') : (@$r ? $r : url()->previous() )}}"
@@ -23,8 +26,8 @@
             <div class="row">
                 <div class="col-6 middle">
                     <div class="card">
-                        <div class="card-header input-title" id="Add">
-                            <h4>{{ __('Update Warehouse') }}</h4>
+                        <div class="card-header">
+                            <h4>{{ __('Warehouse Information') }}</h4>
                         </div>
                         <div class="card-body card-body-paddding">
                             <form class="" id="lang">
@@ -78,24 +81,6 @@
                                     @endif
                                 </div>
                                 <div class="form-group">
-                                    <label for="number_of_shelves">{{ __('Number of Shelves') }} *</label>
-                                    <input type="number" name="number_of_shelves" id="number_of_shelves" value="{{ $warehouse_lang->warehouse->number_of_shelves }}" class="form-control" required min="1">
-                                    @if ($errors->has('number_of_shelves'))
-                                        <div class="invalid-feedback">
-                                            <p>{{ $errors->first('number_of_shelves') }}</p>
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="form-group">
-                                    <label for="columns_per_shelf">{{ __('Columns per Shelf') }} *</label>
-                                    <input type="number" name="columns_per_shelf" id="columns_per_shelf" value="{{ $warehouse_lang->warehouse->columns_per_shelf }}" class="form-control" required min="1">
-                                    @if ($errors->has('columns_per_shelf'))
-                                        <div class="invalid-feedback">
-                                            <p>{{ $errors->first('columns_per_shelf') }}</p>
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="form-group">
                                     <label for="storage_capacity">{{ __('Storage Capacity') }} *</label>
                                     <input type="number" name="storage_capacity" id="storage_capacity" value="{{ $warehouse_lang->warehouse->storage_capacity }}" class="form-control" required min="1">
                                     @if ($errors->has('storage_capacity'))
@@ -131,5 +116,13 @@
         </div>
     </section>
 @endsection
+
+@push('script')
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2();
+        });
+    </script>
+@endpush
 
 @include('admin.common.delete-ajax') 

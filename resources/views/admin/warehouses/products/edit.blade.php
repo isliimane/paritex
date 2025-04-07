@@ -27,27 +27,6 @@
                                         </div>
                                     @enderror
                                 </div>
-
-                                <div class="form-group">
-                                    <label for="shelf_number">{{ __('Shelf Number') }}</label>
-                                    <input type="number" name="shelf_number" id="shelf_number" class="form-control" min="1" value="{{ $warehouseProduct->shelf_number }}">
-                                    @error('shelf_number')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="column_number">{{ __('Column Number') }}</label>
-                                    <input type="number" name="column_number" id="column_number" class="form-control" min="1" value="{{ $warehouseProduct->column_number }}">
-                                    @error('column_number')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary">{{ __('Update Product') }}</button>
                                     <a href="{{ route('warehouse.products.index', $warehouse->id) }}" class="btn btn-secondary">{{ __('Cancel') }}</a>

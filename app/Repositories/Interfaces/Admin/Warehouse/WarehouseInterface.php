@@ -18,4 +18,6 @@ interface WarehouseInterface
     public function update($request);
 
     public function activeWarehouses();
+
+    public function search($query);
 } 

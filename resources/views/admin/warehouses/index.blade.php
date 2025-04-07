@@ -44,7 +44,6 @@
                                         <th>{{ __('Name') }}</th>
                                         <th>{{ __('Phone') }}</th>
                                         <th>{{ __('Manager') }}</th>
-                                        <th>{{ __('Shelves') }}</th>
                                         <th>{{ __('Status') }}</th>
                                         <th>{{ __('Options') }}</th>
                                     </tr>
@@ -54,7 +53,6 @@
                                             <td>{{ $warehouse->name }}</td>
                                             <td>{{ $warehouse->phone }}</td>
                                             <td>{{ $warehouse->incharge->first_name }} {{ $warehouse->incharge->last_name }}</td>
-                                            <td>{{ $warehouse->number_of_shelves }}</td>
                                             <td>
                                                 <label class="custom-switch mt-2">
                                                     <input type="checkbox" name="custom-switch-checkbox" value="warehouse-status-change/{{ $warehouse->id }}" {{ $warehouse->status == 1 ? 'checked' : '' }} class="{{ $warehouse->status == 1 ? 'status-change' : 'status-change' }} custom-switch-input">
@@ -62,19 +60,15 @@
                                                 </label>
                                             </td>
                                             <td>
-                                                <a href="{{ route('warehouse.products.index', $warehouse->id) }}" class="btn btn-info btn-sm">
-                                                    <i class="fas fa-boxes"></i> {{ __('Manage Products') }}
+                                                <a href="{{ route('warehouse.products.index', $warehouse->id) }}" class="btn btn-outline-info btn-circle" data-toggle="tooltip" title="" data-original-title="{{ __('Manage Products') }}">
+                                                    <i class="bx bx-package"></i>
                                                 </a>
-                                                <a href="{{ route('warehouse.edit', $warehouse->id) }}" class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-edit"></i>
+                                                <a href="{{ route('warehouse.edit', $warehouse->id) }}" class="btn btn-outline-secondary btn-circle" data-toggle="tooltip" title="" data-original-title="{{ __('Edit') }}">
+                                                    <i class="bx bx-edit"></i>
                                                 </a>
-                                                <form action="{{ route('warehouse.delete', $warehouse->id) }}" method="POST" style="display: inline-block;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('{{ __('Are you sure you want to delete this warehouse?') }}')">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </form>
+                                                <a href="javascript:void(0)" onclick="delete_row('delete/warehouses/',{{$warehouse->id}})" class="btn btn-outline-danger btn-circle" data-toggle="tooltip" title="" data-original-title="{{ __('Delete') }}">
+                                                    <i class="bx bx-trash"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -131,24 +125,6 @@
                                         @if ($errors->has('phone'))
                                             <div class="invalid-feedback">
                                                 <p>{{ $errors->first('phone') }}</p>
-                                            </div>
-                                        @endif
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="number_of_shelves">{{ __('Number of Shelves') }} *</label>
-                                        <input type="number" name="number_of_shelves" id="number_of_shelves" value="{{ old('number_of_shelves') }}" class="form-control" required min="1">
-                                        @if ($errors->has('number_of_shelves'))
-                                            <div class="invalid-feedback">
-                                                <p>{{ $errors->first('number_of_shelves') }}</p>
-                                            </div>
-                                        @endif
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="columns_per_shelf">{{ __('Columns per Shelf') }} *</label>
-                                        <input type="number" name="columns_per_shelf" id="columns_per_shelf" value="{{ old('columns_per_shelf') }}" class="form-control" required min="1">
-                                        @if ($errors->has('columns_per_shelf'))
-                                            <div class="invalid-feedback">
-                                                <p>{{ $errors->first('columns_per_shelf') }}</p>
                                             </div>
                                         @endif
                                     </div>

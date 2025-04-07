@@ -13,8 +13,6 @@ class Warehouse extends Model
         'code',
         'user_id',
         'phone',
-        'number_of_shelves',
-        'columns_per_shelf',
         'status'
     ];
 
