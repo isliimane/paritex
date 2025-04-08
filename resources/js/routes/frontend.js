@@ -99,8 +99,12 @@ const affiliate_program = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/affiliate_users/affiliate_program');
 const affiliate_system = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/affiliate_users/affiliate_system');
+//claim   
+ const createClaim = () => import(/* webpackPrefetch: true */ 
+        '../components/frontend/pages/CreateClaim.vue');
 
-export const routes = [
+
+        export const routes = [
     {
         path: '/',
         component: () => import(/* webpackPrefetch : true" */'../components/frontend/master'),
@@ -548,10 +552,46 @@ export const routes = [
                 }
             },
             {
-                path: '/:pathMatch(.*)*',
-                name: '404',
-                component: error_404
+                path: '/create-claim',
+                name: 'create.claim',
+                component: createClaim,
+                meta: {
+                    title: 'Reclamation',
+                }
             },
-        ]
-    }
+
+            
+           //claims
+// {
+//     path: '/components/admin',
+//     name: 'components.admin',
+//     component: () => import('@/components/admin/AdminClaimsList'),
+//     meta: {
+//         title: 'Manage Claims',
+//         auth: true,
+//         requiresAdmin: true
+//     }
+// },  //admin makaynch hna ga3 f had la partie , mba3d nahihoum
+//reclamation coté client
+
+
+
+//   {
+//     path: '/claims',
+//     name: 'user.claims',
+//     component: () => import('../components/frontend/pages/ClaimsList.vue'),
+//     meta: {
+//       title: 'Mes Réclamations',
+//       auth: true
+//     }}
+
+
+{
+    path: '/:pathMatch(.*)*',
+    name: '404',
+    component: error_404
+},
+
+         ]
+     }
 ]

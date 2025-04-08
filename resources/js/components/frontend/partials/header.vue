@@ -24,7 +24,19 @@
                     </li>
                   </ul>
                 </div>
+   
               </li>
+          <li>
+  <li>
+
+
+ <router-link class="nav-link"
+    :to="{name: 'create.claim'}">
+    <i class="mdi mdi-alert-circle-outline mr-2"></i>
+    Faire une réclamation
+  </router-link>
+</li>
+
               <li v-if="settings.currency_switcher != 0">
                 <div class="dropdown">
                   <button class="dropdown-toggle" type="button" id="" @click.stop="currencyDropdown"
