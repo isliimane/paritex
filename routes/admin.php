@@ -634,7 +634,9 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
             Route::prefix('transfers')->name('transfers.')->group(function () {
                 Route::get('/', [WarehouseTransferController::class, 'index'])->name('index');
                 Route::get('/create', [WarehouseTransferController::class, 'create'])->name('create');
+                Route::get('/edit/{id}', [WarehouseTransferController::class, 'edit'])->name('edit');
                 Route::post('/', [WarehouseTransferController::class, 'store'])->name('store');
+                Route::put('/{transfer}/update', [WarehouseTransferController::class, 'update'])->name('update');
                 Route::post('/{transfer}/approve', [WarehouseTransferController::class, 'approve'])->name('approve');
                 Route::post('/{transfer}/reject', [WarehouseTransferController::class, 'reject'])->name('reject');
             });
