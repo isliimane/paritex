@@ -78,4 +78,9 @@ class Warehouse extends Model
     {
         return $this->hasMany(WarehouseProduct::class);
     }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
 } 

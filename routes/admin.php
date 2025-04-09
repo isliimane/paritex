@@ -57,6 +57,7 @@ use App\Http\Controllers\Admin\Setup\AdminPanelSettingController;
 use App\Http\Controllers\Admin\Support\SupportDepartmentController;
 use App\Http\Controllers\Admin\Warehouse\WarehouseController;
 use App\Http\Controllers\Admin\Warehouse\WarehouseProductController;
+use App\Http\Controllers\Admin\Warehouse\WarehouseTransferController;
 
 Route::get('change-currency/{id}', [GeneralSettingsController::class, 'currencyChange'])->name('admin.change.currency');
 Route::get('change-lang/{id}', [GeneralSettingsController::class, 'langChange'])->name('admin.change.lang');
@@ -605,15 +606,37 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 Route::get('warehouse-edit/{id}', [WarehouseController::class, 'edit'])->name('warehouse.edit')->middleware('PermissionCheck:warehouse_update');
                 Route::put('warehouse-update', [WarehouseController::class, 'update'])->name('warehouse.update')->middleware('PermissionCheck:warehouse_update');
                 Route::delete('delete/warehouses/{id}', [CommonController::class, 'delete'])->name('warehouse.delete')->middleware('PermissionCheck:warehouse_destroy');
-            
+                Route::get('warehouses/{warehouse}/current-quantity', [WarehouseController::class, 'getCurrentQuantity'])->name('warehouse.current.quantity');
                 
             // Warehouse Products Routes
-            Route::prefix('warehouses/{warehouse}/products')->name('warehouse.products.')->group(function () {
-                Route::get('/', [WarehouseProductController::class, 'index'])->name('index');
-                Route::post('/', [WarehouseProductController::class, 'store'])->name('store');
-                Route::put('/{id}', [WarehouseProductController::class, 'update'])->name('update');
-                Route::delete('/{id}', [WarehouseProductController::class, 'destroy'])->name('destroy');
-                Route::get('products/{product}/stocks', [WarehouseProductController::class, 'getStocks'])->name('products.stocks');
+            Route::prefix('warehouses')->name('warehouse.')->group(function () {
+                Route::get('/', [WarehouseController::class, 'index'])->name('index');
+                Route::post('/', [WarehouseController::class, 'store'])->name('store');
+                Route::put('status-change', [WarehouseController::class, 'statusChange'])->name('status.change');
+                Route::get('edit/{id}', [WarehouseController::class, 'edit'])->name('edit');
+                Route::put('update', [WarehouseController::class, 'update'])->name('update');
+                Route::delete('delete/{id}', [CommonController::class, 'delete'])->name('delete');
+                
+                // Products in warehouse routes
+                Route::get('get-products', [WarehouseProductController::class, 'getProducts'])->name('products.get');
+                
+                Route::prefix('{warehouse}/products')->name('products.')->group(function () {
+                    Route::get('/', [WarehouseProductController::class, 'index'])->name('index');
+                    Route::post('/', [WarehouseProductController::class, 'store'])->name('store');
+                    Route::put('/{id}', [WarehouseProductController::class, 'update'])->name('update');
+                    Route::delete('/{id}', [WarehouseProductController::class, 'destroy'])->name('destroy');
+                    Route::get('products/{product}/stocks', [WarehouseProductController::class, 'getStocks'])->name('products.stocks');
+                    Route::get('products/{product}/warehouse-stocks', [WarehouseProductController::class, 'getWarehouseStocks'])->name('products.warehouse-stocks');
+                });
+            });
+
+            // Warehouse Transfers Routes
+            Route::prefix('transfers')->name('transfers.')->group(function () {
+                Route::get('/', [WarehouseTransferController::class, 'index'])->name('index');
+                Route::get('/create', [WarehouseTransferController::class, 'create'])->name('create');
+                Route::post('/', [WarehouseTransferController::class, 'store'])->name('store');
+                Route::post('/{transfer}/approve', [WarehouseTransferController::class, 'approve'])->name('approve');
+                Route::post('/{transfer}/reject', [WarehouseTransferController::class, 'reject'])->name('reject');
             });
 
             });

@@ -91,6 +91,57 @@ class WarehouseProductController extends Controller
         }
     }
 
+    public function getWarehouseStocks($warehouseId, $productId)
+    {
+        try {
+            // Get stocks for the product that exist in the warehouse
+            $stocks = WarehouseProduct::where('warehouse_id', $warehouseId)
+                ->where('product_id', $productId)
+                ->with('productStock')
+                ->get()
+                ->map(function($warehouseProduct) {
+                    return [
+                        'id' => $warehouseProduct->productStock->id,
+                        'sku' => $warehouseProduct->productStock->sku,
+                        'name' => $warehouseProduct->productStock->name,
+                        'quantity' => $warehouseProduct->quantity
+                    ];
+                });
+
+            return response()->json($stocks);
+        } catch (\Exception $e) {
+            \Log::error('Error in getWarehouseStocks: ' . $e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function getProducts(Request $request)
+    {
+        try {
+            $warehouseId = $request->warehouse_id;
+            $products = WarehouseProduct::where('warehouse_id', $warehouseId)
+                ->with(['product' => function($query) {
+                    $query->with(['productLanguages' => function($q) {
+                        $q->where('lang', app()->getLocale());
+                    }]);
+                }])
+                ->select('product_id')
+                ->distinct()
+                ->get()
+                ->map(function($warehouseProduct) {
+                    return [
+                        'id' => $warehouseProduct->product->id,
+                        'product_name' => $warehouseProduct->product->getTranslation('name', app()->getLocale())
+                    ];
+                });
+
+            return response()->json($products);
+        } catch (\Exception $e) {
+            \Log::error('Error in getProducts: ' . $e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
     public function store(Request $request, $warehouseId)
     {
         try {

@@ -967,11 +967,23 @@
                 @endif
             @endif
             @if(hasPermission('warehouse_read'))
-                <li class="dropdown {{ request()->is('admin/warehouses*') ? 'active' : '' }}">
-                    <a href="{{ route('warehouse.index') }}" class="nav-link">
-                        <i class="fas fa-warehouse"></i>
+                <li class="nav-item dropdown @yield('warehouse_active')">
+                    <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
+                        <i class="bx bx-store"></i>
                         <span>{{ __('Warehouses') }}</span>
                     </a>
+                    <ul class="dropdown-menu">
+                        @if(hasPermission('warehouse_read'))
+                            <li class="@yield('warehouse')"><a class="nav-link"
+                                                               href="{{ route('warehouse.index') }}">{{ __('All Warehouses') }}</a>
+                            </li>
+                        @endif
+                        <!-- @if(hasPermission('warehouse_transfer_read')) -->
+                            <li class="@yield('warehouse_transfers')"><a class="nav-link"
+                                                               href="{{ route('transfers.index') }}">{{ __('Transfers') }}</a>
+                            </li>
+                        <!-- @endif -->
+                    </ul>
                 </li>
             @endif
         </ul>

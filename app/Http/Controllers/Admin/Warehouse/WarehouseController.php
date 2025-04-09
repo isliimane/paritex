@@ -9,6 +9,8 @@ use App\Repositories\Interfaces\Admin\Warehouse\WarehouseInterface;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\WarehouseProduct;
+use App\Models\Warehouse;
 
 class WarehouseController extends Controller
 {
@@ -103,6 +105,27 @@ class WarehouseController extends Controller
             DB::rollBack();
             Toastr::error($e->getMessage(), __('Error'));
             return redirect()->back();
+        }
+    }
+
+    /**
+     * Get the current total quantity of products stored in a warehouse.
+     *
+     * @param  \App\Models\Warehouse  $warehouse
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getCurrentQuantity(Warehouse $warehouse)
+    {
+        if (!request()->ajax()) {
+            abort(403, 'Direct access not allowed.');
+        }
+
+        try {
+            $currentQuantity = WarehouseProduct::where('warehouse_id', $warehouse->id)->sum('quantity');
+            return response()->json(['current_quantity' => $currentQuantity]);
+        } catch (\Exception $e) {
+            \Log::error('Error fetching current warehouse quantity: ' . $e->getMessage());
+            return response()->json(['error' => __('Failed to fetch current quantity')], 500);
         }
     }
 } 
