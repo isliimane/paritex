@@ -20,6 +20,17 @@
                             class="bx bxs-dashboard"></i>
                     <span>{{ __('Dashboard') }}</span></a>
             </li>
+            
+          <!-- reclamation  -->
+          @if(hasPermission('claim_read'))
+    <li class="@yield('claim')">
+        <a class="nav-link" href="{{ route('admin.claim.index') }}">
+            <i class="bx bx-error-circle"></i>
+            <span>{{ __('Réclamations') }}</span>
+        </a>
+    </li>
+@endif
+
             @if(hasPermission('order_read') || hasPermission('pickup_hub_read'))
                 <li class="nav-item dropdown @yield('order_active')">
                     <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">

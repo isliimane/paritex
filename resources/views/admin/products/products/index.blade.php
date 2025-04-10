@@ -135,18 +135,7 @@
 
                                     <div class="form-group">
                                         <select class="form-control selectric" name="s">
-                                            <option
-                                                    value="latest_on_top" {{ $s == 'latest_on_top' ? "selected' : '' }}>{{ __('Latest On Top') }}</option>
-                                            <option
-                                                    value="oldest_on_top" {{ $s == 'oldest_on_top' ? 'selected' : '' }}>{{ __('Oldest On Top') }}</option>
-                                            <option
-                                                    value="sale_high" {{ $s == 'sale_high' ? 'selected' : '' }}>{{ __('Sale(High > Low)') }}</option>
-                                            <option
-                                                    value="sale_low" {{ $s == 'sale_low' ? 'selected' : '' }}>{{ __('Sale(Low > High)') }}</option>
-                                            <option
-                                                    value="rating_high" {{ $s == 'rating_high' ? 'selected' : '' }}>{{ __('Rating(High > Low)') }}</option>
-                                            <option
-                                                    value="rating_low" {{ $s == 'rating_low' ? 'selected' : '' }}>{{ __('Rating(Low > High)') }}</option>
+                                           value="rating_low" {{ $s == 'rating_low' ? 'selected' : '' }}>{{ __('Rating(Low > High)') }}</option>
                                         </select>
                                     </div>
                                     <div class="form-group">

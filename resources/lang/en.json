@@ -2918,5 +2918,13 @@
     "M-pesa Setting": "M-pesa Setting",
     "Public Key": "Public Key",
     "API Key": "API Key",
-    "pay_with_mpesa": "Pay with M-pesa"
+    "pay_with_mpesa": "Pay with M-pesa",
+        "Claims": "Réclamations",
+        "Claim updated successfully": "Réclamation mise à jour avec succès",
+        "Pending": "En attente",
+        "In Progress": "En cours",
+        "Resolved": "Résolue",
+        "Rejected": "Rejetée"
+
+    
 }

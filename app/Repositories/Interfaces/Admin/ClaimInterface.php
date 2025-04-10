@@ -1,6 +1,6 @@
 <?php
-// app/Repositories/Interfaces/ClaimInterface.php
-namespace App\Repositories\Interfaces;
+
+namespace App\Repositories\Interfaces\Admin;
 
 interface ClaimInterface
 {

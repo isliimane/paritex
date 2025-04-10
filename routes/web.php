@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\RegisterController;
 use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\WalletController;
+use App\Http\Controllers\Admin\ClaimController;
 use App\Http\Controllers\Seller\CouponController;
 use App\Http\Controllers\Site\AddressController;
 use App\Http\Controllers\Site\BlogController;
@@ -323,9 +324,9 @@ Route::middleware(['XSS', 'isInstalled'])->group(function () {
         Route::get('pages.xml', [SitemapController::class, 'pages'])->name('pages.sitemap');
     });
 
-    Route::get('migrate', function () {
-        \Illuminate\Support\Facades\Artisan::call('migrate');
+    //réclamation 
+    Route::middleware(['loginCheck'])->group(function () {
+        Route::post('send-claim', '\App\Http\Controllers\Admin\ClaimController@store')->name('claim.create');
     });
-
 
 });

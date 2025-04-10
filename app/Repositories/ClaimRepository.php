@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Claim;
-use App\Repositories\Interfaces\ClaimInterface;
+use App\Repositories\Interfaces\Admin\ClaimInterface;
 
 class ClaimRepository implements ClaimInterface
 {

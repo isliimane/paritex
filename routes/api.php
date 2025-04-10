@@ -178,7 +178,6 @@ Route::prefix('v100')->group(function() {
     Route::get('video-shopping',[VideoShoppingController::class,'allVideos']);
     Route::get('video-shops-details/{slug}',[VideoShoppingController::class,'videoShoppingDetails']);
 
-
 });
 Route::match(['post','get'],'complete-order', [OrderController::class, 'completeOrder'])->name('api.complete.order');
 Route::match(['get', 'post'], 'complete-recharge', [WalletController::class, 'walletStore'])->name('api.wallet.complete.recharge');

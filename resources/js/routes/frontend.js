@@ -561,29 +561,7 @@ const affiliate_system = () => import(/* webpackPrefetch: true */
             },
 
             
-           //claims
-// {
-//     path: '/components/admin',
-//     name: 'components.admin',
-//     component: () => import('@/components/admin/AdminClaimsList'),
-//     meta: {
-//         title: 'Manage Claims',
-//         auth: true,
-//         requiresAdmin: true
-//     }
-// },  //admin makaynch hna ga3 f had la partie , mba3d nahihoum
-//reclamation coté client
-
-
-
-//   {
-//     path: '/claims',
-//     name: 'user.claims',
-//     component: () => import('../components/frontend/pages/ClaimsList.vue'),
-//     meta: {
-//       title: 'Mes Réclamations',
-//       auth: true
-//     }}
+  
 
 
 {

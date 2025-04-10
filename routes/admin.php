@@ -595,6 +595,11 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 Route::get('import-sellers',[SellerController::class, 'sellerImport'])->name('admin.seller.import')->middleware('PermissionCheck:seller_create');
                 Route::post('import-sellers',[SellerController::class, 'importSeller'])->name('admin.seller.import.post')->middleware('PermissionCheck:seller_create');
                 Route::get('import-cities',[ShippingController::class, 'importCity'])->name('import.city');
+
+                //reclamation 
+                Route::get('claims', '\App\Http\Controllers\Admin\ClaimController@index')->name('admin.claim.index');
+                Route::get('claims/{id}', '\App\Http\Controllers\Admin\ClaimController@show')->name('admin.claim.show');
+                Route::post('claims/{id}/update', '\App\Http\Controllers\Admin\ClaimController@update')->name('admin.claim.update');
             });
         });
     });

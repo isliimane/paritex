@@ -102,7 +102,7 @@ export default {
 <template>
   <div class="form-wrapper">
     <div class="form-container">
-      <form @submit.prevent="handleSubmit" class="form">
+      <form  @submit.prevent="handleSubmit" class="form">
         <!-- Sujet -->
         <div class="form-group">
           <label for="subject">Sujet</label>
@@ -175,6 +175,7 @@ export default {
         // Chemin vers votre image (à modifier)
       backgroundImage: require('/images/default/dark-logo.png'),
       form: {
+        user_id: '',
         subject: '',
         description: '',
         attachment: null
@@ -187,14 +188,37 @@ export default {
     }
   },
   methods: {
+
     handleSubmit() {
       if (this.validateForm()) {
-        this.isSubmitting = true
-        setTimeout(() => {
-          alert('Réclamation envoyée!')
-          this.resetForm()
-          this.isSubmitting = false
-        }, 1500)
+        this.isSubmitting = true;
+        let url = this.getUrl('send-claim');
+        this.form.user_id = this.authUser.id;
+                console.log(url, this.form);
+axios.post(url, this.form)
+          .then((response) => {
+            this.loading = false;
+             console.log(response);
+            if (response.data.success) {
+              toastr.success(this.lang.message_sent_successfully, this.lang.Success + ' !!');
+             
+              this.errors = [];
+             this.resetForm()
+             this.isSubmitting = false
+            } else {
+              if (response.data.error) {
+                toastr.error(response.data.error, this.lang.Error + ' !!');
+              this.isSubmitting = false
+              }
+
+            }
+          }).catch((error) => {
+        this.loading = false;
+        if (error.response.status == 422) {
+          this.errors = error.response.data.errors;
+           this.isSubmitting = false
+        }
+      })
       }
     },
     validateForm() {
