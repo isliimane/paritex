@@ -51,20 +51,29 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <span class="price"><del v-if="product.special_discount_check > 0">{{
+                                            <span class="price" v-if="isLicenseVerified">
+                                                <del v-if="product.special_discount_check > 0">{{
                                                     priceFormat(product.price)
                                                 }}</del>
-                                            <span v-if="product.special_discount_check > 0">{{
+                                                <span v-if="product.special_discount_check > 0">{{
                                                     priceFormat(product.discount_percentage)
                                                 }}</span>
-                                            <span v-else>{{ priceFormat(product.price) }}</span>
-                                    </span>
+                                                <span v-else>{{ priceFormat(product.price) }}</span>
+                                            </span>
+                                            <span v-else class="text-danger">
+                                                {{ lang.verify_license_to_see_price }}
+                                            </span>
                                         </td>
                                         <td>
                                             <div class="add-to-cart">
-                                                <a v-if="product.status == 'published'" href="javascript:void(0)"
+                                                <a v-if="product.status == 'published' && isLicenseVerified" 
+                                                   href="javascript:void(0)"
                                                    @click="cartBtn(product.product)"
                                                    class="btn">{{ lang.add_to_cart }}</a>
+                                                <a v-else-if="product.status == 'published'" 
+                                                   href="javascript:void(0)"
+                                                   @click="redirectToProfile"
+                                                   class="btn">{{ lang.verify_license }}</a>
                                                 <a href="javascript:void(0)" @click="removeProduct(product.product,i)"
                                                    class="btn">{{ lang.remove }}</a>
                                             </div>
@@ -121,6 +130,10 @@ export default {
         shimmer() {
             return this.$store.state.module.shimmer
         },
+        isLicenseVerified() {
+            console.log(this.authUser.license_verified);
+            return this.authUser && this.authUser.user_type === 'customer' && this.authUser.license_verified;
+        }
     },
     mounted() {
 
@@ -200,6 +213,10 @@ export default {
                     toastr.error('Somthing Went Wrong', this.lang.Error + ' !!');
                 }
             });
+        },
+        redirectToProfile() {
+            //this.$router.push({ name: 'user.profile' });
+            toastr.error(this.lang.verify_license_to_continue, this.lang.Error + ' !!');
         },
     }
 }

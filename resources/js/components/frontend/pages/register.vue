@@ -29,6 +29,13 @@
                          :placeholder="lang.last_name"/>
                 </div>
                 <span class="validation_error" v-if="errors.last_name">{{ errors.last_name[0] }}</span>
+                <div class="form-group">
+                  <span class="mdi mdi-name mdi-card-account-details-outline"></span>
+                  <input type="text" v-model="form.license_no" class="form-control"
+                         :class="{ 'error_border' : errors.license_no }"
+                         :placeholder="lang.license_no"/>
+                </div>
+                <span class="validation_error" v-if="errors.license_no">{{ errors.license_no[0] }}</span>
                 <div class="form-group" v-if="optionTo == 'phone'">
                   <span class="mdi mdi-name mdi-email-outline"></span>
                   <input type="email" v-model="form.email" class="form-control mb-0"
@@ -150,7 +157,8 @@ export default {
         phone_no: '',
         otp: '',
         user_type: this.$route.params.type,
-        country_id: ''
+        country_id: '',
+        license_no: ''
       },
       optionTo: 'phone',
       social_login_active: false,
@@ -167,11 +175,13 @@ export default {
   watch: {
     $route(from, to) {
       this.form.user_type = from.params.type;
+      console.log(this.form.user_type);
     }
   },
 
   mounted() {
     this.loginOptions();
+      console.log(this.form.user_type,this.$route.params.type);
   },
   computed: {
     loginRedirect() {

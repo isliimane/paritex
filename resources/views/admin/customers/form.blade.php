@@ -62,6 +62,19 @@ $button_name = isset($user) ? __('Update') : __('Add');
                                     </div>
 
                                     <div class="form-group">
+                                        <label for="license_no">{{ __('License Number') }} *</label>
+                                        <input type="text" id="license_no" name="license_no"
+                                               value="{{ old('license_no') ? old('license_no') : @$user->license_no }}" 
+                                               placeholder="{{ __('License Number') }}"
+                                               class="form-control">
+                                        @if ($errors->has('license_no'))
+                                            <div class="invalid-feedback">
+                                                <p>{{ $errors->first('license_no') }}</p>
+                                            </div>
+                                        @endif
+                                    </div>
+
+                                    <div class="form-group">
                                         @include('admin.partials.tel-input',[
                                                                                 'name' => 'phone',
                                                                                 'value' => old('phone') ? : @$user->phone,

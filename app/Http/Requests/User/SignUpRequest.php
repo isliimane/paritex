@@ -62,6 +62,7 @@ class SignUpRequest extends FormRequest
                 'phone'         => 'required_without:email|nullable|unique:users,phone|min:6',
                 'password'      => 'required_without:phone|confirmed|nullable|min:6|max:50',
                 'shop_name'     => 'required_if:user_type,==,seller-migrate|min:2',
+                'license_no'    => 'required|unique:users,license_no|min:8',
             ];
         }
     }

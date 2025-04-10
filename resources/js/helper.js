@@ -286,6 +286,11 @@ export default Vue.mixin({
             return this.productDetails;
         },
         cartBtn(product, index) {
+            let license_verified = this.authUser.license_verified;
+            if(license_verified == 0){
+                toastr.error(this.lang.verify_license_to_continue, this.lang.Error + ' !!');
+                return;
+            }
             if (product.has_variant) {
                 return this.productFetch(product.slug);
             } else {
@@ -372,6 +377,10 @@ export default Vue.mixin({
                     return this.$router.push({name: 'login'});
                 }
                 return false;
+            }
+            let license_verified = this.authUser.license_verified;
+            if(license_verified == 0){
+                return toastr.error(this.lang.verify_license_to_continue, this.lang.Error + ' !!');
             }
             if (this.$route.name != 'checkout')
             {

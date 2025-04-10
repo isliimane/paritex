@@ -2918,5 +2918,12 @@
     "M-pesa Setting": "M-pesa Setting",
     "Public Key": "Public Key",
     "API Key": "API Key",
-    "pay_with_mpesa": "Pay with M-pesa"
+    "pay_with_mpesa": "Pay with M-pesa",
+    "verify_license": "Verify License",
+    "verify_license_to_see_price": "Verify License to see price",
+    "verify_license_to_continue": "Verify License to continue",
+    "verify_license_to_make_purchase": "Verify License to make purchase",
+    "verify_license_to_add_to_wishlist": "Verify License to add to wishlist",
+    "verify_license_to_add_to_cart": "Verify License to add to cart",
+    "verify_license_to_buy_now": "Verify License to buy now"
 }

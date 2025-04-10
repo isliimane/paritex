@@ -60,8 +60,13 @@
                             </div>
                           </th>
                           <td>
-                            <span v-if="cart.discount > 0"><del>{{priceFormat((cart.price))}}</del></span>
-                            <span>{{ priceFormat(cart.price - cart.discount) }}</span>
+                            <span v-if="cart.discount > 0 && isLicenseVerified">
+                              <del>{{priceFormat((cart.price))}}</del>
+                            </span>
+                            <span v-if="isLicenseVerified">{{ priceFormat(cart.price - cart.discount) }}</span>
+                            <span class="text-danger" v-else>
+                              -
+                            </span>
                           </td>
                           <td v-if="cart.is_digital_product == 1">
                             1
@@ -84,8 +89,13 @@
                             </div>
                           </td>
                           <td>
-                            <span v-if="cart.discount > 0"><del>{{priceFormat((cart.price * payment_form.quantity[index].quantity))}}</del></span>
-                            <span>{{priceFormat((cart.price - cart.discount) * payment_form.quantity[index].quantity)}}</span></td>
+                            <span v-if="cart.discount > 0 && isLicenseVerified"><del>{{priceFormat((cart.price * payment_form.quantity[index].quantity))}}</del></span>
+                            <span v-if="isLicenseVerified">{{priceFormat((cart.price - cart.discount) * payment_form.quantity[index].quantity)}}</span>
+                            <span class="text-danger" v-else>
+                              -
+                            </span>
+                          </td>
+                          
                           <td>
                             <div class="delete">
                               <a @click="deleteCart(cart.id)"
@@ -176,6 +186,9 @@ export default {
     },
     shimmer() {
       return this.$store.state.module.shimmer
+    },
+    isLicenseVerified() {
+      return this.authUser && this.authUser.user_type === 'customer' && this.authUser.license_verified;
     }
   },
   methods: {
@@ -220,6 +233,9 @@ export default {
         return toastr.warning(this.lang.you_are_not_able_topurchase_products, this.lang.Warning + ' !!');
       }
       this.$router.push({name: 'checkout'});
+    },
+    redirectToProfile() {
+      toastr.error(this.lang.verify_license_to_continue, this.lang.Error + ' !!');
     },
     parseData(carts, checkouts, coupons) {
       this.resetForm();

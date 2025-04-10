@@ -350,6 +350,9 @@ export default {
     },
     shimmer() {
       return this.$store.state.module.shimmer
+    },
+    isLicenseVerified() {
+      return this.authUser && this.authUser.user_type === 'customer' && this.authUser.license_verified;
     }
   },
   methods: {
@@ -459,6 +462,10 @@ export default {
       this.offline_method.instructions = offline.instructions;
     },
     payment(wallet) {
+      if (!this.isLicenseVerified) {
+        toastr.error(this.lang.verify_license_to_continue, this.lang.Error + ' !!');
+        return;
+      }
       if (!this.$refs.payment_agreement.checkAgreements()) {
         return toastr.info(this.lang.accept_terms, this.lang.Error + ' !!');
       }
@@ -549,6 +556,9 @@ export default {
       let currency = this.$store.getters.getCurrencies;
       let find = currency.findIndex(c=>c.code == code);
       return find > -1;
+    },
+    redirectToProfile() {
+      toastr.error(this.lang.verify_license_to_continue, this.lang.Error + ' !!');
     }
   },
 

@@ -210,30 +210,33 @@
           <div class="user-option">
             <ul class="global-list user-shop-option">
               <li>
-                <router-link :to="{ name: 'wishlist' }" v-if="authUser && authUser.user_type == 'customer'">
-                  <div class="icon"
-                  ><img alt="Compare Icon" class="img-fluid" :src="getUrl('public/images/others/wishlist.svg')"/>
-                    <!---->
+                <router-link :to="{ name: 'wishlist' }" v-if="authUser && authUser.user_type == 'customer' && isLicenseVerified">
+                  <div class="icon">
+                    <img alt="Compare Icon" class="img-fluid" :src="getUrl('public/images/others/wishlist.svg')"/>
                   </div>
                   <span class="badge" v-if="wishlists > 0">{{ wishlists }}</span>
                 </router-link>
-                <a href="javascript:void(0)" v-else>
-                  <div class="icon"
-                  ><img alt="Compare Icon" class="img-fluid" :src="getUrl('public/images/others/wishlist.svg')"/>
-                    <!---->
+                <a href="javascript:void(0)" v-else @click="redirectToProfile">
+                  <div class="icon">
+                    <img alt="Compare Icon" class="img-fluid" :src="getUrl('public/images/others/wishlist.svg')"/>
                   </div>
                   <span class="badge" v-if="wishlists > 0">{{ wishlists }}</span>
                 </a>
               </li>
 
               <li class="sg-dropdown cart">
-                <router-link :to="{ name: 'cart' }" class="">
-                  <div class="icon"><img alt="bag Icon" class="img-fluid"
-                                         :src="getUrl('public/images/others/bag.svg')"/>
-                    <span v-if="carts && carts.length > 0"
-                          class="badge">{{ carts.filter(cart => cart.is_buy_now == false).length }}</span>
+                <router-link :to="{ name: 'cart' }" class="" v-if="isLicenseVerified">
+                  <div class="icon">
+                    <img alt="bag Icon" class="img-fluid" :src="getUrl('public/images/others/bag.svg')"/>
+                    <span v-if="carts && carts.length > 0" class="badge">{{ carts.filter(cart => cart.is_buy_now == false).length }}</span>
                   </div>
                 </router-link>
+                <a href="javascript:void(0)" v-else @click="redirectToProfile">
+                  <div class="icon">
+                    <img alt="bag Icon" class="img-fluid" :src="getUrl('public/images/others/bag.svg')"/>
+                    <span v-if="carts && carts.length > 0" class="badge">{{ carts.filter(cart => cart.is_buy_now == false).length }}</span>
+                  </div>
+                </a>
                 <div class="sg-dropdown-menu" v-if="carts && carts.length > 0">
                   <span class="title">{{ lang.cart_items }}</span>
                   <ul class="global-list">
@@ -252,12 +255,12 @@
                             </router-link>
                           </h3>
                           <span v-if="cart.variant">{{ lang.Variant }} : {{ cart.variant }}</span>
-                          <span class="price">{{ priceFormat(cart.price - cart.discount) }} x {{ cart.quantity }}</span>
+                          <span class="price" v-if="isLicenseVerified">{{ priceFormat(cart.price - cart.discount) }} x {{ cart.quantity }}</span>
                         </div>
                       </div>
                     </li>
                     <li>
-                      <div class="text-center buttons">
+                      <div class="text-center buttons" v-if="isLicenseVerified">
                         <router-link :to="{ name: 'cart' }" class="btn btn-primary">
                           {{ lang.view_cart }}
                         </router-link>
@@ -759,6 +762,9 @@ export default {
 
     compareList() {
       return this.$store.getters.getCompareList;
+    },
+    isLicenseVerified() {
+      return this.authUser && this.authUser.user_type === 'customer' && this.authUser.license_verified;
     }
   },
   methods: {
@@ -939,6 +945,9 @@ export default {
           flag = false;
       }
       return flag;
+    },
+    redirectToProfile() {
+      toastr.error(this.lang.verify_license_to_continue, this.lang.Error + ' !!');
     }
   },
 };

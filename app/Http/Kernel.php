@@ -99,6 +99,7 @@ class Kernel extends HttpKernel
         'posSellerCheck' => SellerPosPermission::class,
         'CheckApiKey'=> CheckApiKeyMiddleware::class,
         'jwt.verify'=> JwtMiddleware::class,
+        'license.verified' => \App\Http\Middleware\CheckLicenseVerification::class,
         /**** OTHER MIDDLEWARE ****/
         'localize'                => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes::class,
         'localizationRedirect'    => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter::class,

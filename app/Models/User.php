@@ -26,6 +26,7 @@ class User extends EloquentUser implements JWTSubject, ContractAuthenticatable
         'firebase_auth_id',
         'currency_code',
         'country_id',
+        'license_no',
         'lang_code',
         'is_password_set',
         'gender',
@@ -33,7 +34,8 @@ class User extends EloquentUser implements JWTSubject, ContractAuthenticatable
         'referral_code',
         'referred_by_user',
         'balance',
-        'ai_review_option'
+        'ai_review_option',
+        'license_verified'
     ];
     protected $hidden = [
         'password',

@@ -162,6 +162,17 @@ class UserController extends Controller
             return back()->withInput();
         endif;
     }
+    public function licenseVerify($user_id){
+        if (config('app.demo_mode')):
+            Toastr::info(__('This function is disabled in demo server.'));
+            return redirect()->back();
+        endif;
+        if ($this->users->licenseVerify($user_id)):
+            return redirect()->back();
+        else:
+            return back()->withInput();
+        endif;
+    }
 
     public function customerImport(Request $request)
     {

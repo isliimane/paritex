@@ -246,6 +246,9 @@ export default {
     },
     shimmer() {
       return this.$store.state.module.shimmer
+    },
+    isLicenseVerified() {
+      return this.authUser && this.authUser.user_type === 'customer' && this.authUser.license_verified;
     }
   },
 
@@ -285,6 +288,10 @@ export default {
       })
     },
     confirmOrder() {
+      if (!this.isLicenseVerified) {
+        toastr.error(this.lang.verify_license_to_continue, this.lang.Error + ' !!');
+        return;
+      }
       if (!this.$refs.privacy_agreement.checkAgreements()) {
         return toastr.info(this.lang.accept_terms, this.lang.Error + ' !!');
       }
@@ -319,6 +326,9 @@ export default {
       }).catch((error) => {
         this.loading = false;
       });
+    },
+    redirectToProfile() {
+      toastr.error(this.lang.verify_license_to_continue, this.lang.Error + ' !!');
     },
     billingAddressSelect() {
       if (this.same_address) {

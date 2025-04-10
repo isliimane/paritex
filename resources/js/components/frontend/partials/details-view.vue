@@ -102,8 +102,8 @@
                 </div>
               </div>
               <!-- /.product-stock-delivery -->
-              <p class="text-start" v-if="productDetails.has_variant">{{ productDetails.variation_price }}</p>
-              <div class="sg-product-price" v-if="!productDetails.is_wholesale">
+              <p class="text-start" v-if="productDetails.has_variant && isLicenseVerified">{{ productDetails.variation_price }}</p>
+              <div class="sg-product-price" v-if="!productDetails.is_wholesale && isLicenseVerified">
                 <span v-if="productDetails.special_discount_check > 0">{{
                     priceFormat(productDetails.product_stock.discount_percentage)
                   }}</span>
@@ -118,7 +118,7 @@
                     }}</span>
                 </p>
               </div>
-              <div class="sg-product-price" v-else>
+              <div class="sg-product-price" v-else-if="isLicenseVerified">
                 <span>{{ priceFormat(productDetails.price) }} </span>
               </div>
               <div class="sg-product-color" v-if="productDetails.product_colors && productDetails.colors.length > 0">
@@ -187,7 +187,7 @@
                     <span class="mdi mdi-name mdi-plus"></span>
                   </a>
                 </div>
-                <h3>{{ lang.total_price }}:
+                <h3 v-if="isLicenseVerified">{{ lang.total_price }}:
                   <span v-if="productDetails.special_discount_check > 0 && productDetails.is_wholesale != 1">{{
                       priceFormat(productDetails.product_stock.discount_percentage * product_form.quantity)
                     }} </span>
@@ -844,6 +844,9 @@ export default {
       }
       return carts;
     },
+    isLicenseVerified() {
+      return this.authUser && this.authUser.user_type === 'customer' && this.authUser.license_verified;
+    }
   },
   methods: {
     activeImage(imageIndex) {
@@ -1074,6 +1077,11 @@ export default {
       }
     },
     addToCart(min_qty, buy, is_buy_now) {
+      let license_verified = this.authUser.license_verified;
+      if(license_verified == 0){
+          toastr.error(this.lang.verify_license_to_continue, this.lang.Error + ' !!');
+          return;
+      }
       if (is_buy_now == 1 && (!this.authUser && this.settings.disable_guest)) {
         toastr.error(this.lang.login_first, this.lang.Error + ' !!');
         return this.$router.push({name: 'login'});
@@ -1317,6 +1325,10 @@ export default {
         border: "1px solid " + code,
       };
     },
+    
+    redirectToProfile() {
+      toastr.error(this.lang.verify_license_to_continue, this.lang.Error + ' !!');
+    }
   },
 };
 </script>

@@ -21,7 +21,8 @@ class WishlistResource extends ResourceCollection
                     'special_discount_check'        => $data->product->special_discount_check,
                     'discount_percentage'           => $data->product->discount_percentage,
                     'price'                         => (double)$data->product->price,
-                    'status'                        => (double)$data->product->status,
+                    // 'status'                        => (double)$data->product->status,
+                    'status'                        => $data->product->status,
                     'date'                          => Carbon::parse($data->created_at)->format('d M Y'),
                     'product'                       => [
                         'id'                        => $data->product->id,
