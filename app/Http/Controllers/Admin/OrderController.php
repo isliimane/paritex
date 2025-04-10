@@ -11,6 +11,13 @@ use App\Repositories\Interfaces\UserInterface;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\DeliveryHero;
+use App\Models\PickupHub;
+use App\Models\Country;
+use App\Models\State;
+use App\Models\City;
+use App\Repositories\Interfaces\Admin\ShippingInterface;
+
 
 class OrderController extends Controller
 {
@@ -18,12 +25,14 @@ class OrderController extends Controller
     protected $lang;
     protected $user;
     protected $seller;
+    protected $shipping;
 
-    public function __construct(OrderInterface $order, LanguageInterface $lang, UserInterface $user,SellerInterface $seller){
+    public function __construct(OrderInterface $order, LanguageInterface $lang, UserInterface $user,SellerInterface $seller, ShippingInterface $shipping){
         $this->order    = $order;
         $this->lang     = $lang;
         $this->user     = $user;
         $this->seller   = $seller;
+        $this->shipping = $shipping;
     }
 
     public function index(Request $request){
@@ -31,6 +40,48 @@ class OrderController extends Controller
             $orders             = $this->order->paginate($request, get_pagination('pagination'));
             $selected_seller    = isset($request->sl) ? $this->seller->getSeller($request->sl) : null;
             return view('admin.orders.orders',compact('orders','selected_seller'));
+        } catch (\Exception $e) {
+            Toastr::error($e->getMessage());
+            return back();
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+        try {
+            $order = $this->order->updateOrder($request, $id);
+            Toastr::success(__('Order updated successfully'));
+            return redirect()->route('order.edit', $id);
+        } catch (\Exception $e) {
+            Toastr::error($e->getMessage());
+            return back();
+        }
+    }
+
+    public function edit($id)
+    {
+        try {
+            $order = $this->order->get($id);
+            if (!$order) {
+                Toastr::error(__('Order not found'));
+                return back();
+            }
+            if($order->payment_status == 'paid'){
+                Toastr::error(__('Paid order can not be edited'));
+                return back();
+            }
+            $delivery_heroes    = $this->user->allTypeUser()->whereHas('deliveryHero')->where('user_type','delivery_hero')->where('status',1)->where('is_user_banned',0)->get();
+            $pickup_hubs = PickupHub::get();
+            $countries      = $this->shipping->countries()->where('status', 1)->get();
+            $shipping_address = $order->shipping_address;
+            $billing_address = $order->billing_address;
+            $billing_country = Country::find($billing_address['address_ids']['country_id']);
+            $billing_state = State::find($billing_address['address_ids']['state_id']);
+            $billing_city = City::find($billing_address['address_ids']['city_id']);
+            $shipping_country = Country::find($shipping_address['address_ids']['country_id']);
+            $shipping_state = State::find($shipping_address['address_ids']['state_id']);
+            $shipping_city = City::find($shipping_address['address_ids']['city_id']);
+            return view('admin.orders.edit', compact('order', 'delivery_heroes', 'pickup_hubs', 'billing_country', 'billing_state', 'billing_city', 'shipping_country', 'shipping_state', 'shipping_city', 'countries'));
         } catch (\Exception $e) {
             Toastr::error($e->getMessage());
             return back();

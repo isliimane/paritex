@@ -26,6 +26,9 @@ use App\Traits\SendNotification;
 use Carbon\Carbon;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Support\Facades\DB;
+use App\Models\Country;
+use App\Models\State;
+use App\Models\City;
 use PDF;
 
 class OrderRepository implements OrderInterface
@@ -1108,5 +1111,161 @@ class OrderRepository implements OrderInterface
             $query->selectRaw('SUM(seller_earning) as amount, YEAR(created_at) as label')
                 ->groupBy(DB::raw('YEAR(created_at)'));
         })->orderBy('label','asc')->get();
+    }
+
+    public function updateOrder($request, $id)
+    {
+        DB::beginTransaction();
+        try {
+            $order = $this->get($id);
+            if (!$order) {
+                throw new \Exception(__('Order not found'));
+            }
+            if($order->payment_status == 'paid'){
+                throw new \Exception(__('Paid order can not be edited'));
+            }
+            $shipping_country = Country::find($request['shipping_country_id']);
+            $billing_country = Country::find($request['billing_country_id']);
+            $shipping_state   = State::find($request['shipping_state_id']);
+            $billing_state   = State::find($request['billing_state_id']);
+            $shipping_city    = City::find($request['shipping_city_id']);
+            $billing_city    = City::find($request['billing_city_id']);
+            // Handle billing address
+            if ($request->has('billing_address')) {
+                $billingAddress = [
+                    'name' => $request->billing_address['name'] ?? null,
+                    'email' => $request->billing_address['email'] ?? null,
+                    'phone_no' => $request->billing_address['phone_no'] ?? null,
+                    'address' => $request->billing_address['address'] ?? null,
+                    'city' => $billing_city->name ?? null,
+                    'state' => $billing_state->name ?? null,
+                    'country' => $billing_country->name ?? null,
+                    'postal_code' => $request->billing_address['postal_code'] ?? null,
+                    'address_ids' => [
+                        'country_id'    => $request['billing_country_id'],
+                        'state_id'      => $request['billing_state_id'],
+                        'city_id'       => $request['billing_city_id'],
+                    ] ?? null,
+                    'longitude' => $billing_city->longitude ?? null,
+                    'latitude' => $billing_city->latitude ?? null,
+                ];
+                $order->billing_address = $billingAddress;
+            }
+
+            // Handle shipping address
+            if ($request->has('shipping_address')) {
+                $shippingAddress = [
+                    'name' => $request->shipping_address['name'] ?? null,
+                    'email' => $request->shipping_address['email'] ?? null,
+                    'phone_no' => $request->shipping_address['phone_no'] ?? null,
+                    'address' => $request->shipping_address['address'] ?? null,
+                    'city' => $shipping_city->name ?? null,
+                    'state' => $shipping_state->name ?? null,
+                    'country' => $shipping_country->name ?? null,
+                    'postal_code' => $request->shipping_address['postal_code'] ?? null,
+                    'address_ids' => [
+                        'country_id'    => $request['shipping_country_id'],
+                        'state_id'      => $request['shipping_state_id'],
+                        'city_id'       => $request['shipping_city_id'],
+                    ] ?? null,
+                    'longitude' => $shipping_city->longitude ?? null,
+                    'latitude' => $shipping_city->latitude ?? null,
+                ];
+                $order->shipping_address = $shippingAddress;
+            }
+
+            // Update other order information
+            // $order->delivery_status = $request->delivery_status ?? $order->delivery_status;
+            // $order->payment_status = $request->payment_status ?? $order->payment_status;
+            // $order->payment_type = $request->payment_type ?? $order->payment_type;
+            $order->shipping_cost = $request->shipping_cost ?? $order->shipping_cost;
+            $order->total_payable = $request->total_payable ?? $order->total_payable;
+            $order->delivery_hero_id = $request->delivery_hero_id ?? $order->delivery_hero_id;
+            $order->pickup_hub_id = $request->pickup_hub_id ?? $order->pickup_hub_id;
+
+            // Handle order details updates
+            if ($request->has('order_details')) {
+                foreach ($request->order_details as $detail) {
+                    $orderDetail = OrderDetail::find($detail['id']);
+                    if ($orderDetail) {
+                        // Adjust product stock if quantity changes
+                        if ($detail['quantity'] != $orderDetail->quantity) {
+                            $this->updateQuantity($orderDetail, true); // Remove old quantity
+                            $orderDetail->quantity = $detail['quantity'];
+                            $this->updateQuantity($orderDetail, false); // Add new quantity
+                        }
+
+                        // Update other details
+                        $orderDetail->price = $detail['price'];
+                        $orderDetail->tax = $detail['tax'];
+                        $orderDetail->discount = $detail['discount'];
+                        $orderDetail->save();
+                    }
+                }
+            }
+
+            // Handle payment status changes
+            // if ($request->has('payment_status') && $request->payment_status != $order->payment_status) {
+            //     if ($request->payment_status == 'paid') {
+            //         $this->wallet->managePlacedOrder($order, $request->all());
+            //     } elseif ($request->payment_status == 'refunded_to_wallet') {
+            //         $this->wallet->manageCanceledOrder($order);
+            //     }
+            //     $this->paymentHistoryEvent('order_payment_'.$request->payment_status.'_event', $order->id, 'Status_Changed');
+            // }
+
+            // Handle delivery status changes
+            // if ($request->has('delivery_status') && $request->delivery_status != $order->delivery_status) {
+            //     if ($request->delivery_status == 'delivered') {
+            //         $this->wallet->manageDeliveredOrder($order);
+            //         foreach ($order->orderDetails as $orderDetail) {
+            //             $this->saleUpdate($orderDetail);
+            //         }
+            //     }
+            //     $this->deliveryEvent('order_'.$request->delivery_status.'_event', $order->id, $order->delivery_hero_id);
+            // }
+
+            // Recalculate order totals
+            $this->recalculateOrderTotals($order);
+
+            // Save order
+            $order->save();
+
+            // Send notifications
+            if (settingHelper('disable_email_confirmation') != 1) {
+                $this->SendNotification(
+                    Sentinel::findById($order->user_id),
+                    __("Your order (:code) has been updated", ['code' => $order->code]),
+                    'success',
+                    "get-invoice/{$order->code}",
+                    __('Your order (:code) has been updated.', ['code' => $order->code])
+                );
+            }
+
+            DB::commit();
+            return $order;
+        } catch (\Exception $e) {
+            DB::rollback();
+            dd($e);
+            throw $e;
+            
+        }
+    }
+
+    private function recalculateOrderTotals($order)
+    {
+        $sub_total = $total_tax = $total_discount = 0;
+
+        foreach ($order->orderDetails as $detail) {
+            $sub_total += ($detail->price * $detail->quantity);
+            $total_tax += $detail->tax;
+            $total_discount += $detail->discount;
+        }
+
+        $order->sub_total = $sub_total;
+        $order->total_tax = $total_tax;
+        $order->discount = $total_discount;
+        $order->total_amount = $sub_total + $total_tax - $total_discount;
+        $order->total_payable = $order->total_amount + $order->shipping_cost;
     }
 }

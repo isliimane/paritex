@@ -69,4 +69,6 @@ interface OrderInterface
     public function apiSellerOrder($user,$data);
 
     public function userCommission($request);
+
+    public function updateOrder($request, $id);
 }

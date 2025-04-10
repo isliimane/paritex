@@ -108,7 +108,7 @@
                                     @if(addon_is_activated('refund'))
                                         <th>{{ __('Refunds') }}</th>
                                     @endif
-                                    @if(hasPermission('order_view') || hasPermission('order_invoice') || hasPermission('order_delete'))
+                                    @if(hasPermission('order_view') || hasPermission('order_invoice') || hasPermission('order_delete') || hasPermission('order_update'))
                                     <th>{{ __('Options') }}</th>
                                     @endif
                                 </tr>
@@ -158,6 +158,14 @@
                                                 data-toggle="tooltip" title="" data-original-title="{{ __('View') }}">
                                                  <i class="bx bx-show"></i>
                                              </a>
+                                            @endif
+                                            @if(hasPermission('order_update') && $value->payment_status != 'paid')
+                                                <a href="{{ route('order.edit',$value->id) }}"
+                                                   class="btn btn-outline-primary btn-circle" data-url=""
+                                                   data-toggle="tooltip" title=""
+                                                   data-original-title="{{ __('Edit') }}">
+                                                    <i class="bx bx-edit"></i>
+                                                </a>
                                             @endif
                                             @if(hasPermission('order_invoice'))
                                             <a href="{{ route('order.invoice.download',$value->id) }}"
