@@ -50,6 +50,10 @@ class ShippingRepository implements ShippingInterface
     {
         return State::where('status',1)->where('country_id',$id)->orderBy('name')->get();
     }
+    public function getCountry($id)
+    {
+        return Country::find($id);
+    }
     public function getState($id)
     {
         return State::with('country')->find($id);

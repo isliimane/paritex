@@ -5,7 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\Warehouse;
 class Order extends Model
 {
     use HasFactory;
@@ -66,6 +66,11 @@ class Order extends Model
     public function pickupHub()
     {
         return $this->belongsTo(PickupHub::class);
+    }
+
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
     }
 
     public function refunds()

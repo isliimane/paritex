@@ -360,6 +360,10 @@ class OrderRepository implements OrderInterface
 
             if ($request->delivery_status == 'canceled'):
                 $this->cancelOrder($order, '','',$request->has('user_id') ? $request->user_id : '' );
+            elseif ($request->delivery_status == 'picked_up'):
+                foreach ($order->orderDetails as $key => $orderDetail) :
+                    $this->updateWarehouseStock($orderDetail,true);
+                endforeach;
             else:
                 if ($request->delivery_status == 'delivered'):
                     $this->wallet->manageDeliveredOrder($order);
@@ -990,6 +994,7 @@ class OrderRepository implements OrderInterface
 
     public function updateQuantity($orderDetail, $remove_quantity = false)
     {
+
         $product = $this->product->get($orderDetail->product_id);
         if ($product != null):
             if ($remove_quantity):
@@ -1015,6 +1020,22 @@ class OrderRepository implements OrderInterface
                 else:
                     $product_stock->current_stock += $orderDetail->quantity;
                 endif;
+                $warehouseStock = WarehouseProduct::where('id', $orderDetail->order->warehouse_id)
+                ->where('product_id', $orderDetail->product_id)
+                ->where('product_stock_id', $orderDetail->id)
+                ->first();
+                if($warehouseStock != null){
+                    if ($remove_quantity):
+                        if($orderDetail->quantity <= $warehouseStock->quantity):
+                            $warehouseStock->quantity -= $orderDetail->quantity;
+                        else:
+                            return false;
+                        endif;
+                    else:
+                        $warehouseStock->quantity += $orderDetail->quantity;
+                    endif;
+                    $warehouseStock->save();
+                }
                 $product_stock->save();
             endif;
             $product->save();
@@ -1023,6 +1044,25 @@ class OrderRepository implements OrderInterface
         return true;
     }
 
+    public function updateWarehouseStock($orderDetail, $remove_quantity = false)
+    {
+        $warehouseStock = WarehouseProduct::where('id', $orderDetail->order->warehouse_id)
+                ->where('product_id', $orderDetail->product_id)
+                ->where('product_stock_id', $orderDetail->id)
+                ->first();
+        if($warehouseStock != null){
+            if ($remove_quantity):
+                if($orderDetail->quantity <= $warehouseStock->quantity):
+                    $warehouseStock->quantity -= $orderDetail->quantity;
+                else:
+                    return false;
+                endif;
+            else:
+                $warehouseStock->quantity += $orderDetail->quantity;
+            endif;
+            $warehouseStock->save();
+        }
+    }
     public function saleUpdate($orderDetail, $remove_sale = false)
     {
         $product = $this->product->get($orderDetail->product_id);
@@ -1124,12 +1164,12 @@ class OrderRepository implements OrderInterface
             if($order->payment_status == 'paid'){
                 throw new \Exception(__('Paid order can not be edited'));
             }
-            $shipping_country = Country::find($request['shipping_country_id']);
-            $billing_country = Country::find($request['billing_country_id']);
-            $shipping_state   = State::find($request['shipping_state_id']);
-            $billing_state   = State::find($request['billing_state_id']);
-            $shipping_city    = City::find($request['shipping_city_id']);
-            $billing_city    = City::find($request['billing_city_id']);
+            $shipping_country = $this->shipping->getCountry($request['shipping_country_id']);
+            $billing_country = $this->shipping->getCountry($request['billing_country_id']);
+            $shipping_state   = $this->shipping->getState($request['shipping_state_id']);
+            $billing_state   = $this->shipping->getState($request['billing_state_id']);
+            $shipping_city    = $this->shipping->getCity($request['shipping_city_id']);
+            $billing_city    = $this->shipping->getCity($request['billing_city_id']);
             // Handle billing address
             if ($request->has('billing_address')) {
                 $billingAddress = [
@@ -1182,11 +1222,12 @@ class OrderRepository implements OrderInterface
             $order->total_payable = $request->total_payable ?? $order->total_payable;
             $order->delivery_hero_id = $request->delivery_hero_id ?? $order->delivery_hero_id;
             $order->pickup_hub_id = $request->pickup_hub_id ?? $order->pickup_hub_id;
+            $order->warehouse_id = $request->warehouse_id ?? $order->warehouse_id;
 
             // Handle order details updates
             if ($request->has('order_details')) {
                 foreach ($request->order_details as $detail) {
-                    $orderDetail = OrderDetail::find($detail['id']);
+                    $orderDetail = $this->getDetail($detail['id']);
                     if ($orderDetail) {
                         // Adjust product stock if quantity changes
                         if ($detail['quantity'] != $orderDetail->quantity) {

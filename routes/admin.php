@@ -520,9 +520,9 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                     Route::post('payment/status-change', [OrderController::class, 'paymentStatusChange'])->name('order.payment.status.change')->middleware('PermissionCheck:order_update');
                     Route::post('approve-offline-payment', [OrderController::class, 'approveOfflinePayment'])->name('order.approve.offline.payment')->middleware('PermissionCheck:order_approve_offline_payment');
                     Route::get('edit/{id}', [OrderController::class, 'edit'])->name('order.edit')->middleware('PermissionCheck:order_update');
-                    Route::put('update/{id}', [OrderController::class, 'update'])->name('order.update')->middleware('PermissionCheck:order_update');
-               
+                    Route::put('update/{id}', [OrderController::class, 'update'])->name('order.update')->middleware('PermissionCheck:order_update');               
                 });
+                Route::post('order/assign/warehouse', [OrderController::class, 'assignWarehouse'])->name('order.assign.warehouse');
                 Route::delete('delete/orders/{id}', [CommonController::class, 'delete'])->name('orders.delete')->middleware('PermissionCheck:order_delete');
 
                 //pickup hub

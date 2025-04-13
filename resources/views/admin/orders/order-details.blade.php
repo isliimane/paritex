@@ -36,11 +36,30 @@
                                     </div>
                                 </form>
                             @endif
+
+                            <!-- Add Warehouse Selection -->
+                            <form action="{{ route('order.assign.warehouse') }}" method="POST" class="mr-2"
+                            id="onChangeFormSubmit3">
+                                @csrf
+                                <input type="hidden" name="id" value="{{ $order->id }}">
+                                <div class="form-group">
+                                    <select class="form-control selectric onChangeFormSubmit3" name="warehouse_id" 
+                                            {{ $order->delivery_status == 'delivered' || $order->delivery_status == 'canceled' ? 'disabled' : '' }}>
+                                        <option value="">{{ __('Select Warehouse') }}</option>
+                                        @foreach($warehouses as $warehouse)
+                                            <option value="{{ $warehouse->id }}" 
+                                                    {{ $order->warehouse_id == $warehouse->id ? 'selected' : '' }}>
+                                                {{ $warehouse->getTranslation('name', \App::getLocale()) }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </form>
+
                             @if($order->payment_type != 'offline_method')
                                 <form action="{{ route('order.payment.status.change') }}" method="POST"
                                       id="onChangeFormSubmit2">
                                     @csrf
-
                                     <input type="hidden" name="id" value="{{ $order->id }}">
                                     <div class="form-group">
                                         <select
@@ -432,6 +451,8 @@
                                                             <i class="bx bx-x"></i>
                                                         @elseif($history->event == 'order_delivered_event')
                                                             <i class="bx bx-check"></i>
+                                                        @elseif($history->event == 'warehouse_assigned')
+                                                            <i class="bx bx-store"></i>
                                                         @else
                                                             <i class="bx bx-check"></i>
                                                         @endif
@@ -443,7 +464,11 @@
                                             </span>
                                                         </div>
                                                         <p>{{ __($history->event) }}</p>
-                                                        @if(($history->event == 'delivery_hero_assigned' || $history->event == 'order_delivered_event' || $history->event == 'delivered_man_changed') && $history->deliveryHero)
+                                                        @if($history->event == 'warehouse_assigned')
+                                                            <p>
+                                                                {{ __('Warehouse').': '.$order->warehouse->getTranslation('name', \App::getLocale()) }}
+                                                            </p>
+                                                        @elseif(($history->event == 'delivery_hero_assigned' || $history->event == 'order_delivered_event' || $history->event == 'delivered_man_changed') && $history->deliveryHero)
                                                             <p>
                                                                 {{ __('Delivery Man').': '.$history->deliveryHero->user->first_name.' '.$history->deliveryHero->last_name }}
                                                             </p>

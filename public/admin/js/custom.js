@@ -475,6 +475,9 @@ jQuery(function ($) {
     $(".onChangeFormSubmit").on("change", function () {
         $("#onChangeFormSubmit").submit();
     });
+    $(".onChangeFormSubmit3").on("change", function () {
+        $("#onChangeFormSubmit3").submit();
+    });
     $(".lang").on("change", function () {
         $("#lang").submit();
     });
