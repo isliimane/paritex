@@ -13,9 +13,6 @@ class WarehouseTransfer extends Model
     protected $fillable = [
         'from_warehouse_id',
         'to_warehouse_id',
-        'product_id',
-        'product_stock_id',
-        'quantity',
         'status',
         'notes',
         'created_by'
@@ -35,14 +32,9 @@ class WarehouseTransfer extends Model
         return $this->belongsTo(Warehouse::class, 'to_warehouse_id');
     }
 
-    public function product()
+    public function items()
     {
-        return $this->belongsTo(Product::class);
-    }
-
-    public function productStock()
-    {
-        return $this->belongsTo(ProductStock::class);
+        return $this->hasMany(WarehouseTransferItem::class,'transfer_id');
     }
 
     public function createdBy()

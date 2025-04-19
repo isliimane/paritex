@@ -360,10 +360,6 @@ class OrderRepository implements OrderInterface
 
             if ($request->delivery_status == 'canceled'):
                 $this->cancelOrder($order, '','',$request->has('user_id') ? $request->user_id : '' );
-            elseif ($request->delivery_status == 'picked_up'):
-                foreach ($order->orderDetails as $key => $orderDetail) :
-                    $this->updateWarehouseStock($orderDetail,true);
-                endforeach;
             else:
                 if ($request->delivery_status == 'delivered'):
                     $this->wallet->manageDeliveredOrder($order);

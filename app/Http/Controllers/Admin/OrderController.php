@@ -298,6 +298,7 @@ class OrderController extends Controller
                     Toastr::error(__('Insufficient stock in selected warehouse for product: ') . $detail->product->getTranslation('name', \App::getLocale()) . ' (' . $detail->variation . ')');
                     return back();
                 }
+                $this->order->updateWarehouseStock($detail,true);
             }
 
             // Update warehouse

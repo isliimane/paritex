@@ -20,8 +20,8 @@ class WarehouseTransferController extends Controller
         $query = WarehouseTransfer::with([
             'fromWarehouse.warehouseLanguages',
             'toWarehouse.warehouseLanguages',
-            'product.productLanguages',
-            'productStock',
+            // 'product.productLanguages',
+            // 'productStock',
             'createdBy'
         ]);
 
@@ -35,9 +35,6 @@ class WarehouseTransferController extends Controller
                   ->orWhereHas('toWarehouse.warehouseLanguages', function ($subQuery) use ($search) {
                     $subQuery->where('code', 'like', "%{$search}%")
                     ->OrWhere('name', 'like', "%{$search}%");
-                  })
-                  ->orWhereHas('product.productLanguages', function ($subQuery) use ($search) {
-                      $subQuery->where('name', 'like', "%{$search}%");
                   });
             });
         }
@@ -61,41 +58,53 @@ class WarehouseTransferController extends Controller
             $request->validate([
                 'from_warehouse_id' => 'required|exists:warehouses,id',
                 'to_warehouse_id' => 'required|exists:warehouses,id|different:from_warehouse_id',
-                'product_id' => 'required|exists:products,id',
-                'product_stock_id' => 'required|exists:product_stocks,id',
-                'quantity' => 'required|integer|min:1',
+                'items' => 'required|array|min:1',
+                'items.*.product_id' => 'required|exists:products,id',
+                'items.*.product_stock_id' => 'required|exists:product_stocks,id',
+                'items.*.quantity' => 'required|integer|min:1',
                 'notes' => 'nullable|string',
             ]);
-            // Check if product exists in source warehouse
-            $sourceProduct = WarehouseProduct::where('warehouse_id', $request->from_warehouse_id)
-                ->where('product_id', $request->product_id)
-                ->where('product_stock_id', $request->product_stock_id)
-                ->first();
-
-            if (!$sourceProduct || $sourceProduct->quantity < $request->quantity) {
-                throw new \Exception(__('Not enough stock available in source warehouse'));
-            }
 
             // Check destination warehouse capacity
             $destinationWarehouse = Warehouse::findOrFail($request->to_warehouse_id);
             $totalQuantityInDestination = WarehouseProduct::where('warehouse_id', $request->to_warehouse_id)
                 ->sum('quantity');
 
-            if (($totalQuantityInDestination + $request->quantity) > $destinationWarehouse->storage_capacity) {
+            $totalTransferQuantity = array_sum(array_column($request->items, 'quantity'));
+            if (($totalQuantityInDestination + $totalTransferQuantity) > $destinationWarehouse->storage_capacity) {
                 $availableSpace = $destinationWarehouse->storage_capacity - $totalQuantityInDestination;
                 throw new \Exception(__('Destination warehouse capacity exceeded. Available space: :space', ['space' => $availableSpace]));
+            }
+
+            // Check source warehouse stock for each item
+            foreach ($request->items as $item) {
+                $sourceProduct = WarehouseProduct::where('warehouse_id', $request->from_warehouse_id)
+                    ->where('product_id', $item['product_id'])
+                    ->where('product_stock_id', $item['product_stock_id'])
+                    ->first();
+
+                if (!$sourceProduct || $sourceProduct->quantity < $item['quantity']) {
+                    throw new \Exception(__('Not enough stock available in source warehouse for product ID: :id', ['id' => $item['product_id']]));
+                }
             }
 
             // Create transfer record
             $transfer = WarehouseTransfer::create([
                 'from_warehouse_id' => $request->from_warehouse_id,
                 'to_warehouse_id' => $request->to_warehouse_id,
-                'product_id' => $request->product_id,
-                'product_stock_id' => $request->product_stock_id,
-                'quantity' => $request->quantity,
                 'notes' => $request->notes,
                 'created_by' => authId()
             ]);
+
+            // Create transfer items
+            foreach ($request->items as $item) {
+                $transfer->items()->create([
+                    'product_id' => $item['product_id'],
+                    'product_stock_id' => $item['product_stock_id'],
+                    'transfer_id' => $transfer->id,
+                    'quantity' => $item['quantity']
+                ]);
+            }
 
             DB::commit();
 
@@ -103,7 +112,8 @@ class WarehouseTransferController extends Controller
             return redirect()->route('transfers.index');
         } catch (\Exception $e) {
             DB::rollBack();
-            Toastr::error($e->getMessage());
+            dd($e->getMessage());
+            Toastr::error($e);
             return back()->withInput();
         }
     }
@@ -113,7 +123,7 @@ class WarehouseTransferController extends Controller
         try {
             DB::beginTransaction();
 
-            $transfer = WarehouseTransfer::findOrFail($id);
+            $transfer = WarehouseTransfer::with('items')->findOrFail($id);
             
             // Validate transfer status
             if ($transfer->status !== 'pending') {
@@ -124,58 +134,46 @@ class WarehouseTransferController extends Controller
                 throw new \Exception(__('This transfer request has already been processed'));
             }
 
-            // Check source warehouse stock
-            $sourceProduct = WarehouseProduct::where('warehouse_id', $transfer->from_warehouse_id)
-                ->where('product_id', $transfer->product_id)
-                ->where('product_stock_id', $transfer->product_stock_id)
-                ->first();
-
-            if (!$sourceProduct) {
-                \Log::error('Source product not found', [
-                    'transfer_id' => $id,
-                    'warehouse_id' => $transfer->from_warehouse_id,
-                    'product_id' => $transfer->product_id,
-                    'stock_id' => $transfer->product_stock_id
-                ]);
-                throw new \Exception(__('Product not found in source warehouse'));
-            }
-
-            if ($sourceProduct->quantity < $transfer->quantity) {
-                \Log::error('Insufficient stock in source warehouse', [
-                    'transfer_id' => $id,
-                    'available_quantity' => $sourceProduct->quantity,
-                    'requested_quantity' => $transfer->quantity
-                ]);
-                throw new \Exception(__('Not enough stock available in source warehouse'));
-            }
-
             // Check destination warehouse capacity
             $destinationWarehouse = Warehouse::findOrFail($transfer->to_warehouse_id);
             $totalQuantityInDestination = WarehouseProduct::where('warehouse_id', $transfer->to_warehouse_id)
                 ->sum('quantity');
 
-            if (($totalQuantityInDestination + $transfer->quantity) > $destinationWarehouse->storage_capacity) {
+            $totalTransferQuantity = $transfer->items->sum('quantity');
+            if (($totalQuantityInDestination + $totalTransferQuantity) > $destinationWarehouse->storage_capacity) {
                 $availableSpace = $destinationWarehouse->storage_capacity - $totalQuantityInDestination;
-                \Log::error('Destination warehouse capacity exceeded', [
-                    'transfer_id' => $id,
-                    'requested_quantity' => $transfer->quantity,
-                    'available_space' => $availableSpace
-                ]);
                 throw new \Exception(__('Destination warehouse capacity exceeded. Available space: :space', ['space' => $availableSpace]));
             }
 
-            // Update source warehouse stock
-            $sourceProduct->decrement('quantity', $transfer->quantity);
+            // Process each item
+            foreach ($transfer->items as $item) {
+                // Check source warehouse stock
+                $sourceProduct = WarehouseProduct::where('warehouse_id', $transfer->from_warehouse_id)
+                    ->where('product_id', $item->product_id)
+                    ->where('product_stock_id', $item->product_stock_id)
+                    ->first();
 
-            // Update or create destination warehouse stock
-            $destinationProduct = WarehouseProduct::firstOrNew([
-                'warehouse_id' => $transfer->to_warehouse_id,
-                'product_id' => $transfer->product_id,
-                'product_stock_id' => $transfer->product_stock_id
-            ]);
+                if (!$sourceProduct) {
+                    throw new \Exception(__('Product not found in source warehouse for product ID: :id', ['id' => $item->product_id]));
+                }
 
-            $destinationProduct->quantity = ($destinationProduct->quantity ?? 0) + $transfer->quantity;
-            $destinationProduct->save();
+                if ($sourceProduct->quantity < $item->quantity) {
+                    throw new \Exception(__('Not enough stock available in source warehouse for product ID: :id', ['id' => $item->product_id]));
+                }
+
+                // Update source warehouse stock
+                $sourceProduct->decrement('quantity', $item->quantity);
+
+                // Update or create destination warehouse stock
+                $destinationProduct = WarehouseProduct::firstOrNew([
+                    'warehouse_id' => $transfer->to_warehouse_id,
+                    'product_id' => $item->product_id,
+                    'product_stock_id' => $item->product_stock_id
+                ]);
+
+                $destinationProduct->quantity = ($destinationProduct->quantity ?? 0) + $item->quantity;
+                $destinationProduct->save();
+            }
 
             // Update transfer status
             $transfer->update([
@@ -189,7 +187,7 @@ class WarehouseTransferController extends Controller
                 'transfer_id' => $id,
                 'from_warehouse' => $transfer->from_warehouse_id,
                 'to_warehouse' => $transfer->to_warehouse_id,
-                'quantity' => $transfer->quantity
+                'total_quantity' => $totalTransferQuantity
             ]);
 
             Toastr::success(__('Transfer completed successfully'));
@@ -233,8 +231,9 @@ class WarehouseTransferController extends Controller
      */
     public function edit($id)
     {
-        $transfer = WarehouseTransfer::with(['fromWarehouse', 'toWarehouse', 'product', 'productStock'])
+        $transfer = WarehouseTransfer::with(['fromWarehouse', 'toWarehouse', 'items.product', 'items.productStock'])
             ->findOrFail($id);
+
         // Check if transfer can be edited (only pending transfers can be edited)
         if ($transfer->status !== 'pending') {
             return redirect()->route('transfers.index')
@@ -242,8 +241,16 @@ class WarehouseTransferController extends Controller
         }
 
         $warehouses = Warehouse::where('status', 1)->get();
+        
+        // Get all products from the source warehouse
         $products = $transfer->fromWarehouse->products;
-        $stocks = $this->getWarehouseStocks($transfer->from_warehouse_id, $transfer->product_id);
+        
+        // Get stocks for each product in the transfer
+        $stocks = [];
+        foreach ($transfer->items as $item) {
+            $stocks[$item->product_id] = $this->getWarehouseStocks($transfer->from_warehouse_id, $item->product_id);
+        }
+
         return view('admin.warehouses.transfers.edit', compact('transfer', 'warehouses', 'products', 'stocks'));
     }
 
@@ -280,73 +287,90 @@ class WarehouseTransferController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $transfer = WarehouseTransfer::findOrFail($id);
-        
-        // Check if transfer can be edited (only pending transfers can be edited)
-        if ($transfer->status !== 'pending') {
-            return redirect()->route('warehouse.transfers.index')
-                ->with('error', __('Only pending transfers can be edited.'));
-        }
-
-        $request->validate([
-            'from_warehouse_id' => 'required|exists:warehouses,id',
-            'to_warehouse_id' => 'required|exists:warehouses,id|different:from_warehouse_id',
-            'product_id' => 'required|exists:products,id',
-            'product_stock_id' => 'required|exists:product_stocks,id',
-            'quantity' => 'required|integer|min:1',
-            'notes' => 'nullable|string|max:1000',
-        ]);
-
         try {
-            DB::beginTransaction();
+            $transfer = WarehouseTransfer::findOrFail($id);
+            
+            // Validate the request
+            $request->validate([
+                'from_warehouse_id' => 'required|exists:warehouses,id',
+                'to_warehouse_id' => 'required|exists:warehouses,id|different:from_warehouse_id',
+                'items' => 'required|array|min:1',
+                'items.*.product_id' => 'required|exists:products,id',
+                'items.*.product_stock_id' => 'required|exists:product_stocks,id',
+                'items.*.quantity' => 'required|integer|min:1',
+                'notes' => 'nullable|string'
+            ]);
 
-            // Check if product exists in source warehouse with the specific stock
-            $sourceProduct = WarehouseProduct::where('warehouse_id', $request->from_warehouse_id)
-                ->where('product_id', $request->product_id)
-                ->where('product_stock_id', $request->product_stock_id)
-                ->first();
-
-            if (!$sourceProduct || $sourceProduct->quantity < $request->quantity) {
-                throw new \Exception(__('Not enough stock available in source warehouse'));
+            // Check if transfer is in pending status
+            if ($transfer->status !== 'pending') {
+                return response()->json([
+                    'success' => false,
+                    'message' => __('Transfer cannot be updated as it is not in pending status.')
+                ], 422);
             }
 
             // Check destination warehouse capacity
             $destinationWarehouse = Warehouse::findOrFail($request->to_warehouse_id);
-            $totalQuantityInDestination = WarehouseProduct::where('warehouse_id', $request->to_warehouse_id)
-                ->sum('quantity');
-
-            if (($totalQuantityInDestination + $request->quantity) > $destinationWarehouse->storage_capacity) {
-                $availableSpace = $destinationWarehouse->storage_capacity - $totalQuantityInDestination;
-                throw new \Exception(__('Destination warehouse capacity exceeded. Available space: :space', ['space' => $availableSpace]));
-            }
-
-            // Update the transfer
-            $transfer->update([
-                'from_warehouse_id' => $request->from_warehouse_id,
-                'to_warehouse_id' => $request->to_warehouse_id,
-                'product_id' => $request->product_id,
-                'product_stock_id' => $request->product_stock_id,
-                'quantity' => $request->quantity,
-                'notes' => $request->notes,
-            ]);
-
-            DB::commit();
-
-            if ($request->ajax()) {
+            $totalQuantity = array_sum(array_column($request->items, 'quantity'));
+            
+            if ($destinationWarehouse->storage_capacity < $totalQuantity) {
                 return response()->json([
-                    'success' => true,
-                    'message' => __('Transfer updated successfully.'),
-                    'redirect' => route('transfers.index')
-                ]);
+                    'success' => false,
+                    'message' => __('Destination warehouse does not have enough capacity.')
+                ], 422);
             }
 
-            Toastr::success(__('Transfer updated successfully'));
-            return redirect()->route('transfers.index')
-                ->with('success', __('Transfer updated successfully.'));
+            DB::beginTransaction();
+
+            try {
+                // Update transfer details
+                $transfer->update([
+                    'from_warehouse_id' => $request->from_warehouse_id,
+                    'to_warehouse_id' => $request->to_warehouse_id,
+                    'notes' => $request->notes
+                ]);
+
+                // Delete existing items
+                $transfer->items()->delete();
+
+                // Create new items
+                foreach ($request->items as $item) {
+                    // Check stock availability in source warehouse
+                    $sourceStock = WarehouseProduct::where('warehouse_id', $request->from_warehouse_id)
+                        ->where('product_id', $item['product_id'])
+                        ->where('product_stock_id', $item['product_stock_id'])
+                        ->first();
+
+                    if (!$sourceStock || $sourceStock->quantity < $item['quantity']) {
+                        throw new \Exception(__('Insufficient stock in source warehouse for product: ') . $sourceStock->product->name);
+                    }
+
+                    // Create transfer item
+                    $transfer->items()->create([
+                        'product_id' => $item['product_id'],
+                        'product_stock_id' => $item['product_stock_id'],
+                        'quantity' => $item['quantity']
+                    ]);
+                }
+
+                DB::commit();
+
+                if ($request->ajax()) {
+                    return response()->json([
+                        'success' => true,
+                        'message' => __('Transfer updated successfully.')
+                    ]);
+                }
+                Toastr::success(__('Transfer updated successfully'));
+                return redirect()->route('transfers.index');
+
+            } catch (\Exception $e) {
+                dd($e->getMessage());
+                DB::rollBack();
+                throw $e;
+            }
 
         } catch (\Exception $e) {
-            DB::rollBack();
-
             if ($request->ajax()) {
                 return response()->json([
                     'success' => false,
@@ -354,10 +378,9 @@ class WarehouseTransferController extends Controller
                 ], 422);
             }
 
-            Toastr::error(__("Something went wrong"));
             return redirect()->back()
-                ->withInput()
-                ->with('error', $e->getMessage());
+                ->with('error', $e->getMessage())
+                ->withInput();
         }
     }
 } 

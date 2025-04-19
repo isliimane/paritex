@@ -67,67 +67,86 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="product_id" class="required d-block">
-                                                <i class="fas fa-box"></i> {{ __('Product') }}
-                                            </label>
-                                            <select name="product_id" id="product_id" class="form-control select2" required>
-                                                <option value="">{{ __('Select Product') }}</option>
-                                                @foreach($products as $product)
-                                                    <option value="{{ $product->id }}" 
-                                                        {{ $transfer->product_id == $product->id ? 'selected' : '' }}>
-                                                        {{ $product->getTranslation('name', \App::getLocale()) }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
+                                <div class="row mt-4">
+                                    <div class="col-12">
+                                        <h5>{{ __('Transfer Items') }}</h5>
+                                        <div id="transfer-items">
+                                            @foreach($transfer->items as $index => $item)
+                                            <div class="transfer-item card mb-3">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label class="required">{{ __('Product') }}</label>
+                                                                <select name="items[{{ $index }}][product_id]" class="form-control select2 product-select" required>
+                                                                    <option value="">{{ __('Select Product') }}</option>
+                                                                    @foreach($products as $product)
+                                                                        <option value="{{ $product->id }}" 
+                                                                            {{ $item->product_id == $product->id ? 'selected' : '' }}>
+                                                                            {{ $product->getTranslation('name', \App::getLocale()) }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label class="required">{{ __('Stock') }}</label>
+                                                                <select name="items[{{ $index }}][product_stock_id]" class="form-control select2 stock-select" required>
+                                                                    <option value="">{{ __('Select Stock') }}</option>
+                                                                    @if(isset($stocks[$item->product_id]))
+                                                                        @foreach($stocks[$item->product_id] as $stock)
+                                                                            <option value="{{ $stock->id }}" 
+                                                                                data-quantity="{{ $stock->quantity }}"
+                                                                                {{ $item->product_stock_id == $stock->id ? 'selected' : '' }}>
+                                                                                {{ $stock->sku }} ({{ $stock->quantity }} available)
+                                                                            </option>
+                                                                        @endforeach
+                                                                    @endif
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label class="required">{{ __('Quantity') }}</label>
+                                                                <input type="number" name="items[{{ $index }}][quantity]" class="form-control quantity-input" min="1" required value="{{ $item->quantity }}">
+                                                                <small class="form-text text-muted quantity-hint"></small>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <div class="form-group">
+                                                                <label>&nbsp;</label>
+                                                                <button type="button" class="btn btn-danger btn-block remove-item" {{ $index == 0 ? 'style="display: none;"' : '' }}>
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endforeach
                                         </div>
+                                        <button type="button" class="btn btn-primary" id="add-item">
+                                            <i class="fas fa-plus"></i> {{ __('Add Item') }}
+                                        </button>
                                     </div>
-                                    <div class="col-md-6">
+                                </div>
+
+                                <div class="row mt-4">
+                                    <div class="col-12">
                                         <div class="form-group">
-                                            <label for="product_stock_id" class="required d-block">
-                                                <i class="fas fa-boxes"></i> {{ __('Stock') }}
-                                            </label>
-                                            <select name="product_stock_id" id="product_stock_id" class="form-control select2" required>
-                                                <option value="">{{ __('Select Stock') }}</option>
-                                                @foreach($stocks as $stock)
-                                                    <option value="{{ $stock->id }}" 
-                                                        data-quantity="{{ $stock->quantity }}"
-                                                        {{ $transfer->product_stock_id == $stock->id ? 'selected' : '' }}>
-                                                        {{ $stock->sku }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                            <small class="form-text text-muted" id="available-quantity-hint"></small>
+                                            <label>{{ __('Notes') }}</label>
+                                            <textarea name="notes" class="form-control" rows="3">{{ $transfer->notes }}</textarea>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="quantity" class="required d-block">
-                                                <i class="fas fa-balance-scale"></i> {{ __('Quantity') }}
-                                            </label>
-                                            <input type="number" name="quantity" id="quantity" class="form-control" min="1" required value="{{ $transfer->quantity }}">
-                                            <small class="form-text text-muted" id="quantity-hint"></small>
-                                        </div>
+                                <div class="row mt-4">
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-save"></i> {{ __('Update Transfer') }}
+                                        </button>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="notes" class="d-block">
-                                                <i class="fas fa-sticky-note"></i> {{ __('Notes') }}
-                                            </label>
-                                            <textarea name="notes" id="notes" class="form-control" rows="1">{{ $transfer->notes }}</textarea>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group text-right">
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="fas fa-save"></i> {{ __('Update Transfer') }}
-                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -144,292 +163,240 @@
             content: " *";
             color: red;
         }
-       
         .select2.select2-container.select2-container--default{
             width: 100% !important;
-        }
+        }        
         .form-text {
             margin-top: 0.25rem;
         }
-        
     </style>
 @endpush
 
 @push('script')
-<script>
-    $(document).ready(function() {
-        // Initialize Select2
-        $('.select2').select2({
-            width: '100%'
-        });
+    <script>
+        $(document).ready(function() {
+            let itemCount = {{ count($transfer->items) }};
+            const sourceWarehouseSelect = $('#from_warehouse_id');
+            const destWarehouseSelect = $('#to_warehouse_id');
+            const warehouseErrorDivId = 'warehouse-error';
 
-        // Helper function to format numbers
-        function formatNumber(number) {
-            return new Intl.NumberFormat().format(number);
-        }
+            function validateWarehouseSelection() {
+                const sourceVal = sourceWarehouseSelect.val();
+                const destVal = destWarehouseSelect.val();
+                $('#' + warehouseErrorDivId).remove();
+                sourceWarehouseSelect.removeClass('is-invalid');
+                destWarehouseSelect.removeClass('is-invalid');
+                var isValid = true;
 
-        // Function to validate warehouse selection
-        const sourceWarehouseSelect = $('#from_warehouse_id');
-        const destWarehouseSelect = $('#to_warehouse_id');
-        const warehouseErrorDivId = 'warehouse-selection-error';
-
-        function validateWarehouseSelection() {
-            const sourceVal = sourceWarehouseSelect.val();
-            const destVal = destWarehouseSelect.val();
-            $('#' + warehouseErrorDivId).remove(); // Remove previous error
-            sourceWarehouseSelect.removeClass('is-invalid');
-            destWarehouseSelect.removeClass('is-invalid');
-            var isValid = true;
-
-            if (sourceVal && destVal && sourceVal === destVal) {
-                const errorMessage = '{{ __("Source and Destination warehouses cannot be the same.") }}';
-                // Append error message after the hint element
-                $('<div class="invalid-feedback d-block" id="' + warehouseErrorDivId + '"></div>')
-                   .text(errorMessage)
-                   .insertAfter($('#destination-capacity-hint'));
-                sourceWarehouseSelect.addClass('is-invalid');
-                destWarehouseSelect.addClass('is-invalid');
-                isValid = false; // Indicate invalid selection
+                if (sourceVal && destVal && sourceVal === destVal) {
+                    const errorMessage = '{{ __("Source and Destination warehouses cannot be the same.") }}';
+                    $('<div class="invalid-feedback d-block" id="' + warehouseErrorDivId + '"></div>')
+                       .text(errorMessage)
+                       .insertAfter($('#destination-capacity-hint'));
+                    sourceWarehouseSelect.addClass('is-invalid');
+                    destWarehouseSelect.addClass('is-invalid');
+                    isValid = false;
+                }
+                return isValid;
             }
-            return isValid; // Indicate validity status
-        }
 
-        // Load products when source warehouse changes
-        sourceWarehouseSelect.on('change', function() {
-            var warehouseId = $(this).val();
-            var productSelect = $('#product_id');
-            var stockSelect = $('#product_stock_id');
+            function loadProducts(warehouseId, productSelect) {
+                productSelect.empty().append('<option value="">{{ __("Select Product") }}</option>');
+                const stockSelect = productSelect.closest('.transfer-item').find('.stock-select');
+                stockSelect.empty().append('<option value="">{{ __("Select Stock") }}</option>');
+                const quantityInput = productSelect.closest('.transfer-item').find('.quantity-input');
+                quantityInput.val('').removeAttr('data-max-quantity');
+                productSelect.closest('.transfer-item').find('.quantity-hint').text('');
 
-            productSelect.empty().append('<option value="">{{ __("Select Product") }}</option>').trigger('change');
-            stockSelect.empty().append('<option value="">{{ __("Select Stock") }}</option>').trigger('change');
-            $('#available-quantity-hint').text('');
-            $('#quantity').val(''); // Clear quantity
-            $('#quantity').removeAttr('data-max-quantity');
-            validateQuantity(); // Clear validation
-            validateWarehouseSelection(); // Check if same as dest
-
-            if (warehouseId) {
-                const url = '{{ route("warehouse.products.get", ["warehouse_id" => "__WAREHOUSE_ID__"]) }}'.replace('__WAREHOUSE_ID__', warehouseId);
-                $.ajax({
-                    url: url,
-                    type: "GET",
-                    dataType: "json",
-                    success: function(data) {
-                        $.each(data, function(key, product) {
-                            productSelect.append('<option value="' + product.id + '">' + product.product_name + '</option>');
-                        });
-                    },
-                    error: function(jqXHR, status, error) {
-                       console.error("Failed to load products: ", status, error);
-                       alert("{{ __('Failed to load products for the selected warehouse.') }}");
-                    }
-                });
-            }
-        });
-
-        // Display destination warehouse capacity and available space & check same warehouse
-        destWarehouseSelect.on('change', function() {
-            var selectedOption = $(this).find('option:selected');
-            var capacity = selectedOption.data('capacity');
-            var warehouseId = $(this).val();
-            var sourceWarehouseId = sourceWarehouseSelect.val();
-            var hintElement = $('#destination-capacity-hint');
-            var quantityInput = $('#quantity');
-
-            // Clear previous destination validation attributes/state
-            hintElement.text('');
-            quantityInput.removeAttr('data-available-space');
-            validateQuantity(); // Re-validate quantity as destination constraint removed
-
-            // Validate warehouse selection
-            validateWarehouseSelection();
-
-            if (warehouseId && capacity !== undefined) {
-                hintElement.text('{{ __("Capacity:") }} ' + formatNumber(capacity) + ' | {{ __("Checking available space...") }}');
-                const url = '{{ route("warehouse.current.quantity", ["warehouse" => "__WAREHOUSE_ID__"]) }}'.replace('__WAREHOUSE_ID__', warehouseId);
-
-                $.ajax({
-                    url: url,
-                    type: "GET",
-                    dataType: "json",
-                    success: function(response) {
-                        if (response.current_quantity !== undefined) {
-                            var currentQuantity = response.current_quantity;
-                            var availableSpace = capacity - currentQuantity;
-                            availableSpace = Math.max(0, availableSpace);
-                            hintElement.text(
-                                '{{ __("Warehouse Capacity:") }} ' + formatNumber(capacity) +
-                                ' | {{ __("Current Usage:") }} ' + formatNumber(currentQuantity) +
-                                ' | {{ __("Available Space:") }} ' + formatNumber(availableSpace)
-                            );
-                            quantityInput.attr('data-available-space', availableSpace);
-                        } else {
-                            hintElement.text(
-                                '{{ __("Capacity:") }} ' + formatNumber(capacity) +
-                                ' | {{ __("Could not fetch available space") }}'
-                            );
-                            console.error("Error fetching current quantity: ", response.error || 'Unknown error');
+                if (warehouseId) {
+                    const url = '{{ route("warehouse.products.get", ["warehouse_id" => "__WAREHOUSE_ID__"]) }}'.replace('__WAREHOUSE_ID__', warehouseId);
+                    $.ajax({
+                        url: url,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            $.each(data, function(key, product) {
+                                productSelect.append('<option value="' + product.id + '">' + product.product_name + '</option>');
+                            });
+                        },
+                        error: function(jqXHR, status, error) {
+                            console.error("Failed to load products: ", status, error);
+                            alert("{{ __('Failed to load products for the selected warehouse.') }}");
                         }
-                        // Always re-validate quantity after getting destination info (or failing)
-                        validateQuantity();
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        hintElement.text(
-                            '{{ __("Capacity:") }} ' + formatNumber(capacity) +
-                            ' | {{ __("Could not fetch available space") }}'
-                        );
-                        console.error("AJAX error fetching current quantity: ", textStatus, errorThrown);
-                        // Always re-validate quantity after error
-                        validateQuantity();
-                    }
-                });
+                    });
+                }
             }
-        }).trigger('change'); // Trigger on page load for destination
 
-        // Load stocks when product changes
-        $('#product_id').on('change', function() {
-            var productId = $(this).val();
-            var warehouseId = sourceWarehouseSelect.val();
-            var stockSelect = $('#product_stock_id');
+            function loadStocks(warehouseId, productId, stockSelect) {
+                stockSelect.empty().append('<option value="">{{ __("Select Stock") }}</option>');
+                const quantityInput = stockSelect.closest('.transfer-item').find('.quantity-input');
+                quantityInput.val('').removeAttr('data-max-quantity');
+                stockSelect.closest('.transfer-item').find('.quantity-hint').text('');
 
-            stockSelect.empty().append('<option value="">{{ __("Select Stock") }}</option>').trigger('change');
-            $('#available-quantity-hint').text('');
-            $('#quantity').val(''); // Clear quantity
-            $('#quantity').removeAttr('data-max-quantity');
-            validateQuantity();
+                if (warehouseId && productId) {
+                    const url = '{{ route("warehouse.products.products.warehouse-stocks", ["warehouse" => "__WAREHOUSE_ID__", "product" => "__PRODUCT_ID__"]) }}'
+                        .replace('__WAREHOUSE_ID__', warehouseId)
+                        .replace('__PRODUCT_ID__', productId);
+                    $.ajax({
+                        url: url,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            $.each(data, function(key, stock) {
+                                stockSelect.append('<option value="' + stock.id + '" data-quantity="' + stock.quantity + '">' + stock.name + ' (' + stock.quantity + ' available)</option>');
+                            });
+                        },
+                        error: function(jqXHR, status, error) {
+                            console.error("Failed to load stocks: ", status, error);
+                            alert("{{ __('Failed to load stocks for the selected product.') }}");
+                        }
+                    });
+                }
+            }
 
-            if (productId && warehouseId) {
-                const url = "{{ route('warehouse.products.products.warehouse-stocks', ['warehouse' => ':warehouseId', 'product' => ':productId']) }}".replace(':warehouseId', warehouseId)
-                .replace(':productId', productId);
-                console.log(url);
+            function validateQuantity(input) {
+                const quantity = parseInt(input.val()) || 0;
+                const maxQuantity = parseInt(input.attr('data-max-quantity')) || 0;
+                const hintElement = input.closest('.form-group').find('.quantity-hint');
+                let isValid = true;
+
+                input.removeClass('is-invalid');
+                hintElement.removeClass('text-danger').text('');
+
+                if (input.val() !== '') {
+                    if (quantity < 1) {
+                        hintElement.text('{{ __("Quantity must be at least 1") }}').addClass('text-danger');
+                        input.addClass('is-invalid');
+                        isValid = false;
+                    } else if (maxQuantity > 0 && quantity > maxQuantity) {
+                        hintElement.text('{{ __("Quantity exceeds available stock") }}').addClass('text-danger');
+                        input.addClass('is-invalid');
+                        isValid = false;
+                    }
+                }
+
+                return isValid;
+            }
+
+            // Load products when source warehouse changes
+            sourceWarehouseSelect.on('change', function() {
+                const warehouseId = $(this).val();
+                $('.product-select').each(function() {
+                    loadProducts(warehouseId, $(this));
+                });
+                validateWarehouseSelection();
+            });
+
+            // Load stocks when product changes
+            $(document).on('change', '.product-select', function() {
+                const warehouseId = sourceWarehouseSelect.val();
+                const productId = $(this).val();
+                const stockSelect = $(this).closest('.transfer-item').find('.stock-select');
+                loadStocks(warehouseId, productId, stockSelect);
+            });
+
+            // Update quantity validation when stock changes
+            $(document).on('change', '.stock-select', function() {
+                const selectedOption = $(this).find('option:selected');
+                const quantityInput = $(this).closest('.transfer-item').find('.quantity-input');
+                const maxQuantity = selectedOption.data('quantity');
                 
-                $.ajax({
-                    url: url,
-                    type: "GET",
-                    dataType: "json",
-                    success: function(data) {
-                        $.each(data, function(key, stock) {
-                            stockSelect.append('<option value="' + stock.id + '" data-quantity="' + stock.quantity + '">' + stock.sku + ' ({{ __('Sku:') }} ' + stock.sku + ')</option>');
-                        });
-                    },
-                     error: function(jqXHR, status, error) {
-                       console.error("Failed to load stocks: ", status, error);
-                       alert("{{ __('Failed to load stocks for the selected product and warehouse.') }}");
+                quantityInput.attr('data-max-quantity', maxQuantity);
+                validateQuantity(quantityInput);
+            });
+
+            // Validate quantity on input
+            $(document).on('input', '.quantity-input', function() {
+                validateQuantity($(this));
+            });
+
+            // Add new item
+            $('#add-item').on('click', function() {
+                const originalItem = $('.transfer-item').first();
+                originalItem.find('select').select2('destroy');
+                const newItem = originalItem.clone();
+                originalItem.find('select').select2();
+                
+                newItem.find('select').val('').trigger('change');
+                newItem.find('input').val('');
+                newItem.find('.quantity-hint').text('');
+                newItem.find('.remove-item').show();
+                
+                const newIndex = itemCount++;
+                newItem.find('select, input').each(function() {
+                    const name = $(this).attr('name');
+                    if (name) {
+                        $(this).attr('name', name.replace(/\[\d+\]/, '[' + newIndex + ']'));
                     }
                 });
+                
+                $('#transfer-items').append(newItem);
+                newItem.find('select').select2();
+                
+                // Load products if source warehouse is selected
+                const warehouseId = sourceWarehouseSelect.val();
+                if (warehouseId) {
+                    loadProducts(warehouseId, newItem.find('.product-select'));
+                }
+            });
+
+            // Remove item
+            $(document).on('click', '.remove-item', function() {
+                if ($('.transfer-item').length > 1) {
+                    $(this).closest('.transfer-item').remove();
+                }
+            });
+
+            // Form submission - only add this if it doesn't exist
+            if (!$('#transferForm').data('has-submit-handler')) {
+                $('#transferForm').on('submit', function(e) {
+                    e.preventDefault();
+                    
+                    let isValid = true;
+                    let firstInvalidField = null;
+
+                    // Validate warehouse selection
+                    if (!validateWarehouseSelection()) {
+                        isValid = false;
+                        firstInvalidField = firstInvalidField || sourceWarehouseSelect;
+                    }
+
+                    // Validate each item
+                    $('.transfer-item').each(function() {
+                        const productSelect = $(this).find('.product-select');
+                        const stockSelect = $(this).find('.stock-select');
+                        const quantityInput = $(this).find('.quantity-input');
+
+                        if (!productSelect.val()) {
+                            isValid = false;
+                            firstInvalidField = firstInvalidField || productSelect;
+                        }
+
+                        if (!stockSelect.val()) {
+                            isValid = false;
+                            firstInvalidField = firstInvalidField || stockSelect;
+                        }
+
+                        if (!validateQuantity(quantityInput)) {
+                            isValid = false;
+                            firstInvalidField = firstInvalidField || quantityInput;
+                        }
+                    });
+
+                    if (!isValid) {
+                        if (firstInvalidField) {
+                            firstInvalidField.focus();
+                        }
+                        return false;
+                    }
+
+                    // If all validations pass, submit the form
+                    this.submit();
+                }).data('has-submit-handler', true);
             }
+
+            // Initialize Select2 for existing items
+            $('.select2').select2();
         });
-
-        // Show available quantity for selected stock and set max quantity (Source)
-        $('#product_stock_id').on('change', function() {
-            var selectedOption = $(this).find('option:selected');
-            var availableQuantity = selectedOption.data('quantity');
-            var quantityInput = $('#quantity');
-            var hintElement = $('#available-quantity-hint');
-
-            if (availableQuantity !== undefined) {
-                hintElement.text('{{ __("Available Quantity:") }} ' + formatNumber(availableQuantity));
-                quantityInput.attr('data-max-quantity', availableQuantity);
-            } else {
-                hintElement.text('');
-                quantityInput.removeAttr('data-max-quantity');
-            }
-            validateQuantity();
-        });
-
-        // Validate quantity input
-        function validateQuantity() {
-            var quantityInput = $('#quantity');
-            var quantity = parseInt(quantityInput.val()) || 0;
-            var maxQuantity = parseInt(quantityInput.attr('data-max-quantity')) || 0;
-            var availableSpace = parseInt(quantityInput.attr('data-available-space')) || 0;
-            var hintElement = $('#quantity-hint');
-            var isValid = true;
-
-            // Clear previous validation state
-            quantityInput.removeClass('is-invalid');
-            hintElement.removeClass('text-danger').text('');
-
-            // Only validate if there's input or during form submission
-            if (quantityInput.val() !== '' || $('#transferForm').data('validating')) {
-                // Validate minimum quantity
-                if (quantity < 1) {
-                    hintElement.text('{{ __("Quantity must be at least 1") }}').addClass('text-danger');
-                    quantityInput.addClass('is-invalid');
-                    isValid = false;
-                }
-                // Validate against source stock
-                else if (maxQuantity > 0 && quantity > maxQuantity) {
-                    hintElement.text('{{ __("Quantity exceeds available stock") }}').addClass('text-danger');
-                    quantityInput.addClass('is-invalid');
-                    isValid = false;
-                }
-                // Validate against destination space
-                else if (availableSpace > 0 && quantity > availableSpace) {
-                    hintElement.text('{{ __("Quantity exceeds available space in destination warehouse") }}').addClass('text-danger');
-                    quantityInput.addClass('is-invalid');
-                    isValid = false;
-                }
-            }
-
-            return isValid;
-        }
-
-        // Validate quantity on input
-        $('#quantity').on('input', validateQuantity);
-
-        // Intercept form submission
-        $('#transferForm').on('submit', function(e) {
-            e.preventDefault();
-            
-            // Set validating flag
-            $(this).data('validating', true);
-
-            // Validate all required fields
-            var isValid = true;
-            var firstInvalidField = null;
-
-            // Check warehouse selection
-            if (!validateWarehouseSelection()) {
-                isValid = false;
-                firstInvalidField = firstInvalidField || sourceWarehouseSelect;
-            }
-
-            // Check product selection
-            if (!$('#product_id').val()) {
-                isValid = false;
-                firstInvalidField = firstInvalidField || $('#product_id');
-            }
-
-            // Check stock selection
-            if (!$('#product_stock_id').val()) {
-                isValid = false;
-                firstInvalidField = firstInvalidField || $('#product_stock_id');
-            }
-
-            // Validate quantity
-            if (!validateQuantity()) {
-                isValid = false;
-                firstInvalidField = firstInvalidField || $('#quantity');
-            }
-
-            // Clear validating flag
-            $(this).data('validating', false);
-
-            if (!isValid) {
-                // Focus the first invalid field
-                if (firstInvalidField) {
-                    firstInvalidField.focus();
-                }
-                return false;
-            }
-
-            // If all validations pass, submit the form
-            this.submit();
-        });
-
-        // Trigger stock change event on page load to show available quantity
-        $('#product_stock_id').trigger('change');
-    });
-</script>
+    </script>
 @endpush 

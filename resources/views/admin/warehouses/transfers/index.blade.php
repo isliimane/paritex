@@ -45,8 +45,6 @@
                                             <th>{{ __('ID') }}</th>
                                             <th>{{ __('From Warehouse') }}</th>
                                             <th>{{ __('To Warehouse') }}</th>
-                                            <th>{{ __('Product') }}</th>
-                                            <th>{{ __('Quantity') }}</th>
                                             <th>{{ __('Status') }}</th>
                                             <th>{{ __('Created By') }}</th>
                                             <th>{{ __('Created At') }}</th>
@@ -59,8 +57,6 @@
                                                 <td>{{ $transfer->id }}</td>
                                                 <td>{{ $transfer->fromWarehouse->getTranslation('name', \App::getLocale()) }}</td>
                                                 <td>{{ $transfer->toWarehouse->getTranslation('name', \App::getLocale()) }}</td>
-                                                <td>{{ $transfer->product->getTranslation('name', \App::getLocale()) }}</td>
-                                                <td>{{ $transfer->quantity }}</td>
                                                 <td>
                                                     <span class="badge badge-{{ $transfer->status === 'pending' ? 'warning' : ($transfer->status === 'completed' ? 'success' : 'danger') }}">
                                                         {{ ucfirst($transfer->status) }}

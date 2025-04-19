@@ -12,9 +12,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('from_warehouse_id')->constrained('warehouses')->onDelete('cascade');
             $table->foreignId('to_warehouse_id')->constrained('warehouses')->onDelete('cascade');
-            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
-            $table->foreignId('product_stock_id')->constrained('product_stocks')->onDelete('cascade');
-            $table->integer('quantity');
             $table->enum('status', ['pending', 'approved', 'completed', 'rejected'])->default('pending');
             $table->text('notes')->nullable();
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
