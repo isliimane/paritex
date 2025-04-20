@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\ProductStock;
 use Toastr;
+use App\Services\StockMovementService;
 
 class WarehouseTransferController extends Controller
 {
@@ -123,7 +124,7 @@ class WarehouseTransferController extends Controller
         try {
             DB::beginTransaction();
 
-            $transfer = WarehouseTransfer::with('items')->findOrFail($id);
+            $transfer = WarehouseTransfer::with(['items.product', 'items.productStock'])->findOrFail($id);
             
             // Validate transfer status
             if ($transfer->status !== 'pending') {
@@ -173,6 +174,27 @@ class WarehouseTransferController extends Controller
 
                 $destinationProduct->quantity = ($destinationProduct->quantity ?? 0) + $item->quantity;
                 $destinationProduct->save();
+
+                // Record stock movements
+                StockMovementService::recordMovement(
+                    $transfer->from_warehouse_id,
+                    $item->product_id,
+                    $item->quantity,
+                    'out',
+                    'transfer',
+                    $transfer->id,
+                    $item->product_stock_id
+                );
+
+                StockMovementService::recordMovement(
+                    $transfer->to_warehouse_id,
+                    $item->product_id,
+                    $item->quantity,
+                    'in',
+                    'transfer',
+                    $transfer->id,
+                    $item->product_stock_id
+                );
             }
 
             // Update transfer status

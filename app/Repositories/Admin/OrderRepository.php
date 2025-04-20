@@ -30,6 +30,9 @@ use App\Models\Country;
 use App\Models\State;
 use App\Models\City;
 use PDF;
+use App\Services\StockMovementService;
+use Illuminate\Http\Request;
+use App\Models\Warehouse;
 
 class OrderRepository implements OrderInterface
 {
@@ -369,7 +372,7 @@ class OrderRepository implements OrderInterface
                 endif;
 
                 if ($previous_status == 'canceled'):
-                    if (!$this->adjustQuantity($order, true)):
+                    if (!$this->adjustQuantity($order, true,'order')):
                         DB::rollback();
                         return 'product_not_available';
                     endif;
@@ -964,7 +967,7 @@ class OrderRepository implements OrderInterface
             $order->save();
         endif;
 //        $this->manageProductStock($order);
-        $this->adjustQuantity($order, false);
+        $this->adjustQuantity($order, false,'cancel');
 
         $this->deliveryEvent('order_canceled_event', $order->id, $order->delivery_hero_id, $remarks,$user_id);
         return $order;
@@ -979,84 +982,137 @@ class OrderRepository implements OrderInterface
             })->where('code', $orderCode)->get();
     }
 
-    public function adjustQuantity($order, $remove_quantity = false)
+    public function adjustQuantity($order, $remove_quantity = false,$reason = '')
     {
         foreach ($order->orderDetails as $key => $orderDetail) :
-            return $this->updateQuantity($orderDetail, $remove_quantity);
+            return $this->updateQuantity($orderDetail, $remove_quantity,$reason);
         endforeach;
 
         return true;
     }
 
-    public function updateQuantity($orderDetail, $remove_quantity = false)
+    public function updateQuantity($orderDetail, $remove_quantity = false,$reason = '')
     {
-
         $product = $this->product->get($orderDetail->product_id);
-        if ($product != null):
-            if ($remove_quantity):
-                if ($orderDetail->quantity <= $product->current_stock):
+        if ($product != null) {
+            if ($remove_quantity) {
+                if ($orderDetail->quantity <= $product->current_stock) {
                     $product->current_stock -= $orderDetail->quantity;
-                else:
+                } else {
                     return false;
-                endif;
-            else:
+                }
+            } else {
                 $product->current_stock += $orderDetail->quantity;
-            endif;
+            }
 
             $product_stock = ProductStock::where('product_id', $orderDetail->product_id)
                 ->where('name', $orderDetail->variation)
                 ->first();
-            if ($product_stock != null) :
-                if ($remove_quantity):
-                    if ($orderDetail->quantity <= $product_stock->current_stock):
+            if ($product_stock != null) {
+                if ($remove_quantity) {
+                    if ($orderDetail->quantity <= $product_stock->current_stock) {
                         $product_stock->current_stock -= $orderDetail->quantity;
-                    else:
+                    } else {
                         return false;
-                    endif;
-                else:
+                    }
+                } else {
                     $product_stock->current_stock += $orderDetail->quantity;
-                endif;
+                }
+                
                 $warehouseStock = WarehouseProduct::where('id', $orderDetail->order->warehouse_id)
-                ->where('product_id', $orderDetail->product_id)
-                ->where('product_stock_id', $orderDetail->id)
-                ->first();
-                if($warehouseStock != null){
-                    if ($remove_quantity):
-                        if($orderDetail->quantity <= $warehouseStock->quantity):
+                    ->where('product_id', $orderDetail->product_id)
+                    ->where('product_stock_id', $orderDetail->id)
+                    ->first();
+                if($warehouseStock != null) {
+                    if ($remove_quantity) {
+                        if($orderDetail->quantity <= $warehouseStock->quantity) {
                             $warehouseStock->quantity -= $orderDetail->quantity;
-                        else:
+                            // Record stock movement for removal
+                        if ($orderDetail->order && $orderDetail->order->warehouse_id) {
+                                StockMovementService::recordMovement(
+                                    $orderDetail->order->warehouse_id,
+                                    $orderDetail->product_id,
+                                    $orderDetail->quantity,
+                                    'out',
+                                    'order',
+                                    $orderDetail->order->id,
+                                    $product_stock->id
+                                    );
+                            }
+                        } else {
                             return false;
-                        endif;
-                    else:
+                        }
+                    } else {
                         $warehouseStock->quantity += $orderDetail->quantity;
-                    endif;
+                        // Record stock movement for addition
+                    if ($orderDetail->order && $orderDetail->order->warehouse_id) {
+                            StockMovementService::recordMovement(
+                                $orderDetail->order->warehouse_id,
+                                $orderDetail->product_id,
+                                $orderDetail->quantity,
+                                'in',
+                                'cancel',
+                                $orderDetail->order->id,
+                                $product_stock->id  
+                                );
+                    }
+                }
                     $warehouseStock->save();
                 }
                 $product_stock->save();
-            endif;
+            }
             $product->save();
-        endif;
+        }
 
         return true;
     }
 
     public function updateWarehouseStock($orderDetail, $remove_quantity = false)
     {
-        $warehouseStock = WarehouseProduct::where('id', $orderDetail->order->warehouse_id)
-                ->where('product_id', $orderDetail->product_id)
-                ->where('product_stock_id', $orderDetail->id)
+        $product_stock = ProductStock::where('product_id', $orderDetail->product_id)
+                ->where('name', $orderDetail->variation)
                 ->first();
-        if($warehouseStock != null){
-            if ($remove_quantity):
-                if($orderDetail->quantity <= $warehouseStock->quantity):
-                    $warehouseStock->quantity -= $orderDetail->quantity;
-                else:
-                    return false;
-                endif;
-            else:
-                $warehouseStock->quantity += $orderDetail->quantity;
-            endif;
-            $warehouseStock->save();
+        if($product_stock != null) {
+            $warehouseStock = WarehouseProduct::where('id', $orderDetail->order->warehouse_id)
+                ->where('product_id', $orderDetail->product_id)
+                ->where('product_stock_id', $product_stock->id)
+                ->first();
+            if($warehouseStock != null){
+                if ($remove_quantity){
+                    if($orderDetail->quantity <= $warehouseStock->quantity){
+                        $warehouseStock->quantity -= $orderDetail->quantity;
+                        if ($orderDetail->order && $orderDetail->order->warehouse_id) {
+                                StockMovementService::recordMovement(
+                                    $orderDetail->order->warehouse_id,
+                                    $orderDetail->product_id,
+                                    $orderDetail->quantity,
+                                    'out',
+                                    'order',
+                                    $orderDetail->order->id,
+                                    $product_stock->id
+                                    );
+                        }
+                    }
+                    else{
+                        return false;
+                    }
+                }
+                else{
+                    $warehouseStock->quantity += $orderDetail->quantity;
+                    if ($orderDetail->order && $orderDetail->order->warehouse_id) {
+                        StockMovementService::recordMovement(
+                            $orderDetail->order->warehouse_id,
+                            $orderDetail->product_id,
+                            $orderDetail->quantity,
+                            'in',
+                            'order',
+                            $orderDetail->order->id,
+                            $product_stock->id
+                            );
+                    }
+                }
+                $warehouseStock->save();
+            }
         }
     }
     public function saleUpdate($orderDetail, $remove_sale = false)
@@ -1149,7 +1205,7 @@ class OrderRepository implements OrderInterface
         })->orderBy('label','asc')->get();
     }
 
-    public function updateOrder($request, $id)
+    public function updateOrder(Request $request, $id)
     {
         DB::beginTransaction();
         try {
@@ -1227,9 +1283,9 @@ class OrderRepository implements OrderInterface
                     if ($orderDetail) {
                         // Adjust product stock if quantity changes
                         if ($detail['quantity'] != $orderDetail->quantity) {
-                            $this->updateQuantity($orderDetail, true); // Remove old quantity
+                            $this->updateQuantity($orderDetail, true,'order_stock_update'); // Remove old quantity
                             $orderDetail->quantity = $detail['quantity'];
-                            $this->updateQuantity($orderDetail, false); // Add new quantity
+                            $this->updateQuantity($orderDetail, false,'order_stock_update'); // Add new quantity
                         }
 
                         // Update other details

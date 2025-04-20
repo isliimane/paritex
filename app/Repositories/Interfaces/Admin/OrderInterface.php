@@ -3,6 +3,7 @@
 namespace App\Repositories\Interfaces\Admin;
 
 use App\Repositories\Interfaces\Admin\Addon\OfflineMethodInterface;
+use Illuminate\Http\Request;
 
 interface OrderInterface
 {
@@ -58,9 +59,9 @@ interface OrderInterface
     public function digitalProductOrders($limit,$token);
 
     //quantity manage
-    public function adjustQuantity($order, $remove_quantity);
+    public function adjustQuantity($order, $remove_quantity,$reason = '');
 
-    public function updateQuantity($orderDetail, $remove_quantity = false);
+    public function updateQuantity($orderDetail, $remove_quantity = false,$reason = '');
 
     public function saleUpdate($orderDetail, $remove_sale = false);
 
@@ -70,5 +71,5 @@ interface OrderInterface
 
     public function userCommission($request);
 
-    public function updateOrder($request, $id);
+    public function updateOrder(Request $request, $id);
 }

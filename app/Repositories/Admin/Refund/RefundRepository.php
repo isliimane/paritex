@@ -171,7 +171,7 @@ class RefundRepository implements RefundInterface
             $refund->processed_by       = authId();
             $refund->save();
 
-            $this->order->updateQuantity($refund->orderDetail, false);
+            $this->order->updateQuantity($refund->orderDetail, false,'refund');
             $this->order->saleUpdate($refund->orderDetail, true);
 
             sendNotification($refund->user,

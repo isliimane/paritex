@@ -978,11 +978,16 @@
                                                                href="{{ route('warehouse.index') }}">{{ __('All Warehouses') }}</a>
                             </li>
                         @endif
-                        <!-- @if(hasPermission('warehouse_transfer_read')) -->
+                        @if(hasPermission('warehouse_transfer_read'))
                             <li class="@yield('warehouse_transfers')"><a class="nav-link"
                                                                href="{{ route('transfers.index') }}">{{ __('Transfers') }}</a>
                             </li>
-                        <!-- @endif -->
+                        @endif
+                        @if(hasPermission('stock_movement_read'))
+                            <li class="@yield('stock_movements')"><a class="nav-link"
+                                                               href="{{ route('stock-movements.index') }}">{{ __('Stock Movements') }}</a>
+                            </li>
+                        @endif
                     </ul>
                 </li>
             @endif

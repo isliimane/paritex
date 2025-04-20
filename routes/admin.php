@@ -58,6 +58,7 @@ use App\Http\Controllers\Admin\Support\SupportDepartmentController;
 use App\Http\Controllers\Admin\Warehouse\WarehouseController;
 use App\Http\Controllers\Admin\Warehouse\WarehouseProductController;
 use App\Http\Controllers\Admin\Warehouse\WarehouseTransferController;
+use App\Http\Controllers\Admin\StockMovementController;
 
 Route::get('change-currency/{id}', [GeneralSettingsController::class, 'currencyChange'])->name('admin.change.currency');
 Route::get('change-lang/{id}', [GeneralSettingsController::class, 'langChange'])->name('admin.change.lang');
@@ -645,7 +646,9 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 Route::post('/{transfer}/reject', [WarehouseTransferController::class, 'reject'])->name('reject');
             });
 
-            });
+            Route::get('stock-movements', [StockMovementController::class, 'index'])->name('stock-movements.index');
+            Route::get('stock-movements/details', [StockMovementController::class, 'getDetails'])->name('admin.stock-movements.details');
+        });
         });
     });
 });
