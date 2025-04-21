@@ -1,6 +1,1640 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./node_modules/@firebase/app/dist/esm/index.esm2017.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/@firebase/app/dist/esm/index.esm2017.js ***!
+  \**************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   FirebaseError: () => (/* reexport safe */ _firebase_util__WEBPACK_IMPORTED_MODULE_2__.FirebaseError),
+/* harmony export */   SDK_VERSION: () => (/* binding */ SDK_VERSION),
+/* harmony export */   _DEFAULT_ENTRY_NAME: () => (/* binding */ DEFAULT_ENTRY_NAME),
+/* harmony export */   _addComponent: () => (/* binding */ _addComponent),
+/* harmony export */   _addOrOverwriteComponent: () => (/* binding */ _addOrOverwriteComponent),
+/* harmony export */   _apps: () => (/* binding */ _apps),
+/* harmony export */   _clearComponents: () => (/* binding */ _clearComponents),
+/* harmony export */   _components: () => (/* binding */ _components),
+/* harmony export */   _getProvider: () => (/* binding */ _getProvider),
+/* harmony export */   _registerComponent: () => (/* binding */ _registerComponent),
+/* harmony export */   _removeServiceInstance: () => (/* binding */ _removeServiceInstance),
+/* harmony export */   deleteApp: () => (/* binding */ deleteApp),
+/* harmony export */   getApp: () => (/* binding */ getApp),
+/* harmony export */   getApps: () => (/* binding */ getApps),
+/* harmony export */   initializeApp: () => (/* binding */ initializeApp),
+/* harmony export */   onLog: () => (/* binding */ onLog),
+/* harmony export */   registerVersion: () => (/* binding */ registerVersion),
+/* harmony export */   setLogLevel: () => (/* binding */ setLogLevel)
+/* harmony export */ });
+/* harmony import */ var _firebase_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @firebase/component */ "./node_modules/@firebase/component/dist/esm/index.esm2017.js");
+/* harmony import */ var _firebase_logger__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @firebase/logger */ "./node_modules/@firebase/logger/dist/esm/index.esm2017.js");
+/* harmony import */ var _firebase_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @firebase/util */ "./node_modules/@firebase/util/dist/index.esm2017.js");
+/* harmony import */ var idb__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! idb */ "./node_modules/idb/build/index.js");
+
+
+
+
+
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+class PlatformLoggerServiceImpl {
+    constructor(container) {
+        this.container = container;
+    }
+    // In initial implementation, this will be called by installations on
+    // auth token refresh, and installations will send this string.
+    getPlatformInfoString() {
+        const providers = this.container.getProviders();
+        // Loop through providers and get library/version pairs from any that are
+        // version components.
+        return providers
+            .map(provider => {
+            if (isVersionServiceProvider(provider)) {
+                const service = provider.getImmediate();
+                return `${service.library}/${service.version}`;
+            }
+            else {
+                return null;
+            }
+        })
+            .filter(logString => logString)
+            .join(' ');
+    }
+}
+/**
+ *
+ * @param provider check if this provider provides a VersionService
+ *
+ * NOTE: Using Provider<'app-version'> is a hack to indicate that the provider
+ * provides VersionService. The provider is not necessarily a 'app-version'
+ * provider.
+ */
+function isVersionServiceProvider(provider) {
+    const component = provider.getComponent();
+    return (component === null || component === void 0 ? void 0 : component.type) === "VERSION" /* ComponentType.VERSION */;
+}
+
+const name$o = "@firebase/app";
+const version$1 = "0.9.13";
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const logger = new _firebase_logger__WEBPACK_IMPORTED_MODULE_1__.Logger('@firebase/app');
+
+const name$n = "@firebase/app-compat";
+
+const name$m = "@firebase/analytics-compat";
+
+const name$l = "@firebase/analytics";
+
+const name$k = "@firebase/app-check-compat";
+
+const name$j = "@firebase/app-check";
+
+const name$i = "@firebase/auth";
+
+const name$h = "@firebase/auth-compat";
+
+const name$g = "@firebase/database";
+
+const name$f = "@firebase/database-compat";
+
+const name$e = "@firebase/functions";
+
+const name$d = "@firebase/functions-compat";
+
+const name$c = "@firebase/installations";
+
+const name$b = "@firebase/installations-compat";
+
+const name$a = "@firebase/messaging";
+
+const name$9 = "@firebase/messaging-compat";
+
+const name$8 = "@firebase/performance";
+
+const name$7 = "@firebase/performance-compat";
+
+const name$6 = "@firebase/remote-config";
+
+const name$5 = "@firebase/remote-config-compat";
+
+const name$4 = "@firebase/storage";
+
+const name$3 = "@firebase/storage-compat";
+
+const name$2 = "@firebase/firestore";
+
+const name$1 = "@firebase/firestore-compat";
+
+const name = "firebase";
+const version = "9.23.0";
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * The default app name
+ *
+ * @internal
+ */
+const DEFAULT_ENTRY_NAME = '[DEFAULT]';
+const PLATFORM_LOG_STRING = {
+    [name$o]: 'fire-core',
+    [name$n]: 'fire-core-compat',
+    [name$l]: 'fire-analytics',
+    [name$m]: 'fire-analytics-compat',
+    [name$j]: 'fire-app-check',
+    [name$k]: 'fire-app-check-compat',
+    [name$i]: 'fire-auth',
+    [name$h]: 'fire-auth-compat',
+    [name$g]: 'fire-rtdb',
+    [name$f]: 'fire-rtdb-compat',
+    [name$e]: 'fire-fn',
+    [name$d]: 'fire-fn-compat',
+    [name$c]: 'fire-iid',
+    [name$b]: 'fire-iid-compat',
+    [name$a]: 'fire-fcm',
+    [name$9]: 'fire-fcm-compat',
+    [name$8]: 'fire-perf',
+    [name$7]: 'fire-perf-compat',
+    [name$6]: 'fire-rc',
+    [name$5]: 'fire-rc-compat',
+    [name$4]: 'fire-gcs',
+    [name$3]: 'fire-gcs-compat',
+    [name$2]: 'fire-fst',
+    [name$1]: 'fire-fst-compat',
+    'fire-js': 'fire-js',
+    [name]: 'fire-js-all'
+};
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * @internal
+ */
+const _apps = new Map();
+/**
+ * Registered components.
+ *
+ * @internal
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const _components = new Map();
+/**
+ * @param component - the component being added to this app's container
+ *
+ * @internal
+ */
+function _addComponent(app, component) {
+    try {
+        app.container.addComponent(component);
+    }
+    catch (e) {
+        logger.debug(`Component ${component.name} failed to register with FirebaseApp ${app.name}`, e);
+    }
+}
+/**
+ *
+ * @internal
+ */
+function _addOrOverwriteComponent(app, component) {
+    app.container.addOrOverwriteComponent(component);
+}
+/**
+ *
+ * @param component - the component to register
+ * @returns whether or not the component is registered successfully
+ *
+ * @internal
+ */
+function _registerComponent(component) {
+    const componentName = component.name;
+    if (_components.has(componentName)) {
+        logger.debug(`There were multiple attempts to register component ${componentName}.`);
+        return false;
+    }
+    _components.set(componentName, component);
+    // add the component to existing app instances
+    for (const app of _apps.values()) {
+        _addComponent(app, component);
+    }
+    return true;
+}
+/**
+ *
+ * @param app - FirebaseApp instance
+ * @param name - service name
+ *
+ * @returns the provider for the service with the matching name
+ *
+ * @internal
+ */
+function _getProvider(app, name) {
+    const heartbeatController = app.container
+        .getProvider('heartbeat')
+        .getImmediate({ optional: true });
+    if (heartbeatController) {
+        void heartbeatController.triggerHeartbeat();
+    }
+    return app.container.getProvider(name);
+}
+/**
+ *
+ * @param app - FirebaseApp instance
+ * @param name - service name
+ * @param instanceIdentifier - service instance identifier in case the service supports multiple instances
+ *
+ * @internal
+ */
+function _removeServiceInstance(app, name, instanceIdentifier = DEFAULT_ENTRY_NAME) {
+    _getProvider(app, name).clearInstance(instanceIdentifier);
+}
+/**
+ * Test only
+ *
+ * @internal
+ */
+function _clearComponents() {
+    _components.clear();
+}
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const ERRORS = {
+    ["no-app" /* AppError.NO_APP */]: "No Firebase App '{$appName}' has been created - " +
+        'call initializeApp() first',
+    ["bad-app-name" /* AppError.BAD_APP_NAME */]: "Illegal App name: '{$appName}",
+    ["duplicate-app" /* AppError.DUPLICATE_APP */]: "Firebase App named '{$appName}' already exists with different options or config",
+    ["app-deleted" /* AppError.APP_DELETED */]: "Firebase App named '{$appName}' already deleted",
+    ["no-options" /* AppError.NO_OPTIONS */]: 'Need to provide options, when not being deployed to hosting via source.',
+    ["invalid-app-argument" /* AppError.INVALID_APP_ARGUMENT */]: 'firebase.{$appName}() takes either no argument or a ' +
+        'Firebase App instance.',
+    ["invalid-log-argument" /* AppError.INVALID_LOG_ARGUMENT */]: 'First argument to `onLog` must be null or a function.',
+    ["idb-open" /* AppError.IDB_OPEN */]: 'Error thrown when opening IndexedDB. Original error: {$originalErrorMessage}.',
+    ["idb-get" /* AppError.IDB_GET */]: 'Error thrown when reading from IndexedDB. Original error: {$originalErrorMessage}.',
+    ["idb-set" /* AppError.IDB_WRITE */]: 'Error thrown when writing to IndexedDB. Original error: {$originalErrorMessage}.',
+    ["idb-delete" /* AppError.IDB_DELETE */]: 'Error thrown when deleting from IndexedDB. Original error: {$originalErrorMessage}.'
+};
+const ERROR_FACTORY = new _firebase_util__WEBPACK_IMPORTED_MODULE_2__.ErrorFactory('app', 'Firebase', ERRORS);
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+class FirebaseAppImpl {
+    constructor(options, config, container) {
+        this._isDeleted = false;
+        this._options = Object.assign({}, options);
+        this._config = Object.assign({}, config);
+        this._name = config.name;
+        this._automaticDataCollectionEnabled =
+            config.automaticDataCollectionEnabled;
+        this._container = container;
+        this.container.addComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.Component('app', () => this, "PUBLIC" /* ComponentType.PUBLIC */));
+    }
+    get automaticDataCollectionEnabled() {
+        this.checkDestroyed();
+        return this._automaticDataCollectionEnabled;
+    }
+    set automaticDataCollectionEnabled(val) {
+        this.checkDestroyed();
+        this._automaticDataCollectionEnabled = val;
+    }
+    get name() {
+        this.checkDestroyed();
+        return this._name;
+    }
+    get options() {
+        this.checkDestroyed();
+        return this._options;
+    }
+    get config() {
+        this.checkDestroyed();
+        return this._config;
+    }
+    get container() {
+        return this._container;
+    }
+    get isDeleted() {
+        return this._isDeleted;
+    }
+    set isDeleted(val) {
+        this._isDeleted = val;
+    }
+    /**
+     * This function will throw an Error if the App has already been deleted -
+     * use before performing API actions on the App.
+     */
+    checkDestroyed() {
+        if (this.isDeleted) {
+            throw ERROR_FACTORY.create("app-deleted" /* AppError.APP_DELETED */, { appName: this._name });
+        }
+    }
+}
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * The current SDK version.
+ *
+ * @public
+ */
+const SDK_VERSION = version;
+function initializeApp(_options, rawConfig = {}) {
+    let options = _options;
+    if (typeof rawConfig !== 'object') {
+        const name = rawConfig;
+        rawConfig = { name };
+    }
+    const config = Object.assign({ name: DEFAULT_ENTRY_NAME, automaticDataCollectionEnabled: false }, rawConfig);
+    const name = config.name;
+    if (typeof name !== 'string' || !name) {
+        throw ERROR_FACTORY.create("bad-app-name" /* AppError.BAD_APP_NAME */, {
+            appName: String(name)
+        });
+    }
+    options || (options = (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.getDefaultAppConfig)());
+    if (!options) {
+        throw ERROR_FACTORY.create("no-options" /* AppError.NO_OPTIONS */);
+    }
+    const existingApp = _apps.get(name);
+    if (existingApp) {
+        // return the existing app if options and config deep equal the ones in the existing app.
+        if ((0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.deepEqual)(options, existingApp.options) &&
+            (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.deepEqual)(config, existingApp.config)) {
+            return existingApp;
+        }
+        else {
+            throw ERROR_FACTORY.create("duplicate-app" /* AppError.DUPLICATE_APP */, { appName: name });
+        }
+    }
+    const container = new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.ComponentContainer(name);
+    for (const component of _components.values()) {
+        container.addComponent(component);
+    }
+    const newApp = new FirebaseAppImpl(options, config, container);
+    _apps.set(name, newApp);
+    return newApp;
+}
+/**
+ * Retrieves a {@link @firebase/app#FirebaseApp} instance.
+ *
+ * When called with no arguments, the default app is returned. When an app name
+ * is provided, the app corresponding to that name is returned.
+ *
+ * An exception is thrown if the app being retrieved has not yet been
+ * initialized.
+ *
+ * @example
+ * ```javascript
+ * // Return the default app
+ * const app = getApp();
+ * ```
+ *
+ * @example
+ * ```javascript
+ * // Return a named app
+ * const otherApp = getApp("otherApp");
+ * ```
+ *
+ * @param name - Optional name of the app to return. If no name is
+ *   provided, the default is `"[DEFAULT]"`.
+ *
+ * @returns The app corresponding to the provided app name.
+ *   If no app name is provided, the default app is returned.
+ *
+ * @public
+ */
+function getApp(name = DEFAULT_ENTRY_NAME) {
+    const app = _apps.get(name);
+    if (!app && name === DEFAULT_ENTRY_NAME && (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.getDefaultAppConfig)()) {
+        return initializeApp();
+    }
+    if (!app) {
+        throw ERROR_FACTORY.create("no-app" /* AppError.NO_APP */, { appName: name });
+    }
+    return app;
+}
+/**
+ * A (read-only) array of all initialized apps.
+ * @public
+ */
+function getApps() {
+    return Array.from(_apps.values());
+}
+/**
+ * Renders this app unusable and frees the resources of all associated
+ * services.
+ *
+ * @example
+ * ```javascript
+ * deleteApp(app)
+ *   .then(function() {
+ *     console.log("App deleted successfully");
+ *   })
+ *   .catch(function(error) {
+ *     console.log("Error deleting app:", error);
+ *   });
+ * ```
+ *
+ * @public
+ */
+async function deleteApp(app) {
+    const name = app.name;
+    if (_apps.has(name)) {
+        _apps.delete(name);
+        await Promise.all(app.container
+            .getProviders()
+            .map(provider => provider.delete()));
+        app.isDeleted = true;
+    }
+}
+/**
+ * Registers a library's name and version for platform logging purposes.
+ * @param library - Name of 1p or 3p library (e.g. firestore, angularfire)
+ * @param version - Current version of that library.
+ * @param variant - Bundle variant, e.g., node, rn, etc.
+ *
+ * @public
+ */
+function registerVersion(libraryKeyOrName, version, variant) {
+    var _a;
+    // TODO: We can use this check to whitelist strings when/if we set up
+    // a good whitelist system.
+    let library = (_a = PLATFORM_LOG_STRING[libraryKeyOrName]) !== null && _a !== void 0 ? _a : libraryKeyOrName;
+    if (variant) {
+        library += `-${variant}`;
+    }
+    const libraryMismatch = library.match(/\s|\//);
+    const versionMismatch = version.match(/\s|\//);
+    if (libraryMismatch || versionMismatch) {
+        const warning = [
+            `Unable to register library "${library}" with version "${version}":`
+        ];
+        if (libraryMismatch) {
+            warning.push(`library name "${library}" contains illegal characters (whitespace or "/")`);
+        }
+        if (libraryMismatch && versionMismatch) {
+            warning.push('and');
+        }
+        if (versionMismatch) {
+            warning.push(`version name "${version}" contains illegal characters (whitespace or "/")`);
+        }
+        logger.warn(warning.join(' '));
+        return;
+    }
+    _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.Component(`${library}-version`, () => ({ library, version }), "VERSION" /* ComponentType.VERSION */));
+}
+/**
+ * Sets log handler for all Firebase SDKs.
+ * @param logCallback - An optional custom log handler that executes user code whenever
+ * the Firebase SDK makes a logging call.
+ *
+ * @public
+ */
+function onLog(logCallback, options) {
+    if (logCallback !== null && typeof logCallback !== 'function') {
+        throw ERROR_FACTORY.create("invalid-log-argument" /* AppError.INVALID_LOG_ARGUMENT */);
+    }
+    (0,_firebase_logger__WEBPACK_IMPORTED_MODULE_1__.setUserLogHandler)(logCallback, options);
+}
+/**
+ * Sets log level for all Firebase SDKs.
+ *
+ * All of the log types above the current log level are captured (i.e. if
+ * you set the log level to `info`, errors are logged, but `debug` and
+ * `verbose` logs are not).
+ *
+ * @public
+ */
+function setLogLevel(logLevel) {
+    (0,_firebase_logger__WEBPACK_IMPORTED_MODULE_1__.setLogLevel)(logLevel);
+}
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const DB_NAME = 'firebase-heartbeat-database';
+const DB_VERSION = 1;
+const STORE_NAME = 'firebase-heartbeat-store';
+let dbPromise = null;
+function getDbPromise() {
+    if (!dbPromise) {
+        dbPromise = (0,idb__WEBPACK_IMPORTED_MODULE_3__.openDB)(DB_NAME, DB_VERSION, {
+            upgrade: (db, oldVersion) => {
+                // We don't use 'break' in this switch statement, the fall-through
+                // behavior is what we want, because if there are multiple versions between
+                // the old version and the current version, we want ALL the migrations
+                // that correspond to those versions to run, not only the last one.
+                // eslint-disable-next-line default-case
+                switch (oldVersion) {
+                    case 0:
+                        db.createObjectStore(STORE_NAME);
+                }
+            }
+        }).catch(e => {
+            throw ERROR_FACTORY.create("idb-open" /* AppError.IDB_OPEN */, {
+                originalErrorMessage: e.message
+            });
+        });
+    }
+    return dbPromise;
+}
+async function readHeartbeatsFromIndexedDB(app) {
+    try {
+        const db = await getDbPromise();
+        const result = await db
+            .transaction(STORE_NAME)
+            .objectStore(STORE_NAME)
+            .get(computeKey(app));
+        return result;
+    }
+    catch (e) {
+        if (e instanceof _firebase_util__WEBPACK_IMPORTED_MODULE_2__.FirebaseError) {
+            logger.warn(e.message);
+        }
+        else {
+            const idbGetError = ERROR_FACTORY.create("idb-get" /* AppError.IDB_GET */, {
+                originalErrorMessage: e === null || e === void 0 ? void 0 : e.message
+            });
+            logger.warn(idbGetError.message);
+        }
+    }
+}
+async function writeHeartbeatsToIndexedDB(app, heartbeatObject) {
+    try {
+        const db = await getDbPromise();
+        const tx = db.transaction(STORE_NAME, 'readwrite');
+        const objectStore = tx.objectStore(STORE_NAME);
+        await objectStore.put(heartbeatObject, computeKey(app));
+        await tx.done;
+    }
+    catch (e) {
+        if (e instanceof _firebase_util__WEBPACK_IMPORTED_MODULE_2__.FirebaseError) {
+            logger.warn(e.message);
+        }
+        else {
+            const idbGetError = ERROR_FACTORY.create("idb-set" /* AppError.IDB_WRITE */, {
+                originalErrorMessage: e === null || e === void 0 ? void 0 : e.message
+            });
+            logger.warn(idbGetError.message);
+        }
+    }
+}
+function computeKey(app) {
+    return `${app.name}!${app.options.appId}`;
+}
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const MAX_HEADER_BYTES = 1024;
+// 30 days
+const STORED_HEARTBEAT_RETENTION_MAX_MILLIS = 30 * 24 * 60 * 60 * 1000;
+class HeartbeatServiceImpl {
+    constructor(container) {
+        this.container = container;
+        /**
+         * In-memory cache for heartbeats, used by getHeartbeatsHeader() to generate
+         * the header string.
+         * Stores one record per date. This will be consolidated into the standard
+         * format of one record per user agent string before being sent as a header.
+         * Populated from indexedDB when the controller is instantiated and should
+         * be kept in sync with indexedDB.
+         * Leave public for easier testing.
+         */
+        this._heartbeatsCache = null;
+        const app = this.container.getProvider('app').getImmediate();
+        this._storage = new HeartbeatStorageImpl(app);
+        this._heartbeatsCachePromise = this._storage.read().then(result => {
+            this._heartbeatsCache = result;
+            return result;
+        });
+    }
+    /**
+     * Called to report a heartbeat. The function will generate
+     * a HeartbeatsByUserAgent object, update heartbeatsCache, and persist it
+     * to IndexedDB.
+     * Note that we only store one heartbeat per day. So if a heartbeat for today is
+     * already logged, subsequent calls to this function in the same day will be ignored.
+     */
+    async triggerHeartbeat() {
+        const platformLogger = this.container
+            .getProvider('platform-logger')
+            .getImmediate();
+        // This is the "Firebase user agent" string from the platform logger
+        // service, not the browser user agent.
+        const agent = platformLogger.getPlatformInfoString();
+        const date = getUTCDateString();
+        if (this._heartbeatsCache === null) {
+            this._heartbeatsCache = await this._heartbeatsCachePromise;
+        }
+        // Do not store a heartbeat if one is already stored for this day
+        // or if a header has already been sent today.
+        if (this._heartbeatsCache.lastSentHeartbeatDate === date ||
+            this._heartbeatsCache.heartbeats.some(singleDateHeartbeat => singleDateHeartbeat.date === date)) {
+            return;
+        }
+        else {
+            // There is no entry for this date. Create one.
+            this._heartbeatsCache.heartbeats.push({ date, agent });
+        }
+        // Remove entries older than 30 days.
+        this._heartbeatsCache.heartbeats = this._heartbeatsCache.heartbeats.filter(singleDateHeartbeat => {
+            const hbTimestamp = new Date(singleDateHeartbeat.date).valueOf();
+            const now = Date.now();
+            return now - hbTimestamp <= STORED_HEARTBEAT_RETENTION_MAX_MILLIS;
+        });
+        return this._storage.overwrite(this._heartbeatsCache);
+    }
+    /**
+     * Returns a base64 encoded string which can be attached to the heartbeat-specific header directly.
+     * It also clears all heartbeats from memory as well as in IndexedDB.
+     *
+     * NOTE: Consuming product SDKs should not send the header if this method
+     * returns an empty string.
+     */
+    async getHeartbeatsHeader() {
+        if (this._heartbeatsCache === null) {
+            await this._heartbeatsCachePromise;
+        }
+        // If it's still null or the array is empty, there is no data to send.
+        if (this._heartbeatsCache === null ||
+            this._heartbeatsCache.heartbeats.length === 0) {
+            return '';
+        }
+        const date = getUTCDateString();
+        // Extract as many heartbeats from the cache as will fit under the size limit.
+        const { heartbeatsToSend, unsentEntries } = extractHeartbeatsForHeader(this._heartbeatsCache.heartbeats);
+        const headerString = (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.base64urlEncodeWithoutPadding)(JSON.stringify({ version: 2, heartbeats: heartbeatsToSend }));
+        // Store last sent date to prevent another being logged/sent for the same day.
+        this._heartbeatsCache.lastSentHeartbeatDate = date;
+        if (unsentEntries.length > 0) {
+            // Store any unsent entries if they exist.
+            this._heartbeatsCache.heartbeats = unsentEntries;
+            // This seems more likely than emptying the array (below) to lead to some odd state
+            // since the cache isn't empty and this will be called again on the next request,
+            // and is probably safest if we await it.
+            await this._storage.overwrite(this._heartbeatsCache);
+        }
+        else {
+            this._heartbeatsCache.heartbeats = [];
+            // Do not wait for this, to reduce latency.
+            void this._storage.overwrite(this._heartbeatsCache);
+        }
+        return headerString;
+    }
+}
+function getUTCDateString() {
+    const today = new Date();
+    // Returns date format 'YYYY-MM-DD'
+    return today.toISOString().substring(0, 10);
+}
+function extractHeartbeatsForHeader(heartbeatsCache, maxSize = MAX_HEADER_BYTES) {
+    // Heartbeats grouped by user agent in the standard format to be sent in
+    // the header.
+    const heartbeatsToSend = [];
+    // Single date format heartbeats that are not sent.
+    let unsentEntries = heartbeatsCache.slice();
+    for (const singleDateHeartbeat of heartbeatsCache) {
+        // Look for an existing entry with the same user agent.
+        const heartbeatEntry = heartbeatsToSend.find(hb => hb.agent === singleDateHeartbeat.agent);
+        if (!heartbeatEntry) {
+            // If no entry for this user agent exists, create one.
+            heartbeatsToSend.push({
+                agent: singleDateHeartbeat.agent,
+                dates: [singleDateHeartbeat.date]
+            });
+            if (countBytes(heartbeatsToSend) > maxSize) {
+                // If the header would exceed max size, remove the added heartbeat
+                // entry and stop adding to the header.
+                heartbeatsToSend.pop();
+                break;
+            }
+        }
+        else {
+            heartbeatEntry.dates.push(singleDateHeartbeat.date);
+            // If the header would exceed max size, remove the added date
+            // and stop adding to the header.
+            if (countBytes(heartbeatsToSend) > maxSize) {
+                heartbeatEntry.dates.pop();
+                break;
+            }
+        }
+        // Pop unsent entry from queue. (Skipped if adding the entry exceeded
+        // quota and the loop breaks early.)
+        unsentEntries = unsentEntries.slice(1);
+    }
+    return {
+        heartbeatsToSend,
+        unsentEntries
+    };
+}
+class HeartbeatStorageImpl {
+    constructor(app) {
+        this.app = app;
+        this._canUseIndexedDBPromise = this.runIndexedDBEnvironmentCheck();
+    }
+    async runIndexedDBEnvironmentCheck() {
+        if (!(0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.isIndexedDBAvailable)()) {
+            return false;
+        }
+        else {
+            return (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.validateIndexedDBOpenable)()
+                .then(() => true)
+                .catch(() => false);
+        }
+    }
+    /**
+     * Read all heartbeats.
+     */
+    async read() {
+        const canUseIndexedDB = await this._canUseIndexedDBPromise;
+        if (!canUseIndexedDB) {
+            return { heartbeats: [] };
+        }
+        else {
+            const idbHeartbeatObject = await readHeartbeatsFromIndexedDB(this.app);
+            return idbHeartbeatObject || { heartbeats: [] };
+        }
+    }
+    // overwrite the storage with the provided heartbeats
+    async overwrite(heartbeatsObject) {
+        var _a;
+        const canUseIndexedDB = await this._canUseIndexedDBPromise;
+        if (!canUseIndexedDB) {
+            return;
+        }
+        else {
+            const existingHeartbeatsObject = await this.read();
+            return writeHeartbeatsToIndexedDB(this.app, {
+                lastSentHeartbeatDate: (_a = heartbeatsObject.lastSentHeartbeatDate) !== null && _a !== void 0 ? _a : existingHeartbeatsObject.lastSentHeartbeatDate,
+                heartbeats: heartbeatsObject.heartbeats
+            });
+        }
+    }
+    // add heartbeats
+    async add(heartbeatsObject) {
+        var _a;
+        const canUseIndexedDB = await this._canUseIndexedDBPromise;
+        if (!canUseIndexedDB) {
+            return;
+        }
+        else {
+            const existingHeartbeatsObject = await this.read();
+            return writeHeartbeatsToIndexedDB(this.app, {
+                lastSentHeartbeatDate: (_a = heartbeatsObject.lastSentHeartbeatDate) !== null && _a !== void 0 ? _a : existingHeartbeatsObject.lastSentHeartbeatDate,
+                heartbeats: [
+                    ...existingHeartbeatsObject.heartbeats,
+                    ...heartbeatsObject.heartbeats
+                ]
+            });
+        }
+    }
+}
+/**
+ * Calculate bytes of a HeartbeatsByUserAgent array after being wrapped
+ * in a platform logging header JSON object, stringified, and converted
+ * to base 64.
+ */
+function countBytes(heartbeatsCache) {
+    // base64 has a restricted set of characters, all of which should be 1 byte.
+    return (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.base64urlEncodeWithoutPadding)(
+    // heartbeatsCache wrapper properties
+    JSON.stringify({ version: 2, heartbeats: heartbeatsCache })).length;
+}
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+function registerCoreComponents(variant) {
+    _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.Component('platform-logger', container => new PlatformLoggerServiceImpl(container), "PRIVATE" /* ComponentType.PRIVATE */));
+    _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.Component('heartbeat', container => new HeartbeatServiceImpl(container), "PRIVATE" /* ComponentType.PRIVATE */));
+    // Register `app` package.
+    registerVersion(name$o, version$1, variant);
+    // BUILD_TARGET will be replaced by values like esm5, esm2017, cjs5, etc during the compilation
+    registerVersion(name$o, version$1, 'esm2017');
+    // Register platform SDK identifier (no version).
+    registerVersion('fire-js', '');
+}
+
+/**
+ * Firebase App
+ *
+ * @remarks This package coordinates the communication between the different Firebase components
+ * @packageDocumentation
+ */
+registerCoreComponents('');
+
+
+//# sourceMappingURL=index.esm2017.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@firebase/component/dist/esm/index.esm2017.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@firebase/component/dist/esm/index.esm2017.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Component: () => (/* binding */ Component),
+/* harmony export */   ComponentContainer: () => (/* binding */ ComponentContainer),
+/* harmony export */   Provider: () => (/* binding */ Provider)
+/* harmony export */ });
+/* harmony import */ var _firebase_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @firebase/util */ "./node_modules/@firebase/util/dist/index.esm2017.js");
+
+
+/**
+ * Component for service name T, e.g. `auth`, `auth-internal`
+ */
+class Component {
+    /**
+     *
+     * @param name The public service name, e.g. app, auth, firestore, database
+     * @param instanceFactory Service factory responsible for creating the public interface
+     * @param type whether the service provided by the component is public or private
+     */
+    constructor(name, instanceFactory, type) {
+        this.name = name;
+        this.instanceFactory = instanceFactory;
+        this.type = type;
+        this.multipleInstances = false;
+        /**
+         * Properties to be added to the service namespace
+         */
+        this.serviceProps = {};
+        this.instantiationMode = "LAZY" /* InstantiationMode.LAZY */;
+        this.onInstanceCreated = null;
+    }
+    setInstantiationMode(mode) {
+        this.instantiationMode = mode;
+        return this;
+    }
+    setMultipleInstances(multipleInstances) {
+        this.multipleInstances = multipleInstances;
+        return this;
+    }
+    setServiceProps(props) {
+        this.serviceProps = props;
+        return this;
+    }
+    setInstanceCreatedCallback(callback) {
+        this.onInstanceCreated = callback;
+        return this;
+    }
+}
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const DEFAULT_ENTRY_NAME = '[DEFAULT]';
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Provider for instance for service name T, e.g. 'auth', 'auth-internal'
+ * NameServiceMapping[T] is an alias for the type of the instance
+ */
+class Provider {
+    constructor(name, container) {
+        this.name = name;
+        this.container = container;
+        this.component = null;
+        this.instances = new Map();
+        this.instancesDeferred = new Map();
+        this.instancesOptions = new Map();
+        this.onInitCallbacks = new Map();
+    }
+    /**
+     * @param identifier A provider can provide mulitple instances of a service
+     * if this.component.multipleInstances is true.
+     */
+    get(identifier) {
+        // if multipleInstances is not supported, use the default name
+        const normalizedIdentifier = this.normalizeInstanceIdentifier(identifier);
+        if (!this.instancesDeferred.has(normalizedIdentifier)) {
+            const deferred = new _firebase_util__WEBPACK_IMPORTED_MODULE_0__.Deferred();
+            this.instancesDeferred.set(normalizedIdentifier, deferred);
+            if (this.isInitialized(normalizedIdentifier) ||
+                this.shouldAutoInitialize()) {
+                // initialize the service if it can be auto-initialized
+                try {
+                    const instance = this.getOrInitializeService({
+                        instanceIdentifier: normalizedIdentifier
+                    });
+                    if (instance) {
+                        deferred.resolve(instance);
+                    }
+                }
+                catch (e) {
+                    // when the instance factory throws an exception during get(), it should not cause
+                    // a fatal error. We just return the unresolved promise in this case.
+                }
+            }
+        }
+        return this.instancesDeferred.get(normalizedIdentifier).promise;
+    }
+    getImmediate(options) {
+        var _a;
+        // if multipleInstances is not supported, use the default name
+        const normalizedIdentifier = this.normalizeInstanceIdentifier(options === null || options === void 0 ? void 0 : options.identifier);
+        const optional = (_a = options === null || options === void 0 ? void 0 : options.optional) !== null && _a !== void 0 ? _a : false;
+        if (this.isInitialized(normalizedIdentifier) ||
+            this.shouldAutoInitialize()) {
+            try {
+                return this.getOrInitializeService({
+                    instanceIdentifier: normalizedIdentifier
+                });
+            }
+            catch (e) {
+                if (optional) {
+                    return null;
+                }
+                else {
+                    throw e;
+                }
+            }
+        }
+        else {
+            // In case a component is not initialized and should/can not be auto-initialized at the moment, return null if the optional flag is set, or throw
+            if (optional) {
+                return null;
+            }
+            else {
+                throw Error(`Service ${this.name} is not available`);
+            }
+        }
+    }
+    getComponent() {
+        return this.component;
+    }
+    setComponent(component) {
+        if (component.name !== this.name) {
+            throw Error(`Mismatching Component ${component.name} for Provider ${this.name}.`);
+        }
+        if (this.component) {
+            throw Error(`Component for ${this.name} has already been provided`);
+        }
+        this.component = component;
+        // return early without attempting to initialize the component if the component requires explicit initialization (calling `Provider.initialize()`)
+        if (!this.shouldAutoInitialize()) {
+            return;
+        }
+        // if the service is eager, initialize the default instance
+        if (isComponentEager(component)) {
+            try {
+                this.getOrInitializeService({ instanceIdentifier: DEFAULT_ENTRY_NAME });
+            }
+            catch (e) {
+                // when the instance factory for an eager Component throws an exception during the eager
+                // initialization, it should not cause a fatal error.
+                // TODO: Investigate if we need to make it configurable, because some component may want to cause
+                // a fatal error in this case?
+            }
+        }
+        // Create service instances for the pending promises and resolve them
+        // NOTE: if this.multipleInstances is false, only the default instance will be created
+        // and all promises with resolve with it regardless of the identifier.
+        for (const [instanceIdentifier, instanceDeferred] of this.instancesDeferred.entries()) {
+            const normalizedIdentifier = this.normalizeInstanceIdentifier(instanceIdentifier);
+            try {
+                // `getOrInitializeService()` should always return a valid instance since a component is guaranteed. use ! to make typescript happy.
+                const instance = this.getOrInitializeService({
+                    instanceIdentifier: normalizedIdentifier
+                });
+                instanceDeferred.resolve(instance);
+            }
+            catch (e) {
+                // when the instance factory throws an exception, it should not cause
+                // a fatal error. We just leave the promise unresolved.
+            }
+        }
+    }
+    clearInstance(identifier = DEFAULT_ENTRY_NAME) {
+        this.instancesDeferred.delete(identifier);
+        this.instancesOptions.delete(identifier);
+        this.instances.delete(identifier);
+    }
+    // app.delete() will call this method on every provider to delete the services
+    // TODO: should we mark the provider as deleted?
+    async delete() {
+        const services = Array.from(this.instances.values());
+        await Promise.all([
+            ...services
+                .filter(service => 'INTERNAL' in service) // legacy services
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                .map(service => service.INTERNAL.delete()),
+            ...services
+                .filter(service => '_delete' in service) // modularized services
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                .map(service => service._delete())
+        ]);
+    }
+    isComponentSet() {
+        return this.component != null;
+    }
+    isInitialized(identifier = DEFAULT_ENTRY_NAME) {
+        return this.instances.has(identifier);
+    }
+    getOptions(identifier = DEFAULT_ENTRY_NAME) {
+        return this.instancesOptions.get(identifier) || {};
+    }
+    initialize(opts = {}) {
+        const { options = {} } = opts;
+        const normalizedIdentifier = this.normalizeInstanceIdentifier(opts.instanceIdentifier);
+        if (this.isInitialized(normalizedIdentifier)) {
+            throw Error(`${this.name}(${normalizedIdentifier}) has already been initialized`);
+        }
+        if (!this.isComponentSet()) {
+            throw Error(`Component ${this.name} has not been registered yet`);
+        }
+        const instance = this.getOrInitializeService({
+            instanceIdentifier: normalizedIdentifier,
+            options
+        });
+        // resolve any pending promise waiting for the service instance
+        for (const [instanceIdentifier, instanceDeferred] of this.instancesDeferred.entries()) {
+            const normalizedDeferredIdentifier = this.normalizeInstanceIdentifier(instanceIdentifier);
+            if (normalizedIdentifier === normalizedDeferredIdentifier) {
+                instanceDeferred.resolve(instance);
+            }
+        }
+        return instance;
+    }
+    /**
+     *
+     * @param callback - a function that will be invoked  after the provider has been initialized by calling provider.initialize().
+     * The function is invoked SYNCHRONOUSLY, so it should not execute any longrunning tasks in order to not block the program.
+     *
+     * @param identifier An optional instance identifier
+     * @returns a function to unregister the callback
+     */
+    onInit(callback, identifier) {
+        var _a;
+        const normalizedIdentifier = this.normalizeInstanceIdentifier(identifier);
+        const existingCallbacks = (_a = this.onInitCallbacks.get(normalizedIdentifier)) !== null && _a !== void 0 ? _a : new Set();
+        existingCallbacks.add(callback);
+        this.onInitCallbacks.set(normalizedIdentifier, existingCallbacks);
+        const existingInstance = this.instances.get(normalizedIdentifier);
+        if (existingInstance) {
+            callback(existingInstance, normalizedIdentifier);
+        }
+        return () => {
+            existingCallbacks.delete(callback);
+        };
+    }
+    /**
+     * Invoke onInit callbacks synchronously
+     * @param instance the service instance`
+     */
+    invokeOnInitCallbacks(instance, identifier) {
+        const callbacks = this.onInitCallbacks.get(identifier);
+        if (!callbacks) {
+            return;
+        }
+        for (const callback of callbacks) {
+            try {
+                callback(instance, identifier);
+            }
+            catch (_a) {
+                // ignore errors in the onInit callback
+            }
+        }
+    }
+    getOrInitializeService({ instanceIdentifier, options = {} }) {
+        let instance = this.instances.get(instanceIdentifier);
+        if (!instance && this.component) {
+            instance = this.component.instanceFactory(this.container, {
+                instanceIdentifier: normalizeIdentifierForFactory(instanceIdentifier),
+                options
+            });
+            this.instances.set(instanceIdentifier, instance);
+            this.instancesOptions.set(instanceIdentifier, options);
+            /**
+             * Invoke onInit listeners.
+             * Note this.component.onInstanceCreated is different, which is used by the component creator,
+             * while onInit listeners are registered by consumers of the provider.
+             */
+            this.invokeOnInitCallbacks(instance, instanceIdentifier);
+            /**
+             * Order is important
+             * onInstanceCreated() should be called after this.instances.set(instanceIdentifier, instance); which
+             * makes `isInitialized()` return true.
+             */
+            if (this.component.onInstanceCreated) {
+                try {
+                    this.component.onInstanceCreated(this.container, instanceIdentifier, instance);
+                }
+                catch (_a) {
+                    // ignore errors in the onInstanceCreatedCallback
+                }
+            }
+        }
+        return instance || null;
+    }
+    normalizeInstanceIdentifier(identifier = DEFAULT_ENTRY_NAME) {
+        if (this.component) {
+            return this.component.multipleInstances ? identifier : DEFAULT_ENTRY_NAME;
+        }
+        else {
+            return identifier; // assume multiple instances are supported before the component is provided.
+        }
+    }
+    shouldAutoInitialize() {
+        return (!!this.component &&
+            this.component.instantiationMode !== "EXPLICIT" /* InstantiationMode.EXPLICIT */);
+    }
+}
+// undefined should be passed to the service factory for the default instance
+function normalizeIdentifierForFactory(identifier) {
+    return identifier === DEFAULT_ENTRY_NAME ? undefined : identifier;
+}
+function isComponentEager(component) {
+    return component.instantiationMode === "EAGER" /* InstantiationMode.EAGER */;
+}
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * ComponentContainer that provides Providers for service name T, e.g. `auth`, `auth-internal`
+ */
+class ComponentContainer {
+    constructor(name) {
+        this.name = name;
+        this.providers = new Map();
+    }
+    /**
+     *
+     * @param component Component being added
+     * @param overwrite When a component with the same name has already been registered,
+     * if overwrite is true: overwrite the existing component with the new component and create a new
+     * provider with the new component. It can be useful in tests where you want to use different mocks
+     * for different tests.
+     * if overwrite is false: throw an exception
+     */
+    addComponent(component) {
+        const provider = this.getProvider(component.name);
+        if (provider.isComponentSet()) {
+            throw new Error(`Component ${component.name} has already been registered with ${this.name}`);
+        }
+        provider.setComponent(component);
+    }
+    addOrOverwriteComponent(component) {
+        const provider = this.getProvider(component.name);
+        if (provider.isComponentSet()) {
+            // delete the existing provider from the container, so we can register the new component
+            this.providers.delete(component.name);
+        }
+        this.addComponent(component);
+    }
+    /**
+     * getProvider provides a type safe interface where it can only be called with a field name
+     * present in NameServiceMapping interface.
+     *
+     * Firebase SDKs providing services should extend NameServiceMapping interface to register
+     * themselves.
+     */
+    getProvider(name) {
+        if (this.providers.has(name)) {
+            return this.providers.get(name);
+        }
+        // create a Provider for a service that hasn't registered with Firebase
+        const provider = new Provider(name, this);
+        this.providers.set(name, provider);
+        return provider;
+    }
+    getProviders() {
+        return Array.from(this.providers.values());
+    }
+}
+
+
+//# sourceMappingURL=index.esm2017.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@firebase/logger/dist/esm/index.esm2017.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@firebase/logger/dist/esm/index.esm2017.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   LogLevel: () => (/* binding */ LogLevel),
+/* harmony export */   Logger: () => (/* binding */ Logger),
+/* harmony export */   setLogLevel: () => (/* binding */ setLogLevel),
+/* harmony export */   setUserLogHandler: () => (/* binding */ setUserLogHandler)
+/* harmony export */ });
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * A container for all of the Logger instances
+ */
+const instances = [];
+/**
+ * The JS SDK supports 5 log levels and also allows a user the ability to
+ * silence the logs altogether.
+ *
+ * The order is a follows:
+ * DEBUG < VERBOSE < INFO < WARN < ERROR
+ *
+ * All of the log types above the current log level will be captured (i.e. if
+ * you set the log level to `INFO`, errors will still be logged, but `DEBUG` and
+ * `VERBOSE` logs will not)
+ */
+var LogLevel;
+(function (LogLevel) {
+    LogLevel[LogLevel["DEBUG"] = 0] = "DEBUG";
+    LogLevel[LogLevel["VERBOSE"] = 1] = "VERBOSE";
+    LogLevel[LogLevel["INFO"] = 2] = "INFO";
+    LogLevel[LogLevel["WARN"] = 3] = "WARN";
+    LogLevel[LogLevel["ERROR"] = 4] = "ERROR";
+    LogLevel[LogLevel["SILENT"] = 5] = "SILENT";
+})(LogLevel || (LogLevel = {}));
+const levelStringToEnum = {
+    'debug': LogLevel.DEBUG,
+    'verbose': LogLevel.VERBOSE,
+    'info': LogLevel.INFO,
+    'warn': LogLevel.WARN,
+    'error': LogLevel.ERROR,
+    'silent': LogLevel.SILENT
+};
+/**
+ * The default log level
+ */
+const defaultLogLevel = LogLevel.INFO;
+/**
+ * By default, `console.debug` is not displayed in the developer console (in
+ * chrome). To avoid forcing users to have to opt-in to these logs twice
+ * (i.e. once for firebase, and once in the console), we are sending `DEBUG`
+ * logs to the `console.log` function.
+ */
+const ConsoleMethod = {
+    [LogLevel.DEBUG]: 'log',
+    [LogLevel.VERBOSE]: 'log',
+    [LogLevel.INFO]: 'info',
+    [LogLevel.WARN]: 'warn',
+    [LogLevel.ERROR]: 'error'
+};
+/**
+ * The default log handler will forward DEBUG, VERBOSE, INFO, WARN, and ERROR
+ * messages on to their corresponding console counterparts (if the log method
+ * is supported by the current log level)
+ */
+const defaultLogHandler = (instance, logType, ...args) => {
+    if (logType < instance.logLevel) {
+        return;
+    }
+    const now = new Date().toISOString();
+    const method = ConsoleMethod[logType];
+    if (method) {
+        console[method](`[${now}]  ${instance.name}:`, ...args);
+    }
+    else {
+        throw new Error(`Attempted to log a message with an invalid logType (value: ${logType})`);
+    }
+};
+class Logger {
+    /**
+     * Gives you an instance of a Logger to capture messages according to
+     * Firebase's logging scheme.
+     *
+     * @param name The name that the logs will be associated with
+     */
+    constructor(name) {
+        this.name = name;
+        /**
+         * The log level of the given Logger instance.
+         */
+        this._logLevel = defaultLogLevel;
+        /**
+         * The main (internal) log handler for the Logger instance.
+         * Can be set to a new function in internal package code but not by user.
+         */
+        this._logHandler = defaultLogHandler;
+        /**
+         * The optional, additional, user-defined log handler for the Logger instance.
+         */
+        this._userLogHandler = null;
+        /**
+         * Capture the current instance for later use
+         */
+        instances.push(this);
+    }
+    get logLevel() {
+        return this._logLevel;
+    }
+    set logLevel(val) {
+        if (!(val in LogLevel)) {
+            throw new TypeError(`Invalid value "${val}" assigned to \`logLevel\``);
+        }
+        this._logLevel = val;
+    }
+    // Workaround for setter/getter having to be the same type.
+    setLogLevel(val) {
+        this._logLevel = typeof val === 'string' ? levelStringToEnum[val] : val;
+    }
+    get logHandler() {
+        return this._logHandler;
+    }
+    set logHandler(val) {
+        if (typeof val !== 'function') {
+            throw new TypeError('Value assigned to `logHandler` must be a function');
+        }
+        this._logHandler = val;
+    }
+    get userLogHandler() {
+        return this._userLogHandler;
+    }
+    set userLogHandler(val) {
+        this._userLogHandler = val;
+    }
+    /**
+     * The functions below are all based on the `console` interface
+     */
+    debug(...args) {
+        this._userLogHandler && this._userLogHandler(this, LogLevel.DEBUG, ...args);
+        this._logHandler(this, LogLevel.DEBUG, ...args);
+    }
+    log(...args) {
+        this._userLogHandler &&
+            this._userLogHandler(this, LogLevel.VERBOSE, ...args);
+        this._logHandler(this, LogLevel.VERBOSE, ...args);
+    }
+    info(...args) {
+        this._userLogHandler && this._userLogHandler(this, LogLevel.INFO, ...args);
+        this._logHandler(this, LogLevel.INFO, ...args);
+    }
+    warn(...args) {
+        this._userLogHandler && this._userLogHandler(this, LogLevel.WARN, ...args);
+        this._logHandler(this, LogLevel.WARN, ...args);
+    }
+    error(...args) {
+        this._userLogHandler && this._userLogHandler(this, LogLevel.ERROR, ...args);
+        this._logHandler(this, LogLevel.ERROR, ...args);
+    }
+}
+function setLogLevel(level) {
+    instances.forEach(inst => {
+        inst.setLogLevel(level);
+    });
+}
+function setUserLogHandler(logCallback, options) {
+    for (const instance of instances) {
+        let customLogLevel = null;
+        if (options && options.level) {
+            customLogLevel = levelStringToEnum[options.level];
+        }
+        if (logCallback === null) {
+            instance.userLogHandler = null;
+        }
+        else {
+            instance.userLogHandler = (instance, level, ...args) => {
+                const message = args
+                    .map(arg => {
+                    if (arg == null) {
+                        return null;
+                    }
+                    else if (typeof arg === 'string') {
+                        return arg;
+                    }
+                    else if (typeof arg === 'number' || typeof arg === 'boolean') {
+                        return arg.toString();
+                    }
+                    else if (arg instanceof Error) {
+                        return arg.message;
+                    }
+                    else {
+                        try {
+                            return JSON.stringify(arg);
+                        }
+                        catch (ignored) {
+                            return null;
+                        }
+                    }
+                })
+                    .filter(arg => arg)
+                    .join(' ');
+                if (level >= (customLogLevel !== null && customLogLevel !== void 0 ? customLogLevel : instance.logLevel)) {
+                    logCallback({
+                        level: LogLevel[level].toLowerCase(),
+                        message,
+                        args,
+                        type: instance.name
+                    });
+                }
+            };
+        }
+    }
+}
+
+
+//# sourceMappingURL=index.esm2017.js.map
+
+
+/***/ }),
+
 /***/ "./node_modules/@firebase/util/dist/index.esm2017.js":
 /*!***********************************************************!*\
   !*** ./node_modules/@firebase/util/dist/index.esm2017.js ***!
@@ -7359,10 +8993,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/frontend/frontend_master.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/frontend/frontend_master.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/frontend/frontend_master.vue?vue&type=script&lang=js":
+/*!******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/frontend/frontend_master.vue?vue&type=script&lang=js ***!
+  \******************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -7586,10 +9220,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/frontend/frontend_master.vue?vue&type=template&id=7afef97d&":
-/*!******************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/frontend/frontend_master.vue?vue&type=template&id=7afef97d& ***!
-  \******************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/frontend/frontend_master.vue?vue&type=template&id=7afef97d":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/frontend/frontend_master.vue?vue&type=template&id=7afef97d ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -7758,2408 +9392,6 @@ var render = function render() {
 var staticRenderFns = [];
 render._withStripped = true;
 
-
-/***/ }),
-
-/***/ "./resources/js/bootstrap.js":
-/*!***********************************!*\
-  !*** ./resources/js/bootstrap.js ***!
-  \***********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
-/**
- * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
- * CSRF token as a header based on the value of the "XSRF" token cookie.
- */
-
-try {
-  window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-  window.Popper = __webpack_require__(/*! @popperjs/core */ "./node_modules/@popperjs/core/lib/index.js");
-  window.bootstrap = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
-} catch (e) {}
-window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-window.axios.defaults.headers.common['CSRF-TOKEN'] = getValueFromId('token');
-window.axios.defaults.headers.common["Authorization"] = getValueFromId('token');
-window.url = getValueFromId('base_url');
-window.app_path = getValueFromId('app_path');
-
-// window.axios.defaults.headers.common['pusher_app_key'] = document.getElementById('pusher_app_key').value;
-// window.axios.defaults.headers.common['pusher_app_cluster'] = document.getElementById('pusher_app_cluster').value;
-
-/**
- * Echo exposes an expressive API for subscribing to channels and listening
- * for events that are broadcast by Laravel. Echo and event broadcasting
- * allows your team to easily build robust real-time web applications.
- */
-
-
-window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
-
-/*window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: process.env.MIX_PUSHER_APP_KEY,
-    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-    forceTLS: true
-});*/
-window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
-  broadcaster: 'pusher',
-  key: getValueFromId("f_pusher_app_key"),
-  cluster: getValueFromId("f_pusher_app_cluster"),
-  forceTLS: true
-});
-function getValueFromId(id) {
-  var value = '';
-  var input_box = document.getElementById(id);
-  if (input_box) {
-    value = input_box.value;
-  }
-  return value;
-}
-
-/***/ }),
-
-/***/ "./resources/js/helper.js":
-/*!********************************!*\
-  !*** ./resources/js/helper.js ***!
-  \********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var vue_dist_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue/dist/vue */ "./node_modules/vue/dist/vue.js");
-/* harmony import */ var vue_dist_vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_dist_vue__WEBPACK_IMPORTED_MODULE_0__);
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (vue_dist_vue__WEBPACK_IMPORTED_MODULE_0___default().mixin({
-  data: function data() {
-    return {
-      url: document.querySelector('meta[name="base_url"]').getAttribute('content'),
-      token: document.getElementById('token').value,
-      product_form: {
-        rating: 0,
-        title: '',
-        comment: '',
-        image: '',
-        product_id: '',
-        review_id: '',
-        reply: '',
-        id: '',
-        color_id: '',
-        quantity: 1,
-        attribute_values: [],
-        variants_ids: '',
-        variants_name: '',
-        trx_id: '',
-        image_text: 'Choose File',
-        is_buy_now: 0
-      },
-      payment_form: {
-        payment_type: '',
-        sub_total: 0,
-        discount_offer: 0,
-        shipping_tax: 0,
-        tax: 0,
-        coupon_discount: 0,
-        total: 0,
-        trx_id: '',
-        quantity: []
-      },
-      errors: [],
-      converted_reward: '',
-      blog_like_loading: false,
-      search_products: [],
-      stock: [],
-      btn_disabled: false
-    };
-  },
-  mounted: function mounted() {
-    // this.$store.commit('setShimmer','1');
-  },
-  watch: {
-    $route: function $route(to, from) {
-      this.search_products = [];
-      if (this.$route.name != 'home') {
-        this.$store.commit('setShimmer', '1');
-      }
-      document.body.classList.remove("sidebar-active");
-      this.$store.dispatch('defaultCategoryShow', false);
-      this.$store.commit('setResponseCheck', false);
-    }
-  },
-  computed: {
-    shimmer: function shimmer() {
-      return this.$store.getters.getShimmer;
-    },
-    authUser: function authUser() {
-      return this.$store.getters.getUser;
-    },
-    activeCurrency: function activeCurrency() {
-      return this.$store.getters.getActiveCurrency;
-    },
-    settings: function settings() {
-      return this.$store.getters.getSettings;
-    },
-    defaultCurrency: function defaultCurrency() {
-      return this.$store.getters.getDefaultCurrency;
-    },
-    defaultAssets: function defaultAssets() {
-      return this.$store.getters.getDefaultAssets;
-    },
-    lang: function lang() {
-      return this.$store.getters.getLangKeywords;
-    },
-    defaultCategoryShow: function defaultCategoryShow() {
-      return this.$store.getters.getDefaultCategory;
-    },
-    addons: function addons() {
-      return this.$store.getters.getAddons;
-    },
-    homeResponse: function homeResponse() {
-      return this.$store.getters.getResponseDone;
-    },
-    responseCheck: function responseCheck() {
-      return this.$store.getters.getResponseCheck;
-    },
-    shopResponse: function shopResponse() {
-      var shop = this.$store.getters.getShopComponent;
-      for (var i = 0; i < shop.length; i++) {
-        if (shop[i].slug == this.$route.params.slug) {
-          return shop[i].contents;
-        }
-      }
-      return false;
-    }
-  },
-  created: function created() {},
-  methods: {
-    urlCheck: function urlCheck(link) {
-      if (link == 'javascript:void(0)') {
-        return true;
-      } else if (link) {
-        return link.includes("http");
-      } else {
-        return false;
-      }
-    },
-    imageUp: function imageUp(event) {
-      this.product_form.image = event.target.files[0];
-      document.getElementById('upload-image').innerHTML = this.product_form.image.name;
-    },
-    getUrl: function getUrl(url) {
-      var base_url = document.querySelector('meta[name="base_url"]').getAttribute('content');
-      return base_url + '/' + url;
-    },
-    logout: function logout() {
-      var _this = this;
-      this.$store.commit('getCountCompare', true);
-      var url = this.getUrl('logout');
-      /*  let config = {
-            'Access-Control-Allow-Origin': '*',
-            'Content-Type': 'application/json'
-        }
-        let url = 'https://licenseplatedata.com/consumer-api/CRYPTO-LPDEMTK7O/1FM5K8D84FGA81501';*/
-      axios.get(url).then(function (response) {
-        if (response.data.error) {
-          toastr.error(response.data.error, 'Error!!');
-        }
-        if (response.data.success) {
-          _this.$store.dispatch('user');
-          _this.$store.dispatch('compareList', 0);
-          _this.$store.dispatch('carts', 0);
-          _this.$router.push({
-            name: 'login'
-          });
-          _this.$store.dispatch('wishlists', 0);
-          document.getElementById('token').value = response.data.token;
-          _this.token = response.data.token;
-        }
-      });
-    },
-    alreadyLiked: function alreadyLiked(obj) {
-      for (var i = 0; i < obj.length; i++) {
-        if (obj[i]['user_id'] == this.authUser.id) {
-          return true;
-        }
-      }
-      return false;
-    },
-    likeReply: function likeReply(id, comment_id) {
-      var _this2 = this;
-      var data = {
-        id: id,
-        comment_id: comment_id
-      };
-      this.blog_like_loading = true;
-      var url = this.getUrl('blog/like-reply');
-      axios.post(url, data).then(function (response) {
-        _this2.blog_like_loading = false;
-        if (response.data.error) {
-          toastr.error(response.data.error, _this2.lang.success);
-        } else {
-          _this2.comment.comment_replies = response.data.comment.comment_replies;
-          if (response.data.success) {
-            toastr.success(response.data.success, _this2.lang.Success + ' !!');
-          }
-        }
-      })["catch"](function (error) {
-        _this2.blog_like_loading = false;
-      });
-    },
-    unLike: function unLike(id, comment_id) {
-      var _this3 = this;
-      var data = {
-        id: id,
-        comment_id: comment_id
-      };
-      this.blog_like_loading = true;
-      var url = this.getUrl('blog/unlike-reply');
-      axios.post(url, data).then(function (response) {
-        _this3.blog_like_loading = false;
-        if (response.data.error) {
-          toastr.error(response.data.error, _this3.lang.Error + ' !!');
-        } else {
-          _this3.comment.comment_replies = response.data.comment.comment_replies;
-          if (response.data.success) {
-            toastr.success(response.data.success, _this3.lang.Success + ' !!');
-          }
-        }
-      })["catch"](function (error) {
-        _this3.blog_like_loading = false;
-      });
-    },
-    resetForm: function resetForm() {
-      this.product_form.rating = 0;
-      this.product_form.title = '';
-      this.product_form.comment = '';
-      this.product_form.image = '';
-      this.product_form.product_id = '';
-      this.product_form.review_id = '';
-      this.product_form.reply = '';
-      this.product_form.image_text = 'Choose File';
-      for (var key in this.payment_form) {
-        this.payment_form[key] = 0;
-      }
-      this.payment_form.coupon_code = '';
-      this.payment_form.quantity = [];
-      this.payment_form.coupon = [];
-    },
-    priceFormat: function priceFormat(amount, only_amount) {
-      // amount = amount/this.defaultCurrency.exchange_rate;
-      amount = amount * this.activeCurrency.exchange_rate;
-      if (only_amount) {
-        return amount;
-      }
-      var no_of_decimals,
-        decimal_separator,
-        thousands_separator,
-        currency_symbol_format,
-        fixed_amount,
-        formatted_amount = '';
-      no_of_decimals = this.settings.no_of_decimals;
-      decimal_separator = this.settings.decimal_separator ? this.settings.decimal_separator : '.';
-      thousands_separator = decimal_separator == ',' ? '.' : ',';
-      currency_symbol_format = this.settings.currency_symbol_format ? this.settings.currency_symbol_format : 'amount_symbol';
-      if (currency_symbol_format == 'amount_symbol') formatted_amount = this.$options.filters.currency(amount, this.activeCurrency.symbol, no_of_decimals, {
-        symbolOnLeft: false,
-        thousandsSeparator: thousands_separator,
-        decimalSeparator: decimal_separator
-      });
-      if (currency_symbol_format == 'symbol_amount') formatted_amount = this.$options.filters.currency(amount, this.activeCurrency.symbol, no_of_decimals, {
-        thousandsSeparator: thousands_separator,
-        decimalSeparator: decimal_separator
-      });
-      if (currency_symbol_format == 'amount__symbol') formatted_amount = this.$options.filters.currency(amount, this.activeCurrency.symbol, no_of_decimals, {
-        symbolOnLeft: false,
-        thousandsSeparator: thousands_separator,
-        decimalSeparator: decimal_separator,
-        spaceBetweenAmountAndSymbol: true
-      });
-      if (currency_symbol_format == 'symbol__amount') formatted_amount = this.$options.filters.currency(amount, this.activeCurrency.symbol, no_of_decimals, {
-        thousandsSeparator: thousands_separator,
-        decimalSeparator: decimal_separator,
-        spaceBetweenAmountAndSymbol: true
-      });
-      return formatted_amount;
-    },
-    lengthCounter: function lengthCounter(data) {
-      var length = 0;
-      if (data && data != 'undefined') {
-        if (_typeof(data) == 'object') {
-          length = Object.keys(data).length;
-        } else if (typeof data == 'array') {
-          length = data.length;
-        }
-      }
-      return length;
-    },
-    productFetch: function productFetch(slug) {
-      if (!this.productDetails) {
-        this.$store.commit('setShimmer', '1');
-        var set_params = {
-          slug: slug,
-          referral_code: this.$route.query.referral_code
-        };
-        this.$store.dispatch('productDetails', set_params);
-      }
-      this.$store.commit('setActiveModal', slug);
-      $("#product").modal("show");
-      return this.productDetails;
-    },
-    cartBtn: function cartBtn(product, index) {
-      if (product.has_variant) {
-        return this.productFetch(product.slug);
-      } else {
-        this.product_form.quantity = product.minimum_order_quantity;
-        this.product_form.id = product.id;
-        return this.addToCart(product.minimum_order_quantity, index);
-      }
-    },
-    addToCart: function addToCart(min_qty, index) {
-      var _this4 = this;
-      var carts = this.$store.getters.getCarts;
-      if (carts && carts.length > 0) {
-        this.product_form.trx_id = carts[0].trx_id;
-      }
-      var url = this.getUrl('user/addToCart');
-      axios.post(url, this.product_form).then(function (response) {
-        if (response.data.error) {
-          toastr.error(response.data.error, _this4.lang.Error + ' !!');
-        } else {
-          toastr.success(response.data.success, _this4.lang.Success + ' !!');
-          var _carts = response.data.carts;
-          _this4.$store.dispatch('carts', _carts);
-          _this4.resetForm();
-          _this4.product_form.quantity = min_qty;
-          if (index) {
-            _this4.products[index].current_stock -= min_qty;
-          }
-          _this4.added_to_cart = true;
-          setTimeout(function () {
-            _this4.added_to_cart = false;
-          }, 2000);
-        }
-      });
-    },
-    routerNavigator: function routerNavigator(name, params) {
-      if (params) {
-        this.$router.push({
-          name: name,
-          params: {
-            slug: params
-          }
-        });
-      } else {
-        this.$router.push({
-          name: name
-        });
-      }
-    },
-    round: function round(num) {
-      var decimalPlaces = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-      var p = Math.pow(10, decimalPlaces);
-      var n = num * p * (1 + Number.EPSILON);
-      return Math.round(n) / p;
-    },
-    checkEl: function checkEl(event) {
-      var element = event.target;
-      var moved;
-      var downListener = function downListener() {
-        moved = false;
-      };
-      element.addEventListener('mousedown', downListener);
-      var moveListener = function moveListener() {
-        moved = true;
-      };
-      element.addEventListener('mousemove', moveListener);
-      var upListener = function upListener() {
-        if (moved) {
-          console.log('moved');
-        } else {
-          console.log('not moved');
-        }
-      };
-      element.addEventListener('mouseup', upListener);
-
-      // release memory
-      element.removeEventListener('mousedown', downListener);
-      element.removeEventListener('mousemove', moveListener);
-      element.removeEventListener('mouseup', upListener);
-      event.preventDefault();
-    },
-    handleCheckout: function handleCheckout() {
-      if (!this.authUser && this.settings.disable_guest) {
-        toastr.error(this.lang.login_first, this.lang.Error + ' !!');
-        this.$store.commit('setLoginRedirection', this.$route.name);
-        if (this.$route.name != 'login') {
-          return this.$router.push({
-            name: 'login'
-          });
-        }
-        return false;
-      }
-      if (this.$route.name != 'checkout') {
-        return this.$router.push({
-          name: 'checkout'
-        });
-      }
-      return true;
-    }
-  }
-}));
-
-/***/ }),
-
-/***/ "./resources/js/objectToFormData.js":
-/*!******************************************!*\
-  !*** ./resources/js/objectToFormData.js ***!
-  \******************************************/
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-(function (global, factory) {
-  ( false ? 0 : _typeof(exports)) === 'object' && "object" !== 'undefined' ? module.exports = factory() :  true ? !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-		__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-		(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
-		__WEBPACK_AMD_DEFINE_FACTORY__),
-		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)) : 0;
-})(this, function () {
-  'use strict';
-
-  function isUndefined(value) {
-    return value === undefined;
-  }
-  function isObject(value) {
-    return value === Object(value);
-  }
-  function isArray(value) {
-    return Array.isArray(value);
-  }
-  function isFile(value) {
-    return value instanceof File;
-  }
-  function isDate(value) {
-    return value instanceof Date;
-  }
-  function objectToFormData(obj, fd, pre) {
-    fd = fd || new FormData();
-    if (isUndefined(obj)) {
-      return fd;
-    } else if (isArray(obj)) {
-      obj.forEach(function (value) {
-        var key = pre + '[]';
-        objectToFormData(value, fd, key);
-      });
-    } else if (isObject(obj) && !isFile(obj) && !isDate(obj)) {
-      Object.keys(obj).forEach(function (prop) {
-        var value = obj[prop];
-        if (isArray(value)) {
-          while (prop.length > 2 && prop.lastIndexOf('[]') === prop.length - 2) {
-            prop = prop.substring(0, prop.length - 2);
-          }
-        }
-        var key = pre ? pre + '[' + prop + ']' : prop;
-        objectToFormData(value, fd, key);
-      });
-    } else {
-      fd.append(pre, obj);
-    }
-    return fd;
-  }
-  return objectToFormData;
-});
-
-/***/ }),
-
-/***/ "./resources/js/routes/frontend.js":
-/*!*****************************************!*\
-  !*** ./resources/js/routes/frontend.js ***!
-  \*****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   routes: () => (/* binding */ routes)
-/* harmony export */ });
-var home = function home() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_home_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/home */ "./resources/js/components/frontend/pages/home.vue"));
-};
-var about = function about() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_about_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/about */ "./resources/js/components/frontend/pages/about.vue"));
-};
-var allBlogs = function allBlogs() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_blogs_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/blogs */ "./resources/js/components/frontend/pages/blogs.vue"));
-};
-var blogDetails = function blogDetails() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_blog_details_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/blog_details */ "./resources/js/components/frontend/pages/blog_details.vue"));
-};
-var brands = function brands() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_brands_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/brands */ "./resources/js/components/frontend/pages/brands.vue"));
-};
-var sellers = function sellers() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_all-seller_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/all-seller */ "./resources/js/components/frontend/pages/all-seller.vue"));
-};
-var campaignDetails = function campaignDetails() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_campaign_details_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/campaign_details */ "./resources/js/components/frontend/pages/campaign_details.vue"));
-};
-var allCampaign = function allCampaign() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_all_campaign_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/all_campaign */ "./resources/js/components/frontend/pages/all_campaign.vue"));
-};
-var allCategory = function allCategory() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_category_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/category */ "./resources/js/components/frontend/pages/category.vue"));
-};
-var contact = function contact() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_contact_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/contact */ "./resources/js/components/frontend/pages/contact.vue"));
-};
-var dailyDeals = function dailyDeals() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_daily-deals_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/daily-deals */ "./resources/js/components/frontend/pages/daily-deals.vue"));
-};
-var giftIdea = function giftIdea() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_gift-idea_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/gift-idea */ "./resources/js/components/frontend/pages/gift-idea.vue"));
-};
-var businessIdea = function businessIdea() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_business-idea_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/business-idea.vue */ "./resources/js/components/frontend/pages/business-idea.vue"));
-};
-var productDetails = function productDetails() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_product-details_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/product-details */ "./resources/js/components/frontend/pages/product-details.vue"));
-};
-var trackOrder = function trackOrder() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_track-order_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/track-order */ "./resources/js/components/frontend/pages/track-order.vue"));
-};
-var afterTrackOrder = function afterTrackOrder() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_after-track-order_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/after-track-order */ "./resources/js/components/frontend/pages/after-track-order.vue"));
-};
-var checkout = function checkout() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_checkout_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/checkout */ "./resources/js/components/frontend/pages/checkout.vue"));
-};
-var payment = function payment() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_payment_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/payment */ "./resources/js/components/frontend/pages/payment.vue"));
-};
-var orderConfirmation = function orderConfirmation() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_order-confirmation_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/order-confirmation */ "./resources/js/components/frontend/pages/order-confirmation.vue"));
-};
-var cart = function cart() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_cart_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/cart */ "./resources/js/components/frontend/pages/cart.vue"));
-};
-var login = function login() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_login_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/login */ "./resources/js/components/frontend/pages/login.vue"));
-};
-var register = function register() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_register_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/register */ "./resources/js/components/frontend/pages/register.vue"));
-};
-var seller_register = function seller_register() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_seller_register_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/seller_register */ "./resources/js/components/frontend/pages/seller_register.vue"));
-};
-var resetPassword = function resetPassword() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_forgot-password_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/forgot-password */ "./resources/js/components/frontend/pages/forgot-password.vue"));
-};
-var wishlist = function wishlist() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_user_wishlist_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/user/wishlist */ "./resources/js/components/frontend/pages/user/wishlist.vue"));
-};
-var filterProducts = function filterProducts() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_filter_sidebar_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/filter_sidebar */ "./resources/js/components/frontend/pages/filter_sidebar.vue"));
-};
-var flashSale = function flashSale() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_flash-sale_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/flash-sale */ "./resources/js/components/frontend/pages/flash-sale.vue"));
-};
-var compareList = function compareList() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_compare-list_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/compare-list */ "./resources/js/components/frontend/pages/compare-list.vue"));
-};
-var changePassword = function changePassword() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_user_change_password_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/user/change_password */ "./resources/js/components/frontend/pages/user/change_password.vue"));
-};
-var editProfile = function editProfile() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_user_edit-profile_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/user/edit-profile */ "./resources/js/components/frontend/pages/user/edit-profile.vue"));
-};
-/*const migrateSeller = () => import(/!* webpackPrefetch: "product-details" *!/
-    '../components/frontend/pages/user/migrate-to-seller');*/
-
-var migrateSeller = function migrateSeller() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_user_migrate-to-seller_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/user/migrate-to-seller */ "./resources/js/components/frontend/pages/user/migrate-to-seller.vue"));
-};
-var giftVoucher = function giftVoucher() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_user_gift-voucher_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/user/gift-voucher */ "./resources/js/components/frontend/pages/user/gift-voucher.vue"));
-};
-var notification = function notification() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_user_notification_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/user/notification */ "./resources/js/components/frontend/pages/user/notification.vue"));
-};
-var orderHistory = function orderHistory() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_user_order-history_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/user/order-history */ "./resources/js/components/frontend/pages/user/order-history.vue"));
-};
-var dashboard = function dashboard() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_user_dashboard_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/user/dashboard */ "./resources/js/components/frontend/pages/user/dashboard.vue"));
-};
-var addresses = function addresses() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_user_addresses_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/user/addresses */ "./resources/js/components/frontend/pages/user/addresses.vue"));
-};
-var getInvoice = function getInvoice() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_user_get-invoice_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/user/get-invoice */ "./resources/js/components/frontend/pages/user/get-invoice.vue"));
-};
-var reward = function reward() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_addons_rewards_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/addons/rewards */ "./resources/js/components/frontend/pages/addons/rewards.vue"));
-};
-var myWallet = function myWallet() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_user_wallet_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/user/wallet */ "./resources/js/components/frontend/pages/user/wallet.vue"));
-};
-var shop = function shop() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_shop_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/shop */ "./resources/js/components/frontend/pages/shop.vue"));
-};
-var followedShop = function followedShop() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_user_followed-shop_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/user/followed-shop */ "./resources/js/components/frontend/pages/user/followed-shop.vue"));
-};
-var digitalProductOrders = function digitalProductOrders() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_user_digital-product-orders_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/user/digital-product-orders */ "./resources/js/components/frontend/pages/user/digital-product-orders.vue"));
-};
-var videoShop = function videoShop() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_addons_video_shop_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/addons/video_shop */ "./resources/js/components/frontend/pages/addons/video_shop.vue"));
-};
-var videoShopDetails = function videoShopDetails() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_addons_video_shop_details_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/addons/video_shop_details */ "./resources/js/components/frontend/pages/addons/video_shop_details.vue"));
-};
-var error_404 = function error_404() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_errors_not_found_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/errors/not_found */ "./resources/js/components/errors/not_found.vue"));
-};
-var affiliate_register = function affiliate_register() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_affiliate_users_affiliate_register_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/affiliate_users/affiliate_register */ "./resources/js/components/frontend/pages/affiliate_users/affiliate_register.vue"));
-};
-var affiliate_program = function affiliate_program() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_affiliate_users_affiliate_program_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/affiliate_users/affiliate_program */ "./resources/js/components/frontend/pages/affiliate_users/affiliate_program.vue"));
-};
-var affiliate_system = function affiliate_system() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_affiliate_users_affiliate_system_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/affiliate_users/affiliate_system */ "./resources/js/components/frontend/pages/affiliate_users/affiliate_system.vue"));
-};
-//claim   
-var createClaim = function createClaim() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_CreateClaim_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/CreateClaim.vue */ "./resources/js/components/frontend/pages/CreateClaim.vue"));
-};
-var routes = [{
-  path: '/',
-  component: function component() {
-    return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_master_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/master */ "./resources/js/components/frontend/master.vue"));
-  },
-  children: [{
-    path: '/',
-    name: 'home',
-    component: home,
-    meta: {
-      title: document.title,
-      transition: 'slide-left'
-    }
-  }, {
-    path: '/page/:slug',
-    name: 'about',
-    component: about
-  }, {
-    path: '/track-order',
-    name: 'track.order',
-    component: trackOrder,
-    meta: {
-      title: 'Track Order'
-    }
-  }, {
-    path: '/get-invoice/:orderCode',
-    name: 'get.invoice',
-    component: afterTrackOrder,
-    props: true,
-    meta: {
-      title: 'Get Invoice'
-    }
-  }, {
-    path: '/brands',
-    name: 'brands',
-    component: brands,
-    meta: {
-      title: 'All Brands'
-    }
-  }, {
-    path: '/sellers',
-    name: 'sellers',
-    component: sellers,
-    meta: {
-      title: 'All Sellers'
-    }
-  }, {
-    path: '/campaigns',
-    name: 'campaigns',
-    component: allCampaign,
-    meta: {
-      title: 'All Campaign'
-    }
-  }, {
-    path: '/campaign/:slug',
-    name: 'campaign.details',
-    component: campaignDetails,
-    meta: {
-      title: 'Campaign Details'
-    }
-  }, {
-    path: '/categories',
-    name: 'categories',
-    component: allCategory,
-    meta: {
-      title: 'All Category'
-    }
-  }, {
-    path: '/products',
-    name: 'all.products',
-    component: filterProducts,
-    meta: {
-      title: 'All Products',
-      transition: 'fade'
-    }
-  }, {
-    path: '/category/:slug',
-    name: 'product.by.category',
-    component: filterProducts,
-    meta: {
-      title: 'Category Products'
-    }
-  }, {
-    path: '/brand/:slug',
-    name: 'product.by.brand',
-    component: filterProducts,
-    meta: {
-      title: 'Brand Products'
-    }
-  }, {
-    path: '/offer/products',
-    name: 'product.by.offer',
-    component: filterProducts,
-    meta: {
-      title: 'Offer Products'
-    }
-  }, {
-    path: '/best-selling/products',
-    name: 'product.by.selling',
-    component: filterProducts,
-    meta: {
-      title: 'Best Selling Products'
-    }
-  }, {
-    path: '/gadget-products/:slug',
-    name: 'product.by.gadget',
-    component: filterProducts,
-    meta: {
-      title: 'Gadget Products'
-    }
-  }, {
-    path: '/checkout',
-    name: 'checkout',
-    component: checkout,
-    /*props(route) {
-        return route.query || {};
-    },*/
-    meta: {
-      title: 'Checkout',
-      auth: true
-    }
-  }, {
-    path: '/order-confirmation',
-    name: 'order.confirmation',
-    component: orderConfirmation,
-    meta: {
-      title: 'Order Confirmation'
-    }
-  }, {
-    path: '/contact',
-    name: 'contact',
-    component: contact,
-    meta: {
-      title: 'Contact'
-    }
-  }, {
-    path: '/daily-deals',
-    name: 'daily.deals',
-    component: dailyDeals,
-    meta: {
-      title: 'Daily Deals'
-    }
-  }, {
-    path: '/gift-idea',
-    name: 'gift.idea',
-    component: giftIdea,
-    meta: {
-      title: 'Gift Idea'
-    }
-  }, {
-    path: '/business-idea',
-    name: 'business.idea',
-    component: businessIdea,
-    meta: {
-      title: 'Business Idea'
-    }
-  }, {
-    path: '/affiliate-register',
-    name: 'affiliate.register',
-    component: affiliate_register,
-    meta: {
-      title: 'Affiliate Register'
-    }
-  }, {
-    path: '/affiliate-program',
-    name: 'affiliate.program',
-    component: affiliate_program,
-    meta: {
-      title: 'Affiliate Program'
-    }
-  }, {
-    path: '/affiliate-system',
-    name: 'affiliate.system',
-    component: affiliate_system,
-    meta: {
-      title: 'Affiliate System'
-    }
-  }, {
-    path: '/flash-sale',
-    name: 'flash.sale',
-    component: flashSale,
-    meta: {
-      title: 'All Flash Sale'
-    }
-  }, {
-    path: '/product/:slug',
-    name: 'product.details',
-    component: productDetails,
-    meta: {
-      title: 'Product Details'
-    }
-  }, {
-    path: '/payment/:code?',
-    name: 'payment',
-    component: payment,
-    meta: {
-      title: 'Payment',
-      auth: true
-    }
-  }, {
-    path: '/products',
-    props: function props(route) {
-      return route.query || {};
-    },
-    name: 'search.product',
-    component: filterProducts
-  }, {
-    path: '/blogs',
-    name: 'blogs',
-    component: allBlogs,
-    meta: {
-      title: 'All Blogs'
-    }
-  }, {
-    path: '/category-blogs/:slug',
-    name: 'category.blogs',
-    component: allBlogs
-  }, {
-    path: '/blog/:slug',
-    name: 'blog.details',
-    component: blogDetails,
-    meta: {
-      title: 'Blog Details'
-    }
-  }, {
-    path: '/cart',
-    name: 'cart',
-    component: cart,
-    meta: {
-      title: 'Cart'
-    }
-  }, {
-    path: '/login',
-    name: 'login',
-    component: login,
-    meta: {
-      title: 'Login'
-    }
-  }, {
-    path: '/register',
-    name: 'register',
-    component: register,
-    meta: {
-      title: 'SignUp'
-    }
-  }, {
-    path: '/reset-password',
-    name: 'reset.password',
-    component: resetPassword,
-    meta: {
-      title: 'Reset Password'
-    }
-  }, {
-    path: '/reset/:email/:code',
-    name: 'set.new.password',
-    component: resetPassword
-  }, {
-    path: '/register/:type',
-    name: 'seller-register',
-    component: seller_register,
-    meta: {
-      title: 'Seller SingUp'
-    }
-  }, {
-    path: '/user/edit-profile',
-    name: 'edit.profile',
-    component: editProfile,
-    meta: {
-      title: 'Edit Profile'
-    }
-  }, {
-    path: '/user/gift-voucher',
-    name: 'gift.voucher',
-    component: giftVoucher,
-    meta: {
-      title: 'Gift Voucher'
-    }
-  }, {
-    path: '/user/followed-shop',
-    name: 'shop.followed',
-    component: followedShop,
-    meta: {
-      title: 'Followed Shop'
-    }
-  }, {
-    path: '/user/digital-product-orders',
-    name: 'orders.digital.product',
-    component: digitalProductOrders,
-    meta: {
-      title: 'Digital Product Orders'
-    }
-  }, {
-    path: '/user/user-to-seller',
-    name: 'migrate.seller',
-    component: migrateSeller
-  }, {
-    path: '/user/notification',
-    name: 'notification',
-    component: notification,
-    meta: {
-      title: 'Notification'
-    }
-  }, {
-    path: '/user/order-history',
-    name: 'order.history',
-    component: orderHistory,
-    props: true,
-    meta: {
-      title: 'Order History'
-    }
-  }, {
-    path: '/user/dashboard',
-    name: 'dashboard',
-    component: dashboard,
-    meta: {
-      title: 'Dashboard'
-    }
-  }, {
-    path: '/user/wishlist',
-    name: 'wishlist',
-    component: wishlist,
-    meta: {
-      title: 'Wishlist'
-    }
-  }, {
-    path: '/user/change-password',
-    name: 'change.password',
-    component: changePassword,
-    meta: {
-      title: 'Password Change'
-    }
-  }, {
-    path: '/user/addresses',
-    name: 'addresses',
-    component: addresses,
-    meta: {
-      title: 'Addresses'
-    }
-  }, {
-    path: '/compare-list',
-    name: 'compare.list',
-    component: compareList,
-    meta: {
-      title: 'Compare List'
-    }
-  }, {
-    path: '/invoice/:trx_id',
-    name: 'invoice.list',
-    component: getInvoice,
-    meta: {
-      title: 'Invoice'
-    }
-  }, {
-    path: '/my-wallet',
-    name: 'wallet.history',
-    component: myWallet,
-    meta: {
-      title: 'Wallet'
-    }
-  }, {
-    path: '/my-rewards',
-    name: 'reward.history',
-    component: reward,
-    meta: {
-      title: 'Reward'
-    }
-  }, {
-    path: '/video-shopping',
-    name: 'video.shopping',
-    component: videoShop,
-    meta: {
-      title: 'Video Shopping'
-    }
-  }, {
-    path: '/video-shopping/:slug',
-    name: 'video.shopping.details',
-    component: videoShopDetails,
-    meta: {
-      title: 'Video Shopping'
-    }
-  }, {
-    path: '/shop/:slug',
-    name: 'shop',
-    component: shop,
-    meta: {
-      title: 'Shop'
-    }
-  }, {
-    path: '/create-claim',
-    name: 'create.claim',
-    component: createClaim,
-    meta: {
-      title: 'Reclamation'
-    }
-  }, {
-    path: '/:pathMatch(.*)*',
-    name: '404',
-    component: error_404
-  }]
-}];
-
-/***/ }),
-
-/***/ "./resources/js/store/actions.js":
-/*!***************************************!*\
-  !*** ./resources/js/store/actions.js ***!
-  \***************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  blogDetails: function blogDetails(context, slug) {
-    var url = context.state.url + '/home/blog-details/' + slug;
-    axios.get(url).then(function (response) {
-      context.commit("blogDetails", response.data.blog);
-      context.commit("getBlogCategories", response.data.categories);
-      context.commit("getBlogTags", response.data.tags);
-      context.commit("getRecentPosts", response.data.recent_posts);
-      context.commit("getBlogComments", response.data.comments);
-    });
-  },
-  contactPage: function contactPage(context) {
-    var url = context.state.url + '/home/contact-page';
-    axios.get(url).then(function (response) {
-      context.commit("getContactPage", response.data.contact);
-    });
-  },
-  othersPage: function othersPage(context, slug) {
-    var url = context.state.url + '/home/others-page/' + slug;
-    var requestData = {
-      slug: slug
-    };
-    axios.get(url, {
-      params: requestData
-    }).then(function (response) {
-      context.commit("getPagedData", response.data.page);
-    });
-  },
-  allCampaign: function allCampaign(context, page) {
-    var url = context.state.url + '/home/campaign-lists?page=' + page;
-    axios.get(url).then(function (response) {
-      context.commit("getAllCampaign", response.data.campaigns);
-    });
-  },
-  campaignProducts: function campaignProducts(context, requestData) {
-    var url = context.state.url + '/home/campaign-products';
-    axios.get(url, {
-      params: requestData
-    }).then(function (response) {
-      context.commit("getCampaignProducts", response.data);
-    });
-  },
-  dailyDeals: function dailyDeals(context, form) {
-    var url = context.state.url + '/home/daily-deals?page=1';
-    axios.get(url, {
-      params: form
-    }).then(function (response) {
-      context.commit("getDailyDeals", response.data.products);
-    });
-  },
-  giftIdea: function giftIdea(context, form) {
-    var url = context.state.url + '/home/gift-idea?page=1';
-    axios.get(url, {
-      params: form
-    }).then(function (response) {
-      context.commit("getGiftIdea", response.data.products);
-    });
-  },
-  businessIdea: function businessIdea(context, form) {
-    var url = context.state.url + '/home/business-idea?page=1';
-    axios.get(url, {
-      params: form
-    }).then(function (response) {
-      context.commit("getBusinessIdea", response.data.products);
-    });
-  },
-  productDetails: function productDetails(context, set_params) {
-    var url = context.state.url + '/home/product-details/' + set_params.slug + '?trx_id=' + set_params.trx_id;
-    axios.get(url).then(function (response) {
-      var index = context.state.product_details.findIndex(function (p) {
-        return p.slug == response.data.product.slug;
-      });
-      if (index >= 0) {
-        context.state.product_details.splice(index, 1);
-      }
-      context.commit('setShimmer', 0);
-      context.commit("productDetails", response.data.product);
-      context.commit("getProductAttributes", response.data.attributes);
-    });
-  },
-  replyForm: function replyForm(context, id) {
-    context.commit("getReplyForm", id);
-  },
-  compareList: function compareList(context, data) {
-    context.commit("getCompareList", data);
-  },
-  userOrderList: function userOrderList(context) {},
-  userWishlistProduct: function userWishlistProduct(context, product) {
-    context.commit("getUserWishlist", product);
-  },
-  userCompareProduct: function userCompareProduct(context, product) {
-    context.commit("getUserCompare", product);
-  },
-  defaultCurrency: function defaultCurrency(context, currency) {
-    context.commit("getDefaultCurrency", currency);
-  },
-  carts: function carts(context, _carts) {
-    context.commit('getCarts', _carts);
-  },
-  homeComponents: function homeComponents(context, components) {
-    context.commit('getHomeComponents', components);
-  },
-  productView: function productView(context, _productView) {
-    var url = context.state.url + '/home/product-view';
-    axios.post(url, _productView).then(function (response) {
-      context.commit("getViewedProducts", response.data.viewProduct);
-    })["catch"](function (error) {
-      if (error.response.status == 401) {}
-    });
-  },
-  defaultAssets: function defaultAssets(context, data) {
-    context.commit('getDefaultAssets', data);
-  },
-  filterData: function filterData(context, slug) {
-    slug = slug ? slug : '';
-    var url = context.state.url + '/home/filter_data?slug=' + slug;
-    axios.get(url).then(function (response) {
-      var data = '';
-      context.commit("getShopCategories", response.data.categories);
-      if (slug) {
-        data = {
-          slug: slug,
-          attributes: response.data.attributes
-        };
-      } else {
-        data = {
-          slug: 'all',
-          attributes: response.data.attributes
-        };
-      }
-      context.commit("getShopAttributes", data);
-      context.commit("getShopBrands", response.data.brands);
-      context.commit("getShopColors", response.data.colors);
-      context.commit("getShop", response.data.shop);
-      context.commit("setPriceRange", response.data.price_range);
-      context.commit('getFilterLoaded', true);
-    });
-  },
-  countryList: function countryList(context) {
-    var url = context.state.url + '/get/country-list';
-    axios.get(url).then(function (response) {
-      context.commit("setCountryList", response.data.countries);
-    });
-  },
-  settings: function settings(context, _settings) {
-    context.commit('getSettings', _settings);
-  },
-  languageKeywords: function languageKeywords(context) {
-    var language = context.state.settings.lang_file;
-    axios.get(language).then(function (response) {
-      context.commit("setLangKeywords", response.data);
-    });
-  },
-  products: function products(context, data) {
-    var url = context.state.url + '/home/filtered_products';
-    axios.get(url, {
-      params: data
-    }).then(function (response) {
-      var type = response.data.type;
-      if (type == 'products') {
-        context.commit("getProducts", response.data.products);
-      } else if (type == 'category') {
-        var response_data = {
-          slug: response.data.slug,
-          products: response.data.products
-        };
-        var page_data = {
-          slug: response.data.slug,
-          page: response.data.page
-        };
-        context.commit("getCategoryProducts", response_data);
-        context.commit("getCategoryPage", page_data);
-      } else if (type == 'brand') {
-        var _response_data = {
-          slug: response.data.slug,
-          products: response.data.products
-        };
-        var _page_data = {
-          slug: response.data.slug,
-          page: response.data.page
-        };
-        context.commit("getBrandProducts", _response_data);
-        context.commit("getBrandPage", _page_data);
-      } else if (type == 'offer') {
-        context.commit("getOfferProducts", response.data.products);
-      } else if (type == 'best_selling') {
-        context.commit("getSellingProducts", response.data.products);
-      } else if (type == 'shop') {
-        var _response_data2 = {
-          slug: response.data.slug,
-          products: response.data.products
-        };
-        var _page_data2 = {
-          slug: response.data.slug,
-          page: response.data.page
-        };
-        context.commit("setSellerProducts", _response_data2);
-        context.commit("getSellerPage", _page_data2);
-      }
-    });
-  },
-  FollowedSellers: function FollowedSellers(context, page_no) {
-    if (!page_no) {
-      page_no = 1;
-    }
-    var url = context.state.url + '/user/followed-sellers?page=' + page_no;
-    axios.get(url).then(function (response) {
-      var length = response.data.sellers.data;
-      if (length == 0) {
-        context.commit("setFollowedSellers", [{
-          id: 0
-        }]);
-      } else {
-        context.commit("setFollowedSellers", response.data.sellers.data);
-      }
-    });
-  }
-});
-
-/***/ }),
-
-/***/ "./resources/js/store/getters.js":
-/*!***************************************!*\
-  !*** ./resources/js/store/getters.js ***!
-  \***************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  getBlogs: function getBlogs(state) {
-    return state.blogs;
-  },
-  getBlogDetails: function getBlogDetails(state) {
-    return state.blogsDetails;
-  },
-  getContactPage: function getContactPage(state) {
-    return state.contact_page;
-  },
-  getAllCampaign: function getAllCampaign(state) {
-    return state.all_campaigns;
-  },
-  getSettings: function getSettings(state) {
-    return state.settings;
-  },
-  getCampaignProducts: function getCampaignProducts(state) {
-    return state.campaign_products;
-  },
-  getCampaignBrands: function getCampaignBrands(state) {
-    return state.campaign_brands;
-  },
-  getCampaignShops: function getCampaignShops(state) {
-    return state.campaign_shops;
-  },
-  getCampaign: function getCampaign(state) {
-    return state.campaign;
-  },
-  getBlogCategories: function getBlogCategories(state) {
-    return state.blogCategories;
-  },
-  getBlogTags: function getBlogTags(state) {
-    return state.blogTags;
-  },
-  getShopCategories: function getShopCategories(state) {
-    return state.shop_categories;
-  },
-  getShopBrands: function getShopBrands(state) {
-    return state.shop_brands;
-  },
-  getShopColors: function getShopColors(state) {
-    return state.shop_colors;
-  },
-  getShopAttributes: function getShopAttributes(state) {
-    return state.shop_attributes;
-  },
-  getDailyDeals: function getDailyDeals(state) {
-    return state.daily_deals;
-  },
-  getGiftIdea: function getGiftIdea(state) {
-    return state.gift_idea;
-  },
-  getBusinessIdea: function getBusinessIdea(state) {
-    return state.business_idea;
-  },
-  getRecentPosts: function getRecentPosts(state) {
-    return state.recent_posts;
-  },
-  getProductDetails: function getProductDetails(state) {
-    return state.product_details;
-  },
-  getReplyForm: function getReplyForm(state) {
-    return state.reply_form;
-  },
-  getBlogComments: function getBlogComments(state) {
-    return state.blog_comments;
-  },
-  getPageData: function getPageData(state) {
-    return state.get_page_data;
-  },
-  getCompareList: function getCompareList(state) {
-    return state.compare_list;
-  },
-  getProfileOrders: function getProfileOrders(state) {
-    return state.profile_orders;
-  },
-  getUserOrderList: function getUserOrderList(state) {
-    return state.userOrderList;
-  },
-  getProductAttributes: function getProductAttributes(state) {
-    return state.product_attributes;
-  },
-  getUserCoupons: function getUserCoupons(state) {
-    return state.userCoupons;
-  },
-  getAllWishlists: function getAllWishlists(state) {
-    return state.allWishlist;
-  },
-  getShop: function getShop(state) {
-    return state.get_shop;
-  },
-  getUserWishlist: function getUserWishlist(state) {
-    return state.wishlist_products;
-  },
-  getUserCompare: function getUserCompare(state) {
-    return state.compare_products;
-  },
-  getDefaultCurrency: function getDefaultCurrency(state) {
-    return state.default_currency;
-  },
-  getCarts: function getCarts(state) {
-    return state.carts;
-  },
-  getHomeComponents: function getHomeComponents(state) {
-    return state.home_components;
-  },
-  getHomeResults: function getHomeResults(state) {
-    return state.home_results;
-  },
-  getCountCompare: function getCountCompare(state) {
-    return state.countCompare;
-  },
-  getShimmer: function getShimmer(state) {
-    return state.shimmer;
-  },
-  getAllCategories: function getAllCategories(state) {
-    return state.allCategories;
-  },
-  getAllBrands: function getAllBrands(state) {
-    return state.allBrands;
-  },
-  getAllSellers: function getAllSellers(state) {
-    return state.allSellers;
-  },
-  getDefaultAssets: function getDefaultAssets(state) {
-    return state.default_assets;
-  },
-  getProducts: function getProducts(state) {
-    return state.products;
-  },
-  getCategoryProducts: function getCategoryProducts(state) {
-    return state.category_products;
-  },
-  getBrandProducts: function getBrandProducts(state) {
-    return state.brand_products;
-  },
-  getCategoryPage: function getCategoryPage(state) {
-    return state.category_page;
-  },
-  getBrandPage: function getBrandPage(state) {
-    return state.brand_page;
-  },
-  getSellerPage: function getSellerPage(state) {
-    return state.seller_page;
-  },
-  getOfferProducts: function getOfferProducts(state) {
-    return state.offer_products;
-  },
-  getSellingProducts: function getSellingProducts(state) {
-    return state.selling_products;
-  },
-  getFilterLoaded: function getFilterLoaded(state) {
-    return state.filter_loaded;
-  },
-  getUserAddresses: function getUserAddresses(state) {
-    return state.userAddresses;
-  },
-  getAddons: function getAddons(state) {
-    return state.addons;
-  },
-  getWalletRecharges: function getWalletRecharges(state) {
-    return state.wallet_recharges;
-  },
-  getRewards: function getRewards(state) {
-    return state.rewards;
-  },
-  getOrderUrl: function getOrderUrl(state) {
-    return state.order_urls;
-  },
-  getInvoices: function getInvoices(state) {
-    return state.invoices;
-  },
-  getShopFollwer: function getShopFollwer(state) {
-    return state.shop_follwer;
-  },
-  getLoginRedirection: function getLoginRedirection(state) {
-    return state.login_redirect;
-  },
-  getTotalReward: function getTotalReward(state) {
-    return state.total_reward;
-  },
-  getNotifications: function getNotifications(state) {
-    return state.notifications;
-  },
-  getFollowedSellers: function getFollowedSellers(state) {
-    return state.followedSellers;
-  },
-  getActiveModal: function getActiveModal(state) {
-    return state.active_modal;
-  },
-  getLangKeywords: function getLangKeywords(state) {
-    return state.lang_keywords;
-  },
-  getShopContents: function getShopContents(state) {
-    return state.shop_contents;
-  },
-  getShopComponent: function getShopComponent(state) {
-    return state.shop_component_names;
-  },
-  getCommonData: function getCommonData(state) {
-    return state.common_data;
-  },
-  getPaymentData: function getPaymentData(state) {
-    return state.payment_data;
-  },
-  getSellerCoupons: function getSellerCoupons(state) {
-    return state.seller_coupons;
-  },
-  getSellerProducts: function getSellerProducts(state) {
-    return state.seller_products;
-  },
-  getActiveTab: function getActiveTab(state) {
-    return state.active_tab;
-  },
-  getPriceRange: function getPriceRange(state) {
-    return state.price_range;
-  },
-  getCountryList: function getCountryList(state) {
-    return state.countryList;
-  },
-  getResponseDone: function getResponseDone(state) {
-    return state.response_done;
-  },
-  getResponseCheck: function getResponseCheck(state) {
-    return state.responseCheck;
-  },
-  getVideoShops: function getVideoShops(state) {
-    return state.video_shops;
-  },
-  getVideoDetails: function getVideoDetails(state) {
-    return state.video_details;
-  },
-  getSliderBanners: function getSliderBanners(state) {
-    return state.slider_banners;
-  },
-  getMobileNo: function getMobileNo(state) {
-    return state.phone;
-  },
-  getHomeScroller: function getHomeScroller(state) {
-    return state.home_scroller;
-  },
-  getSidebarCategory: function getSidebarCategory(state) {
-    return state.sidebar_category;
-  },
-  getSmCategory: function getSmCategory(state) {
-    return state.show_sm_category;
-  },
-  getSmHomeMenu: function getSmHomeMenu(state) {
-    return state.show_sm_home_menu;
-  },
-  getCampaignStore: function getCampaignStore(state) {
-    return state.campaign_store;
-  },
-  getCurrentSellerId: function getCurrentSellerId(state) {
-    return state.currentSellerId;
-  }
-});
-
-/***/ }),
-
-/***/ "./resources/js/store/index.js":
-/*!*************************************!*\
-  !*** ./resources/js/store/index.js ***!
-  \*************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-// import pageModule from './page_data'
-// import pageModule from './page_data'
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  // modules: {
-  //     pageData: pageModule,
-  // },
-  state: {
-    languages: {},
-    currencies: {},
-    user: {},
-    activeLanguage: {},
-    activeCurrency: {},
-    totalWishlists: {},
-    wislistProductIds: [],
-    categories: {},
-    sliders: {},
-    defaultCategoryShow: false,
-    services: {},
-    viewedProducts: {},
-    pages: {},
-    navbarClass: '',
-    url: document.getElementById('base_url').value
-  },
-  getters: {
-    getLanguages: function getLanguages(state) {
-      return state.languages;
-    },
-    getCurrencies: function getCurrencies(state) {
-      return state.currencies;
-    },
-    getUser: function getUser(state) {
-      return state.user;
-    },
-    getActiveLanguage: function getActiveLanguage(state) {
-      return state.activeLanguage;
-    },
-    getActiveCurrency: function getActiveCurrency(state) {
-      return state.activeCurrency;
-    },
-    getTotalWishlists: function getTotalWishlists(state) {
-      return state.totalWishlists;
-    },
-    getCategories: function getCategories(state) {
-      return state.categories;
-    },
-    getSliders: function getSliders(state) {
-      return state.sliders;
-    },
-    getDefaultCategory: function getDefaultCategory(state) {
-      return state.defaultCategoryShow;
-    },
-    getServices: function getServices(state) {
-      return state.services;
-    },
-    getViewedProducts: function getViewedProducts(state) {
-      return state.viewedProducts;
-    },
-    getNavBarClass: function getNavBarClass(state) {
-      return state.navbarClass;
-    },
-    getBaseUrl: function getBaseUrl(state) {
-      return state.url;
-    },
-    getPages: function getPages(state) {
-      return state.pages;
-    },
-    isThisWishlisted: function isThisWishlisted(state) {
-      return function (product_id) {
-        return state.wislistProductIds.includes(product_id);
-      };
-    }
-  },
-  actions: {
-    languages: function languages(context, _languages) {
-      context.commit('getLanguages', _languages);
-    },
-    currencies: function currencies(context, _currencies) {
-      context.commit('getCurrencies', _currencies);
-    },
-    user: function user(context, _user) {
-      context.commit('getUser', _user);
-    },
-    activeLanguage: function activeLanguage(context, language) {
-      context.commit('getActiveLanguage', language);
-    },
-    activeCurrency: function activeCurrency(context, currency) {
-      context.commit('getActiveCurrency', currency);
-    },
-    wishlists: function wishlists(context, data) {
-      context.commit('getTotalWishlists', data);
-    },
-    getUserWishlists: function getUserWishlists(context, data) {
-      context.state.wislistProductIds = data.map(function (item) {
-        return item.product_id;
-      });
-    },
-    categories: function categories(context, _categories) {
-      context.commit('getCategories', _categories);
-    },
-    sliders: function sliders(context, _sliders) {
-      context.commit('getSliders', _sliders);
-    },
-    defaultCategoryShow: function defaultCategoryShow(context, flag) {
-      context.commit('getDefaultCategory', flag);
-    },
-    services: function services(context, _services) {
-      context.commit('getServices', _services);
-    },
-    viewedProducts: function viewedProducts(context, products) {
-      context.commit('getViewedProducts', products);
-    },
-    navbarClass: function navbarClass(context, nav_class) {
-      context.commit('getNavBarClass', nav_class);
-    },
-    pages: function pages(context, _pages) {
-      context.commit('getPages', _pages);
-    }
-  },
-  mutations: {
-    getLanguages: function getLanguages(state, data) {
-      return state.languages = data;
-    },
-    getCurrencies: function getCurrencies(state, data) {
-      return state.currencies = data;
-    },
-    getUser: function getUser(state, data) {
-      return state.user = data;
-    },
-    getActiveLanguage: function getActiveLanguage(state, data) {
-      return state.activeLanguage = data;
-    },
-    getActiveCurrency: function getActiveCurrency(state, data) {
-      return state.activeCurrency = data;
-    },
-    getTotalWishlists: function getTotalWishlists(state, data) {
-      return state.totalWishlists = data;
-    },
-    getCategories: function getCategories(state, data) {
-      return state.categories = data;
-    },
-    getSliders: function getSliders(state, data) {
-      return state.sliders = data;
-    },
-    getDefaultCategory: function getDefaultCategory(state, data) {
-      return state.defaultCategoryShow = data;
-    },
-    getServices: function getServices(state, data) {
-      return state.services = data;
-    },
-    getViewedProducts: function getViewedProducts(state, data) {
-      return state.viewedProducts = data;
-    },
-    getNavBarClass: function getNavBarClass(state, data) {
-      return state.navbarClass = data;
-    },
-    getPages: function getPages(state, data) {
-      return state.pages = data;
-    },
-    addNewWishlistId: function addNewWishlistId(state, product_id) {
-      if (!state.wislistProductIds.includes(product_id)) {
-        state.wislistProductIds.push(product_id);
-      }
-    },
-    removeFromWishlistID: function removeFromWishlistID(state, product_id) {
-      if (state.wislistProductIds.includes(product_id)) {
-        state.wislistProductIds = state.wislistProductIds.filter(function (val) {
-          return val !== product_id;
-        });
-      }
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./resources/js/store/module.js":
-/*!**************************************!*\
-  !*** ./resources/js/store/module.js ***!
-  \**************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _getters__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getters */ "./resources/js/store/getters.js");
-/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./actions */ "./resources/js/store/actions.js");
-/* harmony import */ var _mutation__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./mutation */ "./resources/js/store/mutation.js");
-
-
-
-var getDefaultState = function getDefaultState() {
-  return {
-    blogs: {},
-    blogsDetails: {},
-    contact_page: '',
-    all_campaigns: [],
-    campaign_paginate_url: '',
-    campaign_paginate_page: 1,
-    seller_paginate_url: '',
-    seller_paginate_page: 1,
-    brand_paginate_url: '',
-    brand_paginate_page: 1,
-    campaign_products: [],
-    campaign_brands: [],
-    campaign_shops: [],
-    campaign_store: [],
-    blogCategories: {},
-    blogTags: {},
-    shop_categories: {},
-    shop_brands: {},
-    shop_colors: {},
-    shop_attributes: [],
-    daily_deals: {},
-    gift_idea: {},
-    business_idea: {},
-    recent_posts: {},
-    product_details: [],
-    product_images: {},
-    reply_form: {},
-    blog_comments: {},
-    language_product: {},
-    related_products: {},
-    compare_list: {},
-    product_attributes: {},
-    product_attribute_values: {},
-    default_form: {},
-    product_stocks: {},
-    product_colors: {},
-    get_page_data: '',
-    profile_orders: {},
-    userWishlist: {},
-    cart_list: {},
-    userOrderList: {},
-    userCoupons: {},
-    wishlist_products: [],
-    compare_products: [],
-    allWishlist: [],
-    default_currency: {},
-    get_shop: {},
-    carts: [],
-    home_components: [],
-    home_results: [],
-    countCompare: true,
-    shimmer: true,
-    allCategories: [],
-    social_links: [],
-    wholesale_prices: [],
-    allBrands: [],
-    allSellers: [],
-    default_assets: {},
-    settings: '',
-    userAddresses: {},
-    url: document.getElementById('base_url').value,
-    //for filtering
-    filter_loaded: false,
-    products: [],
-    category_products: [],
-    brand_products: [],
-    seller_products: [],
-    offer_products: [],
-    selling_products: [],
-    category_page: [],
-    brand_page: [],
-    seller_page: [],
-    addons: [],
-    wallet_recharges: [],
-    order_urls: [],
-    invoices: '',
-    shop_follwer: [],
-    login_redirect: '',
-    total_reward: '',
-    notifications: [],
-    followedSellers: [],
-    rewards: [],
-    active_modal: '',
-    lang_keywords: '',
-    shop_contents: [],
-    shop_component_names: [],
-    common_data: [],
-    payment_data: '',
-    seller_coupons: [],
-    active_tab: 'store',
-    price_range: {
-      min: 0,
-      max: 0
-    },
-    countryList: [],
-    response_done: [],
-    video_shops: [],
-    video_details: [],
-    slider_banners: [],
-    edit_number: '',
-    phone: '',
-    home_scroller: true,
-    sidebar_category: true,
-    show_sm_category: false,
-    show_sm_home_menu: false,
-    responseCheck: false,
-    currentSellerId: ''
-  };
-};
-var state = getDefaultState();
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  // namespaced: true,
-  state: state,
-  getters: _getters__WEBPACK_IMPORTED_MODULE_0__["default"],
-  actions: _actions__WEBPACK_IMPORTED_MODULE_1__["default"],
-  mutations: _mutation__WEBPACK_IMPORTED_MODULE_2__["default"]
-});
-
-/***/ }),
-
-/***/ "./resources/js/store/mutation.js":
-/*!****************************************!*\
-  !*** ./resources/js/store/mutation.js ***!
-  \****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  getBlogs: function getBlogs(state, data) {
-    return state.blogs = data;
-  },
-  blogDetails: function blogDetails(state, data) {
-    return state.blogsDetails = data;
-  },
-  getContactPage: function getContactPage(state, data) {
-    return state.contact_page = data;
-  },
-  getSettings: function getSettings(state, data) {
-    return state.settings = data;
-  },
-  getAllCampaign: function getAllCampaign(state, data) {
-    var campaign = data.data;
-    var _loop = function _loop(i) {
-      var found = state.all_campaigns.some(function (el) {
-        return el.id === campaign[i].id;
-      });
-      if (!found) state.all_campaigns.push(campaign[i]);
-    };
-    for (var i = 0; i < campaign.length; i++) {
-      _loop(i);
-    }
-    state.campaign_paginate_url = data.next_page_url;
-    state.campaign_paginate_page++;
-    return state.all_campaigns;
-  },
-  getCampaignProducts: function getCampaignProducts(state, data) {
-    var campaigns = state.campaign_products;
-    var products = {
-      data: []
-    };
-    var index = campaigns.findIndex(function (campaign) {
-      return campaign.slug == data.slug;
-    });
-    if (index > -1) {
-      products.data = campaigns[index].products.data;
-      for (var j = 0; j < data.products.data.length; j++) {
-        products.data.push(data.products.data[j]);
-      }
-      products.next_page_url = data.products.next_page_url;
-      return state.campaign_products[index].products = products;
-    }
-    return state.campaign_products.push(data);
-  },
-  getCampaignBrands: function getCampaignBrands(state, data) {
-    var campaigns = state.campaign_brands;
-    var products = {
-      data: []
-    };
-    var index = campaigns.findIndex(function (campaign) {
-      return campaign.slug == data.slug;
-    });
-    if (index > -1) {
-      products.data = campaigns[index].brands.data;
-      for (var j = 0; j < data.brands.data.length; j++) {
-        products.data.push(data.brands.data[j]);
-      }
-      products.next_page_url = data.brands.next_page_url;
-      return state.campaign_brands[index].brands = products;
-    }
-    return state.campaign_brands.push(data);
-  },
-  getCampaignShops: function getCampaignShops(state, data) {
-    var campaigns = state.campaign_shops;
-    var products = {
-      data: []
-    };
-    var index = campaigns.findIndex(function (campaign) {
-      return campaign.slug == data.slug;
-    });
-    if (index > -1) {
-      products.data = campaigns[index].shops.data;
-      for (var j = 0; j < data.shops.data.length; j++) {
-        products.data.push(data.shops.data[j]);
-      }
-      products.next_page_url = data.shops.next_page_url;
-      return state.campaign_shops[index].shops = products;
-    }
-    return state.campaign_shops.push(data);
-  },
-  getBlogCategories: function getBlogCategories(state, data) {
-    return state.blogCategories = data;
-  },
-  getBlogTags: function getBlogTags(state, data) {
-    return state.blogTags = data;
-  },
-  getShopCategories: function getShopCategories(state, data) {
-    return state.shop_categories = data;
-  },
-  getShopBrands: function getShopBrands(state, data) {
-    return state.shop_brands = data;
-  },
-  getShopColors: function getShopColors(state, data) {
-    return state.shop_colors = data;
-  },
-  getShopAttributes: function getShopAttributes(state, data) {
-    return state.shop_attributes.push({
-      slug: data.slug,
-      attributes: data.attributes
-    });
-  },
-  getDailyDeals: function getDailyDeals(state, data) {
-    return state.daily_deals = data;
-  },
-  getGiftIdea: function getGiftIdea(state, data) {
-    return state.gift_idea = data;
-  },
-  getBusinessIdea: function getBusinessIdea(state, data) {
-    return state.business_idea = data;
-  },
-  getRecentPosts: function getRecentPosts(state, data) {
-    return state.recent_posts = data;
-  },
-  productDetails: function productDetails(state, data) {
-    return state.product_details.push({
-      slug: data.slug,
-      product: data
-    });
-  },
-  setShopContents: function setShopContents(state, data) {
-    return state.shop_contents.push({
-      slug: data.slug,
-      contents: data
-    });
-  },
-  setShopComponents: function setShopComponents(state, data) {
-    return state.shop_component_names.push({
-      slug: data.slug,
-      contents: data.component_names
-    });
-  },
-  getReplyForm: function getReplyForm(state, data) {
-    return state.reply_form = data;
-  },
-  getBlogComments: function getBlogComments(state, data) {
-    return state.blog_comments = data;
-  },
-  getPagedData: function getPagedData(state, data) {
-    return state.get_page_data = data;
-  },
-  getCompareList: function getCompareList(state, data) {
-    return state.compare_list = data;
-  },
-  getProfileOrders: function getProfileOrders(state, data) {
-    return state.profile_orders = data;
-  },
-  getUserOrderList: function getUserOrderList(state, data) {
-    return state.userOrderList = data;
-  },
-  getProductAttributes: function getProductAttributes(state, data) {
-    return state.product_attributes = data;
-  },
-  getUserCoupons: function getUserCoupons(state, data) {
-    return state.userCoupons = data;
-  },
-  getWishlists: function getWishlists(state, data) {
-    return state.allWishlist = data;
-  },
-  getShop: function getShop(state, data) {
-    return state.get_shop = data;
-  },
-  getUserWishlist: function getUserWishlist(state, data) {
-    return state.wishlist_products.push(data);
-  },
-  getRemoveWishlist: function getRemoveWishlist(state, data) {
-    var index = state.wishlist_products.findIndex(function (c) {
-      return c.id == data.id;
-    });
-    return state.wishlist_products.splice(index, 1);
-  },
-  getUserCompare: function getUserCompare(state, data) {
-    return state.compare_products.push(data);
-  },
-  getRemoveCompare: function getRemoveCompare(state, data) {
-    var index = state.compare_products.findIndex(function (c) {
-      return c.id == data.id;
-    });
-    return state.compare_products.splice(index, 1);
-  },
-  getDefaultCurrency: function getDefaultCurrency(state, data) {
-    return state.default_currency = data;
-  },
-  getCarts: function getCarts(state, data) {
-    return state.carts = data;
-  },
-  getHomeComponents: function getHomeComponents(state, data) {
-    return state.home_components = data;
-  },
-  getHomeResults: function getHomeResults(state, data) {
-    return state.home_results = data;
-  },
-  getCountCompare: function getCountCompare(state, data) {
-    return state.countCompare = data;
-  },
-  setShimmer: function setShimmer(state, data) {
-    return state.shimmer = data;
-  },
-  getAllCategories: function getAllCategories(state, data) {
-    return state.allCategories = data;
-  },
-  getAllBrands: function getAllBrands(state, data) {
-    var brands = data.data;
-    var _loop2 = function _loop2(i) {
-      var found = state.allBrands.some(function (el) {
-        return el.id === brands[i].id;
-      });
-      if (!found) state.allBrands.push(brands[i]);
-    };
-    for (var i = 0; i < brands.length; i++) {
-      _loop2(i);
-    }
-    state.brand_paginate_url = data.next_page_url;
-    state.brand_paginate_page++;
-    return state.allBrands;
-  },
-  getAllSellers: function getAllSellers(state, data) {
-    var sellers = data.data;
-    var _loop3 = function _loop3(i) {
-      var found = state.allSellers.some(function (el) {
-        return el.id === sellers[i].id;
-      });
-      if (!found) state.allSellers.push(sellers[i]);
-    };
-    for (var i = 0; i < sellers.length; i++) {
-      _loop3(i);
-    }
-    state.seller_paginate_url = data.next_page_url;
-    state.seller_paginate_page++;
-    return state.allSellers;
-  },
-  getDefaultAssets: function getDefaultAssets(state, data) {
-    return state.default_assets = data;
-  },
-  getFilterLoaded: function getFilterLoaded(state, data) {
-    return state.filter_loaded = data;
-  },
-  getProducts: function getProducts(state, data) {
-    return state.products = data;
-  },
-  getCategoryProducts: function getCategoryProducts(state, data) {
-    var index = state.category_products.findIndex(function (c) {
-      return c.slug == data.slug;
-    });
-    if (index > -1) {
-      state.category_products.splice(index, 1);
-    }
-    return state.category_products.push(data);
-  },
-  getBrandProducts: function getBrandProducts(state, data) {
-    var index = state.brand_products.findIndex(function (c) {
-      return c.slug == data.slug;
-    });
-    if (index > -1) {
-      state.brand_products.splice(index, 1);
-    }
-    return state.brand_products.push(data);
-  },
-  getCategoryPage: function getCategoryPage(state, data) {
-    return state.category_page.push(data);
-  },
-  getBrandPage: function getBrandPage(state, data) {
-    return state.brand_page.push(data);
-  },
-  getSellerPage: function getSellerPage(state, data) {
-    return state.seller_page.push(data);
-  },
-  getOfferProducts: function getOfferProducts(state, data) {
-    return state.offer_products = data;
-  },
-  getSellingProducts: function getSellingProducts(state, data) {
-    return state.selling_products = data;
-  },
-  getUserAddresses: function getUserAddresses(state, data) {
-    return state.userAddresses = data;
-  },
-  getCountries: function getCountries(state, data) {
-    return state.countries = data;
-  },
-  getAddons: function getAddons(state, data) {
-    return state.addons = data;
-  },
-  getWalletRecharges: function getWalletRecharges(state, data) {
-    var _loop4 = function _loop4(i) {
-      var found = state.wallet_recharges.some(function (el) {
-        return el.id === data.data[i].id;
-      });
-      if (!found) {
-        if (data.unshift == 1) {
-          state.wallet_recharges.unshift(data.data[i]);
-        } else {
-          state.wallet_recharges.push(data.data[i]);
-        }
-      }
-    };
-    for (var i = 0; i < data.data.length; i++) {
-      _loop4(i);
-    }
-    return state.wallet_recharges;
-  },
-  getRewards: function getRewards(state, data) {
-    var _loop5 = function _loop5(i) {
-      var found = state.rewards.some(function (el) {
-        return el.id === data[i].id;
-      });
-      if (!found) {
-        state.rewards.push(data[i]);
-      }
-    };
-    for (var i = 0; i < data.length; i++) {
-      _loop5(i);
-    }
-    return state.rewards;
-  },
-  getOrderUrl: function getOrderUrl(state, data) {
-    return state.order_urls = data;
-  },
-  getInvoices: function getInvoices(state, data) {
-    return state.invoices = data;
-  },
-  getShopFollower: function getShopFollower(state, data) {
-    if (data.id) {
-      state.shop_follwer.push({
-        user_id: data.user_id,
-        seller_id: data.id,
-        status: 1
-      });
-    }
-    return state.shop_follwer;
-  },
-  getRemoveFollower: function getRemoveFollower(state, data) {
-    var index = state.shop_follwer.findIndex(function (c) {
-      return c.seller_id == data.seller_id;
-    });
-    if (index > -1) {
-      state.shop_follwer.splice(index, 1);
-    }
-    return state.shop_follwer;
-  },
-  setCurrentSellerId: function setCurrentSellerId(state, id) {
-    state.currentSellerId = id;
-  },
-  setLoginRedirection: function setLoginRedirection(state, data) {
-    return state.login_redirect = data;
-  },
-  setTotalReward: function setTotalReward(state, data) {
-    return state.total_reward = data;
-  },
-  setNotifications: function setNotifications(state, data) {
-    return state.notifications = data;
-  },
-  setFollowedSellers: function setFollowedSellers(state, data) {
-    var _loop6 = function _loop6(i) {
-      var found = state.followedSellers.some(function (el) {
-        return el.id === data[i].id;
-      });
-      if (!found) {
-        state.followedSellers.push(data[i]);
-      }
-    };
-    for (var i = 0; i < data.length; i++) {
-      _loop6(i);
-    }
-    return state.followedSellers;
-  },
-  removeFollowedSellers: function removeFollowedSellers(state, i) {
-    return state.followedSellers.splice(i, 1);
-  },
-  setActiveModal: function setActiveModal(state, data) {
-    return state.active_modal = data;
-  },
-  setLangKeywords: function setLangKeywords(state, data) {
-    return state.lang_keywords = data;
-  },
-  commonData: function commonData(state, data) {
-    return state.common_data = data;
-  },
-  setPaymentData: function setPaymentData(state, data) {
-    return state.payment_data = data;
-  },
-  setSellerCoupons: function setSellerCoupons(state, data) {
-    var seller_coupons = state.seller_coupons;
-    var coupons = {
-      data: []
-    };
-    for (var i = 0; i < seller_coupons.length; i++) {
-      if (seller_coupons[i].slug == data.slug) {
-        coupons.data = seller_coupons[i].coupons.data;
-        for (var j = 0; j < data.coupons.data.length; j++) {
-          coupons.data.push(data.coupons.data[i]);
-        }
-        coupons.next_page_url = data.coupons.next_page_url;
-        return state.seller_coupons[i].coupons = coupons;
-      }
-    }
-    return state.seller_coupons.push(data);
-  },
-  setSellerProducts: function setSellerProducts(state, data) {
-    var seller_products = state.seller_products;
-    var products = {
-      data: []
-    };
-    var index = seller_products.findIndex(function (seller) {
-      return seller.slug == data.slug;
-    });
-    if (index > -1) {
-      state.seller_products[index].products.data = [];
-      products.data = seller_products[index].products.data;
-      for (var i = 0; i < data.products.data.length; i++) {
-        products.data.push(data.products.data[i]);
-      }
-      products.next_page_url = data.products.next_page_url;
-      return state.seller_products[index].products = products;
-    }
-    return state.seller_products.push(data);
-  },
-  setActiveTab: function setActiveTab(state, data) {
-    return state.active_tab = data;
-  },
-  setPriceRange: function setPriceRange(state, data) {
-    return state.price_range = data;
-  },
-  setCountryList: function setCountryList(state, data) {
-    return state.countryList = data;
-  },
-  setResponseDone: function setResponseDone(state, data) {
-    return state.response_done = data;
-  },
-  setResponseCheck: function setResponseCheck(state, data) {
-    return state.responseCheck = data;
-  },
-  setVideoShops: function setVideoShops(state, data) {
-    var _loop7 = function _loop7(i) {
-      var found = state.video_shops.some(function (el) {
-        return el.id === data[i].id;
-      });
-      if (!found) state.video_shops.push(data[i]);
-    };
-    for (var i = 0; i < data.length; i++) {
-      _loop7(i);
-    }
-    return state.video_shops;
-  },
-  setVideoDetails: function setVideoDetails(state, data) {
-    var found = state.video_details.some(function (el) {
-      return el.id === data.id;
-    });
-    if (!found) state.video_details.push(data);
-    return state.video_details;
-  },
-  setEmptySeller: function setEmptySeller(state) {
-    var arr = [];
-    return state.allSellers = arr;
-  },
-  setSliderBanner: function setSliderBanner(state, data) {
-    return state.slider_banners = data;
-  },
-  setMobileNo: function setMobileNo(state, data) {
-    return state.phone = data;
-  },
-  setHomeScroller: function setHomeScroller(state, data) {
-    return state.home_scroller = data;
-  },
-  setSidebar: function setSidebar(state, data) {
-    return state.sidebar_category = data;
-  },
-  setSmCategory: function setSmCategory(state, data) {
-    return state.show_sm_category = data;
-  },
-  setSmHomeMenu: function setSmHomeMenu(state, data) {
-    return state.show_sm_home_menu = data;
-  },
-  setCampaignStore: function setCampaignStore(state, data) {
-    return state.campaign_store.push(data);
-  }
-});
 
 /***/ }),
 
@@ -14863,6 +14095,381 @@ defineJQueryPlugin(Toast);
 
 
 //# sourceMappingURL=bootstrap.esm.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/firebase/app/dist/esm/index.esm.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/firebase/app/dist/esm/index.esm.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   FirebaseError: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.FirebaseError),
+/* harmony export */   SDK_VERSION: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.SDK_VERSION),
+/* harmony export */   _DEFAULT_ENTRY_NAME: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._DEFAULT_ENTRY_NAME),
+/* harmony export */   _addComponent: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._addComponent),
+/* harmony export */   _addOrOverwriteComponent: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._addOrOverwriteComponent),
+/* harmony export */   _apps: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._apps),
+/* harmony export */   _clearComponents: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._clearComponents),
+/* harmony export */   _components: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._components),
+/* harmony export */   _getProvider: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._getProvider),
+/* harmony export */   _registerComponent: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._registerComponent),
+/* harmony export */   _removeServiceInstance: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._removeServiceInstance),
+/* harmony export */   deleteApp: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.deleteApp),
+/* harmony export */   getApp: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.getApp),
+/* harmony export */   getApps: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.getApps),
+/* harmony export */   initializeApp: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.initializeApp),
+/* harmony export */   onLog: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.onLog),
+/* harmony export */   registerVersion: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.registerVersion),
+/* harmony export */   setLogLevel: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.setLogLevel)
+/* harmony export */ });
+/* harmony import */ var _firebase_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @firebase/app */ "./node_modules/@firebase/app/dist/esm/index.esm2017.js");
+
+
+
+var name = "firebase";
+var version = "9.23.0";
+
+/**
+ * @license
+ * Copyright 2020 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+(0,_firebase_app__WEBPACK_IMPORTED_MODULE_0__.registerVersion)(name, version, 'app');
+//# sourceMappingURL=index.esm.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/idb/build/index.js":
+/*!*****************************************!*\
+  !*** ./node_modules/idb/build/index.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   deleteDB: () => (/* binding */ deleteDB),
+/* harmony export */   openDB: () => (/* binding */ openDB),
+/* harmony export */   unwrap: () => (/* reexport safe */ _wrap_idb_value_js__WEBPACK_IMPORTED_MODULE_0__.u),
+/* harmony export */   wrap: () => (/* reexport safe */ _wrap_idb_value_js__WEBPACK_IMPORTED_MODULE_0__.w)
+/* harmony export */ });
+/* harmony import */ var _wrap_idb_value_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./wrap-idb-value.js */ "./node_modules/idb/build/wrap-idb-value.js");
+
+
+
+/**
+ * Open a database.
+ *
+ * @param name Name of the database.
+ * @param version Schema version.
+ * @param callbacks Additional callbacks.
+ */
+function openDB(name, version, { blocked, upgrade, blocking, terminated } = {}) {
+    const request = indexedDB.open(name, version);
+    const openPromise = (0,_wrap_idb_value_js__WEBPACK_IMPORTED_MODULE_0__.w)(request);
+    if (upgrade) {
+        request.addEventListener('upgradeneeded', (event) => {
+            upgrade((0,_wrap_idb_value_js__WEBPACK_IMPORTED_MODULE_0__.w)(request.result), event.oldVersion, event.newVersion, (0,_wrap_idb_value_js__WEBPACK_IMPORTED_MODULE_0__.w)(request.transaction), event);
+        });
+    }
+    if (blocked) {
+        request.addEventListener('blocked', (event) => blocked(
+        // Casting due to https://github.com/microsoft/TypeScript-DOM-lib-generator/pull/1405
+        event.oldVersion, event.newVersion, event));
+    }
+    openPromise
+        .then((db) => {
+        if (terminated)
+            db.addEventListener('close', () => terminated());
+        if (blocking) {
+            db.addEventListener('versionchange', (event) => blocking(event.oldVersion, event.newVersion, event));
+        }
+    })
+        .catch(() => { });
+    return openPromise;
+}
+/**
+ * Delete a database.
+ *
+ * @param name Name of the database.
+ */
+function deleteDB(name, { blocked } = {}) {
+    const request = indexedDB.deleteDatabase(name);
+    if (blocked) {
+        request.addEventListener('blocked', (event) => blocked(
+        // Casting due to https://github.com/microsoft/TypeScript-DOM-lib-generator/pull/1405
+        event.oldVersion, event));
+    }
+    return (0,_wrap_idb_value_js__WEBPACK_IMPORTED_MODULE_0__.w)(request).then(() => undefined);
+}
+
+const readMethods = ['get', 'getKey', 'getAll', 'getAllKeys', 'count'];
+const writeMethods = ['put', 'add', 'delete', 'clear'];
+const cachedMethods = new Map();
+function getMethod(target, prop) {
+    if (!(target instanceof IDBDatabase &&
+        !(prop in target) &&
+        typeof prop === 'string')) {
+        return;
+    }
+    if (cachedMethods.get(prop))
+        return cachedMethods.get(prop);
+    const targetFuncName = prop.replace(/FromIndex$/, '');
+    const useIndex = prop !== targetFuncName;
+    const isWrite = writeMethods.includes(targetFuncName);
+    if (
+    // Bail if the target doesn't exist on the target. Eg, getAll isn't in Edge.
+    !(targetFuncName in (useIndex ? IDBIndex : IDBObjectStore).prototype) ||
+        !(isWrite || readMethods.includes(targetFuncName))) {
+        return;
+    }
+    const method = async function (storeName, ...args) {
+        // isWrite ? 'readwrite' : undefined gzipps better, but fails in Edge :(
+        const tx = this.transaction(storeName, isWrite ? 'readwrite' : 'readonly');
+        let target = tx.store;
+        if (useIndex)
+            target = target.index(args.shift());
+        // Must reject if op rejects.
+        // If it's a write operation, must reject if tx.done rejects.
+        // Must reject with op rejection first.
+        // Must resolve with op value.
+        // Must handle both promises (no unhandled rejections)
+        return (await Promise.all([
+            target[targetFuncName](...args),
+            isWrite && tx.done,
+        ]))[0];
+    };
+    cachedMethods.set(prop, method);
+    return method;
+}
+(0,_wrap_idb_value_js__WEBPACK_IMPORTED_MODULE_0__.r)((oldTraps) => ({
+    ...oldTraps,
+    get: (target, prop, receiver) => getMethod(target, prop) || oldTraps.get(target, prop, receiver),
+    has: (target, prop) => !!getMethod(target, prop) || oldTraps.has(target, prop),
+}));
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/idb/build/wrap-idb-value.js":
+/*!**************************************************!*\
+  !*** ./node_modules/idb/build/wrap-idb-value.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   a: () => (/* binding */ reverseTransformCache),
+/* harmony export */   i: () => (/* binding */ instanceOfAny),
+/* harmony export */   r: () => (/* binding */ replaceTraps),
+/* harmony export */   u: () => (/* binding */ unwrap),
+/* harmony export */   w: () => (/* binding */ wrap)
+/* harmony export */ });
+const instanceOfAny = (object, constructors) => constructors.some((c) => object instanceof c);
+
+let idbProxyableTypes;
+let cursorAdvanceMethods;
+// This is a function to prevent it throwing up in node environments.
+function getIdbProxyableTypes() {
+    return (idbProxyableTypes ||
+        (idbProxyableTypes = [
+            IDBDatabase,
+            IDBObjectStore,
+            IDBIndex,
+            IDBCursor,
+            IDBTransaction,
+        ]));
+}
+// This is a function to prevent it throwing up in node environments.
+function getCursorAdvanceMethods() {
+    return (cursorAdvanceMethods ||
+        (cursorAdvanceMethods = [
+            IDBCursor.prototype.advance,
+            IDBCursor.prototype.continue,
+            IDBCursor.prototype.continuePrimaryKey,
+        ]));
+}
+const cursorRequestMap = new WeakMap();
+const transactionDoneMap = new WeakMap();
+const transactionStoreNamesMap = new WeakMap();
+const transformCache = new WeakMap();
+const reverseTransformCache = new WeakMap();
+function promisifyRequest(request) {
+    const promise = new Promise((resolve, reject) => {
+        const unlisten = () => {
+            request.removeEventListener('success', success);
+            request.removeEventListener('error', error);
+        };
+        const success = () => {
+            resolve(wrap(request.result));
+            unlisten();
+        };
+        const error = () => {
+            reject(request.error);
+            unlisten();
+        };
+        request.addEventListener('success', success);
+        request.addEventListener('error', error);
+    });
+    promise
+        .then((value) => {
+        // Since cursoring reuses the IDBRequest (*sigh*), we cache it for later retrieval
+        // (see wrapFunction).
+        if (value instanceof IDBCursor) {
+            cursorRequestMap.set(value, request);
+        }
+        // Catching to avoid "Uncaught Promise exceptions"
+    })
+        .catch(() => { });
+    // This mapping exists in reverseTransformCache but doesn't doesn't exist in transformCache. This
+    // is because we create many promises from a single IDBRequest.
+    reverseTransformCache.set(promise, request);
+    return promise;
+}
+function cacheDonePromiseForTransaction(tx) {
+    // Early bail if we've already created a done promise for this transaction.
+    if (transactionDoneMap.has(tx))
+        return;
+    const done = new Promise((resolve, reject) => {
+        const unlisten = () => {
+            tx.removeEventListener('complete', complete);
+            tx.removeEventListener('error', error);
+            tx.removeEventListener('abort', error);
+        };
+        const complete = () => {
+            resolve();
+            unlisten();
+        };
+        const error = () => {
+            reject(tx.error || new DOMException('AbortError', 'AbortError'));
+            unlisten();
+        };
+        tx.addEventListener('complete', complete);
+        tx.addEventListener('error', error);
+        tx.addEventListener('abort', error);
+    });
+    // Cache it for later retrieval.
+    transactionDoneMap.set(tx, done);
+}
+let idbProxyTraps = {
+    get(target, prop, receiver) {
+        if (target instanceof IDBTransaction) {
+            // Special handling for transaction.done.
+            if (prop === 'done')
+                return transactionDoneMap.get(target);
+            // Polyfill for objectStoreNames because of Edge.
+            if (prop === 'objectStoreNames') {
+                return target.objectStoreNames || transactionStoreNamesMap.get(target);
+            }
+            // Make tx.store return the only store in the transaction, or undefined if there are many.
+            if (prop === 'store') {
+                return receiver.objectStoreNames[1]
+                    ? undefined
+                    : receiver.objectStore(receiver.objectStoreNames[0]);
+            }
+        }
+        // Else transform whatever we get back.
+        return wrap(target[prop]);
+    },
+    set(target, prop, value) {
+        target[prop] = value;
+        return true;
+    },
+    has(target, prop) {
+        if (target instanceof IDBTransaction &&
+            (prop === 'done' || prop === 'store')) {
+            return true;
+        }
+        return prop in target;
+    },
+};
+function replaceTraps(callback) {
+    idbProxyTraps = callback(idbProxyTraps);
+}
+function wrapFunction(func) {
+    // Due to expected object equality (which is enforced by the caching in `wrap`), we
+    // only create one new func per func.
+    // Edge doesn't support objectStoreNames (booo), so we polyfill it here.
+    if (func === IDBDatabase.prototype.transaction &&
+        !('objectStoreNames' in IDBTransaction.prototype)) {
+        return function (storeNames, ...args) {
+            const tx = func.call(unwrap(this), storeNames, ...args);
+            transactionStoreNamesMap.set(tx, storeNames.sort ? storeNames.sort() : [storeNames]);
+            return wrap(tx);
+        };
+    }
+    // Cursor methods are special, as the behaviour is a little more different to standard IDB. In
+    // IDB, you advance the cursor and wait for a new 'success' on the IDBRequest that gave you the
+    // cursor. It's kinda like a promise that can resolve with many values. That doesn't make sense
+    // with real promises, so each advance methods returns a new promise for the cursor object, or
+    // undefined if the end of the cursor has been reached.
+    if (getCursorAdvanceMethods().includes(func)) {
+        return function (...args) {
+            // Calling the original function with the proxy as 'this' causes ILLEGAL INVOCATION, so we use
+            // the original object.
+            func.apply(unwrap(this), args);
+            return wrap(cursorRequestMap.get(this));
+        };
+    }
+    return function (...args) {
+        // Calling the original function with the proxy as 'this' causes ILLEGAL INVOCATION, so we use
+        // the original object.
+        return wrap(func.apply(unwrap(this), args));
+    };
+}
+function transformCachableValue(value) {
+    if (typeof value === 'function')
+        return wrapFunction(value);
+    // This doesn't return, it just creates a 'done' promise for the transaction,
+    // which is later returned for transaction.done (see idbObjectHandler).
+    if (value instanceof IDBTransaction)
+        cacheDonePromiseForTransaction(value);
+    if (instanceOfAny(value, getIdbProxyableTypes()))
+        return new Proxy(value, idbProxyTraps);
+    // Return the same value back if we're not going to transform it.
+    return value;
+}
+function wrap(value) {
+    // We sometimes generate multiple promises from a single IDBRequest (eg when cursoring), because
+    // IDB is weird and a single IDBRequest can yield many responses, so these can't be cached.
+    if (value instanceof IDBRequest)
+        return promisifyRequest(value);
+    // If we've already transformed this value before, reuse the transformed value.
+    // This is faster, but it also provides object equality.
+    if (transformCache.has(value))
+        return transformCache.get(value);
+    const newValue = transformCachableValue(value);
+    // Not all types are transformed.
+    // These may be primitive types, so they can't be WeakMap keys.
+    if (newValue !== value) {
+        transformCache.set(value, newValue);
+        reverseTransformCache.set(newValue, value);
+    }
+    return newValue;
+}
+const unwrap = (value) => reverseTransformCache.get(value);
+
+
 
 
 /***/ }),
@@ -32561,36 +32168,6 @@ runtime.setup(pusher_Pusher);
 
 /***/ }),
 
-/***/ "./node_modules/vue-cool-lightbox/dist/vue-cool-lightbox.min.css":
-/*!***********************************************************************!*\
-  !*** ./node_modules/vue-cool-lightbox/dist/vue-cool-lightbox.min.css ***!
-  \***********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_8_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_8_use_2_vue_cool_lightbox_min_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8.use[1]!../../postcss-loader/dist/cjs.js??clonedRuleSet-8.use[2]!./vue-cool-lightbox.min.css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8.use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8.use[2]!./node_modules/vue-cool-lightbox/dist/vue-cool-lightbox.min.css");
-
-            
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_8_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_8_use_2_vue_cool_lightbox_min_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_8_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_8_use_2_vue_cool_lightbox_min_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
-
-/***/ }),
-
 /***/ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js":
 /*!****************************************************************************!*\
   !*** ./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js ***!
@@ -34771,10 +34348,10 @@ CoolLightBox.install = install;
 
 /***/ }),
 
-/***/ "./resources/js/components/frontend/frontend_master.vue":
-/*!**************************************************************!*\
-  !*** ./resources/js/components/frontend/frontend_master.vue ***!
-  \**************************************************************/
+/***/ "./node_modules/vue-cool-lightbox/dist/vue-cool-lightbox.min.css":
+/*!***********************************************************************!*\
+  !*** ./node_modules/vue-cool-lightbox/dist/vue-cool-lightbox.min.css ***!
+  \***********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -34782,64 +34359,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _frontend_master_vue_vue_type_template_id_7afef97d___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./frontend_master.vue?vue&type=template&id=7afef97d& */ "./resources/js/components/frontend/frontend_master.vue?vue&type=template&id=7afef97d&");
-/* harmony import */ var _frontend_master_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./frontend_master.vue?vue&type=script&lang=js& */ "./resources/js/components/frontend/frontend_master.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_8_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_8_use_2_vue_cool_lightbox_min_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8.use[1]!../../postcss-loader/dist/cjs.js??clonedRuleSet-8.use[2]!./vue-cool-lightbox.min.css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-8.use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8.use[2]!./node_modules/vue-cool-lightbox/dist/vue-cool-lightbox.min.css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_8_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_8_use_2_vue_cool_lightbox_min_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
 
 
 
-
-
-/* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _frontend_master_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _frontend_master_vue_vue_type_template_id_7afef97d___WEBPACK_IMPORTED_MODULE_0__.render,
-  _frontend_master_vue_vue_type_template_id_7afef97d___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/frontend/frontend_master.vue"
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/components/frontend/frontend_master.vue?vue&type=script&lang=js&":
-/*!***************************************************************************************!*\
-  !*** ./resources/js/components/frontend/frontend_master.vue?vue&type=script&lang=js& ***!
-  \***************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_frontend_master_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./frontend_master.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/frontend/frontend_master.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_frontend_master_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/frontend/frontend_master.vue?vue&type=template&id=7afef97d&":
-/*!*********************************************************************************************!*\
-  !*** ./resources/js/components/frontend/frontend_master.vue?vue&type=template&id=7afef97d& ***!
-  \*********************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_frontend_master_vue_vue_type_template_id_7afef97d___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_frontend_master_vue_vue_type_template_id_7afef97d___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_frontend_master_vue_vue_type_template_id_7afef97d___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./frontend_master.vue?vue&type=template&id=7afef97d& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/frontend/frontend_master.vue?vue&type=template&id=7afef97d&");
-
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_8_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_8_use_2_vue_cool_lightbox_min_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -38489,922 +38024,8 @@ var version = '3.6.5';
   \****************************************************/
 /***/ (function(module) {
 
-!function(e,t){ true?module.exports=t():0}("undefined"!=typeof self?self:this,(function(){return(()=>{var e={646:e=>{e.exports=function(e){if(Array.isArray(e)){for(var t=0,n=new Array(e.length);t<e.length;t++)n[t]=e[t];return n}}},713:e=>{e.exports=function(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}},860:e=>{e.exports=function(e){if(Symbol.iterator in Object(e)||"[object Arguments]"===Object.prototype.toString.call(e))return Array.from(e)}},206:e=>{e.exports=function(){throw new TypeError("Invalid attempt to spread non-iterable instance")}},319:(e,t,n)=>{var o=n(646),i=n(860),s=n(206);e.exports=function(e){return o(e)||i(e)||s()}},8:e=>{function t(n){return"function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?e.exports=t=function(e){return typeof e}:e.exports=t=function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},t(n)}e.exports=t}},t={};function n(o){var i=t[o];if(void 0!==i)return i.exports;var s=t[o]={exports:{}};return e[o](s,s.exports,n),s.exports}n.n=e=>{var t=e&&e.__esModule?()=>e.default:()=>e;return n.d(t,{a:t}),t},n.d=(e,t)=>{for(var o in t)n.o(t,o)&&!n.o(e,o)&&Object.defineProperty(e,o,{enumerable:!0,get:t[o]})},n.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),n.r=e=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})};var o={};return(()=>{"use strict";n.r(o),n.d(o,{VueSelect:()=>m,default:()=>O,mixins:()=>_});var e=n(319),t=n.n(e),i=n(8),s=n.n(i),r=n(713),a=n.n(r);const l={props:{autoscroll:{type:Boolean,default:!0}},watch:{typeAheadPointer:function(){this.autoscroll&&this.maybeAdjustScroll()},open:function(e){var t=this;this.autoscroll&&e&&this.$nextTick((function(){return t.maybeAdjustScroll()}))}},methods:{maybeAdjustScroll:function(){var e,t=(null===(e=this.$refs.dropdownMenu)||void 0===e?void 0:e.children[this.typeAheadPointer])||!1;if(t){var n=this.getDropdownViewport(),o=t.getBoundingClientRect(),i=o.top,s=o.bottom,r=o.height;if(i<n.top)return this.$refs.dropdownMenu.scrollTop=t.offsetTop;if(s>n.bottom)return this.$refs.dropdownMenu.scrollTop=t.offsetTop-(n.height-r)}},getDropdownViewport:function(){return this.$refs.dropdownMenu?this.$refs.dropdownMenu.getBoundingClientRect():{height:0,top:0,bottom:0}}}},c={data:function(){return{typeAheadPointer:-1}},watch:{filteredOptions:function(){for(var e=0;e<this.filteredOptions.length;e++)if(this.selectable(this.filteredOptions[e])){this.typeAheadPointer=e;break}},open:function(e){e&&this.typeAheadToLastSelected()},selectedValue:function(){this.open&&this.typeAheadToLastSelected()}},methods:{typeAheadUp:function(){for(var e=this.typeAheadPointer-1;e>=0;e--)if(this.selectable(this.filteredOptions[e])){this.typeAheadPointer=e;break}},typeAheadDown:function(){for(var e=this.typeAheadPointer+1;e<this.filteredOptions.length;e++)if(this.selectable(this.filteredOptions[e])){this.typeAheadPointer=e;break}},typeAheadSelect:function(){var e=this.filteredOptions[this.typeAheadPointer];e&&this.selectable(e)&&this.select(e)},typeAheadToLastSelected:function(){var e=0!==this.selectedValue.length?this.filteredOptions.indexOf(this.selectedValue[this.selectedValue.length-1]):-1;-1!==e&&(this.typeAheadPointer=e)}}},u={props:{loading:{type:Boolean,default:!1}},data:function(){return{mutableLoading:!1}},watch:{search:function(){this.$emit("search",this.search,this.toggleLoading)},loading:function(e){this.mutableLoading=e}},methods:{toggleLoading:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;return this.mutableLoading=null==e?!this.mutableLoading:e}}};function p(e,t,n,o,i,s,r,a){var l,c="function"==typeof e?e.options:e;if(t&&(c.render=t,c.staticRenderFns=n,c._compiled=!0),o&&(c.functional=!0),s&&(c._scopeId="data-v-"+s),r?(l=function(e){(e=e||this.$vnode&&this.$vnode.ssrContext||this.parent&&this.parent.$vnode&&this.parent.$vnode.ssrContext)||"undefined"==typeof __VUE_SSR_CONTEXT__||(e=__VUE_SSR_CONTEXT__),i&&i.call(this,e),e&&e._registeredComponents&&e._registeredComponents.add(r)},c._ssrRegister=l):i&&(l=a?function(){i.call(this,(c.functional?this.parent:this).$root.$options.shadowRoot)}:i),l)if(c.functional){c._injectStyles=l;var u=c.render;c.render=function(e,t){return l.call(t),u(e,t)}}else{var p=c.beforeCreate;c.beforeCreate=p?[].concat(p,l):[l]}return{exports:e,options:c}}const h={Deselect:p({},(function(){var e=this.$createElement,t=this._self._c||e;return t("svg",{attrs:{xmlns:"http://www.w3.org/2000/svg",width:"10",height:"10"}},[t("path",{attrs:{d:"M6.895455 5l2.842897-2.842898c.348864-.348863.348864-.914488 0-1.263636L9.106534.261648c-.348864-.348864-.914489-.348864-1.263636 0L5 3.104545 2.157102.261648c-.348863-.348864-.914488-.348864-1.263636 0L.261648.893466c-.348864.348864-.348864.914489 0 1.263636L3.104545 5 .261648 7.842898c-.348864.348863-.348864.914488 0 1.263636l.631818.631818c.348864.348864.914773.348864 1.263636 0L5 6.895455l2.842898 2.842897c.348863.348864.914772.348864 1.263636 0l.631818-.631818c.348864-.348864.348864-.914489 0-1.263636L6.895455 5z"}})])}),[],!1,null,null,null).exports,OpenIndicator:p({},(function(){var e=this.$createElement,t=this._self._c||e;return t("svg",{attrs:{xmlns:"http://www.w3.org/2000/svg",width:"14",height:"10"}},[t("path",{attrs:{d:"M9.211364 7.59931l4.48338-4.867229c.407008-.441854.407008-1.158247 0-1.60046l-.73712-.80023c-.407008-.441854-1.066904-.441854-1.474243 0L7 5.198617 2.51662.33139c-.407008-.441853-1.066904-.441853-1.474243 0l-.737121.80023c-.407008.441854-.407008 1.158248 0 1.600461l4.48338 4.867228L7 10l2.211364-2.40069z"}})])}),[],!1,null,null,null).exports},d={inserted:function(e,t,n){var o=n.context;if(o.appendToBody){var i=o.$refs.toggle.getBoundingClientRect(),s=i.height,r=i.top,a=i.left,l=i.width,c=window.scrollX||window.pageXOffset,u=window.scrollY||window.pageYOffset;e.unbindPosition=o.calculatePosition(e,o,{width:l+"px",left:c+a+"px",top:u+r+s+"px"}),document.body.appendChild(e)}},unbind:function(e,t,n){n.context.appendToBody&&(e.unbindPosition&&"function"==typeof e.unbindPosition&&e.unbindPosition(),e.parentNode&&e.parentNode.removeChild(e))}};const f=function(e){var t={};return Object.keys(e).sort().forEach((function(n){t[n]=e[n]})),JSON.stringify(t)};var y=0;const g=function(){return++y};function b(e,t){var n=Object.keys(e);if(Object.getOwnPropertySymbols){var o=Object.getOwnPropertySymbols(e);t&&(o=o.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),n.push.apply(n,o)}return n}function v(e){for(var t=1;t<arguments.length;t++){var n=null!=arguments[t]?arguments[t]:{};t%2?b(Object(n),!0).forEach((function(t){a()(e,t,n[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(n)):b(Object(n)).forEach((function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(n,t))}))}return e}const m=p({components:v({},h),directives:{appendToBody:d},mixins:[l,c,u],props:{value:{},components:{type:Object,default:function(){return{}}},options:{type:Array,default:function(){return[]}},disabled:{type:Boolean,default:!1},clearable:{type:Boolean,default:!0},deselectFromDropdown:{type:Boolean,default:!1},searchable:{type:Boolean,default:!0},multiple:{type:Boolean,default:!1},placeholder:{type:String,default:""},transition:{type:String,default:"vs__fade"},clearSearchOnSelect:{type:Boolean,default:!0},closeOnSelect:{type:Boolean,default:!0},label:{type:String,default:"label"},autocomplete:{type:String,default:"off"},reduce:{type:Function,default:function(e){return e}},selectable:{type:Function,default:function(e){return!0}},getOptionLabel:{type:Function,default:function(e){return"object"===s()(e)?e.hasOwnProperty(this.label)?e[this.label]:console.warn('[vue-select warn]: Label key "option.'.concat(this.label,'" does not')+" exist in options object ".concat(JSON.stringify(e),".\n")+"https://vue-select.org/api/props.html#getoptionlabel"):e}},getOptionKey:{type:Function,default:function(e){if("object"!==s()(e))return e;try{return e.hasOwnProperty("id")?e.id:f(e)}catch(t){return console.warn("[vue-select warn]: Could not stringify this option to generate unique key. Please provide'getOptionKey' prop to return a unique key for each option.\nhttps://vue-select.org/api/props.html#getoptionkey",e,t)}}},onTab:{type:Function,default:function(){this.selectOnTab&&!this.isComposing&&this.typeAheadSelect()}},taggable:{type:Boolean,default:!1},tabindex:{type:Number,default:null},pushTags:{type:Boolean,default:!1},filterable:{type:Boolean,default:!0},filterBy:{type:Function,default:function(e,t,n){return(t||"").toLocaleLowerCase().indexOf(n.toLocaleLowerCase())>-1}},filter:{type:Function,default:function(e,t){var n=this;return e.filter((function(e){var o=n.getOptionLabel(e);return"number"==typeof o&&(o=o.toString()),n.filterBy(e,o,t)}))}},createOption:{type:Function,default:function(e){return"object"===s()(this.optionList[0])?a()({},this.label,e):e}},resetOnOptionsChange:{default:!1,validator:function(e){return["function","boolean"].includes(s()(e))}},clearSearchOnBlur:{type:Function,default:function(e){var t=e.clearSearchOnSelect,n=e.multiple;return t&&!n}},noDrop:{type:Boolean,default:!1},inputId:{type:String},dir:{type:String,default:"auto"},selectOnTab:{type:Boolean,default:!1},selectOnKeyCodes:{type:Array,default:function(){return[13]}},searchInputQuerySelector:{type:String,default:"[type=search]"},mapKeydown:{type:Function,default:function(e,t){return e}},appendToBody:{type:Boolean,default:!1},calculatePosition:{type:Function,default:function(e,t,n){var o=n.width,i=n.top,s=n.left;e.style.top=i,e.style.left=s,e.style.width=o}},dropdownShouldOpen:{type:Function,default:function(e){var t=e.noDrop,n=e.open,o=e.mutableLoading;return!t&&(n&&!o)}},uid:{type:[String,Number],default:function(){return g()}}},data:function(){return{search:"",open:!1,isComposing:!1,pushedTags:[],_value:[]}},computed:{isTrackingValues:function(){return void 0===this.value||this.$options.propsData.hasOwnProperty("reduce")},selectedValue:function(){var e=this.value;return this.isTrackingValues&&(e=this.$data._value),null!=e&&""!==e?[].concat(e):[]},optionList:function(){return this.options.concat(this.pushTags?this.pushedTags:[])},searchEl:function(){return this.$scopedSlots.search?this.$refs.selectedOptions.querySelector(this.searchInputQuerySelector):this.$refs.search},scope:function(){var e=this,t={search:this.search,loading:this.loading,searching:this.searching,filteredOptions:this.filteredOptions};return{search:{attributes:v({disabled:this.disabled,placeholder:this.searchPlaceholder,tabindex:this.tabindex,readonly:!this.searchable,id:this.inputId,"aria-autocomplete":"list","aria-labelledby":"vs".concat(this.uid,"__combobox"),"aria-controls":"vs".concat(this.uid,"__listbox"),ref:"search",type:"search",autocomplete:this.autocomplete,value:this.search},this.dropdownOpen&&this.filteredOptions[this.typeAheadPointer]?{"aria-activedescendant":"vs".concat(this.uid,"__option-").concat(this.typeAheadPointer)}:{}),events:{compositionstart:function(){return e.isComposing=!0},compositionend:function(){return e.isComposing=!1},keydown:this.onSearchKeyDown,keypress:this.onSearchKeyPress,blur:this.onSearchBlur,focus:this.onSearchFocus,input:function(t){return e.search=t.target.value}}},spinner:{loading:this.mutableLoading},noOptions:{search:this.search,loading:this.mutableLoading,searching:this.searching},openIndicator:{attributes:{ref:"openIndicator",role:"presentation",class:"vs__open-indicator"}},listHeader:t,listFooter:t,header:v({},t,{deselect:this.deselect}),footer:v({},t,{deselect:this.deselect})}},childComponents:function(){return v({},h,{},this.components)},stateClasses:function(){return{"vs--open":this.dropdownOpen,"vs--single":!this.multiple,"vs--multiple":this.multiple,"vs--searching":this.searching&&!this.noDrop,"vs--searchable":this.searchable&&!this.noDrop,"vs--unsearchable":!this.searchable,"vs--loading":this.mutableLoading,"vs--disabled":this.disabled}},searching:function(){return!!this.search},dropdownOpen:function(){return this.dropdownShouldOpen(this)},searchPlaceholder:function(){return this.isValueEmpty&&this.placeholder?this.placeholder:void 0},filteredOptions:function(){var e=[].concat(this.optionList);if(!this.filterable&&!this.taggable)return e;var t=this.search.length?this.filter(e,this.search,this):e;if(this.taggable&&this.search.length){var n=this.createOption(this.search);this.optionExists(n)||t.unshift(n)}return t},isValueEmpty:function(){return 0===this.selectedValue.length},showClearButton:function(){return!this.multiple&&this.clearable&&!this.open&&!this.isValueEmpty}},watch:{options:function(e,t){var n=this;!this.taggable&&("function"==typeof n.resetOnOptionsChange?n.resetOnOptionsChange(e,t,n.selectedValue):n.resetOnOptionsChange)&&this.clearSelection(),this.value&&this.isTrackingValues&&this.setInternalValueFromOptions(this.value)},value:{immediate:!0,handler:function(e){this.isTrackingValues&&this.setInternalValueFromOptions(e)}},multiple:function(){this.clearSelection()},open:function(e){this.$emit(e?"open":"close")},search:function(e){e.length&&(this.open=!0)}},created:function(){this.mutableLoading=this.loading,this.$on("option:created",this.pushTag)},methods:{setInternalValueFromOptions:function(e){var t=this;Array.isArray(e)?this.$data._value=e.map((function(e){return t.findOptionFromReducedValue(e)})):this.$data._value=this.findOptionFromReducedValue(e)},select:function(e){this.$emit("option:selecting",e),this.isOptionSelected(e)?this.deselectFromDropdown&&(this.clearable||this.multiple&&this.selectedValue.length>1)&&this.deselect(e):(this.taggable&&!this.optionExists(e)&&this.$emit("option:created",e),this.multiple&&(e=this.selectedValue.concat(e)),this.updateValue(e),this.$emit("option:selected",e)),this.onAfterSelect(e)},deselect:function(e){var t=this;this.$emit("option:deselecting",e),this.updateValue(this.selectedValue.filter((function(n){return!t.optionComparator(n,e)}))),this.$emit("option:deselected",e)},clearSelection:function(){this.updateValue(this.multiple?[]:null)},onAfterSelect:function(e){var t=this;this.closeOnSelect&&(this.open=!this.open),this.clearSearchOnSelect&&(this.search=""),this.noDrop&&this.multiple&&this.$nextTick((function(){return t.$refs.search.focus()}))},updateValue:function(e){var t=this;void 0===this.value&&(this.$data._value=e),null!==e&&(e=Array.isArray(e)?e.map((function(e){return t.reduce(e)})):this.reduce(e)),this.$emit("input",e)},toggleDropdown:function(e){var n=e.target!==this.searchEl;n&&e.preventDefault();var o=[].concat(t()(this.$refs.deselectButtons||[]),t()([this.$refs.clearButton]||0));void 0===this.searchEl||o.filter(Boolean).some((function(t){return t.contains(e.target)||t===e.target}))?e.preventDefault():this.open&&n?this.searchEl.blur():this.disabled||(this.open=!0,this.searchEl.focus())},isOptionSelected:function(e){var t=this;return this.selectedValue.some((function(n){return t.optionComparator(n,e)}))},isOptionDeselectable:function(e){return this.isOptionSelected(e)&&this.deselectFromDropdown},optionComparator:function(e,t){return this.getOptionKey(e)===this.getOptionKey(t)},findOptionFromReducedValue:function(e){var n=this,o=[].concat(t()(this.options),t()(this.pushedTags)).filter((function(t){return JSON.stringify(n.reduce(t))===JSON.stringify(e)}));return 1===o.length?o[0]:o.find((function(e){return n.optionComparator(e,n.$data._value)}))||e},closeSearchOptions:function(){this.open=!1,this.$emit("search:blur")},maybeDeleteValue:function(){if(!this.searchEl.value.length&&this.selectedValue&&this.selectedValue.length&&this.clearable){var e=null;this.multiple&&(e=t()(this.selectedValue.slice(0,this.selectedValue.length-1))),this.updateValue(e)}},optionExists:function(e){var t=this;return this.optionList.some((function(n){return t.optionComparator(n,e)}))},normalizeOptionForSlot:function(e){return"object"===s()(e)?e:a()({},this.label,e)},pushTag:function(e){this.pushedTags.push(e)},onEscape:function(){this.search.length?this.search="":this.open=!1},onSearchBlur:function(){if(!this.mousedown||this.searching){var e=this.clearSearchOnSelect,t=this.multiple;return this.clearSearchOnBlur({clearSearchOnSelect:e,multiple:t})&&(this.search=""),void this.closeSearchOptions()}this.mousedown=!1,0!==this.search.length||0!==this.options.length||this.closeSearchOptions()},onSearchFocus:function(){this.open=!0,this.$emit("search:focus")},onMousedown:function(){this.mousedown=!0},onMouseUp:function(){this.mousedown=!1},onSearchKeyDown:function(e){var t=this,n=function(e){return e.preventDefault(),!t.isComposing&&t.typeAheadSelect()},o={8:function(e){return t.maybeDeleteValue()},9:function(e){return t.onTab()},27:function(e){return t.onEscape()},38:function(e){if(e.preventDefault(),t.open)return t.typeAheadUp();t.open=!0},40:function(e){if(e.preventDefault(),t.open)return t.typeAheadDown();t.open=!0}};this.selectOnKeyCodes.forEach((function(e){return o[e]=n}));var i=this.mapKeydown(o,this);if("function"==typeof i[e.keyCode])return i[e.keyCode](e)},onSearchKeyPress:function(e){this.open||32!==e.keyCode||(e.preventDefault(),this.open=!0)}}},(function(){var e=this,t=e.$createElement,n=e._self._c||t;return n("div",{staticClass:"v-select",class:e.stateClasses,attrs:{dir:e.dir}},[e._t("header",null,null,e.scope.header),e._v(" "),n("div",{ref:"toggle",staticClass:"vs__dropdown-toggle",attrs:{id:"vs"+e.uid+"__combobox",role:"combobox","aria-expanded":e.dropdownOpen.toString(),"aria-owns":"vs"+e.uid+"__listbox","aria-label":"Search for option"},on:{mousedown:function(t){return e.toggleDropdown(t)}}},[n("div",{ref:"selectedOptions",staticClass:"vs__selected-options"},[e._l(e.selectedValue,(function(t){return e._t("selected-option-container",[n("span",{key:e.getOptionKey(t),staticClass:"vs__selected"},[e._t("selected-option",[e._v("\n            "+e._s(e.getOptionLabel(t))+"\n          ")],null,e.normalizeOptionForSlot(t)),e._v(" "),e.multiple?n("button",{ref:"deselectButtons",refInFor:!0,staticClass:"vs__deselect",attrs:{disabled:e.disabled,type:"button",title:"Deselect "+e.getOptionLabel(t),"aria-label":"Deselect "+e.getOptionLabel(t)},on:{click:function(n){return e.deselect(t)}}},[n(e.childComponents.Deselect,{tag:"component"})],1):e._e()],2)],{option:e.normalizeOptionForSlot(t),deselect:e.deselect,multiple:e.multiple,disabled:e.disabled})})),e._v(" "),e._t("search",[n("input",e._g(e._b({staticClass:"vs__search"},"input",e.scope.search.attributes,!1),e.scope.search.events))],null,e.scope.search)],2),e._v(" "),n("div",{ref:"actions",staticClass:"vs__actions"},[n("button",{directives:[{name:"show",rawName:"v-show",value:e.showClearButton,expression:"showClearButton"}],ref:"clearButton",staticClass:"vs__clear",attrs:{disabled:e.disabled,type:"button",title:"Clear Selected","aria-label":"Clear Selected"},on:{click:e.clearSelection}},[n(e.childComponents.Deselect,{tag:"component"})],1),e._v(" "),e._t("open-indicator",[e.noDrop?e._e():n(e.childComponents.OpenIndicator,e._b({tag:"component"},"component",e.scope.openIndicator.attributes,!1))],null,e.scope.openIndicator),e._v(" "),e._t("spinner",[n("div",{directives:[{name:"show",rawName:"v-show",value:e.mutableLoading,expression:"mutableLoading"}],staticClass:"vs__spinner"},[e._v("Loading...")])],null,e.scope.spinner)],2)]),e._v(" "),n("transition",{attrs:{name:e.transition}},[e.dropdownOpen?n("ul",{directives:[{name:"append-to-body",rawName:"v-append-to-body"}],key:"vs"+e.uid+"__listbox",ref:"dropdownMenu",staticClass:"vs__dropdown-menu",attrs:{id:"vs"+e.uid+"__listbox",role:"listbox",tabindex:"-1"},on:{mousedown:function(t){return t.preventDefault(),e.onMousedown(t)},mouseup:e.onMouseUp}},[e._t("list-header",null,null,e.scope.listHeader),e._v(" "),e._l(e.filteredOptions,(function(t,o){return n("li",{key:e.getOptionKey(t),staticClass:"vs__dropdown-option",class:{"vs__dropdown-option--deselect":e.isOptionDeselectable(t)&&o===e.typeAheadPointer,"vs__dropdown-option--selected":e.isOptionSelected(t),"vs__dropdown-option--highlight":o===e.typeAheadPointer,"vs__dropdown-option--disabled":!e.selectable(t)},attrs:{id:"vs"+e.uid+"__option-"+o,role:"option","aria-selected":o===e.typeAheadPointer||null},on:{mouseover:function(n){e.selectable(t)&&(e.typeAheadPointer=o)},click:function(n){n.preventDefault(),n.stopPropagation(),e.selectable(t)&&e.select(t)}}},[e._t("option",[e._v("\n          "+e._s(e.getOptionLabel(t))+"\n        ")],null,e.normalizeOptionForSlot(t))],2)})),e._v(" "),0===e.filteredOptions.length?n("li",{staticClass:"vs__no-options"},[e._t("no-options",[e._v("\n          Sorry, no matching options.\n        ")],null,e.scope.noOptions)],2):e._e(),e._v(" "),e._t("list-footer",null,null,e.scope.listFooter)],2):n("ul",{staticStyle:{display:"none",visibility:"hidden"},attrs:{id:"vs"+e.uid+"__listbox",role:"listbox"}})]),e._v(" "),e._t("footer",null,null,e.scope.footer)],2)}),[],!1,null,null,null).exports,_={ajax:u,pointer:c,pointerScroll:l},O=m})(),o})()}));
+!function(e,t){ true?module.exports=t():0}("undefined"!=typeof self?self:this,(function(){return(()=>{var e={646:e=>{e.exports=function(e){if(Array.isArray(e)){for(var t=0,n=new Array(e.length);t<e.length;t++)n[t]=e[t];return n}}},713:e=>{e.exports=function(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}},860:e=>{e.exports=function(e){if(Symbol.iterator in Object(e)||"[object Arguments]"===Object.prototype.toString.call(e))return Array.from(e)}},206:e=>{e.exports=function(){throw new TypeError("Invalid attempt to spread non-iterable instance")}},319:(e,t,n)=>{var o=n(646),i=n(860),s=n(206);e.exports=function(e){return o(e)||i(e)||s()}},8:e=>{function t(n){return"function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?e.exports=t=function(e){return typeof e}:e.exports=t=function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},t(n)}e.exports=t}},t={};function n(o){var i=t[o];if(void 0!==i)return i.exports;var s=t[o]={exports:{}};return e[o](s,s.exports,n),s.exports}n.n=e=>{var t=e&&e.__esModule?()=>e.default:()=>e;return n.d(t,{a:t}),t},n.d=(e,t)=>{for(var o in t)n.o(t,o)&&!n.o(e,o)&&Object.defineProperty(e,o,{enumerable:!0,get:t[o]})},n.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),n.r=e=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})};var o={};return(()=>{"use strict";n.r(o),n.d(o,{VueSelect:()=>m,default:()=>O,mixins:()=>_});var e=n(319),t=n.n(e),i=n(8),s=n.n(i),r=n(713),a=n.n(r);const l={props:{autoscroll:{type:Boolean,default:!0}},watch:{typeAheadPointer:function(){this.autoscroll&&this.maybeAdjustScroll()},open:function(e){var t=this;this.autoscroll&&e&&this.$nextTick((function(){return t.maybeAdjustScroll()}))}},methods:{maybeAdjustScroll:function(){var e,t=(null===(e=this.$refs.dropdownMenu)||void 0===e?void 0:e.children[this.typeAheadPointer])||!1;if(t){var n=this.getDropdownViewport(),o=t.getBoundingClientRect(),i=o.top,s=o.bottom,r=o.height;if(i<n.top)return this.$refs.dropdownMenu.scrollTop=t.offsetTop;if(s>n.bottom)return this.$refs.dropdownMenu.scrollTop=t.offsetTop-(n.height-r)}},getDropdownViewport:function(){return this.$refs.dropdownMenu?this.$refs.dropdownMenu.getBoundingClientRect():{height:0,top:0,bottom:0}}}},c={data:function(){return{typeAheadPointer:-1}},watch:{filteredOptions:function(){for(var e=0;e<this.filteredOptions.length;e++)if(this.selectable(this.filteredOptions[e])){this.typeAheadPointer=e;break}},open:function(e){e&&this.typeAheadToLastSelected()},selectedValue:function(){this.open&&this.typeAheadToLastSelected()}},methods:{typeAheadUp:function(){for(var e=this.typeAheadPointer-1;e>=0;e--)if(this.selectable(this.filteredOptions[e])){this.typeAheadPointer=e;break}},typeAheadDown:function(){for(var e=this.typeAheadPointer+1;e<this.filteredOptions.length;e++)if(this.selectable(this.filteredOptions[e])){this.typeAheadPointer=e;break}},typeAheadSelect:function(){var e=this.filteredOptions[this.typeAheadPointer];e&&this.selectable(e)&&this.select(e)},typeAheadToLastSelected:function(){var e=0!==this.selectedValue.length?this.filteredOptions.indexOf(this.selectedValue[this.selectedValue.length-1]):-1;-1!==e&&(this.typeAheadPointer=e)}}},u={props:{loading:{type:Boolean,default:!1}},data:function(){return{mutableLoading:!1}},watch:{search:function(){this.$emit("search",this.search,this.toggleLoading)},loading:function(e){this.mutableLoading=e}},methods:{toggleLoading:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;return this.mutableLoading=null==e?!this.mutableLoading:e}}};function p(e,t,n,o,i,s,r,a){var l,c="function"==typeof e?e.options:e;if(t&&(c.render=t,c.staticRenderFns=n,c._compiled=!0),o&&(c.functional=!0),s&&(c._scopeId="data-v-"+s),r?(l=function(e){(e=e||this.$vnode&&this.$vnode.ssrContext||this.parent&&this.parent.$vnode&&this.parent.$vnode.ssrContext)||"undefined"==typeof __VUE_SSR_CONTEXT__||(e=__VUE_SSR_CONTEXT__),i&&i.call(this,e),e&&e._registeredComponents&&e._registeredComponents.add(r)},c._ssrRegister=l):i&&(l=a?function(){i.call(this,(c.functional?this.parent:this).$root.$options.shadowRoot)}:i),l)if(c.functional){c._injectStyles=l;var u=c.render;c.render=function(e,t){return l.call(t),u(e,t)}}else{var p=c.beforeCreate;c.beforeCreate=p?[].concat(p,l):[l]}return{exports:e,options:c}}const h={Deselect:p({},(function(){var e=this.$createElement,t=this._self._c||e;return t("svg",{attrs:{xmlns:"http://www.w3.org/2000/svg",width:"10",height:"10"}},[t("path",{attrs:{d:"M6.895455 5l2.842897-2.842898c.348864-.348863.348864-.914488 0-1.263636L9.106534.261648c-.348864-.348864-.914489-.348864-1.263636 0L5 3.104545 2.157102.261648c-.348863-.348864-.914488-.348864-1.263636 0L.261648.893466c-.348864.348864-.348864.914489 0 1.263636L3.104545 5 .261648 7.842898c-.348864.348863-.348864.914488 0 1.263636l.631818.631818c.348864.348864.914773.348864 1.263636 0L5 6.895455l2.842898 2.842897c.348863.348864.914772.348864 1.263636 0l.631818-.631818c.348864-.348864.348864-.914489 0-1.263636L6.895455 5z"}})])}),[],!1,null,null,null).exports,OpenIndicator:p({},(function(){var e=this.$createElement,t=this._self._c||e;return t("svg",{attrs:{xmlns:"http://www.w3.org/2000/svg",width:"14",height:"10"}},[t("path",{attrs:{d:"M9.211364 7.59931l4.48338-4.867229c.407008-.441854.407008-1.158247 0-1.60046l-.73712-.80023c-.407008-.441854-1.066904-.441854-1.474243 0L7 5.198617 2.51662.33139c-.407008-.441853-1.066904-.441853-1.474243 0l-.737121.80023c-.407008.441854-.407008 1.158248 0 1.600461l4.48338 4.867228L7 10l2.211364-2.40069z"}})])}),[],!1,null,null,null).exports},d={inserted:function(e,t,n){var o=n.context;if(o.appendToBody){var i=o.$refs.toggle.getBoundingClientRect(),s=i.height,r=i.top,a=i.left,l=i.width,c=window.scrollX||window.pageXOffset,u=window.scrollY||window.pageYOffset;e.unbindPosition=o.calculatePosition(e,o,{width:l+"px",left:c+a+"px",top:u+r+s+"px"}),document.body.appendChild(e)}},unbind:function(e,t,n){n.context.appendToBody&&(e.unbindPosition&&"function"==typeof e.unbindPosition&&e.unbindPosition(),e.parentNode&&e.parentNode.removeChild(e))}};const f=function(e){var t={};return Object.keys(e).sort().forEach((function(n){t[n]=e[n]})),JSON.stringify(t)};var y=0;const g=function(){return++y};function b(e,t){var n=Object.keys(e);if(Object.getOwnPropertySymbols){var o=Object.getOwnPropertySymbols(e);t&&(o=o.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),n.push.apply(n,o)}return n}function v(e){for(var t=1;t<arguments.length;t++){var n=null!=arguments[t]?arguments[t]:{};t%2?b(Object(n),!0).forEach((function(t){a()(e,t,n[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(n)):b(Object(n)).forEach((function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(n,t))}))}return e}const m=p({components:v({},h),directives:{appendToBody:d},mixins:[l,c,u],props:{value:{},components:{type:Object,default:function(){return{}}},options:{type:Array,default:function(){return[]}},disabled:{type:Boolean,default:!1},clearable:{type:Boolean,default:!0},deselectFromDropdown:{type:Boolean,default:!1},searchable:{type:Boolean,default:!0},multiple:{type:Boolean,default:!1},placeholder:{type:String,default:""},transition:{type:String,default:"vs__fade"},clearSearchOnSelect:{type:Boolean,default:!0},closeOnSelect:{type:Boolean,default:!0},label:{type:String,default:"label"},autocomplete:{type:String,default:"off"},reduce:{type:Function,default:function(e){return e}},selectable:{type:Function,default:function(e){return!0}},getOptionLabel:{type:Function,default:function(e){return"object"===s()(e)?e.hasOwnProperty(this.label)?e[this.label]:console.warn('[vue-select warn]: Label key "option.'.concat(this.label,'" does not')+" exist in options object ".concat(JSON.stringify(e),".\n")+"https://vue-select.org/api/props.html#getoptionlabel"):e}},getOptionKey:{type:Function,default:function(e){if("object"!==s()(e))return e;try{return e.hasOwnProperty("id")?e.id:f(e)}catch(t){return console.warn("[vue-select warn]: Could not stringify this option to generate unique key. Please provide'getOptionKey' prop to return a unique key for each option.\nhttps://vue-select.org/api/props.html#getoptionkey",e,t)}}},onTab:{type:Function,default:function(){this.selectOnTab&&!this.isComposing&&this.typeAheadSelect()}},taggable:{type:Boolean,default:!1},tabindex:{type:Number,default:null},pushTags:{type:Boolean,default:!1},filterable:{type:Boolean,default:!0},filterBy:{type:Function,default:function(e,t,n){return(t||"").toLocaleLowerCase().indexOf(n.toLocaleLowerCase())>-1}},filter:{type:Function,default:function(e,t){var n=this;return e.filter((function(e){var o=n.getOptionLabel(e);return"number"==typeof o&&(o=o.toString()),n.filterBy(e,o,t)}))}},createOption:{type:Function,default:function(e){return"object"===s()(this.optionList[0])?a()({},this.label,e):e}},resetOnOptionsChange:{default:!1,validator:function(e){return["function","boolean"].includes(s()(e))}},clearSearchOnBlur:{type:Function,default:function(e){var t=e.clearSearchOnSelect,n=e.multiple;return t&&!n}},noDrop:{type:Boolean,default:!1},inputId:{type:String},dir:{type:String,default:"auto"},selectOnTab:{type:Boolean,default:!1},selectOnKeyCodes:{type:Array,default:function(){return[13]}},searchInputQuerySelector:{type:String,default:"[type=search]"},mapKeydown:{type:Function,default:function(e,t){return e}},appendToBody:{type:Boolean,default:!1},calculatePosition:{type:Function,default:function(e,t,n){var o=n.width,i=n.top,s=n.left;e.style.top=i,e.style.left=s,e.style.width=o}},dropdownShouldOpen:{type:Function,default:function(e){var t=e.noDrop,n=e.open,o=e.mutableLoading;return!t&&(n&&!o)}},uid:{type:[String,Number],default:function(){return g()}}},data:function(){return{search:"",open:!1,isComposing:!1,pushedTags:[],_value:[]}},computed:{isTrackingValues:function(){return void 0===this.value||this.$options.propsData.hasOwnProperty("reduce")},selectedValue:function(){var e=this.value;return this.isTrackingValues&&(e=this.$data._value),null!=e&&""!==e?[].concat(e):[]},optionList:function(){return this.options.concat(this.pushTags?this.pushedTags:[])},searchEl:function(){return this.$scopedSlots.search?this.$refs.selectedOptions.querySelector(this.searchInputQuerySelector):this.$refs.search},scope:function(){var e=this,t={search:this.search,loading:this.loading,searching:this.searching,filteredOptions:this.filteredOptions};return{search:{attributes:v({disabled:this.disabled,placeholder:this.searchPlaceholder,tabindex:this.tabindex,readonly:!this.searchable,id:this.inputId,"aria-autocomplete":"list","aria-labelledby":"vs".concat(this.uid,"__combobox"),"aria-controls":"vs".concat(this.uid,"__listbox"),ref:"search",type:"search",autocomplete:this.autocomplete,value:this.search},this.dropdownOpen&&this.filteredOptions[this.typeAheadPointer]?{"aria-activedescendant":"vs".concat(this.uid,"__option-").concat(this.typeAheadPointer)}:{}),events:{compositionstart:function(){return e.isComposing=!0},compositionend:function(){return e.isComposing=!1},keydown:this.onSearchKeyDown,keypress:this.onSearchKeyPress,blur:this.onSearchBlur,focus:this.onSearchFocus,input:function(t){return e.search=t.target.value}}},spinner:{loading:this.mutableLoading},noOptions:{search:this.search,loading:this.mutableLoading,searching:this.searching},openIndicator:{attributes:{ref:"openIndicator",role:"presentation",class:"vs__open-indicator"}},listHeader:t,listFooter:t,header:v({},t,{deselect:this.deselect}),footer:v({},t,{deselect:this.deselect})}},childComponents:function(){return v({},h,{},this.components)},stateClasses:function(){return{"vs--open":this.dropdownOpen,"vs--single":!this.multiple,"vs--multiple":this.multiple,"vs--searching":this.searching&&!this.noDrop,"vs--searchable":this.searchable&&!this.noDrop,"vs--unsearchable":!this.searchable,"vs--loading":this.mutableLoading,"vs--disabled":this.disabled}},searching:function(){return!!this.search},dropdownOpen:function(){return this.dropdownShouldOpen(this)},searchPlaceholder:function(){return this.isValueEmpty&&this.placeholder?this.placeholder:void 0},filteredOptions:function(){var e=[].concat(this.optionList);if(!this.filterable&&!this.taggable)return e;var t=this.search.length?this.filter(e,this.search,this):e;if(this.taggable&&this.search.length){var n=this.createOption(this.search);this.optionExists(n)||t.unshift(n)}return t},isValueEmpty:function(){return 0===this.selectedValue.length},showClearButton:function(){return!this.multiple&&this.clearable&&!this.open&&!this.isValueEmpty}},watch:{options:function(e,t){var n=this;!this.taggable&&("function"==typeof n.resetOnOptionsChange?n.resetOnOptionsChange(e,t,n.selectedValue):n.resetOnOptionsChange)&&this.clearSelection(),this.value&&this.isTrackingValues&&this.setInternalValueFromOptions(this.value)},value:{immediate:!0,handler:function(e){this.isTrackingValues&&this.setInternalValueFromOptions(e)}},multiple:function(){this.clearSelection()},open:function(e){this.$emit(e?"open":"close")},search:function(e){e.length&&(this.open=!0)}},created:function(){this.mutableLoading=this.loading,this.$on("option:created",this.pushTag)},methods:{setInternalValueFromOptions:function(e){var t=this;Array.isArray(e)?this.$data._value=e.map((function(e){return t.findOptionFromReducedValue(e)})):this.$data._value=this.findOptionFromReducedValue(e)},select:function(e){this.$emit("option:selecting",e),this.isOptionSelected(e)?this.deselectFromDropdown&&(this.clearable||this.multiple&&this.selectedValue.length>1)&&this.deselect(e):(this.taggable&&!this.optionExists(e)&&this.$emit("option:created",e),this.multiple&&(e=this.selectedValue.concat(e)),this.updateValue(e),this.$emit("option:selected",e)),this.onAfterSelect(e)},deselect:function(e){var t=this;this.$emit("option:deselecting",e),this.updateValue(this.selectedValue.filter((function(n){return!t.optionComparator(n,e)}))),this.$emit("option:deselected",e)},clearSelection:function(){this.updateValue(this.multiple?[]:null)},onAfterSelect:function(e){var t=this;this.closeOnSelect&&(this.open=!this.open),this.clearSearchOnSelect&&(this.search=""),this.noDrop&&this.multiple&&this.$nextTick((function(){return t.$refs.search.focus()}))},updateValue:function(e){var t=this;void 0===this.value&&(this.$data._value=e),null!==e&&(e=Array.isArray(e)?e.map((function(e){return t.reduce(e)})):this.reduce(e)),this.$emit("input",e)},toggleDropdown:function(e){var n=e.target!==this.searchEl;n&&e.preventDefault();var o=[].concat(t()(this.$refs.deselectButtons||[]),t()([this.$refs.clearButton]||0));void 0===this.searchEl||o.filter(Boolean).some((function(t){return t.contains(e.target)||t===e.target}))?e.preventDefault():this.open&&n?this.searchEl.blur():this.disabled||(this.open=!0,this.searchEl.focus())},isOptionSelected:function(e){var t=this;return this.selectedValue.some((function(n){return t.optionComparator(n,e)}))},isOptionDeselectable:function(e){return this.isOptionSelected(e)&&this.deselectFromDropdown},optionComparator:function(e,t){return this.getOptionKey(e)===this.getOptionKey(t)},findOptionFromReducedValue:function(e){var n=this,o=[].concat(t()(this.options),t()(this.pushedTags)).filter((function(t){return JSON.stringify(n.reduce(t))===JSON.stringify(e)}));return 1===o.length?o[0]:o.find((function(e){return n.optionComparator(e,n.$data._value)}))||e},closeSearchOptions:function(){this.open=!1,this.$emit("search:blur")},maybeDeleteValue:function(){if(!this.searchEl.value.length&&this.selectedValue&&this.selectedValue.length&&this.clearable){var e=null;this.multiple&&(e=t()(this.selectedValue.slice(0,this.selectedValue.length-1))),this.updateValue(e)}},optionExists:function(e){var t=this;return this.optionList.some((function(n){return t.optionComparator(n,e)}))},normalizeOptionForSlot:function(e){return"object"===s()(e)?e:a()({},this.label,e)},pushTag:function(e){this.pushedTags.push(e)},onEscape:function(){this.search.length?this.search="":this.open=!1},onSearchBlur:function(){if(!this.mousedown||this.searching){var e=this.clearSearchOnSelect,t=this.multiple;return this.clearSearchOnBlur({clearSearchOnSelect:e,multiple:t})&&(this.search=""),void this.closeSearchOptions()}this.mousedown=!1,0!==this.search.length||0!==this.options.length||this.closeSearchOptions()},onSearchFocus:function(){this.open=!0,this.$emit("search:focus")},onMousedown:function(){this.mousedown=!0},onMouseUp:function(){this.mousedown=!1},onSearchKeyDown:function(e){var t=this,n=function(e){return e.preventDefault(),!t.isComposing&&t.typeAheadSelect()},o={8:function(e){return t.maybeDeleteValue()},9:function(e){return t.onTab()},27:function(e){return t.onEscape()},38:function(e){if(e.preventDefault(),t.open)return t.typeAheadUp();t.open=!0},40:function(e){if(e.preventDefault(),t.open)return t.typeAheadDown();t.open=!0}};this.selectOnKeyCodes.forEach((function(e){return o[e]=n}));var i=this.mapKeydown(o,this);if("function"==typeof i[e.keyCode])return i[e.keyCode](e)},onSearchKeyPress:function(e){this.open||32!==e.keyCode||(e.preventDefault(),this.open=!0)}}},(function(){var e=this,t=e.$createElement,n=e._self._c||t;return n("div",{staticClass:"v-select",class:e.stateClasses,attrs:{dir:e.dir}},[e._t("header",null,null,e.scope.header),e._v(" "),n("div",{ref:"toggle",staticClass:"vs__dropdown-toggle",attrs:{id:"vs"+e.uid+"__combobox",role:"combobox","aria-expanded":e.dropdownOpen.toString(),"aria-owns":"vs"+e.uid+"__listbox","aria-controls":"vs"+e.uid+"__listbox","aria-label":"Search for option"},on:{mousedown:function(t){return e.toggleDropdown(t)}}},[n("div",{ref:"selectedOptions",staticClass:"vs__selected-options"},[e._l(e.selectedValue,(function(t){return e._t("selected-option-container",[n("span",{key:e.getOptionKey(t),staticClass:"vs__selected"},[e._t("selected-option",[e._v("\n            "+e._s(e.getOptionLabel(t))+"\n          ")],null,e.normalizeOptionForSlot(t)),e._v(" "),e.multiple?n("button",{ref:"deselectButtons",refInFor:!0,staticClass:"vs__deselect",attrs:{disabled:e.disabled,type:"button",title:"Deselect "+e.getOptionLabel(t),"aria-label":"Deselect "+e.getOptionLabel(t)},on:{click:function(n){return e.deselect(t)}}},[n(e.childComponents.Deselect,{tag:"component"})],1):e._e()],2)],{option:e.normalizeOptionForSlot(t),deselect:e.deselect,multiple:e.multiple,disabled:e.disabled})})),e._v(" "),e._t("search",[n("input",e._g(e._b({staticClass:"vs__search"},"input",e.scope.search.attributes,!1),e.scope.search.events))],null,e.scope.search)],2),e._v(" "),n("div",{ref:"actions",staticClass:"vs__actions"},[n("button",{directives:[{name:"show",rawName:"v-show",value:e.showClearButton,expression:"showClearButton"}],ref:"clearButton",staticClass:"vs__clear",attrs:{disabled:e.disabled,type:"button",title:"Clear Selected","aria-label":"Clear Selected"},on:{click:e.clearSelection}},[n(e.childComponents.Deselect,{tag:"component"})],1),e._v(" "),e._t("open-indicator",[e.noDrop?e._e():n(e.childComponents.OpenIndicator,e._b({tag:"component"},"component",e.scope.openIndicator.attributes,!1))],null,e.scope.openIndicator),e._v(" "),e._t("spinner",[n("div",{directives:[{name:"show",rawName:"v-show",value:e.mutableLoading,expression:"mutableLoading"}],staticClass:"vs__spinner"},[e._v("Loading...")])],null,e.scope.spinner)],2)]),e._v(" "),n("transition",{attrs:{name:e.transition}},[e.dropdownOpen?n("ul",{directives:[{name:"append-to-body",rawName:"v-append-to-body"}],key:"vs"+e.uid+"__listbox",ref:"dropdownMenu",staticClass:"vs__dropdown-menu",attrs:{id:"vs"+e.uid+"__listbox",role:"listbox",tabindex:"-1"},on:{mousedown:function(t){return t.preventDefault(),e.onMousedown(t)},mouseup:e.onMouseUp}},[e._t("list-header",null,null,e.scope.listHeader),e._v(" "),e._l(e.filteredOptions,(function(t,o){return n("li",{key:e.getOptionKey(t),staticClass:"vs__dropdown-option",class:{"vs__dropdown-option--deselect":e.isOptionDeselectable(t)&&o===e.typeAheadPointer,"vs__dropdown-option--selected":e.isOptionSelected(t),"vs__dropdown-option--highlight":o===e.typeAheadPointer,"vs__dropdown-option--disabled":!e.selectable(t)},attrs:{id:"vs"+e.uid+"__option-"+o,role:"option","aria-selected":o===e.typeAheadPointer||null},on:{mouseover:function(n){e.selectable(t)&&(e.typeAheadPointer=o)},click:function(n){n.preventDefault(),n.stopPropagation(),e.selectable(t)&&e.select(t)}}},[e._t("option",[e._v("\n          "+e._s(e.getOptionLabel(t))+"\n        ")],null,e.normalizeOptionForSlot(t))],2)})),e._v(" "),0===e.filteredOptions.length?n("li",{staticClass:"vs__no-options"},[e._t("no-options",[e._v("\n          Sorry, no matching options.\n        ")],null,e.scope.noOptions)],2):e._e(),e._v(" "),e._t("list-footer",null,null,e.scope.listFooter)],2):n("ul",{staticStyle:{display:"none",visibility:"hidden"},attrs:{id:"vs"+e.uid+"__listbox",role:"listbox"}})]),e._v(" "),e._t("footer",null,null,e.scope.footer)],2)}),[],!1,null,null,null).exports,_={ajax:u,pointer:c,pointerScroll:l},O=m})(),o})()}));
 //# sourceMappingURL=vue-select.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vue2-filters/dist/vue2-filters.js":
-/*!********************************************************!*\
-  !*** ./node_modules/vue2-filters/dist/vue2-filters.js ***!
-  \********************************************************/
-/***/ (function(module) {
-
-(function webpackUniversalModuleDefinition(root, factory) {
-	if(true)
-		module.exports = factory();
-	else { var i, a; }
-})(typeof self !== 'undefined' ? self : this, function() {
-return /******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __nested_webpack_require_573__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __nested_webpack_require_573__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__nested_webpack_require_573__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__nested_webpack_require_573__.c = installedModules;
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__nested_webpack_require_573__.d = function(exports, name, getter) {
-/******/ 		if(!__nested_webpack_require_573__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// define __esModule on exports
-/******/ 	__nested_webpack_require_573__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
-/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__nested_webpack_require_573__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __nested_webpack_require_573__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__nested_webpack_require_573__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __nested_webpack_require_573__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__nested_webpack_require_573__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__nested_webpack_require_573__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__nested_webpack_require_573__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__nested_webpack_require_573__.p = "";
-/******/
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __nested_webpack_require_573__(__nested_webpack_require_573__.s = 0);
-/******/ })
-/************************************************************************/
-/******/ ([
-/* 0 */
-/***/ (function(module, __nested_webpack_exports__, __nested_webpack_require_4049__) {
-
-"use strict";
-__nested_webpack_require_4049__.r(__nested_webpack_exports__);
-var string_namespaceObject = {};
-__nested_webpack_require_4049__.r(string_namespaceObject);
-__nested_webpack_require_4049__.d(string_namespaceObject, "capitalize", function() { return string_capitalize; });
-__nested_webpack_require_4049__.d(string_namespaceObject, "uppercase", function() { return string_uppercase; });
-__nested_webpack_require_4049__.d(string_namespaceObject, "lowercase", function() { return string_lowercase; });
-__nested_webpack_require_4049__.d(string_namespaceObject, "placeholder", function() { return string_placeholder; });
-__nested_webpack_require_4049__.d(string_namespaceObject, "truncate", function() { return string_truncate; });
-__nested_webpack_require_4049__.d(string_namespaceObject, "repeat", function() { return string_repeat; });
-__nested_webpack_require_4049__.d(string_namespaceObject, "wrap", function() { return string_wrap; });
-__nested_webpack_require_4049__.d(string_namespaceObject, "reverse", function() { return string_reverse; });
-var array_namespaceObject = {};
-__nested_webpack_require_4049__.r(array_namespaceObject);
-__nested_webpack_require_4049__.d(array_namespaceObject, "limitBy", function() { return array_limitBy; });
-__nested_webpack_require_4049__.d(array_namespaceObject, "filterBy", function() { return array_filterBy; });
-__nested_webpack_require_4049__.d(array_namespaceObject, "orderBy", function() { return array_orderBy; });
-__nested_webpack_require_4049__.d(array_namespaceObject, "find", function() { return array_find; });
-var other_namespaceObject = {};
-__nested_webpack_require_4049__.r(other_namespaceObject);
-__nested_webpack_require_4049__.d(other_namespaceObject, "currency", function() { return other_currency; });
-__nested_webpack_require_4049__.d(other_namespaceObject, "bytes", function() { return other_bytes; });
-__nested_webpack_require_4049__.d(other_namespaceObject, "pluralize", function() { return other_pluralize; });
-__nested_webpack_require_4049__.d(other_namespaceObject, "ordinal", function() { return other_ordinal; });
-__nested_webpack_require_4049__.d(other_namespaceObject, "number", function() { return other_number; });
-__nested_webpack_require_4049__.d(other_namespaceObject, "percent", function() { return other_percent; });
-
-// CONCATENATED MODULE: ./src/util/index.js
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-var ArrayProto = Array.prototype,
-    ObjProto = Object.prototype;
-var slice = ArrayProto.slice,
-    util_toString = ObjProto.toString;
-var util = {};
-
-util.isArray = function (obj) {
-  return Array.isArray(obj);
-};
-
-var MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
-
-util.isArrayLike = function (obj) {
-  if (_typeof(obj) !== 'object' || !obj) {
-    return false;
-  }
-
-  var length = obj.length;
-  return typeof length === 'number' && length % 1 === 0 && length >= 0 && length <= MAX_ARRAY_INDEX;
-};
-
-util.isObject = function (obj) {
-  var type = _typeof(obj);
-
-  return type === 'function' || type === 'object' && !!obj;
-};
-
-util.each = function (obj, callback) {
-  var i, len;
-
-  if (util.isArray(obj)) {
-    for (i = 0, len = obj.length; i < len; i++) {
-      if (callback(obj[i], i, obj) === false) {
-        break;
-      }
-    }
-  } else {
-    for (i in obj) {
-      if (callback(obj[i], i, obj) === false) {
-        break;
-      }
-    }
-  }
-
-  return obj;
-};
-
-util.each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp', 'Error'], function (name) {
-  util['is' + name] = function (obj) {
-    return util_toString.call(obj) === '[object ' + name + ']';
-  };
-});
-
-util.toArray = function (list, start) {
-  start = start || 0;
-  var i = list.length - start;
-  var ret = new Array(i);
-
-  while (i--) {
-    ret[i] = list[i + start];
-  }
-
-  return ret;
-};
-
-util.toNumber = function (value) {
-  if (typeof value !== 'string') {
-    return value;
-  } else {
-    var parsed = Number(value);
-    return isNaN(parsed) ? value : parsed;
-  }
-};
-
-util.convertRangeToArray = function (range) {
-  return _toConsumableArray(Array(range + 1).keys()).slice(1);
-};
-
-util.convertArray = function (value) {
-  if (util.isArray(value)) {
-    return value;
-  } else if (util.isPlainObject(value)) {
-    // convert plain object to array.
-    var keys = Object.keys(value);
-    var i = keys.length;
-    var res = new Array(i);
-    var key;
-
-    while (i--) {
-      key = keys[i];
-      res[i] = {
-        $key: key,
-        $value: value[key]
-      };
-    }
-
-    return res;
-  } else {
-    return value || [];
-  }
-};
-
-function multiIndex(obj, is) {
-  // obj,['1','2','3'] -> ((obj['1'])['2'])['3']
-  return is.length ? multiIndex(obj[is[0]], is.slice(1)) : obj;
-}
-
-util.getPath = function (obj, is) {
-  // obj,'1.2.3' -> multiIndex(obj,['1','2','3'])
-  return multiIndex(obj, is.split('.'));
-};
-/**
- * Strict object type check. Only returns true
- * for plain JavaScript objects.
- *
- * @param {*} obj
- * @return {Boolean}
- */
-
-
-var util_toString = Object.prototype.toString;
-var OBJECT_STRING = '[object Object]';
-
-util.isPlainObject = function (obj) {
-  return util_toString.call(obj) === OBJECT_STRING;
-};
-
-util.exist = function (value) {
-  return value !== null && typeof value !== 'undefined';
-};
-
-/* harmony default export */ var src_util = (util);
-// CONCATENATED MODULE: ./src/string/capitalize.js
-/**
- *  Converts a string into Capitalize
- * 
- * 'abc' => 'Abc'
- * 
- * @param {Object} options
- */
-function capitalize(value, options) {
-  var globalOptions = this && this.capitalize ? this.capitalize : {};
-  options = options || globalOptions;
-  var onlyFirstLetter = options.onlyFirstLetter != null ? options.onlyFirstLetter : false;
-  if (!value && value !== 0) return '';
-
-  if (onlyFirstLetter === true) {
-    return value.toString().charAt(0).toUpperCase() + value.toString().slice(1);
-  } else {
-    value = value.toString().toLowerCase().split(' ');
-    return value.map(function (item) {
-      return item.charAt(0).toUpperCase() + item.slice(1);
-    }).join(' ');
-  }
-}
-
-/* harmony default export */ var string_capitalize = (capitalize);
-// CONCATENATED MODULE: ./src/string/uppercase.js
-/**
- * Converts a string to UPPERCASE
- * 
- * 'abc' => 'ABC'
- */
-function uppercase(value) {
-  return value || value === 0 ? value.toString().toUpperCase() : '';
-}
-
-/* harmony default export */ var string_uppercase = (uppercase);
-// CONCATENATED MODULE: ./src/string/lowercase.js
-/**
- * Converts a string to lowercase
- * 
- * 'AbC' => 'abc'
- */
-function lowercase(value) {
-  return value || value === 0 ? value.toString().toLowerCase() : '';
-}
-
-/* harmony default export */ var string_lowercase = (lowercase);
-// CONCATENATED MODULE: ./src/string/placeholder.js
-/**
- *  If the value is missing outputs the placeholder text
- * 
- * '' => {placeholder}
- * 'foo' => 'foo'
- */
-function placeholder(input, property) {
-  return input === undefined || input === '' || input === null ? property : input;
-}
-
-/* harmony default export */ var string_placeholder = (placeholder);
-// CONCATENATED MODULE: ./src/string/truncate.js
-/**
- *  Truncate at the given || default length
- *
- * 'lorem ipsum dolor' => 'lorem ipsum dol...'
- */
-function truncate(value, length) {
-  length = length || 15;
-  if (!value || typeof value !== 'string') return '';
-  if (value.length <= length) return value;
-  return value.substring(0, length) + '...';
-}
-
-/* harmony default export */ var string_truncate = (truncate);
-// CONCATENATED MODULE: ./src/string/repeat.js
-/**
- * Repeats a given value an x amount of times
- *
- * @author Bastiaan Jansen
- * @param {string | number} value to repeat
- * @param {number} amount
- * @returns repeated string
- */
-var repeat = function repeat(value) {
-  var amount = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-  return amount ? value.toString().repeat(amount) : '';
-};
-
-/* harmony default export */ var string_repeat = (repeat);
-// CONCATENATED MODULE: ./src/string/wrap.js
-/**
- * Wraps a string or number with a string
- *
- * @author Bastiaan Jansen
- * @param {string | number} value to wrap
- * @param {string | number} wrap wrap string
- * @returns wrapped string
- */
-var wrap = function wrap(value, _wrap) {
-  return [_wrap, value, _wrap].join("");
-};
-
-/* harmony default export */ var string_wrap = (wrap);
-// CONCATENATED MODULE: ./src/string/reverse.js
-/**
- * Reverses a string
- *
- * @author Bastiaan Jansen
- * @param {string} value
- * @returns reversed string
- */
-var reverse = function reverse(value) {
-  return Array.from(value).reverse().join("");
-};
-
-/* harmony default export */ var string_reverse = (reverse);
-// CONCATENATED MODULE: ./src/string/index.js
-
-
-
-
-
-
-
-
-
-// CONCATENATED MODULE: ./src/array/limitBy.js
-
-/**
- * Limit filter for arrays
- *
- * @param {Number|Array} arr (If Number, decimal expected)
- * @param {Number} n
- * @param {Number} offset (Decimal expected)
- */
-
-function limitBy(arr, n, offset) {
-  arr = src_util.isArray(arr) ? arr : src_util.convertRangeToArray(arr);
-  offset = offset ? parseInt(offset, 10) : 0;
-  n = src_util.toNumber(n);
-  return typeof n === 'number' ? arr.slice(offset, offset + n) : arr;
-}
-
-/* harmony default export */ var array_limitBy = (limitBy);
-// CONCATENATED MODULE: ./src/array/filterBy.js
-
-/**
- * Filter filter for arrays
- *
- * @param {Array} arr
- * @param {String} prop
- * @param {String|Number} search
- */
-
-function filterBy(arr, search) {
-  var arr = src_util.convertArray(arr);
-
-  if (search == null) {
-    return arr;
-  }
-
-  if (typeof search === 'function') {
-    return arr.filter(search);
-  } // cast to lowercase string
-
-
-  search = ('' + search).toLowerCase();
-  var n = 2; // extract and flatten keys
-
-  var keys = Array.prototype.concat.apply([], src_util.toArray(arguments, n));
-  var res = [];
-  var item, key, val, j;
-
-  for (var i = 0, l = arr.length; i < l; i++) {
-    item = arr[i];
-    val = item && item.$value || item;
-    j = keys.length;
-
-    if (j) {
-      while (j--) {
-        key = keys[j];
-
-        if (key === '$key' && contains(item.$key, search) || contains(src_util.getPath(val, key), search)) {
-          res.push(item);
-          break;
-        }
-      }
-    } else if (contains(item, search)) {
-      res.push(item);
-    }
-  }
-
-  return res;
-}
-
-function contains(val, search) {
-  var i;
-
-  if (src_util.isPlainObject(val)) {
-    var keys = Object.keys(val);
-    i = keys.length;
-
-    while (i--) {
-      if (contains(val[keys[i]], search)) {
-        return true;
-      }
-    }
-  } else if (src_util.isArray(val)) {
-    i = val.length;
-
-    while (i--) {
-      if (contains(val[i], search)) {
-        return true;
-      }
-    }
-  } else if (val != null) {
-    return val.toString().toLowerCase().indexOf(search) > -1;
-  }
-}
-
-/* harmony default export */ var array_filterBy = (filterBy);
-// CONCATENATED MODULE: ./src/array/orderBy.js
-
-/**
- * Filter filter for arrays
- *
- * @param {String|Array<String>|Function} ...sortKeys
- * @param {Number} [order]
- */
-
-function orderBy(arr) {
-  var _comparator = null;
-  var sortKeys;
-  arr = src_util.convertArray(arr); // determine order (last argument)
-
-  var args = src_util.toArray(arguments, 1);
-  var order = args[args.length - 1];
-
-  if (typeof order === 'number') {
-    order = order < 0 ? -1 : 1;
-    args = args.length > 1 ? args.slice(0, -1) : args;
-  } else {
-    order = 1;
-  } // determine sortKeys & comparator
-
-
-  var firstArg = args[0];
-
-  if (!firstArg) {
-    return arr;
-  } else if (typeof firstArg === 'function') {
-    // custom comparator
-    _comparator = function comparator(a, b) {
-      return firstArg(a, b) * order;
-    };
-  } else {
-    // string keys. flatten first
-    sortKeys = Array.prototype.concat.apply([], args);
-
-    _comparator = function comparator(a, b, i) {
-      i = i || 0;
-      return i >= sortKeys.length - 1 ? baseCompare(a, b, i) : baseCompare(a, b, i) || _comparator(a, b, i + 1);
-    };
-  }
-
-  function baseCompare(a, b, sortKeyIndex) {
-    var sortKey = sortKeys[sortKeyIndex];
-
-    if (sortKey) {
-      if (sortKey !== '$key') {
-        if (src_util.isObject(a) && '$value' in a) a = a.$value;
-        if (src_util.isObject(b) && '$value' in b) b = b.$value;
-      }
-
-      a = src_util.isObject(a) ? src_util.getPath(a, sortKey) : a;
-      b = src_util.isObject(b) ? src_util.getPath(b, sortKey) : b;
-      a = typeof a === 'string' ? a.toLowerCase() : a;
-      b = typeof b === 'string' ? b.toLowerCase() : b;
-    }
-
-    return a === b ? 0 : a > b ? order : -order;
-  } // sort on a copy to avoid mutating original array
-
-
-  return arr.slice().sort(_comparator);
-}
-
-/* harmony default export */ var array_orderBy = (orderBy);
-// CONCATENATED MODULE: ./src/array/find.js
-
-/**
- * Get first matching element from a filtered array
- *
- * @param {Array} arr
- * @param {String|Number} search
- * @returns {mixed}
- */
-
-function find(arr, search) {
-  var array = array_filterBy.apply(this, arguments);
-  array.splice(1);
-  return array;
-}
-
-/* harmony default export */ var array_find = (find);
-// CONCATENATED MODULE: ./src/array/index.js
-
-
-
-
-
-// CONCATENATED MODULE: ./src/other/currency.js
-
-/**
- * 
- * 12345 => $12,345.00
- *
- * @param {String} symbol
- * @param {Number} decimals Decimal places
- * @param {Object} options
- */
-
-function currency(value, symbol, decimals, options) {
-  var globalOptions = this && this.currency ? this.currency : {};
-  symbol = src_util.exist(symbol) ? symbol : globalOptions.symbol;
-  decimals = src_util.exist(decimals) ? decimals : globalOptions.decimalDigits;
-  options = options || globalOptions;
-  var thousandsSeparator, symbolOnLeft, spaceBetweenAmountAndSymbol, showPlusSign;
-  var digitsRE = /(\d{3})(?=\d)/g;
-  value = parseFloat(value);
-  if (!isFinite(value) || !value && value !== 0) return '';
-  symbol = typeof symbol !== 'undefined' ? symbol : '$';
-  decimals = typeof decimals !== 'undefined' ? decimals : 2;
-  thousandsSeparator = options.thousandsSeparator != null ? options.thousandsSeparator : ',';
-  symbolOnLeft = options.symbolOnLeft != null ? options.symbolOnLeft : true;
-  spaceBetweenAmountAndSymbol = options.spaceBetweenAmountAndSymbol != null ? options.spaceBetweenAmountAndSymbol : false;
-  showPlusSign = options.showPlusSign != null ? options.showPlusSign : false;
-  var number = Math.abs(value);
-  var stringified = toFixed(number, decimals);
-  stringified = options.decimalSeparator ? stringified.replace('.', options.decimalSeparator) : stringified;
-
-  var _int = decimals ? stringified.slice(0, -1 - decimals) : stringified;
-
-  var i = _int.length % 3;
-  var head = i > 0 ? _int.slice(0, i) + (_int.length > 3 ? thousandsSeparator : '') : '';
-
-  var _float = decimals ? stringified.slice(-1 - decimals) : '';
-
-  symbol = spaceBetweenAmountAndSymbol ? symbolOnLeft ? symbol + ' ' : ' ' + symbol : symbol;
-  symbol = symbolOnLeft ? symbol + head + _int.slice(i).replace(digitsRE, '$1' + thousandsSeparator) + _float : head + _int.slice(i).replace(digitsRE, '$1' + thousandsSeparator) + _float + symbol;
-  var sign = value < 0 ? '-' : '';
-  var plusSign = value > 0 && showPlusSign ? '+' : '';
-  return plusSign + sign + symbol;
-}
-
-function toFixed(num, precision) {
-  return (+(Math.round(+(num + 'e' + precision)) + 'e' + -precision)).toFixed(precision);
-}
-
-/* harmony default export */ var other_currency = (currency);
-// CONCATENATED MODULE: ./src/other/bytes.js
-
-/**
- * 1                => '8 byte'
- * 8                => '8 bytes'
- * 1024             => '1.00 kB'
- * 2000000          => '1.90 MB'
- * 2000000000       => '1.86 GB'
- * 2000000000000    => '1.82 TB'
- *
- * @param {Number} value
- * @param {Number} decimals Decimal places (default: 2)
- */
-
-function bytes(value, decimals) {
-  var globalOptions = this && this.bytes ? this.bytes : {};
-  decimals = src_util.exist(decimals) ? decimals : globalOptions.decimalDigits;
-  decimals = typeof decimals !== 'undefined' ? decimals : 2;
-  value = value === null || isNaN(value) ? 0 : value;
-
-  if (value >= Math.pow(1024, 4)) {
-    // TB
-    return "".concat((value / Math.pow(1024, 4)).toFixed(decimals), " TB");
-  } else if (value >= Math.pow(1024, 3)) {
-    // GB
-    return "".concat((value / Math.pow(1024, 3)).toFixed(decimals), " GB");
-  } else if (value >= Math.pow(1024, 2)) {
-    // MB
-    return "".concat((value / Math.pow(1024, 2)).toFixed(decimals), " MB");
-  } else if (value >= 1024) {
-    // kb
-    return "".concat((value / 1024).toFixed(decimals), " kB");
-  } // byte
-
-
-  return value === 1 ? "".concat(value, " byte") : "".concat(value, " bytes");
-}
-
-/* harmony default export */ var other_bytes = (bytes);
-// CONCATENATED MODULE: ./src/other/pluralize.js
-
-/**
- * 'item' => 'items'
- *
- * @param {String|Array} word
- * @param {Object} options
- *
- */
-
-function pluralize(value, word, options) {
-  var globalOptions = this && this.pluralize ? this.pluralize : {};
-  options = options || globalOptions;
-  var output = '';
-  var includeNumber = options.includeNumber != null ? options.includeNumber : false;
-  if (includeNumber === true) output += value + ' ';
-  if (!value && value !== 0 || !word) return output;
-
-  if (Array.isArray(word)) {
-    output += word[value - 1] || word[word.length - 1];
-  } else {
-    output += word + (value === 1 ? '' : 's');
-  }
-
-  return output;
-}
-
-/* harmony default export */ var other_pluralize = (pluralize);
-// CONCATENATED MODULE: ./src/other/ordinal.js
-
-/**
- * 42 => 'nd'
- *
- * @params {Object} options
- * 
- */
-
-function ordinal(value, options) {
-  var globalOptions = this && this.ordinal ? this.ordinal : {};
-  options = options || globalOptions;
-  var output = '';
-  var includeNumber = options.includeNumber != null ? options.includeNumber : false;
-  if (includeNumber === true) output += value;
-  var j = value % 10,
-      k = value % 100;
-  if (j == 1 && k != 11) output += 'st';else if (j == 2 && k != 12) output += 'nd';else if (j == 3 && k != 13) output += 'rd';else output += 'th';
-  return output;
-}
-
-/* harmony default export */ var other_ordinal = (ordinal);
-// CONCATENATED MODULE: ./src/other/number.js
-
-/**
- * 123456 => '123,456'
- *
- * @params {Object} options
- *
- */
-
-function number_number(value, format, options) {
-  var globalOptions = this && this.number ? this.number : {};
-  format = src_util.exist(format) ? format : globalOptions.format;
-  options = options || globalOptions;
-  var config = parseFormat(format);
-  var number = parseNumber(value);
-  var thousandsSeparator = options.thousandsSeparator != null ? options.thousandsSeparator : ',';
-  var decimalSeparator = options.decimalSeparator != null ? options.decimalSeparator : '.';
-  config.sign = config.sign || number.sign;
-
-  if (config.unit) {
-    var numberWithUnit = addUnit(number.float, config);
-    return config.sign + numberWithUnit;
-  }
-
-  var rounded = number_toFixed(number.float, config.decimals);
-  var output = addSeparators(rounded, config.base, thousandsSeparator, decimalSeparator);
-  return config.sign + output;
-}
-
-Math.sign = function (x) {
-  x = +x;
-
-  if (x === 0 || isNaN(x)) {
-    return x;
-  }
-
-  return x > 0 ? 1 : -1;
-};
-
-function parseNumber(num) {
-  return {
-    float: Math.abs(parseFloat(num)),
-    int: Math.abs(parseInt(num)),
-    sign: Math.sign(num) < 0 ? '-' : ''
-  };
-}
-
-function parseFormat() {
-  var string = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '0';
-  var regex = /([\+\-])?([0-9\,]+)?([\.0-9]+)?([a\s]+)?/;
-  var matches = string ? string.match(regex) : ['', '', '', '', ''];
-  var float = matches[3];
-  var decimals = float ? float.match(/0/g).length : 0;
-  return {
-    sign: matches[1] || '',
-    base: matches[2] || '',
-    decimals: decimals,
-    unit: matches[4] || ''
-  };
-}
-
-function addUnit(num, config) {
-  var rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
-  var si = [{
-    value: 1,
-    symbol: ''
-  }, {
-    value: 1e3,
-    symbol: 'K'
-  }, {
-    value: 1e6,
-    symbol: 'M'
-  }, {
-    value: 1e9,
-    symbol: 'B'
-  }, {
-    value: 1e12,
-    symbol: 'T'
-  }];
-  var i;
-
-  for (i = si.length - 1; i > 0; i--) {
-    if (num >= si[i].value) {
-      break;
-    }
-  }
-
-  num = (num / si[i].value).toFixed(config.decimals).replace(rx, '$1');
-  return num + config.unit.replace('a', si[i].symbol);
-}
-
-function addSeparators(num, base, thousandsSeparator, decimalSeparator) {
-  var regex = /(\d+)(\d{3})/;
-  var string = num.toString();
-  var x = string.split('.');
-  var x1 = x[0];
-  var x2 = x.length > 1 ? decimalSeparator + x[1] : '';
-
-  switch (base) {
-    case '':
-      x1 = '';
-      break;
-
-    case '0,0':
-      while (regex.test(x1)) {
-        x1 = x1.replace(regex, '$1' + thousandsSeparator + '$2');
-      }
-
-      break;
-  }
-
-  return x1 + x2;
-}
-
-function getFraction(num, decimals, separator) {
-  var fraction = number_toFixed(num, decimals).toString().split('.')[1];
-  return fraction ? separator + fraction : '';
-}
-
-function number_toFixed(num, precision) {
-  return (+(Math.round(+(num + 'e' + precision)) + 'e' + -precision)).toFixed(precision);
-}
-
-/* harmony default export */ var other_number = (number_number);
-// CONCATENATED MODULE: ./src/other/percent.js
-
-/**
- * 1.2              => '120%'
- * -0.2             => '-20%'
- * 100              => '10000%'
- * 1                => '100%'
- * 0.97             => '97%'
- *
- * @param {Number} value
- * @param {Number} decimals Decimal places (default: 2)
- * @param {Number} multiplier (default: 100)
- * @params {Object} options
- */
-
-function percent(value, decimals, multiplier, options) {
-  var globalOptions = this && this.percent ? this.percent : {};
-  options = options || globalOptions;
-  multiplier = src_util.exist(multiplier) ? multiplier : globalOptions.multiplier;
-  multiplier = typeof multiplier !== 'undefined' ? multiplier : 100;
-  decimals = src_util.exist(decimals) ? decimals : globalOptions.decimalDigits;
-  decimals = typeof decimals !== 'undefined' ? decimals : 0;
-  var decimalSeparator = options.decimalSeparator != null ? options.decimalSeparator : '.';
-  value = value === null || isNaN(value) ? 0 : value;
-  return "".concat((value * multiplier).toFixed(decimals).replace('.', decimalSeparator), "%");
-}
-
-/* harmony default export */ var other_percent = (percent);
-// CONCATENATED MODULE: ./src/other/index.js
-
-
-
-
-
-
-
-// CONCATENATED MODULE: ./src/index.js
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-
-
-
-var Vue2Filters = {
-  install: function install(Vue, options) {
-    src_util.each(string_namespaceObject, function (value, key) {
-      Vue.filter(key, value.bind(options));
-    });
-    src_util.each(other_namespaceObject, function (value, key) {
-      Vue.filter(key, value.bind(options));
-    });
-  },
-  mixin: {
-    methods: _objectSpread({}, array_namespaceObject)
-  }
-};
-/* harmony default export */ var src = __nested_webpack_exports__["default"] = (Vue2Filters);
-
-if (typeof window !== 'undefined' && window.Vue) {
-  window.Vue.use(Vue2Filters);
-  window.Vue2Filters = Vue2Filters;
-}
-
-/***/ })
-/******/ ]);
-});
 
 /***/ }),
 
@@ -39415,8 +38036,8 @@ if (typeof window !== 'undefined' && window.Vue) {
 /***/ (function(module, __unused_webpack_exports, __webpack_require__) {
 
 /*!
- * Vue.js v2.7.14
- * (c) 2014-2022 Evan You
+ * Vue.js v2.7.16
+ * (c) 2014-2023 Evan You
  * Released under the MIT License.
  */
 (function (global, factory) {
@@ -39497,8 +38118,15 @@ if (typeof window !== 'undefined' && window.Vue) {
       return val == null
           ? ''
           : Array.isArray(val) || (isPlainObject(val) && val.toString === _toString)
-              ? JSON.stringify(val, null, 2)
+              ? JSON.stringify(val, replacer, 2)
               : String(val);
+  }
+  function replacer(_key, val) {
+      // avoid circular deps from v3
+      if (val && val.__v_isRef) {
+          return val.value;
+      }
+      return val;
   }
   /**
    * Convert an input value to a number for persistence.
@@ -39661,9 +38289,7 @@ if (typeof window !== 'undefined' && window.Vue) {
    */
   function genStaticKeys$1(modules) {
       return modules
-          .reduce(function (keys, m) {
-          return keys.concat(m.staticKeys || []);
-      }, [])
+          .reduce(function (keys, m) { return keys.concat(m.staticKeys || []); }, [])
           .join(',');
   }
   /**
@@ -40166,6 +38792,11 @@ if (typeof window !== 'undefined' && window.Vue) {
       return __assign.apply(this, arguments);
   };
 
+  typeof SuppressedError === "function" ? SuppressedError : function (error, suppressed, message) {
+      var e = new Error(message);
+      return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
+  };
+
   var uid$2 = 0;
   var pendingCleanupDeps = [];
   var cleanupDeps = function () {
@@ -40297,7 +38928,7 @@ if (typeof window !== 'undefined' && window.Vue) {
   });
 
   var arrayKeys = Object.getOwnPropertyNames(arrayMethods);
-  var NO_INIITIAL_VALUE = {};
+  var NO_INITIAL_VALUE = {};
   /**
    * In some cases we may want to disable observation inside a component's
    * update computation.
@@ -40356,7 +38987,7 @@ if (typeof window !== 'undefined' && window.Vue) {
               var keys = Object.keys(value);
               for (var i = 0; i < keys.length; i++) {
                   var key = keys[i];
-                  defineReactive(value, key, NO_INIITIAL_VALUE, undefined, shallow, mock);
+                  defineReactive(value, key, NO_INITIAL_VALUE, undefined, shallow, mock);
               }
           }
       }
@@ -40393,7 +39024,8 @@ if (typeof window !== 'undefined' && window.Vue) {
   /**
    * Define a reactive property on an Object.
    */
-  function defineReactive(obj, key, val, customSetter, shallow, mock) {
+  function defineReactive(obj, key, val, customSetter, shallow, mock, observeEvenIfShallow) {
+      if (observeEvenIfShallow === void 0) { observeEvenIfShallow = false; }
       var dep = new Dep();
       var property = Object.getOwnPropertyDescriptor(obj, key);
       if (property && property.configurable === false) {
@@ -40403,10 +39035,10 @@ if (typeof window !== 'undefined' && window.Vue) {
       var getter = property && property.get;
       var setter = property && property.set;
       if ((!getter || setter) &&
-          (val === NO_INIITIAL_VALUE || arguments.length === 2)) {
+          (val === NO_INITIAL_VALUE || arguments.length === 2)) {
           val = obj[key];
       }
-      var childOb = !shallow && observe(val, false, mock);
+      var childOb = shallow ? val && val.__ob__ : observe(val, false, mock);
       Object.defineProperty(obj, key, {
           enumerable: true,
           configurable: true,
@@ -40451,7 +39083,7 @@ if (typeof window !== 'undefined' && window.Vue) {
               else {
                   val = newVal;
               }
-              childOb = !shallow && observe(newVal, false, mock);
+              childOb = shallow ? newVal && newVal.__ob__ : observe(newVal, false, mock);
               {
                   dep.notify({
                       type: "set" /* TriggerOpTypes.SET */,
@@ -41914,11 +40546,10 @@ if (typeof window !== 'undefined' && window.Vue) {
           // to the data on the placeholder node.
           vm.$vnode = _parentVnode;
           // render self
+          var prevInst = currentInstance;
+          var prevRenderInst = currentRenderingInstance;
           var vnode;
           try {
-              // There's no need to maintain a stack because all render fns are called
-              // separately from one another. Nested component's render fns are called
-              // when parent component is patched.
               setCurrentInstance(vm);
               currentRenderingInstance = vm;
               vnode = render.call(vm._renderProxy, vm.$createElement);
@@ -41942,8 +40573,8 @@ if (typeof window !== 'undefined' && window.Vue) {
               }
           }
           finally {
-              currentRenderingInstance = null;
-              setCurrentInstance();
+              currentRenderingInstance = prevRenderInst;
+              setCurrentInstance(prevInst);
           }
           // if the returned array contains only a single node, allow it
           if (isArray(vnode) && vnode.length === 1) {
@@ -42206,6 +40837,112 @@ if (typeof window !== 'undefined' && window.Vue) {
           }
           return vm;
       };
+  }
+
+  var activeEffectScope;
+  var EffectScope = /** @class */ (function () {
+      function EffectScope(detached) {
+          if (detached === void 0) { detached = false; }
+          this.detached = detached;
+          /**
+           * @internal
+           */
+          this.active = true;
+          /**
+           * @internal
+           */
+          this.effects = [];
+          /**
+           * @internal
+           */
+          this.cleanups = [];
+          this.parent = activeEffectScope;
+          if (!detached && activeEffectScope) {
+              this.index =
+                  (activeEffectScope.scopes || (activeEffectScope.scopes = [])).push(this) - 1;
+          }
+      }
+      EffectScope.prototype.run = function (fn) {
+          if (this.active) {
+              var currentEffectScope = activeEffectScope;
+              try {
+                  activeEffectScope = this;
+                  return fn();
+              }
+              finally {
+                  activeEffectScope = currentEffectScope;
+              }
+          }
+          else {
+              warn$2("cannot run an inactive effect scope.");
+          }
+      };
+      /**
+       * This should only be called on non-detached scopes
+       * @internal
+       */
+      EffectScope.prototype.on = function () {
+          activeEffectScope = this;
+      };
+      /**
+       * This should only be called on non-detached scopes
+       * @internal
+       */
+      EffectScope.prototype.off = function () {
+          activeEffectScope = this.parent;
+      };
+      EffectScope.prototype.stop = function (fromParent) {
+          if (this.active) {
+              var i = void 0, l = void 0;
+              for (i = 0, l = this.effects.length; i < l; i++) {
+                  this.effects[i].teardown();
+              }
+              for (i = 0, l = this.cleanups.length; i < l; i++) {
+                  this.cleanups[i]();
+              }
+              if (this.scopes) {
+                  for (i = 0, l = this.scopes.length; i < l; i++) {
+                      this.scopes[i].stop(true);
+                  }
+              }
+              // nested scope, dereference from parent to avoid memory leaks
+              if (!this.detached && this.parent && !fromParent) {
+                  // optimized O(1) removal
+                  var last = this.parent.scopes.pop();
+                  if (last && last !== this) {
+                      this.parent.scopes[this.index] = last;
+                      last.index = this.index;
+                  }
+              }
+              this.parent = undefined;
+              this.active = false;
+          }
+      };
+      return EffectScope;
+  }());
+  function effectScope(detached) {
+      return new EffectScope(detached);
+  }
+  /**
+   * @internal
+   */
+  function recordEffectScope(effect, scope) {
+      if (scope === void 0) { scope = activeEffectScope; }
+      if (scope && scope.active) {
+          scope.effects.push(effect);
+      }
+  }
+  function getCurrentScope() {
+      return activeEffectScope;
+  }
+  function onScopeDispose(fn) {
+      if (activeEffectScope) {
+          activeEffectScope.cleanups.push(fn);
+      }
+      else {
+          warn$2("onScopeDispose() is called when there is no active effect scope" +
+              " to be associated with.");
+      }
   }
 
   var activeInstance = null;
@@ -42510,7 +41247,8 @@ if (typeof window !== 'undefined' && window.Vue) {
       if (setContext === void 0) { setContext = true; }
       // #7573 disable dep collection when invoking lifecycle hooks
       pushTarget();
-      var prev = currentInstance;
+      var prevInst = currentInstance;
+      var prevScope = getCurrentScope();
       setContext && setCurrentInstance(vm);
       var handlers = vm.$options[hook];
       var info = "".concat(hook, " hook");
@@ -42522,7 +41260,10 @@ if (typeof window !== 'undefined' && window.Vue) {
       if (vm._hasHookEvent) {
           vm.$emit('hook:' + hook);
       }
-      setContext && setCurrentInstance(prev);
+      if (setContext) {
+          setCurrentInstance(prevInst);
+          prevScope && prevScope.on();
+      }
       popTarget();
   }
 
@@ -42740,7 +41481,10 @@ if (typeof window !== 'undefined' && window.Vue) {
       var instance = currentInstance;
       var call = function (fn, type, args) {
           if (args === void 0) { args = null; }
-          return invokeWithErrorHandling(fn, null, args, instance, type);
+          var res = invokeWithErrorHandling(fn, null, args, instance, type);
+          if (deep && res && res.__ob__)
+              res.__ob__.dep.depend();
+          return res;
       };
       var getter;
       var forceTrigger = false;
@@ -42765,6 +41509,7 @@ if (typeof window !== 'undefined' && window.Vue) {
                       return s.value;
                   }
                   else if (isReactive(s)) {
+                      s.__ob__.dep.depend();
                       return traverse(s);
                   }
                   else if (isFunction(s)) {
@@ -42906,112 +41651,6 @@ if (typeof window !== 'undefined' && window.Vue) {
       return function () {
           watcher.teardown();
       };
-  }
-
-  var activeEffectScope;
-  var EffectScope = /** @class */ (function () {
-      function EffectScope(detached) {
-          if (detached === void 0) { detached = false; }
-          this.detached = detached;
-          /**
-           * @internal
-           */
-          this.active = true;
-          /**
-           * @internal
-           */
-          this.effects = [];
-          /**
-           * @internal
-           */
-          this.cleanups = [];
-          this.parent = activeEffectScope;
-          if (!detached && activeEffectScope) {
-              this.index =
-                  (activeEffectScope.scopes || (activeEffectScope.scopes = [])).push(this) - 1;
-          }
-      }
-      EffectScope.prototype.run = function (fn) {
-          if (this.active) {
-              var currentEffectScope = activeEffectScope;
-              try {
-                  activeEffectScope = this;
-                  return fn();
-              }
-              finally {
-                  activeEffectScope = currentEffectScope;
-              }
-          }
-          else {
-              warn$2("cannot run an inactive effect scope.");
-          }
-      };
-      /**
-       * This should only be called on non-detached scopes
-       * @internal
-       */
-      EffectScope.prototype.on = function () {
-          activeEffectScope = this;
-      };
-      /**
-       * This should only be called on non-detached scopes
-       * @internal
-       */
-      EffectScope.prototype.off = function () {
-          activeEffectScope = this.parent;
-      };
-      EffectScope.prototype.stop = function (fromParent) {
-          if (this.active) {
-              var i = void 0, l = void 0;
-              for (i = 0, l = this.effects.length; i < l; i++) {
-                  this.effects[i].teardown();
-              }
-              for (i = 0, l = this.cleanups.length; i < l; i++) {
-                  this.cleanups[i]();
-              }
-              if (this.scopes) {
-                  for (i = 0, l = this.scopes.length; i < l; i++) {
-                      this.scopes[i].stop(true);
-                  }
-              }
-              // nested scope, dereference from parent to avoid memory leaks
-              if (!this.detached && this.parent && !fromParent) {
-                  // optimized O(1) removal
-                  var last = this.parent.scopes.pop();
-                  if (last && last !== this) {
-                      this.parent.scopes[this.index] = last;
-                      last.index = this.index;
-                  }
-              }
-              this.parent = undefined;
-              this.active = false;
-          }
-      };
-      return EffectScope;
-  }());
-  function effectScope(detached) {
-      return new EffectScope(detached);
-  }
-  /**
-   * @internal
-   */
-  function recordEffectScope(effect, scope) {
-      if (scope === void 0) { scope = activeEffectScope; }
-      if (scope && scope.active) {
-          scope.effects.push(effect);
-      }
-  }
-  function getCurrentScope() {
-      return activeEffectScope;
-  }
-  function onScopeDispose(fn) {
-      if (activeEffectScope) {
-          activeEffectScope.cleanups.push(fn);
-      }
-      else {
-          warn$2("onScopeDispose() is called when there is no active effect scope" +
-              " to be associated with.");
-      }
   }
 
   function provide(key, value) {
@@ -43308,7 +41947,7 @@ if (typeof window !== 'undefined' && window.Vue) {
       suspensible = _b === void 0 ? false : _b, // in Vue 3 default is true
       userOnError = source.onError;
       if (suspensible) {
-          warn$2("The suspensiblbe option for async components is not supported in Vue2. It is ignored.");
+          warn$2("The suspensible option for async components is not supported in Vue2. It is ignored.");
       }
       var pendingRequest = null;
       var retries = 0;
@@ -43411,7 +42050,7 @@ if (typeof window !== 'undefined' && window.Vue) {
   /**
    * Note: also update dist/vue.runtime.mjs when adding new exports to this file.
    */
-  var version = '2.7.14';
+  var version = '2.7.16';
   /**
    * @internal type is manually declared in <root>/types/v3-define-component.d.ts
    */
@@ -43788,7 +42427,7 @@ if (typeof window !== 'undefined' && window.Vue) {
                           "Instead, use a data or computed property based on the prop's " +
                           "value. Prop being mutated: \"".concat(key, "\""), vm);
                   }
-              });
+              }, true /* shallow */);
           }
           // static props are already proxied on the component's prototype
           // during Vue.extend(). We only need to proxy props defined at
@@ -44104,6 +42743,9 @@ if (typeof window !== 'undefined' && window.Vue) {
           vm.__v_skip = true;
           // effect scope
           vm._scope = new EffectScope(true /* detached */);
+          // #13134 edge case where a child component is manually created during the
+          // render of a parent component
+          vm._scope.parent = undefined;
           vm._scope._vm = true;
           // merge options
           if (options && options._isComponent) {
@@ -45350,7 +43992,7 @@ if (typeof window !== 'undefined' && window.Vue) {
       return false;
   }
   function pruneCache(keepAliveInstance, filter) {
-      var cache = keepAliveInstance.cache, keys = keepAliveInstance.keys, _vnode = keepAliveInstance._vnode;
+      var cache = keepAliveInstance.cache, keys = keepAliveInstance.keys, _vnode = keepAliveInstance._vnode, $vnode = keepAliveInstance.$vnode;
       for (var key in cache) {
           var entry = cache[key];
           if (entry) {
@@ -45360,6 +44002,7 @@ if (typeof window !== 'undefined' && window.Vue) {
               }
           }
       }
+      $vnode.componentOptions.children = undefined;
   }
   function pruneCacheEntry(cache, key, keys, current) {
       var entry = cache[key];
@@ -45681,7 +44324,7 @@ if (typeof window !== 'undefined' && window.Vue) {
       }
       var el = document.createElement(tag);
       if (tag.indexOf('-') > -1) {
-          // http://stackoverflow.com/a/28210364/1070244
+          // https://stackoverflow.com/a/28210364/1070244
           return (unknownElementCache[tag] =
               el.constructor === window.HTMLUnknownElement ||
                   el.constructor === window.HTMLElement);
@@ -46556,8 +45199,11 @@ if (typeof window !== 'undefined' && window.Vue) {
                               var insert_1 = ancestor.data.hook.insert;
                               if (insert_1.merged) {
                                   // start at index 1 to avoid re-invoking component mounted hook
-                                  for (var i_10 = 1; i_10 < insert_1.fns.length; i_10++) {
-                                      insert_1.fns[i_10]();
+                                  // clone insert hooks to avoid being mutated during iteration.
+                                  // e.g. for customed directives under transition group.
+                                  var cloned = insert_1.fns.slice(1);
+                                  for (var i_10 = 0; i_10 < cloned.length; i_10++) {
+                                      cloned[i_10]();
                                   }
                               }
                           }
@@ -47696,10 +46342,8 @@ if (typeof window !== 'undefined' && window.Vue) {
       }
       for (name in newStyle) {
           cur = newStyle[name];
-          if (cur !== oldStyle[name]) {
-              // ie9 setting to null has no effect, must use empty string
-              setProp(el, name, cur == null ? '' : cur);
-          }
+          // ie9 setting to null has no effect, must use empty string
+          setProp(el, name, cur == null ? '' : cur);
       }
   }
   var style$1 = {
@@ -48946,7 +47590,7 @@ if (typeof window !== 'undefined' && window.Vue) {
                           return "continue";
                       }
                   }
-                  // http://en.wikipedia.org/wiki/Conditional_comment#Downlevel-revealed_conditional_comment
+                  // https://en.wikipedia.org/wiki/Conditional_comment#Downlevel-revealed_conditional_comment
                   if (conditionalComment.test(html)) {
                       var conditionalEnd = html.indexOf(']>');
                       if (conditionalEnd >= 0) {
@@ -51326,6 +49970,920 @@ if (typeof window !== 'undefined' && window.Vue) {
 
 /***/ }),
 
+/***/ "./node_modules/vue2-filters/dist/vue2-filters.js":
+/*!********************************************************!*\
+  !*** ./node_modules/vue2-filters/dist/vue2-filters.js ***!
+  \********************************************************/
+/***/ (function(module) {
+
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(true)
+		module.exports = factory();
+	else { var i, a; }
+})(typeof self !== 'undefined' ? self : this, function() {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __nested_webpack_require_573__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __nested_webpack_require_573__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__nested_webpack_require_573__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__nested_webpack_require_573__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__nested_webpack_require_573__.d = function(exports, name, getter) {
+/******/ 		if(!__nested_webpack_require_573__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__nested_webpack_require_573__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__nested_webpack_require_573__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __nested_webpack_require_573__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__nested_webpack_require_573__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __nested_webpack_require_573__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__nested_webpack_require_573__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__nested_webpack_require_573__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__nested_webpack_require_573__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__nested_webpack_require_573__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __nested_webpack_require_573__(__nested_webpack_require_573__.s = 0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, __nested_webpack_exports__, __nested_webpack_require_4049__) {
+
+"use strict";
+__nested_webpack_require_4049__.r(__nested_webpack_exports__);
+var string_namespaceObject = {};
+__nested_webpack_require_4049__.r(string_namespaceObject);
+__nested_webpack_require_4049__.d(string_namespaceObject, "capitalize", function() { return string_capitalize; });
+__nested_webpack_require_4049__.d(string_namespaceObject, "uppercase", function() { return string_uppercase; });
+__nested_webpack_require_4049__.d(string_namespaceObject, "lowercase", function() { return string_lowercase; });
+__nested_webpack_require_4049__.d(string_namespaceObject, "placeholder", function() { return string_placeholder; });
+__nested_webpack_require_4049__.d(string_namespaceObject, "truncate", function() { return string_truncate; });
+__nested_webpack_require_4049__.d(string_namespaceObject, "repeat", function() { return string_repeat; });
+__nested_webpack_require_4049__.d(string_namespaceObject, "wrap", function() { return string_wrap; });
+__nested_webpack_require_4049__.d(string_namespaceObject, "reverse", function() { return string_reverse; });
+var array_namespaceObject = {};
+__nested_webpack_require_4049__.r(array_namespaceObject);
+__nested_webpack_require_4049__.d(array_namespaceObject, "limitBy", function() { return array_limitBy; });
+__nested_webpack_require_4049__.d(array_namespaceObject, "filterBy", function() { return array_filterBy; });
+__nested_webpack_require_4049__.d(array_namespaceObject, "orderBy", function() { return array_orderBy; });
+__nested_webpack_require_4049__.d(array_namespaceObject, "find", function() { return array_find; });
+var other_namespaceObject = {};
+__nested_webpack_require_4049__.r(other_namespaceObject);
+__nested_webpack_require_4049__.d(other_namespaceObject, "currency", function() { return other_currency; });
+__nested_webpack_require_4049__.d(other_namespaceObject, "bytes", function() { return other_bytes; });
+__nested_webpack_require_4049__.d(other_namespaceObject, "pluralize", function() { return other_pluralize; });
+__nested_webpack_require_4049__.d(other_namespaceObject, "ordinal", function() { return other_ordinal; });
+__nested_webpack_require_4049__.d(other_namespaceObject, "number", function() { return other_number; });
+__nested_webpack_require_4049__.d(other_namespaceObject, "percent", function() { return other_percent; });
+
+// CONCATENATED MODULE: ./src/util/index.js
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+var ArrayProto = Array.prototype,
+    ObjProto = Object.prototype;
+var slice = ArrayProto.slice,
+    util_toString = ObjProto.toString;
+var util = {};
+
+util.isArray = function (obj) {
+  return Array.isArray(obj);
+};
+
+var MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
+
+util.isArrayLike = function (obj) {
+  if (_typeof(obj) !== 'object' || !obj) {
+    return false;
+  }
+
+  var length = obj.length;
+  return typeof length === 'number' && length % 1 === 0 && length >= 0 && length <= MAX_ARRAY_INDEX;
+};
+
+util.isObject = function (obj) {
+  var type = _typeof(obj);
+
+  return type === 'function' || type === 'object' && !!obj;
+};
+
+util.each = function (obj, callback) {
+  var i, len;
+
+  if (util.isArray(obj)) {
+    for (i = 0, len = obj.length; i < len; i++) {
+      if (callback(obj[i], i, obj) === false) {
+        break;
+      }
+    }
+  } else {
+    for (i in obj) {
+      if (callback(obj[i], i, obj) === false) {
+        break;
+      }
+    }
+  }
+
+  return obj;
+};
+
+util.each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp', 'Error'], function (name) {
+  util['is' + name] = function (obj) {
+    return util_toString.call(obj) === '[object ' + name + ']';
+  };
+});
+
+util.toArray = function (list, start) {
+  start = start || 0;
+  var i = list.length - start;
+  var ret = new Array(i);
+
+  while (i--) {
+    ret[i] = list[i + start];
+  }
+
+  return ret;
+};
+
+util.toNumber = function (value) {
+  if (typeof value !== 'string') {
+    return value;
+  } else {
+    var parsed = Number(value);
+    return isNaN(parsed) ? value : parsed;
+  }
+};
+
+util.convertRangeToArray = function (range) {
+  return _toConsumableArray(Array(range + 1).keys()).slice(1);
+};
+
+util.convertArray = function (value) {
+  if (util.isArray(value)) {
+    return value;
+  } else if (util.isPlainObject(value)) {
+    // convert plain object to array.
+    var keys = Object.keys(value);
+    var i = keys.length;
+    var res = new Array(i);
+    var key;
+
+    while (i--) {
+      key = keys[i];
+      res[i] = {
+        $key: key,
+        $value: value[key]
+      };
+    }
+
+    return res;
+  } else {
+    return value || [];
+  }
+};
+
+function multiIndex(obj, is) {
+  // obj,['1','2','3'] -> ((obj['1'])['2'])['3']
+  return is.length ? multiIndex(obj[is[0]], is.slice(1)) : obj;
+}
+
+util.getPath = function (obj, is) {
+  // obj,'1.2.3' -> multiIndex(obj,['1','2','3'])
+  return multiIndex(obj, is.split('.'));
+};
+/**
+ * Strict object type check. Only returns true
+ * for plain JavaScript objects.
+ *
+ * @param {*} obj
+ * @return {Boolean}
+ */
+
+
+var util_toString = Object.prototype.toString;
+var OBJECT_STRING = '[object Object]';
+
+util.isPlainObject = function (obj) {
+  return util_toString.call(obj) === OBJECT_STRING;
+};
+
+util.exist = function (value) {
+  return value !== null && typeof value !== 'undefined';
+};
+
+/* harmony default export */ var src_util = (util);
+// CONCATENATED MODULE: ./src/string/capitalize.js
+/**
+ *  Converts a string into Capitalize
+ * 
+ * 'abc' => 'Abc'
+ * 
+ * @param {Object} options
+ */
+function capitalize(value, options) {
+  var globalOptions = this && this.capitalize ? this.capitalize : {};
+  options = options || globalOptions;
+  var onlyFirstLetter = options.onlyFirstLetter != null ? options.onlyFirstLetter : false;
+  if (!value && value !== 0) return '';
+
+  if (onlyFirstLetter === true) {
+    return value.toString().charAt(0).toUpperCase() + value.toString().slice(1);
+  } else {
+    value = value.toString().toLowerCase().split(' ');
+    return value.map(function (item) {
+      return item.charAt(0).toUpperCase() + item.slice(1);
+    }).join(' ');
+  }
+}
+
+/* harmony default export */ var string_capitalize = (capitalize);
+// CONCATENATED MODULE: ./src/string/uppercase.js
+/**
+ * Converts a string to UPPERCASE
+ * 
+ * 'abc' => 'ABC'
+ */
+function uppercase(value) {
+  return value || value === 0 ? value.toString().toUpperCase() : '';
+}
+
+/* harmony default export */ var string_uppercase = (uppercase);
+// CONCATENATED MODULE: ./src/string/lowercase.js
+/**
+ * Converts a string to lowercase
+ * 
+ * 'AbC' => 'abc'
+ */
+function lowercase(value) {
+  return value || value === 0 ? value.toString().toLowerCase() : '';
+}
+
+/* harmony default export */ var string_lowercase = (lowercase);
+// CONCATENATED MODULE: ./src/string/placeholder.js
+/**
+ *  If the value is missing outputs the placeholder text
+ * 
+ * '' => {placeholder}
+ * 'foo' => 'foo'
+ */
+function placeholder(input, property) {
+  return input === undefined || input === '' || input === null ? property : input;
+}
+
+/* harmony default export */ var string_placeholder = (placeholder);
+// CONCATENATED MODULE: ./src/string/truncate.js
+/**
+ *  Truncate at the given || default length
+ *
+ * 'lorem ipsum dolor' => 'lorem ipsum dol...'
+ */
+function truncate(value, length) {
+  length = length || 15;
+  if (!value || typeof value !== 'string') return '';
+  if (value.length <= length) return value;
+  return value.substring(0, length) + '...';
+}
+
+/* harmony default export */ var string_truncate = (truncate);
+// CONCATENATED MODULE: ./src/string/repeat.js
+/**
+ * Repeats a given value an x amount of times
+ *
+ * @author Bastiaan Jansen
+ * @param {string | number} value to repeat
+ * @param {number} amount
+ * @returns repeated string
+ */
+var repeat = function repeat(value) {
+  var amount = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+  return amount ? value.toString().repeat(amount) : '';
+};
+
+/* harmony default export */ var string_repeat = (repeat);
+// CONCATENATED MODULE: ./src/string/wrap.js
+/**
+ * Wraps a string or number with a string
+ *
+ * @author Bastiaan Jansen
+ * @param {string | number} value to wrap
+ * @param {string | number} wrap wrap string
+ * @returns wrapped string
+ */
+var wrap = function wrap(value, _wrap) {
+  return [_wrap, value, _wrap].join("");
+};
+
+/* harmony default export */ var string_wrap = (wrap);
+// CONCATENATED MODULE: ./src/string/reverse.js
+/**
+ * Reverses a string
+ *
+ * @author Bastiaan Jansen
+ * @param {string} value
+ * @returns reversed string
+ */
+var reverse = function reverse(value) {
+  return Array.from(value).reverse().join("");
+};
+
+/* harmony default export */ var string_reverse = (reverse);
+// CONCATENATED MODULE: ./src/string/index.js
+
+
+
+
+
+
+
+
+
+// CONCATENATED MODULE: ./src/array/limitBy.js
+
+/**
+ * Limit filter for arrays
+ *
+ * @param {Number|Array} arr (If Number, decimal expected)
+ * @param {Number} n
+ * @param {Number} offset (Decimal expected)
+ */
+
+function limitBy(arr, n, offset) {
+  arr = src_util.isArray(arr) ? arr : src_util.convertRangeToArray(arr);
+  offset = offset ? parseInt(offset, 10) : 0;
+  n = src_util.toNumber(n);
+  return typeof n === 'number' ? arr.slice(offset, offset + n) : arr;
+}
+
+/* harmony default export */ var array_limitBy = (limitBy);
+// CONCATENATED MODULE: ./src/array/filterBy.js
+
+/**
+ * Filter filter for arrays
+ *
+ * @param {Array} arr
+ * @param {String} prop
+ * @param {String|Number} search
+ */
+
+function filterBy(arr, search) {
+  var arr = src_util.convertArray(arr);
+
+  if (search == null) {
+    return arr;
+  }
+
+  if (typeof search === 'function') {
+    return arr.filter(search);
+  } // cast to lowercase string
+
+
+  search = ('' + search).toLowerCase();
+  var n = 2; // extract and flatten keys
+
+  var keys = Array.prototype.concat.apply([], src_util.toArray(arguments, n));
+  var res = [];
+  var item, key, val, j;
+
+  for (var i = 0, l = arr.length; i < l; i++) {
+    item = arr[i];
+    val = item && item.$value || item;
+    j = keys.length;
+
+    if (j) {
+      while (j--) {
+        key = keys[j];
+
+        if (key === '$key' && contains(item.$key, search) || contains(src_util.getPath(val, key), search)) {
+          res.push(item);
+          break;
+        }
+      }
+    } else if (contains(item, search)) {
+      res.push(item);
+    }
+  }
+
+  return res;
+}
+
+function contains(val, search) {
+  var i;
+
+  if (src_util.isPlainObject(val)) {
+    var keys = Object.keys(val);
+    i = keys.length;
+
+    while (i--) {
+      if (contains(val[keys[i]], search)) {
+        return true;
+      }
+    }
+  } else if (src_util.isArray(val)) {
+    i = val.length;
+
+    while (i--) {
+      if (contains(val[i], search)) {
+        return true;
+      }
+    }
+  } else if (val != null) {
+    return val.toString().toLowerCase().indexOf(search) > -1;
+  }
+}
+
+/* harmony default export */ var array_filterBy = (filterBy);
+// CONCATENATED MODULE: ./src/array/orderBy.js
+
+/**
+ * Filter filter for arrays
+ *
+ * @param {String|Array<String>|Function} ...sortKeys
+ * @param {Number} [order]
+ */
+
+function orderBy(arr) {
+  var _comparator = null;
+  var sortKeys;
+  arr = src_util.convertArray(arr); // determine order (last argument)
+
+  var args = src_util.toArray(arguments, 1);
+  var order = args[args.length - 1];
+
+  if (typeof order === 'number') {
+    order = order < 0 ? -1 : 1;
+    args = args.length > 1 ? args.slice(0, -1) : args;
+  } else {
+    order = 1;
+  } // determine sortKeys & comparator
+
+
+  var firstArg = args[0];
+
+  if (!firstArg) {
+    return arr;
+  } else if (typeof firstArg === 'function') {
+    // custom comparator
+    _comparator = function comparator(a, b) {
+      return firstArg(a, b) * order;
+    };
+  } else {
+    // string keys. flatten first
+    sortKeys = Array.prototype.concat.apply([], args);
+
+    _comparator = function comparator(a, b, i) {
+      i = i || 0;
+      return i >= sortKeys.length - 1 ? baseCompare(a, b, i) : baseCompare(a, b, i) || _comparator(a, b, i + 1);
+    };
+  }
+
+  function baseCompare(a, b, sortKeyIndex) {
+    var sortKey = sortKeys[sortKeyIndex];
+
+    if (sortKey) {
+      if (sortKey !== '$key') {
+        if (src_util.isObject(a) && '$value' in a) a = a.$value;
+        if (src_util.isObject(b) && '$value' in b) b = b.$value;
+      }
+
+      a = src_util.isObject(a) ? src_util.getPath(a, sortKey) : a;
+      b = src_util.isObject(b) ? src_util.getPath(b, sortKey) : b;
+      a = typeof a === 'string' ? a.toLowerCase() : a;
+      b = typeof b === 'string' ? b.toLowerCase() : b;
+    }
+
+    return a === b ? 0 : a > b ? order : -order;
+  } // sort on a copy to avoid mutating original array
+
+
+  return arr.slice().sort(_comparator);
+}
+
+/* harmony default export */ var array_orderBy = (orderBy);
+// CONCATENATED MODULE: ./src/array/find.js
+
+/**
+ * Get first matching element from a filtered array
+ *
+ * @param {Array} arr
+ * @param {String|Number} search
+ * @returns {mixed}
+ */
+
+function find(arr, search) {
+  var array = array_filterBy.apply(this, arguments);
+  array.splice(1);
+  return array;
+}
+
+/* harmony default export */ var array_find = (find);
+// CONCATENATED MODULE: ./src/array/index.js
+
+
+
+
+
+// CONCATENATED MODULE: ./src/other/currency.js
+
+/**
+ * 
+ * 12345 => $12,345.00
+ *
+ * @param {String} symbol
+ * @param {Number} decimals Decimal places
+ * @param {Object} options
+ */
+
+function currency(value, symbol, decimals, options) {
+  var globalOptions = this && this.currency ? this.currency : {};
+  symbol = src_util.exist(symbol) ? symbol : globalOptions.symbol;
+  decimals = src_util.exist(decimals) ? decimals : globalOptions.decimalDigits;
+  options = options || globalOptions;
+  var thousandsSeparator, symbolOnLeft, spaceBetweenAmountAndSymbol, showPlusSign;
+  var digitsRE = /(\d{3})(?=\d)/g;
+  value = parseFloat(value);
+  if (!isFinite(value) || !value && value !== 0) return '';
+  symbol = typeof symbol !== 'undefined' ? symbol : '$';
+  decimals = typeof decimals !== 'undefined' ? decimals : 2;
+  thousandsSeparator = options.thousandsSeparator != null ? options.thousandsSeparator : ',';
+  symbolOnLeft = options.symbolOnLeft != null ? options.symbolOnLeft : true;
+  spaceBetweenAmountAndSymbol = options.spaceBetweenAmountAndSymbol != null ? options.spaceBetweenAmountAndSymbol : false;
+  showPlusSign = options.showPlusSign != null ? options.showPlusSign : false;
+  var number = Math.abs(value);
+  var stringified = toFixed(number, decimals);
+  stringified = options.decimalSeparator ? stringified.replace('.', options.decimalSeparator) : stringified;
+
+  var _int = decimals ? stringified.slice(0, -1 - decimals) : stringified;
+
+  var i = _int.length % 3;
+  var head = i > 0 ? _int.slice(0, i) + (_int.length > 3 ? thousandsSeparator : '') : '';
+
+  var _float = decimals ? stringified.slice(-1 - decimals) : '';
+
+  symbol = spaceBetweenAmountAndSymbol ? symbolOnLeft ? symbol + ' ' : ' ' + symbol : symbol;
+  symbol = symbolOnLeft ? symbol + head + _int.slice(i).replace(digitsRE, '$1' + thousandsSeparator) + _float : head + _int.slice(i).replace(digitsRE, '$1' + thousandsSeparator) + _float + symbol;
+  var sign = value < 0 ? '-' : '';
+  var plusSign = value > 0 && showPlusSign ? '+' : '';
+  return plusSign + sign + symbol;
+}
+
+function toFixed(num, precision) {
+  return (+(Math.round(+(num + 'e' + precision)) + 'e' + -precision)).toFixed(precision);
+}
+
+/* harmony default export */ var other_currency = (currency);
+// CONCATENATED MODULE: ./src/other/bytes.js
+
+/**
+ * 1                => '8 byte'
+ * 8                => '8 bytes'
+ * 1024             => '1.00 kB'
+ * 2000000          => '1.90 MB'
+ * 2000000000       => '1.86 GB'
+ * 2000000000000    => '1.82 TB'
+ *
+ * @param {Number} value
+ * @param {Number} decimals Decimal places (default: 2)
+ */
+
+function bytes(value, decimals) {
+  var globalOptions = this && this.bytes ? this.bytes : {};
+  decimals = src_util.exist(decimals) ? decimals : globalOptions.decimalDigits;
+  decimals = typeof decimals !== 'undefined' ? decimals : 2;
+  value = value === null || isNaN(value) ? 0 : value;
+
+  if (value >= Math.pow(1024, 4)) {
+    // TB
+    return "".concat((value / Math.pow(1024, 4)).toFixed(decimals), " TB");
+  } else if (value >= Math.pow(1024, 3)) {
+    // GB
+    return "".concat((value / Math.pow(1024, 3)).toFixed(decimals), " GB");
+  } else if (value >= Math.pow(1024, 2)) {
+    // MB
+    return "".concat((value / Math.pow(1024, 2)).toFixed(decimals), " MB");
+  } else if (value >= 1024) {
+    // kb
+    return "".concat((value / 1024).toFixed(decimals), " kB");
+  } // byte
+
+
+  return value === 1 ? "".concat(value, " byte") : "".concat(value, " bytes");
+}
+
+/* harmony default export */ var other_bytes = (bytes);
+// CONCATENATED MODULE: ./src/other/pluralize.js
+
+/**
+ * 'item' => 'items'
+ *
+ * @param {String|Array} word
+ * @param {Object} options
+ *
+ */
+
+function pluralize(value, word, options) {
+  var globalOptions = this && this.pluralize ? this.pluralize : {};
+  options = options || globalOptions;
+  var output = '';
+  var includeNumber = options.includeNumber != null ? options.includeNumber : false;
+  if (includeNumber === true) output += value + ' ';
+  if (!value && value !== 0 || !word) return output;
+
+  if (Array.isArray(word)) {
+    output += word[value - 1] || word[word.length - 1];
+  } else {
+    output += word + (value === 1 ? '' : 's');
+  }
+
+  return output;
+}
+
+/* harmony default export */ var other_pluralize = (pluralize);
+// CONCATENATED MODULE: ./src/other/ordinal.js
+
+/**
+ * 42 => 'nd'
+ *
+ * @params {Object} options
+ * 
+ */
+
+function ordinal(value, options) {
+  var globalOptions = this && this.ordinal ? this.ordinal : {};
+  options = options || globalOptions;
+  var output = '';
+  var includeNumber = options.includeNumber != null ? options.includeNumber : false;
+  if (includeNumber === true) output += value;
+  var j = value % 10,
+      k = value % 100;
+  if (j == 1 && k != 11) output += 'st';else if (j == 2 && k != 12) output += 'nd';else if (j == 3 && k != 13) output += 'rd';else output += 'th';
+  return output;
+}
+
+/* harmony default export */ var other_ordinal = (ordinal);
+// CONCATENATED MODULE: ./src/other/number.js
+
+/**
+ * 123456 => '123,456'
+ *
+ * @params {Object} options
+ *
+ */
+
+function number_number(value, format, options) {
+  var globalOptions = this && this.number ? this.number : {};
+  format = src_util.exist(format) ? format : globalOptions.format;
+  options = options || globalOptions;
+  var config = parseFormat(format);
+  var number = parseNumber(value);
+  var thousandsSeparator = options.thousandsSeparator != null ? options.thousandsSeparator : ',';
+  var decimalSeparator = options.decimalSeparator != null ? options.decimalSeparator : '.';
+  config.sign = config.sign || number.sign;
+
+  if (config.unit) {
+    var numberWithUnit = addUnit(number.float, config);
+    return config.sign + numberWithUnit;
+  }
+
+  var rounded = number_toFixed(number.float, config.decimals);
+  var output = addSeparators(rounded, config.base, thousandsSeparator, decimalSeparator);
+  return config.sign + output;
+}
+
+Math.sign = function (x) {
+  x = +x;
+
+  if (x === 0 || isNaN(x)) {
+    return x;
+  }
+
+  return x > 0 ? 1 : -1;
+};
+
+function parseNumber(num) {
+  return {
+    float: Math.abs(parseFloat(num)),
+    int: Math.abs(parseInt(num)),
+    sign: Math.sign(num) < 0 ? '-' : ''
+  };
+}
+
+function parseFormat() {
+  var string = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '0';
+  var regex = /([\+\-])?([0-9\,]+)?([\.0-9]+)?([a\s]+)?/;
+  var matches = string ? string.match(regex) : ['', '', '', '', ''];
+  var float = matches[3];
+  var decimals = float ? float.match(/0/g).length : 0;
+  return {
+    sign: matches[1] || '',
+    base: matches[2] || '',
+    decimals: decimals,
+    unit: matches[4] || ''
+  };
+}
+
+function addUnit(num, config) {
+  var rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+  var si = [{
+    value: 1,
+    symbol: ''
+  }, {
+    value: 1e3,
+    symbol: 'K'
+  }, {
+    value: 1e6,
+    symbol: 'M'
+  }, {
+    value: 1e9,
+    symbol: 'B'
+  }, {
+    value: 1e12,
+    symbol: 'T'
+  }];
+  var i;
+
+  for (i = si.length - 1; i > 0; i--) {
+    if (num >= si[i].value) {
+      break;
+    }
+  }
+
+  num = (num / si[i].value).toFixed(config.decimals).replace(rx, '$1');
+  return num + config.unit.replace('a', si[i].symbol);
+}
+
+function addSeparators(num, base, thousandsSeparator, decimalSeparator) {
+  var regex = /(\d+)(\d{3})/;
+  var string = num.toString();
+  var x = string.split('.');
+  var x1 = x[0];
+  var x2 = x.length > 1 ? decimalSeparator + x[1] : '';
+
+  switch (base) {
+    case '':
+      x1 = '';
+      break;
+
+    case '0,0':
+      while (regex.test(x1)) {
+        x1 = x1.replace(regex, '$1' + thousandsSeparator + '$2');
+      }
+
+      break;
+  }
+
+  return x1 + x2;
+}
+
+function getFraction(num, decimals, separator) {
+  var fraction = number_toFixed(num, decimals).toString().split('.')[1];
+  return fraction ? separator + fraction : '';
+}
+
+function number_toFixed(num, precision) {
+  return (+(Math.round(+(num + 'e' + precision)) + 'e' + -precision)).toFixed(precision);
+}
+
+/* harmony default export */ var other_number = (number_number);
+// CONCATENATED MODULE: ./src/other/percent.js
+
+/**
+ * 1.2              => '120%'
+ * -0.2             => '-20%'
+ * 100              => '10000%'
+ * 1                => '100%'
+ * 0.97             => '97%'
+ *
+ * @param {Number} value
+ * @param {Number} decimals Decimal places (default: 2)
+ * @param {Number} multiplier (default: 100)
+ * @params {Object} options
+ */
+
+function percent(value, decimals, multiplier, options) {
+  var globalOptions = this && this.percent ? this.percent : {};
+  options = options || globalOptions;
+  multiplier = src_util.exist(multiplier) ? multiplier : globalOptions.multiplier;
+  multiplier = typeof multiplier !== 'undefined' ? multiplier : 100;
+  decimals = src_util.exist(decimals) ? decimals : globalOptions.decimalDigits;
+  decimals = typeof decimals !== 'undefined' ? decimals : 0;
+  var decimalSeparator = options.decimalSeparator != null ? options.decimalSeparator : '.';
+  value = value === null || isNaN(value) ? 0 : value;
+  return "".concat((value * multiplier).toFixed(decimals).replace('.', decimalSeparator), "%");
+}
+
+/* harmony default export */ var other_percent = (percent);
+// CONCATENATED MODULE: ./src/other/index.js
+
+
+
+
+
+
+
+// CONCATENATED MODULE: ./src/index.js
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+var Vue2Filters = {
+  install: function install(Vue, options) {
+    src_util.each(string_namespaceObject, function (value, key) {
+      Vue.filter(key, value.bind(options));
+    });
+    src_util.each(other_namespaceObject, function (value, key) {
+      Vue.filter(key, value.bind(options));
+    });
+  },
+  mixin: {
+    methods: _objectSpread({}, array_namespaceObject)
+  }
+};
+/* harmony default export */ var src = __nested_webpack_exports__["default"] = (Vue2Filters);
+
+if (typeof window !== 'undefined' && window.Vue) {
+  window.Vue.use(Vue2Filters);
+  window.Vue2Filters = Vue2Filters;
+}
+
+/***/ })
+/******/ ]);
+});
+
+/***/ }),
+
 /***/ "./node_modules/vuex/dist/vuex.esm.js":
 /*!********************************************!*\
   !*** ./node_modules/vuex/dist/vuex.esm.js ***!
@@ -52592,2012 +52150,2500 @@ var index = {
 
 /***/ }),
 
-/***/ "./node_modules/@firebase/app/dist/esm/index.esm2017.js":
+/***/ "./resources/js/bootstrap.js":
+/*!***********************************!*\
+  !*** ./resources/js/bootstrap.js ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
+/**
+ * We'll load the axios HTTP library which allows us to easily issue requests
+ * to our Laravel back-end. This library automatically handles sending the
+ * CSRF token as a header based on the value of the "XSRF" token cookie.
+ */
+
+try {
+  window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+  window.Popper = __webpack_require__(/*! @popperjs/core */ "./node_modules/@popperjs/core/lib/index.js");
+  window.bootstrap = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
+} catch (e) {}
+window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.headers.common['CSRF-TOKEN'] = getValueFromId('token');
+window.axios.defaults.headers.common["Authorization"] = getValueFromId('token');
+window.url = getValueFromId('base_url');
+window.app_path = getValueFromId('app_path');
+
+// window.axios.defaults.headers.common['pusher_app_key'] = document.getElementById('pusher_app_key').value;
+// window.axios.defaults.headers.common['pusher_app_cluster'] = document.getElementById('pusher_app_cluster').value;
+
+/**
+ * Echo exposes an expressive API for subscribing to channels and listening
+ * for events that are broadcast by Laravel. Echo and event broadcasting
+ * allows your team to easily build robust real-time web applications.
+ */
+
+
+window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
+
+/*window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: process.env.MIX_PUSHER_APP_KEY,
+    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+    forceTLS: true
+});*/
+window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
+  broadcaster: 'pusher',
+  key: getValueFromId("f_pusher_app_key"),
+  cluster: getValueFromId("f_pusher_app_cluster"),
+  forceTLS: true
+});
+function getValueFromId(id) {
+  var value = '';
+  var input_box = document.getElementById(id);
+  if (input_box) {
+    value = input_box.value;
+  }
+  return value;
+}
+
+/***/ }),
+
+/***/ "./resources/js/components/frontend/frontend_master.vue":
 /*!**************************************************************!*\
-  !*** ./node_modules/@firebase/app/dist/esm/index.esm2017.js ***!
+  !*** ./resources/js/components/frontend/frontend_master.vue ***!
   \**************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   FirebaseError: () => (/* reexport safe */ _firebase_util__WEBPACK_IMPORTED_MODULE_2__.FirebaseError),
-/* harmony export */   SDK_VERSION: () => (/* binding */ SDK_VERSION),
-/* harmony export */   _DEFAULT_ENTRY_NAME: () => (/* binding */ DEFAULT_ENTRY_NAME),
-/* harmony export */   _addComponent: () => (/* binding */ _addComponent),
-/* harmony export */   _addOrOverwriteComponent: () => (/* binding */ _addOrOverwriteComponent),
-/* harmony export */   _apps: () => (/* binding */ _apps),
-/* harmony export */   _clearComponents: () => (/* binding */ _clearComponents),
-/* harmony export */   _components: () => (/* binding */ _components),
-/* harmony export */   _getProvider: () => (/* binding */ _getProvider),
-/* harmony export */   _registerComponent: () => (/* binding */ _registerComponent),
-/* harmony export */   _removeServiceInstance: () => (/* binding */ _removeServiceInstance),
-/* harmony export */   deleteApp: () => (/* binding */ deleteApp),
-/* harmony export */   getApp: () => (/* binding */ getApp),
-/* harmony export */   getApps: () => (/* binding */ getApps),
-/* harmony export */   initializeApp: () => (/* binding */ initializeApp),
-/* harmony export */   onLog: () => (/* binding */ onLog),
-/* harmony export */   registerVersion: () => (/* binding */ registerVersion),
-/* harmony export */   setLogLevel: () => (/* binding */ setLogLevel)
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _firebase_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @firebase/component */ "./node_modules/@firebase/component/dist/esm/index.esm2017.js");
-/* harmony import */ var _firebase_logger__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @firebase/logger */ "./node_modules/@firebase/logger/dist/esm/index.esm2017.js");
-/* harmony import */ var _firebase_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @firebase/util */ "./node_modules/@firebase/util/dist/index.esm2017.js");
-/* harmony import */ var idb__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! idb */ "./node_modules/idb/build/index.js");
+/* harmony import */ var _frontend_master_vue_vue_type_template_id_7afef97d__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./frontend_master.vue?vue&type=template&id=7afef97d */ "./resources/js/components/frontend/frontend_master.vue?vue&type=template&id=7afef97d");
+/* harmony import */ var _frontend_master_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./frontend_master.vue?vue&type=script&lang=js */ "./resources/js/components/frontend/frontend_master.vue?vue&type=script&lang=js");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
 
 
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _frontend_master_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _frontend_master_vue_vue_type_template_id_7afef97d__WEBPACK_IMPORTED_MODULE_0__.render,
+  _frontend_master_vue_vue_type_template_id_7afef97d__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
 
-/**
- * @license
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-class PlatformLoggerServiceImpl {
-    constructor(container) {
-        this.container = container;
-    }
-    // In initial implementation, this will be called by installations on
-    // auth token refresh, and installations will send this string.
-    getPlatformInfoString() {
-        const providers = this.container.getProviders();
-        // Loop through providers and get library/version pairs from any that are
-        // version components.
-        return providers
-            .map(provider => {
-            if (isVersionServiceProvider(provider)) {
-                const service = provider.getImmediate();
-                return `${service.library}/${service.version}`;
-            }
-            else {
-                return null;
-            }
-        })
-            .filter(logString => logString)
-            .join(' ');
-    }
-}
-/**
- *
- * @param provider check if this provider provides a VersionService
- *
- * NOTE: Using Provider<'app-version'> is a hack to indicate that the provider
- * provides VersionService. The provider is not necessarily a 'app-version'
- * provider.
- */
-function isVersionServiceProvider(provider) {
-    const component = provider.getComponent();
-    return (component === null || component === void 0 ? void 0 : component.type) === "VERSION" /* ComponentType.VERSION */;
-}
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/frontend/frontend_master.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
-const name$o = "@firebase/app";
-const version$1 = "0.9.13";
+/***/ }),
 
-/**
- * @license
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-const logger = new _firebase_logger__WEBPACK_IMPORTED_MODULE_1__.Logger('@firebase/app');
+/***/ "./resources/js/components/frontend/frontend_master.vue?vue&type=script&lang=js":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/components/frontend/frontend_master.vue?vue&type=script&lang=js ***!
+  \**************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-const name$n = "@firebase/app-compat";
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_frontend_master_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./frontend_master.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/frontend/frontend_master.vue?vue&type=script&lang=js");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_frontend_master_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
-const name$m = "@firebase/analytics-compat";
+/***/ }),
 
-const name$l = "@firebase/analytics";
+/***/ "./resources/js/components/frontend/frontend_master.vue?vue&type=template&id=7afef97d":
+/*!********************************************************************************************!*\
+  !*** ./resources/js/components/frontend/frontend_master.vue?vue&type=template&id=7afef97d ***!
+  \********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-const name$k = "@firebase/app-check-compat";
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_frontend_master_vue_vue_type_template_id_7afef97d__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_frontend_master_vue_vue_type_template_id_7afef97d__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_frontend_master_vue_vue_type_template_id_7afef97d__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./frontend_master.vue?vue&type=template&id=7afef97d */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/frontend/frontend_master.vue?vue&type=template&id=7afef97d");
 
-const name$j = "@firebase/app-check";
 
-const name$i = "@firebase/auth";
+/***/ }),
 
-const name$h = "@firebase/auth-compat";
+/***/ "./resources/js/helper.js":
+/*!********************************!*\
+  !*** ./resources/js/helper.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-const name$g = "@firebase/database";
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue_dist_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue/dist/vue */ "./node_modules/vue/dist/vue.js");
+/* harmony import */ var vue_dist_vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_dist_vue__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
-const name$f = "@firebase/database-compat";
-
-const name$e = "@firebase/functions";
-
-const name$d = "@firebase/functions-compat";
-
-const name$c = "@firebase/installations";
-
-const name$b = "@firebase/installations-compat";
-
-const name$a = "@firebase/messaging";
-
-const name$9 = "@firebase/messaging-compat";
-
-const name$8 = "@firebase/performance";
-
-const name$7 = "@firebase/performance-compat";
-
-const name$6 = "@firebase/remote-config";
-
-const name$5 = "@firebase/remote-config-compat";
-
-const name$4 = "@firebase/storage";
-
-const name$3 = "@firebase/storage-compat";
-
-const name$2 = "@firebase/firestore";
-
-const name$1 = "@firebase/firestore-compat";
-
-const name = "firebase";
-const version = "9.23.0";
-
-/**
- * @license
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * The default app name
- *
- * @internal
- */
-const DEFAULT_ENTRY_NAME = '[DEFAULT]';
-const PLATFORM_LOG_STRING = {
-    [name$o]: 'fire-core',
-    [name$n]: 'fire-core-compat',
-    [name$l]: 'fire-analytics',
-    [name$m]: 'fire-analytics-compat',
-    [name$j]: 'fire-app-check',
-    [name$k]: 'fire-app-check-compat',
-    [name$i]: 'fire-auth',
-    [name$h]: 'fire-auth-compat',
-    [name$g]: 'fire-rtdb',
-    [name$f]: 'fire-rtdb-compat',
-    [name$e]: 'fire-fn',
-    [name$d]: 'fire-fn-compat',
-    [name$c]: 'fire-iid',
-    [name$b]: 'fire-iid-compat',
-    [name$a]: 'fire-fcm',
-    [name$9]: 'fire-fcm-compat',
-    [name$8]: 'fire-perf',
-    [name$7]: 'fire-perf-compat',
-    [name$6]: 'fire-rc',
-    [name$5]: 'fire-rc-compat',
-    [name$4]: 'fire-gcs',
-    [name$3]: 'fire-gcs-compat',
-    [name$2]: 'fire-fst',
-    [name$1]: 'fire-fst-compat',
-    'fire-js': 'fire-js',
-    [name]: 'fire-js-all'
-};
-
-/**
- * @license
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * @internal
- */
-const _apps = new Map();
-/**
- * Registered components.
- *
- * @internal
- */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const _components = new Map();
-/**
- * @param component - the component being added to this app's container
- *
- * @internal
- */
-function _addComponent(app, component) {
-    try {
-        app.container.addComponent(component);
-    }
-    catch (e) {
-        logger.debug(`Component ${component.name} failed to register with FirebaseApp ${app.name}`, e);
-    }
-}
-/**
- *
- * @internal
- */
-function _addOrOverwriteComponent(app, component) {
-    app.container.addOrOverwriteComponent(component);
-}
-/**
- *
- * @param component - the component to register
- * @returns whether or not the component is registered successfully
- *
- * @internal
- */
-function _registerComponent(component) {
-    const componentName = component.name;
-    if (_components.has(componentName)) {
-        logger.debug(`There were multiple attempts to register component ${componentName}.`);
-        return false;
-    }
-    _components.set(componentName, component);
-    // add the component to existing app instances
-    for (const app of _apps.values()) {
-        _addComponent(app, component);
-    }
-    return true;
-}
-/**
- *
- * @param app - FirebaseApp instance
- * @param name - service name
- *
- * @returns the provider for the service with the matching name
- *
- * @internal
- */
-function _getProvider(app, name) {
-    const heartbeatController = app.container
-        .getProvider('heartbeat')
-        .getImmediate({ optional: true });
-    if (heartbeatController) {
-        void heartbeatController.triggerHeartbeat();
-    }
-    return app.container.getProvider(name);
-}
-/**
- *
- * @param app - FirebaseApp instance
- * @param name - service name
- * @param instanceIdentifier - service instance identifier in case the service supports multiple instances
- *
- * @internal
- */
-function _removeServiceInstance(app, name, instanceIdentifier = DEFAULT_ENTRY_NAME) {
-    _getProvider(app, name).clearInstance(instanceIdentifier);
-}
-/**
- * Test only
- *
- * @internal
- */
-function _clearComponents() {
-    _components.clear();
-}
-
-/**
- * @license
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-const ERRORS = {
-    ["no-app" /* AppError.NO_APP */]: "No Firebase App '{$appName}' has been created - " +
-        'call initializeApp() first',
-    ["bad-app-name" /* AppError.BAD_APP_NAME */]: "Illegal App name: '{$appName}",
-    ["duplicate-app" /* AppError.DUPLICATE_APP */]: "Firebase App named '{$appName}' already exists with different options or config",
-    ["app-deleted" /* AppError.APP_DELETED */]: "Firebase App named '{$appName}' already deleted",
-    ["no-options" /* AppError.NO_OPTIONS */]: 'Need to provide options, when not being deployed to hosting via source.',
-    ["invalid-app-argument" /* AppError.INVALID_APP_ARGUMENT */]: 'firebase.{$appName}() takes either no argument or a ' +
-        'Firebase App instance.',
-    ["invalid-log-argument" /* AppError.INVALID_LOG_ARGUMENT */]: 'First argument to `onLog` must be null or a function.',
-    ["idb-open" /* AppError.IDB_OPEN */]: 'Error thrown when opening IndexedDB. Original error: {$originalErrorMessage}.',
-    ["idb-get" /* AppError.IDB_GET */]: 'Error thrown when reading from IndexedDB. Original error: {$originalErrorMessage}.',
-    ["idb-set" /* AppError.IDB_WRITE */]: 'Error thrown when writing to IndexedDB. Original error: {$originalErrorMessage}.',
-    ["idb-delete" /* AppError.IDB_DELETE */]: 'Error thrown when deleting from IndexedDB. Original error: {$originalErrorMessage}.'
-};
-const ERROR_FACTORY = new _firebase_util__WEBPACK_IMPORTED_MODULE_2__.ErrorFactory('app', 'Firebase', ERRORS);
-
-/**
- * @license
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-class FirebaseAppImpl {
-    constructor(options, config, container) {
-        this._isDeleted = false;
-        this._options = Object.assign({}, options);
-        this._config = Object.assign({}, config);
-        this._name = config.name;
-        this._automaticDataCollectionEnabled =
-            config.automaticDataCollectionEnabled;
-        this._container = container;
-        this.container.addComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.Component('app', () => this, "PUBLIC" /* ComponentType.PUBLIC */));
-    }
-    get automaticDataCollectionEnabled() {
-        this.checkDestroyed();
-        return this._automaticDataCollectionEnabled;
-    }
-    set automaticDataCollectionEnabled(val) {
-        this.checkDestroyed();
-        this._automaticDataCollectionEnabled = val;
-    }
-    get name() {
-        this.checkDestroyed();
-        return this._name;
-    }
-    get options() {
-        this.checkDestroyed();
-        return this._options;
-    }
-    get config() {
-        this.checkDestroyed();
-        return this._config;
-    }
-    get container() {
-        return this._container;
-    }
-    get isDeleted() {
-        return this._isDeleted;
-    }
-    set isDeleted(val) {
-        this._isDeleted = val;
-    }
-    /**
-     * This function will throw an Error if the App has already been deleted -
-     * use before performing API actions on the App.
-     */
-    checkDestroyed() {
-        if (this.isDeleted) {
-            throw ERROR_FACTORY.create("app-deleted" /* AppError.APP_DELETED */, { appName: this._name });
-        }
-    }
-}
-
-/**
- * @license
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * The current SDK version.
- *
- * @public
- */
-const SDK_VERSION = version;
-function initializeApp(_options, rawConfig = {}) {
-    let options = _options;
-    if (typeof rawConfig !== 'object') {
-        const name = rawConfig;
-        rawConfig = { name };
-    }
-    const config = Object.assign({ name: DEFAULT_ENTRY_NAME, automaticDataCollectionEnabled: false }, rawConfig);
-    const name = config.name;
-    if (typeof name !== 'string' || !name) {
-        throw ERROR_FACTORY.create("bad-app-name" /* AppError.BAD_APP_NAME */, {
-            appName: String(name)
-        });
-    }
-    options || (options = (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.getDefaultAppConfig)());
-    if (!options) {
-        throw ERROR_FACTORY.create("no-options" /* AppError.NO_OPTIONS */);
-    }
-    const existingApp = _apps.get(name);
-    if (existingApp) {
-        // return the existing app if options and config deep equal the ones in the existing app.
-        if ((0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.deepEqual)(options, existingApp.options) &&
-            (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.deepEqual)(config, existingApp.config)) {
-            return existingApp;
-        }
-        else {
-            throw ERROR_FACTORY.create("duplicate-app" /* AppError.DUPLICATE_APP */, { appName: name });
-        }
-    }
-    const container = new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.ComponentContainer(name);
-    for (const component of _components.values()) {
-        container.addComponent(component);
-    }
-    const newApp = new FirebaseAppImpl(options, config, container);
-    _apps.set(name, newApp);
-    return newApp;
-}
-/**
- * Retrieves a {@link @firebase/app#FirebaseApp} instance.
- *
- * When called with no arguments, the default app is returned. When an app name
- * is provided, the app corresponding to that name is returned.
- *
- * An exception is thrown if the app being retrieved has not yet been
- * initialized.
- *
- * @example
- * ```javascript
- * // Return the default app
- * const app = getApp();
- * ```
- *
- * @example
- * ```javascript
- * // Return a named app
- * const otherApp = getApp("otherApp");
- * ```
- *
- * @param name - Optional name of the app to return. If no name is
- *   provided, the default is `"[DEFAULT]"`.
- *
- * @returns The app corresponding to the provided app name.
- *   If no app name is provided, the default app is returned.
- *
- * @public
- */
-function getApp(name = DEFAULT_ENTRY_NAME) {
-    const app = _apps.get(name);
-    if (!app && name === DEFAULT_ENTRY_NAME && (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.getDefaultAppConfig)()) {
-        return initializeApp();
-    }
-    if (!app) {
-        throw ERROR_FACTORY.create("no-app" /* AppError.NO_APP */, { appName: name });
-    }
-    return app;
-}
-/**
- * A (read-only) array of all initialized apps.
- * @public
- */
-function getApps() {
-    return Array.from(_apps.values());
-}
-/**
- * Renders this app unusable and frees the resources of all associated
- * services.
- *
- * @example
- * ```javascript
- * deleteApp(app)
- *   .then(function() {
- *     console.log("App deleted successfully");
- *   })
- *   .catch(function(error) {
- *     console.log("Error deleting app:", error);
- *   });
- * ```
- *
- * @public
- */
-async function deleteApp(app) {
-    const name = app.name;
-    if (_apps.has(name)) {
-        _apps.delete(name);
-        await Promise.all(app.container
-            .getProviders()
-            .map(provider => provider.delete()));
-        app.isDeleted = true;
-    }
-}
-/**
- * Registers a library's name and version for platform logging purposes.
- * @param library - Name of 1p or 3p library (e.g. firestore, angularfire)
- * @param version - Current version of that library.
- * @param variant - Bundle variant, e.g., node, rn, etc.
- *
- * @public
- */
-function registerVersion(libraryKeyOrName, version, variant) {
-    var _a;
-    // TODO: We can use this check to whitelist strings when/if we set up
-    // a good whitelist system.
-    let library = (_a = PLATFORM_LOG_STRING[libraryKeyOrName]) !== null && _a !== void 0 ? _a : libraryKeyOrName;
-    if (variant) {
-        library += `-${variant}`;
-    }
-    const libraryMismatch = library.match(/\s|\//);
-    const versionMismatch = version.match(/\s|\//);
-    if (libraryMismatch || versionMismatch) {
-        const warning = [
-            `Unable to register library "${library}" with version "${version}":`
-        ];
-        if (libraryMismatch) {
-            warning.push(`library name "${library}" contains illegal characters (whitespace or "/")`);
-        }
-        if (libraryMismatch && versionMismatch) {
-            warning.push('and');
-        }
-        if (versionMismatch) {
-            warning.push(`version name "${version}" contains illegal characters (whitespace or "/")`);
-        }
-        logger.warn(warning.join(' '));
-        return;
-    }
-    _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.Component(`${library}-version`, () => ({ library, version }), "VERSION" /* ComponentType.VERSION */));
-}
-/**
- * Sets log handler for all Firebase SDKs.
- * @param logCallback - An optional custom log handler that executes user code whenever
- * the Firebase SDK makes a logging call.
- *
- * @public
- */
-function onLog(logCallback, options) {
-    if (logCallback !== null && typeof logCallback !== 'function') {
-        throw ERROR_FACTORY.create("invalid-log-argument" /* AppError.INVALID_LOG_ARGUMENT */);
-    }
-    (0,_firebase_logger__WEBPACK_IMPORTED_MODULE_1__.setUserLogHandler)(logCallback, options);
-}
-/**
- * Sets log level for all Firebase SDKs.
- *
- * All of the log types above the current log level are captured (i.e. if
- * you set the log level to `info`, errors are logged, but `debug` and
- * `verbose` logs are not).
- *
- * @public
- */
-function setLogLevel(logLevel) {
-    (0,_firebase_logger__WEBPACK_IMPORTED_MODULE_1__.setLogLevel)(logLevel);
-}
-
-/**
- * @license
- * Copyright 2021 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-const DB_NAME = 'firebase-heartbeat-database';
-const DB_VERSION = 1;
-const STORE_NAME = 'firebase-heartbeat-store';
-let dbPromise = null;
-function getDbPromise() {
-    if (!dbPromise) {
-        dbPromise = (0,idb__WEBPACK_IMPORTED_MODULE_3__.openDB)(DB_NAME, DB_VERSION, {
-            upgrade: (db, oldVersion) => {
-                // We don't use 'break' in this switch statement, the fall-through
-                // behavior is what we want, because if there are multiple versions between
-                // the old version and the current version, we want ALL the migrations
-                // that correspond to those versions to run, not only the last one.
-                // eslint-disable-next-line default-case
-                switch (oldVersion) {
-                    case 0:
-                        db.createObjectStore(STORE_NAME);
-                }
-            }
-        }).catch(e => {
-            throw ERROR_FACTORY.create("idb-open" /* AppError.IDB_OPEN */, {
-                originalErrorMessage: e.message
-            });
-        });
-    }
-    return dbPromise;
-}
-async function readHeartbeatsFromIndexedDB(app) {
-    try {
-        const db = await getDbPromise();
-        const result = await db
-            .transaction(STORE_NAME)
-            .objectStore(STORE_NAME)
-            .get(computeKey(app));
-        return result;
-    }
-    catch (e) {
-        if (e instanceof _firebase_util__WEBPACK_IMPORTED_MODULE_2__.FirebaseError) {
-            logger.warn(e.message);
-        }
-        else {
-            const idbGetError = ERROR_FACTORY.create("idb-get" /* AppError.IDB_GET */, {
-                originalErrorMessage: e === null || e === void 0 ? void 0 : e.message
-            });
-            logger.warn(idbGetError.message);
-        }
-    }
-}
-async function writeHeartbeatsToIndexedDB(app, heartbeatObject) {
-    try {
-        const db = await getDbPromise();
-        const tx = db.transaction(STORE_NAME, 'readwrite');
-        const objectStore = tx.objectStore(STORE_NAME);
-        await objectStore.put(heartbeatObject, computeKey(app));
-        await tx.done;
-    }
-    catch (e) {
-        if (e instanceof _firebase_util__WEBPACK_IMPORTED_MODULE_2__.FirebaseError) {
-            logger.warn(e.message);
-        }
-        else {
-            const idbGetError = ERROR_FACTORY.create("idb-set" /* AppError.IDB_WRITE */, {
-                originalErrorMessage: e === null || e === void 0 ? void 0 : e.message
-            });
-            logger.warn(idbGetError.message);
-        }
-    }
-}
-function computeKey(app) {
-    return `${app.name}!${app.options.appId}`;
-}
-
-/**
- * @license
- * Copyright 2021 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-const MAX_HEADER_BYTES = 1024;
-// 30 days
-const STORED_HEARTBEAT_RETENTION_MAX_MILLIS = 30 * 24 * 60 * 60 * 1000;
-class HeartbeatServiceImpl {
-    constructor(container) {
-        this.container = container;
-        /**
-         * In-memory cache for heartbeats, used by getHeartbeatsHeader() to generate
-         * the header string.
-         * Stores one record per date. This will be consolidated into the standard
-         * format of one record per user agent string before being sent as a header.
-         * Populated from indexedDB when the controller is instantiated and should
-         * be kept in sync with indexedDB.
-         * Leave public for easier testing.
-         */
-        this._heartbeatsCache = null;
-        const app = this.container.getProvider('app').getImmediate();
-        this._storage = new HeartbeatStorageImpl(app);
-        this._heartbeatsCachePromise = this._storage.read().then(result => {
-            this._heartbeatsCache = result;
-            return result;
-        });
-    }
-    /**
-     * Called to report a heartbeat. The function will generate
-     * a HeartbeatsByUserAgent object, update heartbeatsCache, and persist it
-     * to IndexedDB.
-     * Note that we only store one heartbeat per day. So if a heartbeat for today is
-     * already logged, subsequent calls to this function in the same day will be ignored.
-     */
-    async triggerHeartbeat() {
-        const platformLogger = this.container
-            .getProvider('platform-logger')
-            .getImmediate();
-        // This is the "Firebase user agent" string from the platform logger
-        // service, not the browser user agent.
-        const agent = platformLogger.getPlatformInfoString();
-        const date = getUTCDateString();
-        if (this._heartbeatsCache === null) {
-            this._heartbeatsCache = await this._heartbeatsCachePromise;
-        }
-        // Do not store a heartbeat if one is already stored for this day
-        // or if a header has already been sent today.
-        if (this._heartbeatsCache.lastSentHeartbeatDate === date ||
-            this._heartbeatsCache.heartbeats.some(singleDateHeartbeat => singleDateHeartbeat.date === date)) {
-            return;
-        }
-        else {
-            // There is no entry for this date. Create one.
-            this._heartbeatsCache.heartbeats.push({ date, agent });
-        }
-        // Remove entries older than 30 days.
-        this._heartbeatsCache.heartbeats = this._heartbeatsCache.heartbeats.filter(singleDateHeartbeat => {
-            const hbTimestamp = new Date(singleDateHeartbeat.date).valueOf();
-            const now = Date.now();
-            return now - hbTimestamp <= STORED_HEARTBEAT_RETENTION_MAX_MILLIS;
-        });
-        return this._storage.overwrite(this._heartbeatsCache);
-    }
-    /**
-     * Returns a base64 encoded string which can be attached to the heartbeat-specific header directly.
-     * It also clears all heartbeats from memory as well as in IndexedDB.
-     *
-     * NOTE: Consuming product SDKs should not send the header if this method
-     * returns an empty string.
-     */
-    async getHeartbeatsHeader() {
-        if (this._heartbeatsCache === null) {
-            await this._heartbeatsCachePromise;
-        }
-        // If it's still null or the array is empty, there is no data to send.
-        if (this._heartbeatsCache === null ||
-            this._heartbeatsCache.heartbeats.length === 0) {
-            return '';
-        }
-        const date = getUTCDateString();
-        // Extract as many heartbeats from the cache as will fit under the size limit.
-        const { heartbeatsToSend, unsentEntries } = extractHeartbeatsForHeader(this._heartbeatsCache.heartbeats);
-        const headerString = (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.base64urlEncodeWithoutPadding)(JSON.stringify({ version: 2, heartbeats: heartbeatsToSend }));
-        // Store last sent date to prevent another being logged/sent for the same day.
-        this._heartbeatsCache.lastSentHeartbeatDate = date;
-        if (unsentEntries.length > 0) {
-            // Store any unsent entries if they exist.
-            this._heartbeatsCache.heartbeats = unsentEntries;
-            // This seems more likely than emptying the array (below) to lead to some odd state
-            // since the cache isn't empty and this will be called again on the next request,
-            // and is probably safest if we await it.
-            await this._storage.overwrite(this._heartbeatsCache);
-        }
-        else {
-            this._heartbeatsCache.heartbeats = [];
-            // Do not wait for this, to reduce latency.
-            void this._storage.overwrite(this._heartbeatsCache);
-        }
-        return headerString;
-    }
-}
-function getUTCDateString() {
-    const today = new Date();
-    // Returns date format 'YYYY-MM-DD'
-    return today.toISOString().substring(0, 10);
-}
-function extractHeartbeatsForHeader(heartbeatsCache, maxSize = MAX_HEADER_BYTES) {
-    // Heartbeats grouped by user agent in the standard format to be sent in
-    // the header.
-    const heartbeatsToSend = [];
-    // Single date format heartbeats that are not sent.
-    let unsentEntries = heartbeatsCache.slice();
-    for (const singleDateHeartbeat of heartbeatsCache) {
-        // Look for an existing entry with the same user agent.
-        const heartbeatEntry = heartbeatsToSend.find(hb => hb.agent === singleDateHeartbeat.agent);
-        if (!heartbeatEntry) {
-            // If no entry for this user agent exists, create one.
-            heartbeatsToSend.push({
-                agent: singleDateHeartbeat.agent,
-                dates: [singleDateHeartbeat.date]
-            });
-            if (countBytes(heartbeatsToSend) > maxSize) {
-                // If the header would exceed max size, remove the added heartbeat
-                // entry and stop adding to the header.
-                heartbeatsToSend.pop();
-                break;
-            }
-        }
-        else {
-            heartbeatEntry.dates.push(singleDateHeartbeat.date);
-            // If the header would exceed max size, remove the added date
-            // and stop adding to the header.
-            if (countBytes(heartbeatsToSend) > maxSize) {
-                heartbeatEntry.dates.pop();
-                break;
-            }
-        }
-        // Pop unsent entry from queue. (Skipped if adding the entry exceeded
-        // quota and the loop breaks early.)
-        unsentEntries = unsentEntries.slice(1);
-    }
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (vue_dist_vue__WEBPACK_IMPORTED_MODULE_0___default().mixin({
+  data: function data() {
     return {
-        heartbeatsToSend,
-        unsentEntries
+      url: document.querySelector('meta[name="base_url"]').getAttribute('content'),
+      token: document.getElementById('token').value,
+      product_form: {
+        rating: 0,
+        title: '',
+        comment: '',
+        image: '',
+        product_id: '',
+        review_id: '',
+        reply: '',
+        id: '',
+        color_id: '',
+        quantity: 1,
+        attribute_values: [],
+        variants_ids: '',
+        variants_name: '',
+        trx_id: '',
+        image_text: 'Choose File',
+        is_buy_now: 0
+      },
+      payment_form: {
+        payment_type: '',
+        sub_total: 0,
+        discount_offer: 0,
+        shipping_tax: 0,
+        tax: 0,
+        coupon_discount: 0,
+        total: 0,
+        trx_id: '',
+        quantity: []
+      },
+      errors: [],
+      converted_reward: '',
+      blog_like_loading: false,
+      search_products: [],
+      stock: [],
+      btn_disabled: false
     };
-}
-class HeartbeatStorageImpl {
-    constructor(app) {
-        this.app = app;
-        this._canUseIndexedDBPromise = this.runIndexedDBEnvironmentCheck();
+  },
+  mounted: function mounted() {
+    // this.$store.commit('setShimmer','1');
+  },
+  watch: {
+    $route: function $route(to, from) {
+      this.search_products = [];
+      if (this.$route.name != 'home') {
+        this.$store.commit('setShimmer', '1');
+      }
+      document.body.classList.remove("sidebar-active");
+      this.$store.dispatch('defaultCategoryShow', false);
+      this.$store.commit('setResponseCheck', false);
     }
-    async runIndexedDBEnvironmentCheck() {
-        if (!(0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.isIndexedDBAvailable)()) {
-            return false;
+  },
+  computed: {
+    shimmer: function shimmer() {
+      return this.$store.getters.getShimmer;
+    },
+    authUser: function authUser() {
+      return this.$store.getters.getUser;
+    },
+    activeCurrency: function activeCurrency() {
+      return this.$store.getters.getActiveCurrency;
+    },
+    settings: function settings() {
+      return this.$store.getters.getSettings;
+    },
+    defaultCurrency: function defaultCurrency() {
+      return this.$store.getters.getDefaultCurrency;
+    },
+    defaultAssets: function defaultAssets() {
+      return this.$store.getters.getDefaultAssets;
+    },
+    lang: function lang() {
+      return this.$store.getters.getLangKeywords;
+    },
+    defaultCategoryShow: function defaultCategoryShow() {
+      return this.$store.getters.getDefaultCategory;
+    },
+    addons: function addons() {
+      return this.$store.getters.getAddons;
+    },
+    homeResponse: function homeResponse() {
+      return this.$store.getters.getResponseDone;
+    },
+    responseCheck: function responseCheck() {
+      return this.$store.getters.getResponseCheck;
+    },
+    shopResponse: function shopResponse() {
+      var shop = this.$store.getters.getShopComponent;
+      for (var i = 0; i < shop.length; i++) {
+        if (shop[i].slug == this.$route.params.slug) {
+          return shop[i].contents;
         }
-        else {
-            return (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.validateIndexedDBOpenable)()
-                .then(() => true)
-                .catch(() => false);
+      }
+      return false;
+    }
+  },
+  created: function created() {},
+  methods: {
+    urlCheck: function urlCheck(link) {
+      if (link == 'javascript:void(0)') {
+        return true;
+      } else if (link) {
+        return link.includes("http");
+      } else {
+        return false;
+      }
+    },
+    imageUp: function imageUp(event) {
+      this.product_form.image = event.target.files[0];
+      document.getElementById('upload-image').innerHTML = this.product_form.image.name;
+    },
+    getUrl: function getUrl(url) {
+      var base_url = document.querySelector('meta[name="base_url"]').getAttribute('content');
+      return base_url + '/' + url;
+    },
+    logout: function logout() {
+      var _this = this;
+      this.$store.commit('getCountCompare', true);
+      var url = this.getUrl('logout');
+      /*  let config = {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json'
         }
-    }
-    /**
-     * Read all heartbeats.
-     */
-    async read() {
-        const canUseIndexedDB = await this._canUseIndexedDBPromise;
-        if (!canUseIndexedDB) {
-            return { heartbeats: [] };
+        let url = 'https://licenseplatedata.com/consumer-api/CRYPTO-LPDEMTK7O/1FM5K8D84FGA81501';*/
+      axios.get(url).then(function (response) {
+        if (response.data.error) {
+          toastr.error(response.data.error, 'Error!!');
         }
-        else {
-            const idbHeartbeatObject = await readHeartbeatsFromIndexedDB(this.app);
-            return idbHeartbeatObject || { heartbeats: [] };
+        if (response.data.success) {
+          _this.$store.dispatch('user');
+          _this.$store.dispatch('compareList', 0);
+          _this.$store.dispatch('carts', 0);
+          _this.$router.push({
+            name: 'login'
+          });
+          _this.$store.dispatch('wishlists', 0);
+          document.getElementById('token').value = response.data.token;
+          _this.token = response.data.token;
         }
-    }
-    // overwrite the storage with the provided heartbeats
-    async overwrite(heartbeatsObject) {
-        var _a;
-        const canUseIndexedDB = await this._canUseIndexedDBPromise;
-        if (!canUseIndexedDB) {
-            return;
+      });
+    },
+    alreadyLiked: function alreadyLiked(obj) {
+      for (var i = 0; i < obj.length; i++) {
+        if (obj[i]['user_id'] == this.authUser.id) {
+          return true;
         }
-        else {
-            const existingHeartbeatsObject = await this.read();
-            return writeHeartbeatsToIndexedDB(this.app, {
-                lastSentHeartbeatDate: (_a = heartbeatsObject.lastSentHeartbeatDate) !== null && _a !== void 0 ? _a : existingHeartbeatsObject.lastSentHeartbeatDate,
-                heartbeats: heartbeatsObject.heartbeats
-            });
+      }
+      return false;
+    },
+    likeReply: function likeReply(id, comment_id) {
+      var _this2 = this;
+      var data = {
+        id: id,
+        comment_id: comment_id
+      };
+      this.blog_like_loading = true;
+      var url = this.getUrl('blog/like-reply');
+      axios.post(url, data).then(function (response) {
+        _this2.blog_like_loading = false;
+        if (response.data.error) {
+          toastr.error(response.data.error, _this2.lang.success);
+        } else {
+          _this2.comment.comment_replies = response.data.comment.comment_replies;
+          if (response.data.success) {
+            toastr.success(response.data.success, _this2.lang.Success + ' !!');
+          }
         }
-    }
-    // add heartbeats
-    async add(heartbeatsObject) {
-        var _a;
-        const canUseIndexedDB = await this._canUseIndexedDBPromise;
-        if (!canUseIndexedDB) {
-            return;
+      })["catch"](function (error) {
+        _this2.blog_like_loading = false;
+      });
+    },
+    unLike: function unLike(id, comment_id) {
+      var _this3 = this;
+      var data = {
+        id: id,
+        comment_id: comment_id
+      };
+      this.blog_like_loading = true;
+      var url = this.getUrl('blog/unlike-reply');
+      axios.post(url, data).then(function (response) {
+        _this3.blog_like_loading = false;
+        if (response.data.error) {
+          toastr.error(response.data.error, _this3.lang.Error + ' !!');
+        } else {
+          _this3.comment.comment_replies = response.data.comment.comment_replies;
+          if (response.data.success) {
+            toastr.success(response.data.success, _this3.lang.Success + ' !!');
+          }
         }
-        else {
-            const existingHeartbeatsObject = await this.read();
-            return writeHeartbeatsToIndexedDB(this.app, {
-                lastSentHeartbeatDate: (_a = heartbeatsObject.lastSentHeartbeatDate) !== null && _a !== void 0 ? _a : existingHeartbeatsObject.lastSentHeartbeatDate,
-                heartbeats: [
-                    ...existingHeartbeatsObject.heartbeats,
-                    ...heartbeatsObject.heartbeats
-                ]
-            });
+      })["catch"](function (error) {
+        _this3.blog_like_loading = false;
+      });
+    },
+    resetForm: function resetForm() {
+      this.product_form.rating = 0;
+      this.product_form.title = '';
+      this.product_form.comment = '';
+      this.product_form.image = '';
+      this.product_form.product_id = '';
+      this.product_form.review_id = '';
+      this.product_form.reply = '';
+      this.product_form.image_text = 'Choose File';
+      for (var key in this.payment_form) {
+        this.payment_form[key] = 0;
+      }
+      this.payment_form.coupon_code = '';
+      this.payment_form.quantity = [];
+      this.payment_form.coupon = [];
+    },
+    priceFormat: function priceFormat(amount, only_amount) {
+      // amount = amount/this.defaultCurrency.exchange_rate;
+      amount = amount * this.activeCurrency.exchange_rate;
+      if (only_amount) {
+        return amount;
+      }
+      var no_of_decimals,
+        decimal_separator,
+        thousands_separator,
+        currency_symbol_format,
+        fixed_amount,
+        formatted_amount = '';
+      no_of_decimals = this.settings.no_of_decimals;
+      decimal_separator = this.settings.decimal_separator ? this.settings.decimal_separator : '.';
+      thousands_separator = decimal_separator == ',' ? '.' : ',';
+      currency_symbol_format = this.settings.currency_symbol_format ? this.settings.currency_symbol_format : 'amount_symbol';
+      if (currency_symbol_format == 'amount_symbol') formatted_amount = this.$options.filters.currency(amount, this.activeCurrency.symbol, no_of_decimals, {
+        symbolOnLeft: false,
+        thousandsSeparator: thousands_separator,
+        decimalSeparator: decimal_separator
+      });
+      if (currency_symbol_format == 'symbol_amount') formatted_amount = this.$options.filters.currency(amount, this.activeCurrency.symbol, no_of_decimals, {
+        thousandsSeparator: thousands_separator,
+        decimalSeparator: decimal_separator
+      });
+      if (currency_symbol_format == 'amount__symbol') formatted_amount = this.$options.filters.currency(amount, this.activeCurrency.symbol, no_of_decimals, {
+        symbolOnLeft: false,
+        thousandsSeparator: thousands_separator,
+        decimalSeparator: decimal_separator,
+        spaceBetweenAmountAndSymbol: true
+      });
+      if (currency_symbol_format == 'symbol__amount') formatted_amount = this.$options.filters.currency(amount, this.activeCurrency.symbol, no_of_decimals, {
+        thousandsSeparator: thousands_separator,
+        decimalSeparator: decimal_separator,
+        spaceBetweenAmountAndSymbol: true
+      });
+      return formatted_amount;
+    },
+    lengthCounter: function lengthCounter(data) {
+      var length = 0;
+      if (data && data != 'undefined') {
+        if (_typeof(data) == 'object') {
+          length = Object.keys(data).length;
+        } else if (typeof data == 'array') {
+          length = data.length;
         }
-    }
-}
-/**
- * Calculate bytes of a HeartbeatsByUserAgent array after being wrapped
- * in a platform logging header JSON object, stringified, and converted
- * to base 64.
- */
-function countBytes(heartbeatsCache) {
-    // base64 has a restricted set of characters, all of which should be 1 byte.
-    return (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.base64urlEncodeWithoutPadding)(
-    // heartbeatsCache wrapper properties
-    JSON.stringify({ version: 2, heartbeats: heartbeatsCache })).length;
-}
-
-/**
- * @license
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-function registerCoreComponents(variant) {
-    _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.Component('platform-logger', container => new PlatformLoggerServiceImpl(container), "PRIVATE" /* ComponentType.PRIVATE */));
-    _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.Component('heartbeat', container => new HeartbeatServiceImpl(container), "PRIVATE" /* ComponentType.PRIVATE */));
-    // Register `app` package.
-    registerVersion(name$o, version$1, variant);
-    // BUILD_TARGET will be replaced by values like esm5, esm2017, cjs5, etc during the compilation
-    registerVersion(name$o, version$1, 'esm2017');
-    // Register platform SDK identifier (no version).
-    registerVersion('fire-js', '');
-}
-
-/**
- * Firebase App
- *
- * @remarks This package coordinates the communication between the different Firebase components
- * @packageDocumentation
- */
-registerCoreComponents('');
-
-
-//# sourceMappingURL=index.esm2017.js.map
-
-
-/***/ }),
-
-/***/ "./node_modules/@firebase/component/dist/esm/index.esm2017.js":
-/*!********************************************************************!*\
-  !*** ./node_modules/@firebase/component/dist/esm/index.esm2017.js ***!
-  \********************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   Component: () => (/* binding */ Component),
-/* harmony export */   ComponentContainer: () => (/* binding */ ComponentContainer),
-/* harmony export */   Provider: () => (/* binding */ Provider)
-/* harmony export */ });
-/* harmony import */ var _firebase_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @firebase/util */ "./node_modules/@firebase/util/dist/index.esm2017.js");
-
-
-/**
- * Component for service name T, e.g. `auth`, `auth-internal`
- */
-class Component {
-    /**
-     *
-     * @param name The public service name, e.g. app, auth, firestore, database
-     * @param instanceFactory Service factory responsible for creating the public interface
-     * @param type whether the service provided by the component is public or private
-     */
-    constructor(name, instanceFactory, type) {
-        this.name = name;
-        this.instanceFactory = instanceFactory;
-        this.type = type;
-        this.multipleInstances = false;
-        /**
-         * Properties to be added to the service namespace
-         */
-        this.serviceProps = {};
-        this.instantiationMode = "LAZY" /* InstantiationMode.LAZY */;
-        this.onInstanceCreated = null;
-    }
-    setInstantiationMode(mode) {
-        this.instantiationMode = mode;
-        return this;
-    }
-    setMultipleInstances(multipleInstances) {
-        this.multipleInstances = multipleInstances;
-        return this;
-    }
-    setServiceProps(props) {
-        this.serviceProps = props;
-        return this;
-    }
-    setInstanceCreatedCallback(callback) {
-        this.onInstanceCreated = callback;
-        return this;
-    }
-}
-
-/**
- * @license
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-const DEFAULT_ENTRY_NAME = '[DEFAULT]';
-
-/**
- * @license
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * Provider for instance for service name T, e.g. 'auth', 'auth-internal'
- * NameServiceMapping[T] is an alias for the type of the instance
- */
-class Provider {
-    constructor(name, container) {
-        this.name = name;
-        this.container = container;
-        this.component = null;
-        this.instances = new Map();
-        this.instancesDeferred = new Map();
-        this.instancesOptions = new Map();
-        this.onInitCallbacks = new Map();
-    }
-    /**
-     * @param identifier A provider can provide mulitple instances of a service
-     * if this.component.multipleInstances is true.
-     */
-    get(identifier) {
-        // if multipleInstances is not supported, use the default name
-        const normalizedIdentifier = this.normalizeInstanceIdentifier(identifier);
-        if (!this.instancesDeferred.has(normalizedIdentifier)) {
-            const deferred = new _firebase_util__WEBPACK_IMPORTED_MODULE_0__.Deferred();
-            this.instancesDeferred.set(normalizedIdentifier, deferred);
-            if (this.isInitialized(normalizedIdentifier) ||
-                this.shouldAutoInitialize()) {
-                // initialize the service if it can be auto-initialized
-                try {
-                    const instance = this.getOrInitializeService({
-                        instanceIdentifier: normalizedIdentifier
-                    });
-                    if (instance) {
-                        deferred.resolve(instance);
-                    }
-                }
-                catch (e) {
-                    // when the instance factory throws an exception during get(), it should not cause
-                    // a fatal error. We just return the unresolved promise in this case.
-                }
-            }
-        }
-        return this.instancesDeferred.get(normalizedIdentifier).promise;
-    }
-    getImmediate(options) {
-        var _a;
-        // if multipleInstances is not supported, use the default name
-        const normalizedIdentifier = this.normalizeInstanceIdentifier(options === null || options === void 0 ? void 0 : options.identifier);
-        const optional = (_a = options === null || options === void 0 ? void 0 : options.optional) !== null && _a !== void 0 ? _a : false;
-        if (this.isInitialized(normalizedIdentifier) ||
-            this.shouldAutoInitialize()) {
-            try {
-                return this.getOrInitializeService({
-                    instanceIdentifier: normalizedIdentifier
-                });
-            }
-            catch (e) {
-                if (optional) {
-                    return null;
-                }
-                else {
-                    throw e;
-                }
-            }
-        }
-        else {
-            // In case a component is not initialized and should/can not be auto-initialized at the moment, return null if the optional flag is set, or throw
-            if (optional) {
-                return null;
-            }
-            else {
-                throw Error(`Service ${this.name} is not available`);
-            }
-        }
-    }
-    getComponent() {
-        return this.component;
-    }
-    setComponent(component) {
-        if (component.name !== this.name) {
-            throw Error(`Mismatching Component ${component.name} for Provider ${this.name}.`);
-        }
-        if (this.component) {
-            throw Error(`Component for ${this.name} has already been provided`);
-        }
-        this.component = component;
-        // return early without attempting to initialize the component if the component requires explicit initialization (calling `Provider.initialize()`)
-        if (!this.shouldAutoInitialize()) {
-            return;
-        }
-        // if the service is eager, initialize the default instance
-        if (isComponentEager(component)) {
-            try {
-                this.getOrInitializeService({ instanceIdentifier: DEFAULT_ENTRY_NAME });
-            }
-            catch (e) {
-                // when the instance factory for an eager Component throws an exception during the eager
-                // initialization, it should not cause a fatal error.
-                // TODO: Investigate if we need to make it configurable, because some component may want to cause
-                // a fatal error in this case?
-            }
-        }
-        // Create service instances for the pending promises and resolve them
-        // NOTE: if this.multipleInstances is false, only the default instance will be created
-        // and all promises with resolve with it regardless of the identifier.
-        for (const [instanceIdentifier, instanceDeferred] of this.instancesDeferred.entries()) {
-            const normalizedIdentifier = this.normalizeInstanceIdentifier(instanceIdentifier);
-            try {
-                // `getOrInitializeService()` should always return a valid instance since a component is guaranteed. use ! to make typescript happy.
-                const instance = this.getOrInitializeService({
-                    instanceIdentifier: normalizedIdentifier
-                });
-                instanceDeferred.resolve(instance);
-            }
-            catch (e) {
-                // when the instance factory throws an exception, it should not cause
-                // a fatal error. We just leave the promise unresolved.
-            }
-        }
-    }
-    clearInstance(identifier = DEFAULT_ENTRY_NAME) {
-        this.instancesDeferred.delete(identifier);
-        this.instancesOptions.delete(identifier);
-        this.instances.delete(identifier);
-    }
-    // app.delete() will call this method on every provider to delete the services
-    // TODO: should we mark the provider as deleted?
-    async delete() {
-        const services = Array.from(this.instances.values());
-        await Promise.all([
-            ...services
-                .filter(service => 'INTERNAL' in service) // legacy services
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                .map(service => service.INTERNAL.delete()),
-            ...services
-                .filter(service => '_delete' in service) // modularized services
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                .map(service => service._delete())
-        ]);
-    }
-    isComponentSet() {
-        return this.component != null;
-    }
-    isInitialized(identifier = DEFAULT_ENTRY_NAME) {
-        return this.instances.has(identifier);
-    }
-    getOptions(identifier = DEFAULT_ENTRY_NAME) {
-        return this.instancesOptions.get(identifier) || {};
-    }
-    initialize(opts = {}) {
-        const { options = {} } = opts;
-        const normalizedIdentifier = this.normalizeInstanceIdentifier(opts.instanceIdentifier);
-        if (this.isInitialized(normalizedIdentifier)) {
-            throw Error(`${this.name}(${normalizedIdentifier}) has already been initialized`);
-        }
-        if (!this.isComponentSet()) {
-            throw Error(`Component ${this.name} has not been registered yet`);
-        }
-        const instance = this.getOrInitializeService({
-            instanceIdentifier: normalizedIdentifier,
-            options
-        });
-        // resolve any pending promise waiting for the service instance
-        for (const [instanceIdentifier, instanceDeferred] of this.instancesDeferred.entries()) {
-            const normalizedDeferredIdentifier = this.normalizeInstanceIdentifier(instanceIdentifier);
-            if (normalizedIdentifier === normalizedDeferredIdentifier) {
-                instanceDeferred.resolve(instance);
-            }
-        }
-        return instance;
-    }
-    /**
-     *
-     * @param callback - a function that will be invoked  after the provider has been initialized by calling provider.initialize().
-     * The function is invoked SYNCHRONOUSLY, so it should not execute any longrunning tasks in order to not block the program.
-     *
-     * @param identifier An optional instance identifier
-     * @returns a function to unregister the callback
-     */
-    onInit(callback, identifier) {
-        var _a;
-        const normalizedIdentifier = this.normalizeInstanceIdentifier(identifier);
-        const existingCallbacks = (_a = this.onInitCallbacks.get(normalizedIdentifier)) !== null && _a !== void 0 ? _a : new Set();
-        existingCallbacks.add(callback);
-        this.onInitCallbacks.set(normalizedIdentifier, existingCallbacks);
-        const existingInstance = this.instances.get(normalizedIdentifier);
-        if (existingInstance) {
-            callback(existingInstance, normalizedIdentifier);
-        }
-        return () => {
-            existingCallbacks.delete(callback);
+      }
+      return length;
+    },
+    productFetch: function productFetch(slug) {
+      if (!this.productDetails) {
+        this.$store.commit('setShimmer', '1');
+        var set_params = {
+          slug: slug,
+          referral_code: this.$route.query.referral_code
         };
-    }
-    /**
-     * Invoke onInit callbacks synchronously
-     * @param instance the service instance`
-     */
-    invokeOnInitCallbacks(instance, identifier) {
-        const callbacks = this.onInitCallbacks.get(identifier);
-        if (!callbacks) {
-            return;
+        this.$store.dispatch('productDetails', set_params);
+      }
+      this.$store.commit('setActiveModal', slug);
+      $("#product").modal("show");
+      return this.productDetails;
+    },
+    cartBtn: function cartBtn(product, index) {
+      if (product.has_variant) {
+        return this.productFetch(product.slug);
+      } else {
+        this.product_form.quantity = product.minimum_order_quantity;
+        this.product_form.id = product.id;
+        return this.addToCart(product.minimum_order_quantity, index);
+      }
+    },
+    addToCart: function addToCart(min_qty, index) {
+      var _this4 = this;
+      var carts = this.$store.getters.getCarts;
+      if (carts && carts.length > 0) {
+        this.product_form.trx_id = carts[0].trx_id;
+      }
+      var url = this.getUrl('user/addToCart');
+      axios.post(url, this.product_form).then(function (response) {
+        if (response.data.error) {
+          toastr.error(response.data.error, _this4.lang.Error + ' !!');
+        } else {
+          toastr.success(response.data.success, _this4.lang.Success + ' !!');
+          var _carts = response.data.carts;
+          _this4.$store.dispatch('carts', _carts);
+          _this4.resetForm();
+          _this4.product_form.quantity = min_qty;
+          if (index) {
+            _this4.products[index].current_stock -= min_qty;
+          }
+          _this4.added_to_cart = true;
+          setTimeout(function () {
+            _this4.added_to_cart = false;
+          }, 2000);
         }
-        for (const callback of callbacks) {
-            try {
-                callback(instance, identifier);
-            }
-            catch (_a) {
-                // ignore errors in the onInit callback
-            }
-        }
-    }
-    getOrInitializeService({ instanceIdentifier, options = {} }) {
-        let instance = this.instances.get(instanceIdentifier);
-        if (!instance && this.component) {
-            instance = this.component.instanceFactory(this.container, {
-                instanceIdentifier: normalizeIdentifierForFactory(instanceIdentifier),
-                options
-            });
-            this.instances.set(instanceIdentifier, instance);
-            this.instancesOptions.set(instanceIdentifier, options);
-            /**
-             * Invoke onInit listeners.
-             * Note this.component.onInstanceCreated is different, which is used by the component creator,
-             * while onInit listeners are registered by consumers of the provider.
-             */
-            this.invokeOnInitCallbacks(instance, instanceIdentifier);
-            /**
-             * Order is important
-             * onInstanceCreated() should be called after this.instances.set(instanceIdentifier, instance); which
-             * makes `isInitialized()` return true.
-             */
-            if (this.component.onInstanceCreated) {
-                try {
-                    this.component.onInstanceCreated(this.container, instanceIdentifier, instance);
-                }
-                catch (_a) {
-                    // ignore errors in the onInstanceCreatedCallback
-                }
-            }
-        }
-        return instance || null;
-    }
-    normalizeInstanceIdentifier(identifier = DEFAULT_ENTRY_NAME) {
-        if (this.component) {
-            return this.component.multipleInstances ? identifier : DEFAULT_ENTRY_NAME;
-        }
-        else {
-            return identifier; // assume multiple instances are supported before the component is provided.
-        }
-    }
-    shouldAutoInitialize() {
-        return (!!this.component &&
-            this.component.instantiationMode !== "EXPLICIT" /* InstantiationMode.EXPLICIT */);
-    }
-}
-// undefined should be passed to the service factory for the default instance
-function normalizeIdentifierForFactory(identifier) {
-    return identifier === DEFAULT_ENTRY_NAME ? undefined : identifier;
-}
-function isComponentEager(component) {
-    return component.instantiationMode === "EAGER" /* InstantiationMode.EAGER */;
-}
-
-/**
- * @license
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * ComponentContainer that provides Providers for service name T, e.g. `auth`, `auth-internal`
- */
-class ComponentContainer {
-    constructor(name) {
-        this.name = name;
-        this.providers = new Map();
-    }
-    /**
-     *
-     * @param component Component being added
-     * @param overwrite When a component with the same name has already been registered,
-     * if overwrite is true: overwrite the existing component with the new component and create a new
-     * provider with the new component. It can be useful in tests where you want to use different mocks
-     * for different tests.
-     * if overwrite is false: throw an exception
-     */
-    addComponent(component) {
-        const provider = this.getProvider(component.name);
-        if (provider.isComponentSet()) {
-            throw new Error(`Component ${component.name} has already been registered with ${this.name}`);
-        }
-        provider.setComponent(component);
-    }
-    addOrOverwriteComponent(component) {
-        const provider = this.getProvider(component.name);
-        if (provider.isComponentSet()) {
-            // delete the existing provider from the container, so we can register the new component
-            this.providers.delete(component.name);
-        }
-        this.addComponent(component);
-    }
-    /**
-     * getProvider provides a type safe interface where it can only be called with a field name
-     * present in NameServiceMapping interface.
-     *
-     * Firebase SDKs providing services should extend NameServiceMapping interface to register
-     * themselves.
-     */
-    getProvider(name) {
-        if (this.providers.has(name)) {
-            return this.providers.get(name);
-        }
-        // create a Provider for a service that hasn't registered with Firebase
-        const provider = new Provider(name, this);
-        this.providers.set(name, provider);
-        return provider;
-    }
-    getProviders() {
-        return Array.from(this.providers.values());
-    }
-}
-
-
-//# sourceMappingURL=index.esm2017.js.map
-
-
-/***/ }),
-
-/***/ "./node_modules/@firebase/logger/dist/esm/index.esm2017.js":
-/*!*****************************************************************!*\
-  !*** ./node_modules/@firebase/logger/dist/esm/index.esm2017.js ***!
-  \*****************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   LogLevel: () => (/* binding */ LogLevel),
-/* harmony export */   Logger: () => (/* binding */ Logger),
-/* harmony export */   setLogLevel: () => (/* binding */ setLogLevel),
-/* harmony export */   setUserLogHandler: () => (/* binding */ setUserLogHandler)
-/* harmony export */ });
-/**
- * @license
- * Copyright 2017 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * A container for all of the Logger instances
- */
-const instances = [];
-/**
- * The JS SDK supports 5 log levels and also allows a user the ability to
- * silence the logs altogether.
- *
- * The order is a follows:
- * DEBUG < VERBOSE < INFO < WARN < ERROR
- *
- * All of the log types above the current log level will be captured (i.e. if
- * you set the log level to `INFO`, errors will still be logged, but `DEBUG` and
- * `VERBOSE` logs will not)
- */
-var LogLevel;
-(function (LogLevel) {
-    LogLevel[LogLevel["DEBUG"] = 0] = "DEBUG";
-    LogLevel[LogLevel["VERBOSE"] = 1] = "VERBOSE";
-    LogLevel[LogLevel["INFO"] = 2] = "INFO";
-    LogLevel[LogLevel["WARN"] = 3] = "WARN";
-    LogLevel[LogLevel["ERROR"] = 4] = "ERROR";
-    LogLevel[LogLevel["SILENT"] = 5] = "SILENT";
-})(LogLevel || (LogLevel = {}));
-const levelStringToEnum = {
-    'debug': LogLevel.DEBUG,
-    'verbose': LogLevel.VERBOSE,
-    'info': LogLevel.INFO,
-    'warn': LogLevel.WARN,
-    'error': LogLevel.ERROR,
-    'silent': LogLevel.SILENT
-};
-/**
- * The default log level
- */
-const defaultLogLevel = LogLevel.INFO;
-/**
- * By default, `console.debug` is not displayed in the developer console (in
- * chrome). To avoid forcing users to have to opt-in to these logs twice
- * (i.e. once for firebase, and once in the console), we are sending `DEBUG`
- * logs to the `console.log` function.
- */
-const ConsoleMethod = {
-    [LogLevel.DEBUG]: 'log',
-    [LogLevel.VERBOSE]: 'log',
-    [LogLevel.INFO]: 'info',
-    [LogLevel.WARN]: 'warn',
-    [LogLevel.ERROR]: 'error'
-};
-/**
- * The default log handler will forward DEBUG, VERBOSE, INFO, WARN, and ERROR
- * messages on to their corresponding console counterparts (if the log method
- * is supported by the current log level)
- */
-const defaultLogHandler = (instance, logType, ...args) => {
-    if (logType < instance.logLevel) {
-        return;
-    }
-    const now = new Date().toISOString();
-    const method = ConsoleMethod[logType];
-    if (method) {
-        console[method](`[${now}]  ${instance.name}:`, ...args);
-    }
-    else {
-        throw new Error(`Attempted to log a message with an invalid logType (value: ${logType})`);
-    }
-};
-class Logger {
-    /**
-     * Gives you an instance of a Logger to capture messages according to
-     * Firebase's logging scheme.
-     *
-     * @param name The name that the logs will be associated with
-     */
-    constructor(name) {
-        this.name = name;
-        /**
-         * The log level of the given Logger instance.
-         */
-        this._logLevel = defaultLogLevel;
-        /**
-         * The main (internal) log handler for the Logger instance.
-         * Can be set to a new function in internal package code but not by user.
-         */
-        this._logHandler = defaultLogHandler;
-        /**
-         * The optional, additional, user-defined log handler for the Logger instance.
-         */
-        this._userLogHandler = null;
-        /**
-         * Capture the current instance for later use
-         */
-        instances.push(this);
-    }
-    get logLevel() {
-        return this._logLevel;
-    }
-    set logLevel(val) {
-        if (!(val in LogLevel)) {
-            throw new TypeError(`Invalid value "${val}" assigned to \`logLevel\``);
-        }
-        this._logLevel = val;
-    }
-    // Workaround for setter/getter having to be the same type.
-    setLogLevel(val) {
-        this._logLevel = typeof val === 'string' ? levelStringToEnum[val] : val;
-    }
-    get logHandler() {
-        return this._logHandler;
-    }
-    set logHandler(val) {
-        if (typeof val !== 'function') {
-            throw new TypeError('Value assigned to `logHandler` must be a function');
-        }
-        this._logHandler = val;
-    }
-    get userLogHandler() {
-        return this._userLogHandler;
-    }
-    set userLogHandler(val) {
-        this._userLogHandler = val;
-    }
-    /**
-     * The functions below are all based on the `console` interface
-     */
-    debug(...args) {
-        this._userLogHandler && this._userLogHandler(this, LogLevel.DEBUG, ...args);
-        this._logHandler(this, LogLevel.DEBUG, ...args);
-    }
-    log(...args) {
-        this._userLogHandler &&
-            this._userLogHandler(this, LogLevel.VERBOSE, ...args);
-        this._logHandler(this, LogLevel.VERBOSE, ...args);
-    }
-    info(...args) {
-        this._userLogHandler && this._userLogHandler(this, LogLevel.INFO, ...args);
-        this._logHandler(this, LogLevel.INFO, ...args);
-    }
-    warn(...args) {
-        this._userLogHandler && this._userLogHandler(this, LogLevel.WARN, ...args);
-        this._logHandler(this, LogLevel.WARN, ...args);
-    }
-    error(...args) {
-        this._userLogHandler && this._userLogHandler(this, LogLevel.ERROR, ...args);
-        this._logHandler(this, LogLevel.ERROR, ...args);
-    }
-}
-function setLogLevel(level) {
-    instances.forEach(inst => {
-        inst.setLogLevel(level);
-    });
-}
-function setUserLogHandler(logCallback, options) {
-    for (const instance of instances) {
-        let customLogLevel = null;
-        if (options && options.level) {
-            customLogLevel = levelStringToEnum[options.level];
-        }
-        if (logCallback === null) {
-            instance.userLogHandler = null;
-        }
-        else {
-            instance.userLogHandler = (instance, level, ...args) => {
-                const message = args
-                    .map(arg => {
-                    if (arg == null) {
-                        return null;
-                    }
-                    else if (typeof arg === 'string') {
-                        return arg;
-                    }
-                    else if (typeof arg === 'number' || typeof arg === 'boolean') {
-                        return arg.toString();
-                    }
-                    else if (arg instanceof Error) {
-                        return arg.message;
-                    }
-                    else {
-                        try {
-                            return JSON.stringify(arg);
-                        }
-                        catch (ignored) {
-                            return null;
-                        }
-                    }
-                })
-                    .filter(arg => arg)
-                    .join(' ');
-                if (level >= (customLogLevel !== null && customLogLevel !== void 0 ? customLogLevel : instance.logLevel)) {
-                    logCallback({
-                        level: LogLevel[level].toLowerCase(),
-                        message,
-                        args,
-                        type: instance.name
-                    });
-                }
-            };
-        }
-    }
-}
-
-
-//# sourceMappingURL=index.esm2017.js.map
-
-
-/***/ }),
-
-/***/ "./node_modules/firebase/app/dist/esm/index.esm.js":
-/*!*********************************************************!*\
-  !*** ./node_modules/firebase/app/dist/esm/index.esm.js ***!
-  \*********************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   FirebaseError: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.FirebaseError),
-/* harmony export */   SDK_VERSION: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.SDK_VERSION),
-/* harmony export */   _DEFAULT_ENTRY_NAME: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._DEFAULT_ENTRY_NAME),
-/* harmony export */   _addComponent: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._addComponent),
-/* harmony export */   _addOrOverwriteComponent: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._addOrOverwriteComponent),
-/* harmony export */   _apps: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._apps),
-/* harmony export */   _clearComponents: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._clearComponents),
-/* harmony export */   _components: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._components),
-/* harmony export */   _getProvider: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._getProvider),
-/* harmony export */   _registerComponent: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._registerComponent),
-/* harmony export */   _removeServiceInstance: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._removeServiceInstance),
-/* harmony export */   deleteApp: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.deleteApp),
-/* harmony export */   getApp: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.getApp),
-/* harmony export */   getApps: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.getApps),
-/* harmony export */   initializeApp: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.initializeApp),
-/* harmony export */   onLog: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.onLog),
-/* harmony export */   registerVersion: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.registerVersion),
-/* harmony export */   setLogLevel: () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.setLogLevel)
-/* harmony export */ });
-/* harmony import */ var _firebase_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @firebase/app */ "./node_modules/@firebase/app/dist/esm/index.esm2017.js");
-
-
-
-var name = "firebase";
-var version = "9.23.0";
-
-/**
- * @license
- * Copyright 2020 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-(0,_firebase_app__WEBPACK_IMPORTED_MODULE_0__.registerVersion)(name, version, 'app');
-//# sourceMappingURL=index.esm.js.map
-
-
-/***/ }),
-
-/***/ "./node_modules/idb/build/index.js":
-/*!*****************************************!*\
-  !*** ./node_modules/idb/build/index.js ***!
-  \*****************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   deleteDB: () => (/* binding */ deleteDB),
-/* harmony export */   openDB: () => (/* binding */ openDB),
-/* harmony export */   unwrap: () => (/* reexport safe */ _wrap_idb_value_js__WEBPACK_IMPORTED_MODULE_0__.u),
-/* harmony export */   wrap: () => (/* reexport safe */ _wrap_idb_value_js__WEBPACK_IMPORTED_MODULE_0__.w)
-/* harmony export */ });
-/* harmony import */ var _wrap_idb_value_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./wrap-idb-value.js */ "./node_modules/idb/build/wrap-idb-value.js");
-
-
-
-/**
- * Open a database.
- *
- * @param name Name of the database.
- * @param version Schema version.
- * @param callbacks Additional callbacks.
- */
-function openDB(name, version, { blocked, upgrade, blocking, terminated } = {}) {
-    const request = indexedDB.open(name, version);
-    const openPromise = (0,_wrap_idb_value_js__WEBPACK_IMPORTED_MODULE_0__.w)(request);
-    if (upgrade) {
-        request.addEventListener('upgradeneeded', (event) => {
-            upgrade((0,_wrap_idb_value_js__WEBPACK_IMPORTED_MODULE_0__.w)(request.result), event.oldVersion, event.newVersion, (0,_wrap_idb_value_js__WEBPACK_IMPORTED_MODULE_0__.w)(request.transaction), event);
+      });
+    },
+    routerNavigator: function routerNavigator(name, params) {
+      if (params) {
+        this.$router.push({
+          name: name,
+          params: {
+            slug: params
+          }
         });
-    }
-    if (blocked) {
-        request.addEventListener('blocked', (event) => blocked(
-        // Casting due to https://github.com/microsoft/TypeScript-DOM-lib-generator/pull/1405
-        event.oldVersion, event.newVersion, event));
-    }
-    openPromise
-        .then((db) => {
-        if (terminated)
-            db.addEventListener('close', () => terminated());
-        if (blocking) {
-            db.addEventListener('versionchange', (event) => blocking(event.oldVersion, event.newVersion, event));
+      } else {
+        this.$router.push({
+          name: name
+        });
+      }
+    },
+    round: function round(num) {
+      var decimalPlaces = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+      var p = Math.pow(10, decimalPlaces);
+      var n = num * p * (1 + Number.EPSILON);
+      return Math.round(n) / p;
+    },
+    checkEl: function checkEl(event) {
+      var element = event.target;
+      var moved;
+      var downListener = function downListener() {
+        moved = false;
+      };
+      element.addEventListener('mousedown', downListener);
+      var moveListener = function moveListener() {
+        moved = true;
+      };
+      element.addEventListener('mousemove', moveListener);
+      var upListener = function upListener() {
+        if (moved) {
+          console.log('moved');
+        } else {
+          console.log('not moved');
         }
-    })
-        .catch(() => { });
-    return openPromise;
-}
-/**
- * Delete a database.
- *
- * @param name Name of the database.
- */
-function deleteDB(name, { blocked } = {}) {
-    const request = indexedDB.deleteDatabase(name);
-    if (blocked) {
-        request.addEventListener('blocked', (event) => blocked(
-        // Casting due to https://github.com/microsoft/TypeScript-DOM-lib-generator/pull/1405
-        event.oldVersion, event));
-    }
-    return (0,_wrap_idb_value_js__WEBPACK_IMPORTED_MODULE_0__.w)(request).then(() => undefined);
-}
+      };
+      element.addEventListener('mouseup', upListener);
 
-const readMethods = ['get', 'getKey', 'getAll', 'getAllKeys', 'count'];
-const writeMethods = ['put', 'add', 'delete', 'clear'];
-const cachedMethods = new Map();
-function getMethod(target, prop) {
-    if (!(target instanceof IDBDatabase &&
-        !(prop in target) &&
-        typeof prop === 'string')) {
-        return;
+      // release memory
+      element.removeEventListener('mousedown', downListener);
+      element.removeEventListener('mousemove', moveListener);
+      element.removeEventListener('mouseup', upListener);
+      event.preventDefault();
+    },
+    handleCheckout: function handleCheckout() {
+      if (!this.authUser && this.settings.disable_guest) {
+        toastr.error(this.lang.login_first, this.lang.Error + ' !!');
+        this.$store.commit('setLoginRedirection', this.$route.name);
+        if (this.$route.name != 'login') {
+          return this.$router.push({
+            name: 'login'
+          });
+        }
+        return false;
+      }
+      if (this.$route.name != 'checkout') {
+        return this.$router.push({
+          name: 'checkout'
+        });
+      }
+      return true;
     }
-    if (cachedMethods.get(prop))
-        return cachedMethods.get(prop);
-    const targetFuncName = prop.replace(/FromIndex$/, '');
-    const useIndex = prop !== targetFuncName;
-    const isWrite = writeMethods.includes(targetFuncName);
-    if (
-    // Bail if the target doesn't exist on the target. Eg, getAll isn't in Edge.
-    !(targetFuncName in (useIndex ? IDBIndex : IDBObjectStore).prototype) ||
-        !(isWrite || readMethods.includes(targetFuncName))) {
-        return;
-    }
-    const method = async function (storeName, ...args) {
-        // isWrite ? 'readwrite' : undefined gzipps better, but fails in Edge :(
-        const tx = this.transaction(storeName, isWrite ? 'readwrite' : 'readonly');
-        let target = tx.store;
-        if (useIndex)
-            target = target.index(args.shift());
-        // Must reject if op rejects.
-        // If it's a write operation, must reject if tx.done rejects.
-        // Must reject with op rejection first.
-        // Must resolve with op value.
-        // Must handle both promises (no unhandled rejections)
-        return (await Promise.all([
-            target[targetFuncName](...args),
-            isWrite && tx.done,
-        ]))[0];
-    };
-    cachedMethods.set(prop, method);
-    return method;
-}
-(0,_wrap_idb_value_js__WEBPACK_IMPORTED_MODULE_0__.r)((oldTraps) => ({
-    ...oldTraps,
-    get: (target, prop, receiver) => getMethod(target, prop) || oldTraps.get(target, prop, receiver),
-    has: (target, prop) => !!getMethod(target, prop) || oldTraps.has(target, prop),
+  }
 }));
 
+/***/ }),
 
+/***/ "./resources/js/objectToFormData.js":
+/*!******************************************!*\
+  !*** ./resources/js/objectToFormData.js ***!
+  \******************************************/
+/***/ (function(module, exports, __webpack_require__) {
 
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+(function (global, factory) {
+  ( false ? 0 : _typeof(exports)) === 'object' && "object" !== 'undefined' ? module.exports = factory() :  true ? !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+		(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
+		__WEBPACK_AMD_DEFINE_FACTORY__),
+		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)) : 0;
+})(this, function () {
+  'use strict';
+
+  function isUndefined(value) {
+    return value === undefined;
+  }
+  function isObject(value) {
+    return value === Object(value);
+  }
+  function isArray(value) {
+    return Array.isArray(value);
+  }
+  function isFile(value) {
+    return value instanceof File;
+  }
+  function isDate(value) {
+    return value instanceof Date;
+  }
+  function objectToFormData(obj, fd, pre) {
+    fd = fd || new FormData();
+    if (isUndefined(obj)) {
+      return fd;
+    } else if (isArray(obj)) {
+      obj.forEach(function (value) {
+        var key = pre + '[]';
+        objectToFormData(value, fd, key);
+      });
+    } else if (isObject(obj) && !isFile(obj) && !isDate(obj)) {
+      Object.keys(obj).forEach(function (prop) {
+        var value = obj[prop];
+        if (isArray(value)) {
+          while (prop.length > 2 && prop.lastIndexOf('[]') === prop.length - 2) {
+            prop = prop.substring(0, prop.length - 2);
+          }
+        }
+        var key = pre ? pre + '[' + prop + ']' : prop;
+        objectToFormData(value, fd, key);
+      });
+    } else {
+      fd.append(pre, obj);
+    }
+    return fd;
+  }
+  return objectToFormData;
+});
 
 /***/ }),
 
-/***/ "./node_modules/idb/build/wrap-idb-value.js":
-/*!**************************************************!*\
-  !*** ./node_modules/idb/build/wrap-idb-value.js ***!
-  \**************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+/***/ "./resources/js/routes/frontend.js":
+/*!*****************************************!*\
+  !*** ./resources/js/routes/frontend.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   a: () => (/* binding */ reverseTransformCache),
-/* harmony export */   i: () => (/* binding */ instanceOfAny),
-/* harmony export */   r: () => (/* binding */ replaceTraps),
-/* harmony export */   u: () => (/* binding */ unwrap),
-/* harmony export */   w: () => (/* binding */ wrap)
+/* harmony export */   routes: () => (/* binding */ routes)
 /* harmony export */ });
-const instanceOfAny = (object, constructors) => constructors.some((c) => object instanceof c);
-
-let idbProxyableTypes;
-let cursorAdvanceMethods;
-// This is a function to prevent it throwing up in node environments.
-function getIdbProxyableTypes() {
-    return (idbProxyableTypes ||
-        (idbProxyableTypes = [
-            IDBDatabase,
-            IDBObjectStore,
-            IDBIndex,
-            IDBCursor,
-            IDBTransaction,
-        ]));
-}
-// This is a function to prevent it throwing up in node environments.
-function getCursorAdvanceMethods() {
-    return (cursorAdvanceMethods ||
-        (cursorAdvanceMethods = [
-            IDBCursor.prototype.advance,
-            IDBCursor.prototype.continue,
-            IDBCursor.prototype.continuePrimaryKey,
-        ]));
-}
-const cursorRequestMap = new WeakMap();
-const transactionDoneMap = new WeakMap();
-const transactionStoreNamesMap = new WeakMap();
-const transformCache = new WeakMap();
-const reverseTransformCache = new WeakMap();
-function promisifyRequest(request) {
-    const promise = new Promise((resolve, reject) => {
-        const unlisten = () => {
-            request.removeEventListener('success', success);
-            request.removeEventListener('error', error);
-        };
-        const success = () => {
-            resolve(wrap(request.result));
-            unlisten();
-        };
-        const error = () => {
-            reject(request.error);
-            unlisten();
-        };
-        request.addEventListener('success', success);
-        request.addEventListener('error', error);
-    });
-    promise
-        .then((value) => {
-        // Since cursoring reuses the IDBRequest (*sigh*), we cache it for later retrieval
-        // (see wrapFunction).
-        if (value instanceof IDBCursor) {
-            cursorRequestMap.set(value, request);
-        }
-        // Catching to avoid "Uncaught Promise exceptions"
-    })
-        .catch(() => { });
-    // This mapping exists in reverseTransformCache but doesn't doesn't exist in transformCache. This
-    // is because we create many promises from a single IDBRequest.
-    reverseTransformCache.set(promise, request);
-    return promise;
-}
-function cacheDonePromiseForTransaction(tx) {
-    // Early bail if we've already created a done promise for this transaction.
-    if (transactionDoneMap.has(tx))
-        return;
-    const done = new Promise((resolve, reject) => {
-        const unlisten = () => {
-            tx.removeEventListener('complete', complete);
-            tx.removeEventListener('error', error);
-            tx.removeEventListener('abort', error);
-        };
-        const complete = () => {
-            resolve();
-            unlisten();
-        };
-        const error = () => {
-            reject(tx.error || new DOMException('AbortError', 'AbortError'));
-            unlisten();
-        };
-        tx.addEventListener('complete', complete);
-        tx.addEventListener('error', error);
-        tx.addEventListener('abort', error);
-    });
-    // Cache it for later retrieval.
-    transactionDoneMap.set(tx, done);
-}
-let idbProxyTraps = {
-    get(target, prop, receiver) {
-        if (target instanceof IDBTransaction) {
-            // Special handling for transaction.done.
-            if (prop === 'done')
-                return transactionDoneMap.get(target);
-            // Polyfill for objectStoreNames because of Edge.
-            if (prop === 'objectStoreNames') {
-                return target.objectStoreNames || transactionStoreNamesMap.get(target);
-            }
-            // Make tx.store return the only store in the transaction, or undefined if there are many.
-            if (prop === 'store') {
-                return receiver.objectStoreNames[1]
-                    ? undefined
-                    : receiver.objectStore(receiver.objectStoreNames[0]);
-            }
-        }
-        // Else transform whatever we get back.
-        return wrap(target[prop]);
-    },
-    set(target, prop, value) {
-        target[prop] = value;
-        return true;
-    },
-    has(target, prop) {
-        if (target instanceof IDBTransaction &&
-            (prop === 'done' || prop === 'store')) {
-            return true;
-        }
-        return prop in target;
-    },
+var home = function home() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_home_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/home */ "./resources/js/components/frontend/pages/home.vue"));
 };
-function replaceTraps(callback) {
-    idbProxyTraps = callback(idbProxyTraps);
-}
-function wrapFunction(func) {
-    // Due to expected object equality (which is enforced by the caching in `wrap`), we
-    // only create one new func per func.
-    // Edge doesn't support objectStoreNames (booo), so we polyfill it here.
-    if (func === IDBDatabase.prototype.transaction &&
-        !('objectStoreNames' in IDBTransaction.prototype)) {
-        return function (storeNames, ...args) {
-            const tx = func.call(unwrap(this), storeNames, ...args);
-            transactionStoreNamesMap.set(tx, storeNames.sort ? storeNames.sort() : [storeNames]);
-            return wrap(tx);
-        };
+var about = function about() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_about_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/about */ "./resources/js/components/frontend/pages/about.vue"));
+};
+var allBlogs = function allBlogs() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_blogs_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/blogs */ "./resources/js/components/frontend/pages/blogs.vue"));
+};
+var blogDetails = function blogDetails() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_blog_details_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/blog_details */ "./resources/js/components/frontend/pages/blog_details.vue"));
+};
+var brands = function brands() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_brands_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/brands */ "./resources/js/components/frontend/pages/brands.vue"));
+};
+var sellers = function sellers() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_all-seller_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/all-seller */ "./resources/js/components/frontend/pages/all-seller.vue"));
+};
+var campaignDetails = function campaignDetails() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_campaign_details_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/campaign_details */ "./resources/js/components/frontend/pages/campaign_details.vue"));
+};
+var allCampaign = function allCampaign() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_all_campaign_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/all_campaign */ "./resources/js/components/frontend/pages/all_campaign.vue"));
+};
+var allCategory = function allCategory() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_category_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/category */ "./resources/js/components/frontend/pages/category.vue"));
+};
+var contact = function contact() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_contact_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/contact */ "./resources/js/components/frontend/pages/contact.vue"));
+};
+var dailyDeals = function dailyDeals() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_daily-deals_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/daily-deals */ "./resources/js/components/frontend/pages/daily-deals.vue"));
+};
+var giftIdea = function giftIdea() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_gift-idea_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/gift-idea */ "./resources/js/components/frontend/pages/gift-idea.vue"));
+};
+var businessIdea = function businessIdea() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_business-idea_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/business-idea.vue */ "./resources/js/components/frontend/pages/business-idea.vue"));
+};
+var productDetails = function productDetails() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_product-details_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/product-details */ "./resources/js/components/frontend/pages/product-details.vue"));
+};
+var trackOrder = function trackOrder() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_track-order_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/track-order */ "./resources/js/components/frontend/pages/track-order.vue"));
+};
+var afterTrackOrder = function afterTrackOrder() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_after-track-order_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/after-track-order */ "./resources/js/components/frontend/pages/after-track-order.vue"));
+};
+var checkout = function checkout() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_checkout_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/checkout */ "./resources/js/components/frontend/pages/checkout.vue"));
+};
+var payment = function payment() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_payment_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/payment */ "./resources/js/components/frontend/pages/payment.vue"));
+};
+var orderConfirmation = function orderConfirmation() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_order-confirmation_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/order-confirmation */ "./resources/js/components/frontend/pages/order-confirmation.vue"));
+};
+var cart = function cart() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_cart_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/cart */ "./resources/js/components/frontend/pages/cart.vue"));
+};
+var login = function login() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_login_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/login */ "./resources/js/components/frontend/pages/login.vue"));
+};
+var register = function register() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_register_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/register */ "./resources/js/components/frontend/pages/register.vue"));
+};
+var seller_register = function seller_register() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_seller_register_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/seller_register */ "./resources/js/components/frontend/pages/seller_register.vue"));
+};
+var resetPassword = function resetPassword() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_forgot-password_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/forgot-password */ "./resources/js/components/frontend/pages/forgot-password.vue"));
+};
+var wishlist = function wishlist() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_user_wishlist_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/user/wishlist */ "./resources/js/components/frontend/pages/user/wishlist.vue"));
+};
+var filterProducts = function filterProducts() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_filter_sidebar_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/filter_sidebar */ "./resources/js/components/frontend/pages/filter_sidebar.vue"));
+};
+var flashSale = function flashSale() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_flash-sale_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/flash-sale */ "./resources/js/components/frontend/pages/flash-sale.vue"));
+};
+var compareList = function compareList() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_compare-list_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/compare-list */ "./resources/js/components/frontend/pages/compare-list.vue"));
+};
+var changePassword = function changePassword() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_user_change_password_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/user/change_password */ "./resources/js/components/frontend/pages/user/change_password.vue"));
+};
+var editProfile = function editProfile() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_user_edit-profile_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/user/edit-profile */ "./resources/js/components/frontend/pages/user/edit-profile.vue"));
+};
+/*const migrateSeller = () => import(/!* webpackPrefetch: "product-details" *!/
+    '../components/frontend/pages/user/migrate-to-seller');*/
+
+var migrateSeller = function migrateSeller() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_user_migrate-to-seller_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/user/migrate-to-seller */ "./resources/js/components/frontend/pages/user/migrate-to-seller.vue"));
+};
+var giftVoucher = function giftVoucher() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_user_gift-voucher_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/user/gift-voucher */ "./resources/js/components/frontend/pages/user/gift-voucher.vue"));
+};
+var notification = function notification() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_user_notification_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/user/notification */ "./resources/js/components/frontend/pages/user/notification.vue"));
+};
+var orderHistory = function orderHistory() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_user_order-history_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/user/order-history */ "./resources/js/components/frontend/pages/user/order-history.vue"));
+};
+var dashboard = function dashboard() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_user_dashboard_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/user/dashboard */ "./resources/js/components/frontend/pages/user/dashboard.vue"));
+};
+var addresses = function addresses() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_user_addresses_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/user/addresses */ "./resources/js/components/frontend/pages/user/addresses.vue"));
+};
+var getInvoice = function getInvoice() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_user_get-invoice_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/user/get-invoice */ "./resources/js/components/frontend/pages/user/get-invoice.vue"));
+};
+var reward = function reward() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_addons_rewards_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/addons/rewards */ "./resources/js/components/frontend/pages/addons/rewards.vue"));
+};
+var myWallet = function myWallet() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_user_wallet_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/user/wallet */ "./resources/js/components/frontend/pages/user/wallet.vue"));
+};
+var shop = function shop() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_shop_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/shop */ "./resources/js/components/frontend/pages/shop.vue"));
+};
+var followedShop = function followedShop() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_user_followed-shop_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/user/followed-shop */ "./resources/js/components/frontend/pages/user/followed-shop.vue"));
+};
+var digitalProductOrders = function digitalProductOrders() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_user_digital-product-orders_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/user/digital-product-orders */ "./resources/js/components/frontend/pages/user/digital-product-orders.vue"));
+};
+var videoShop = function videoShop() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_addons_video_shop_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/addons/video_shop */ "./resources/js/components/frontend/pages/addons/video_shop.vue"));
+};
+var videoShopDetails = function videoShopDetails() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_addons_video_shop_details_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/addons/video_shop_details */ "./resources/js/components/frontend/pages/addons/video_shop_details.vue"));
+};
+var error_404 = function error_404() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_errors_not_found_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/errors/not_found */ "./resources/js/components/errors/not_found.vue"));
+};
+var affiliate_register = function affiliate_register() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_affiliate_users_affiliate_register_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/affiliate_users/affiliate_register */ "./resources/js/components/frontend/pages/affiliate_users/affiliate_register.vue"));
+};
+var affiliate_program = function affiliate_program() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_affiliate_users_affiliate_program_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/affiliate_users/affiliate_program */ "./resources/js/components/frontend/pages/affiliate_users/affiliate_program.vue"));
+};
+var affiliate_system = function affiliate_system() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_affiliate_users_affiliate_system_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/affiliate_users/affiliate_system */ "./resources/js/components/frontend/pages/affiliate_users/affiliate_system.vue"));
+};
+//claim   
+var createClaim = function createClaim() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_CreateClaim_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/CreateClaim.vue */ "./resources/js/components/frontend/pages/CreateClaim.vue"));
+};
+//request
+var ReturnRequestForm = function ReturnRequestForm() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_pages_ReturnRequestForm_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/pages/ReturnRequestForm.vue */ "./resources/js/components/frontend/pages/ReturnRequestForm.vue"));
+};
+var routes = [{
+  path: '/',
+  component: function component() {
+    return __webpack_require__.e(/*! import() */ "resources_js_components_frontend_master_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/frontend/master */ "./resources/js/components/frontend/master.vue"));
+  },
+  children: [{
+    path: '/',
+    name: 'home',
+    component: home,
+    meta: {
+      title: document.title,
+      transition: 'slide-left'
     }
-    // Cursor methods are special, as the behaviour is a little more different to standard IDB. In
-    // IDB, you advance the cursor and wait for a new 'success' on the IDBRequest that gave you the
-    // cursor. It's kinda like a promise that can resolve with many values. That doesn't make sense
-    // with real promises, so each advance methods returns a new promise for the cursor object, or
-    // undefined if the end of the cursor has been reached.
-    if (getCursorAdvanceMethods().includes(func)) {
-        return function (...args) {
-            // Calling the original function with the proxy as 'this' causes ILLEGAL INVOCATION, so we use
-            // the original object.
-            func.apply(unwrap(this), args);
-            return wrap(cursorRequestMap.get(this));
-        };
+  }, {
+    path: '/page/:slug',
+    name: 'about',
+    component: about
+  }, {
+    path: '/track-order',
+    name: 'track.order',
+    component: trackOrder,
+    meta: {
+      title: 'Track Order'
     }
-    return function (...args) {
-        // Calling the original function with the proxy as 'this' causes ILLEGAL INVOCATION, so we use
-        // the original object.
-        return wrap(func.apply(unwrap(this), args));
+  }, {
+    path: '/get-invoice/:orderCode',
+    name: 'get.invoice',
+    component: afterTrackOrder,
+    props: true,
+    meta: {
+      title: 'Get Invoice'
+    }
+  }, {
+    path: '/brands',
+    name: 'brands',
+    component: brands,
+    meta: {
+      title: 'All Brands'
+    }
+  }, {
+    path: '/sellers',
+    name: 'sellers',
+    component: sellers,
+    meta: {
+      title: 'All Sellers'
+    }
+  }, {
+    path: '/campaigns',
+    name: 'campaigns',
+    component: allCampaign,
+    meta: {
+      title: 'All Campaign'
+    }
+  }, {
+    path: '/campaign/:slug',
+    name: 'campaign.details',
+    component: campaignDetails,
+    meta: {
+      title: 'Campaign Details'
+    }
+  }, {
+    path: '/categories',
+    name: 'categories',
+    component: allCategory,
+    meta: {
+      title: 'All Category'
+    }
+  }, {
+    path: '/products',
+    name: 'all.products',
+    component: filterProducts,
+    meta: {
+      title: 'All Products',
+      transition: 'fade'
+    }
+  }, {
+    path: '/category/:slug',
+    name: 'product.by.category',
+    component: filterProducts,
+    meta: {
+      title: 'Category Products'
+    }
+  }, {
+    path: '/brand/:slug',
+    name: 'product.by.brand',
+    component: filterProducts,
+    meta: {
+      title: 'Brand Products'
+    }
+  }, {
+    path: '/offer/products',
+    name: 'product.by.offer',
+    component: filterProducts,
+    meta: {
+      title: 'Offer Products'
+    }
+  }, {
+    path: '/best-selling/products',
+    name: 'product.by.selling',
+    component: filterProducts,
+    meta: {
+      title: 'Best Selling Products'
+    }
+  }, {
+    path: '/gadget-products/:slug',
+    name: 'product.by.gadget',
+    component: filterProducts,
+    meta: {
+      title: 'Gadget Products'
+    }
+  }, {
+    path: '/checkout',
+    name: 'checkout',
+    component: checkout,
+    /*props(route) {
+        return route.query || {};
+    },*/
+    meta: {
+      title: 'Checkout',
+      auth: true
+    }
+  }, {
+    path: '/order-confirmation',
+    name: 'order.confirmation',
+    component: orderConfirmation,
+    meta: {
+      title: 'Order Confirmation'
+    }
+  }, {
+    path: '/contact',
+    name: 'contact',
+    component: contact,
+    meta: {
+      title: 'Contact'
+    }
+  }, {
+    path: '/daily-deals',
+    name: 'daily.deals',
+    component: dailyDeals,
+    meta: {
+      title: 'Daily Deals'
+    }
+  }, {
+    path: '/gift-idea',
+    name: 'gift.idea',
+    component: giftIdea,
+    meta: {
+      title: 'Gift Idea'
+    }
+  }, {
+    path: '/business-idea',
+    name: 'business.idea',
+    component: businessIdea,
+    meta: {
+      title: 'Business Idea'
+    }
+  }, {
+    path: '/affiliate-register',
+    name: 'affiliate.register',
+    component: affiliate_register,
+    meta: {
+      title: 'Affiliate Register'
+    }
+  }, {
+    path: '/affiliate-program',
+    name: 'affiliate.program',
+    component: affiliate_program,
+    meta: {
+      title: 'Affiliate Program'
+    }
+  }, {
+    path: '/affiliate-system',
+    name: 'affiliate.system',
+    component: affiliate_system,
+    meta: {
+      title: 'Affiliate System'
+    }
+  }, {
+    path: '/flash-sale',
+    name: 'flash.sale',
+    component: flashSale,
+    meta: {
+      title: 'All Flash Sale'
+    }
+  }, {
+    path: '/product/:slug',
+    name: 'product.details',
+    component: productDetails,
+    meta: {
+      title: 'Product Details'
+    }
+  }, {
+    path: '/payment/:code?',
+    name: 'payment',
+    component: payment,
+    meta: {
+      title: 'Payment',
+      auth: true
+    }
+  }, {
+    path: '/products',
+    props: function props(route) {
+      return route.query || {};
+    },
+    name: 'search.product',
+    component: filterProducts
+  }, {
+    path: '/blogs',
+    name: 'blogs',
+    component: allBlogs,
+    meta: {
+      title: 'All Blogs'
+    }
+  }, {
+    path: '/category-blogs/:slug',
+    name: 'category.blogs',
+    component: allBlogs
+  }, {
+    path: '/blog/:slug',
+    name: 'blog.details',
+    component: blogDetails,
+    meta: {
+      title: 'Blog Details'
+    }
+  }, {
+    path: '/cart',
+    name: 'cart',
+    component: cart,
+    meta: {
+      title: 'Cart'
+    }
+  }, {
+    path: '/login',
+    name: 'login',
+    component: login,
+    meta: {
+      title: 'Login'
+    }
+  }, {
+    path: '/register',
+    name: 'register',
+    component: register,
+    meta: {
+      title: 'SignUp'
+    }
+  }, {
+    path: '/reset-password',
+    name: 'reset.password',
+    component: resetPassword,
+    meta: {
+      title: 'Reset Password'
+    }
+  }, {
+    path: '/reset/:email/:code',
+    name: 'set.new.password',
+    component: resetPassword
+  }, {
+    path: '/register/:type',
+    name: 'seller-register',
+    component: seller_register,
+    meta: {
+      title: 'Seller SingUp'
+    }
+  }, {
+    path: '/user/edit-profile',
+    name: 'edit.profile',
+    component: editProfile,
+    meta: {
+      title: 'Edit Profile'
+    }
+  }, {
+    path: '/user/gift-voucher',
+    name: 'gift.voucher',
+    component: giftVoucher,
+    meta: {
+      title: 'Gift Voucher'
+    }
+  }, {
+    path: '/user/followed-shop',
+    name: 'shop.followed',
+    component: followedShop,
+    meta: {
+      title: 'Followed Shop'
+    }
+  }, {
+    path: '/user/digital-product-orders',
+    name: 'orders.digital.product',
+    component: digitalProductOrders,
+    meta: {
+      title: 'Digital Product Orders'
+    }
+  }, {
+    path: '/user/user-to-seller',
+    name: 'migrate.seller',
+    component: migrateSeller
+  }, {
+    path: '/user/notification',
+    name: 'notification',
+    component: notification,
+    meta: {
+      title: 'Notification'
+    }
+  }, {
+    path: '/user/order-history',
+    name: 'order.history',
+    component: orderHistory,
+    props: true,
+    meta: {
+      title: 'Order History'
+    }
+  }, {
+    path: '/user/dashboard',
+    name: 'dashboard',
+    component: dashboard,
+    meta: {
+      title: 'Dashboard'
+    }
+  }, {
+    path: '/user/wishlist',
+    name: 'wishlist',
+    component: wishlist,
+    meta: {
+      title: 'Wishlist'
+    }
+  }, {
+    path: '/user/change-password',
+    name: 'change.password',
+    component: changePassword,
+    meta: {
+      title: 'Password Change'
+    }
+  }, {
+    path: '/user/addresses',
+    name: 'addresses',
+    component: addresses,
+    meta: {
+      title: 'Addresses'
+    }
+  }, {
+    path: '/compare-list',
+    name: 'compare.list',
+    component: compareList,
+    meta: {
+      title: 'Compare List'
+    }
+  }, {
+    path: '/invoice/:trx_id',
+    name: 'invoice.list',
+    component: getInvoice,
+    meta: {
+      title: 'Invoice'
+    }
+  }, {
+    path: '/my-wallet',
+    name: 'wallet.history',
+    component: myWallet,
+    meta: {
+      title: 'Wallet'
+    }
+  }, {
+    path: '/my-rewards',
+    name: 'reward.history',
+    component: reward,
+    meta: {
+      title: 'Reward'
+    }
+  }, {
+    path: '/video-shopping',
+    name: 'video.shopping',
+    component: videoShop,
+    meta: {
+      title: 'Video Shopping'
+    }
+  }, {
+    path: '/video-shopping/:slug',
+    name: 'video.shopping.details',
+    component: videoShopDetails,
+    meta: {
+      title: 'Video Shopping'
+    }
+  }, {
+    path: '/shop/:slug',
+    name: 'shop',
+    component: shop,
+    meta: {
+      title: 'Shop'
+    }
+  }, {
+    path: '/create-claim',
+    name: 'create.claim',
+    component: createClaim,
+    meta: {
+      title: 'Reclamation'
+    }
+  },
+  // {
+  //     path: '/returns/create',
+  //     name: 'create.return', // Nom logique pour la route
+  //     component: ReturnRequestForm, // Assurez-vous d'avoir cette importation
+  //     meta: {
+  //       title: 'Demande de retour',
+  //       requiresAuth: true // Si l'utilisateur doit être connecté
+  //     }
+  //   },
+
+  {
+    path: '/demande-retour',
+    name: 'create.return',
+    component: ReturnRequestForm,
+    meta: {
+      title: 'Demande de retour',
+      requiresAuth: true
+    }
+  }, {
+    path: '/:pathMatch(.*)*',
+    name: '404',
+    component: error_404
+  }]
+}];
+
+/***/ }),
+
+/***/ "./resources/js/store/actions.js":
+/*!***************************************!*\
+  !*** ./resources/js/store/actions.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  blogDetails: function blogDetails(context, slug) {
+    var url = context.state.url + '/home/blog-details/' + slug;
+    axios.get(url).then(function (response) {
+      context.commit("blogDetails", response.data.blog);
+      context.commit("getBlogCategories", response.data.categories);
+      context.commit("getBlogTags", response.data.tags);
+      context.commit("getRecentPosts", response.data.recent_posts);
+      context.commit("getBlogComments", response.data.comments);
+    });
+  },
+  contactPage: function contactPage(context) {
+    var url = context.state.url + '/home/contact-page';
+    axios.get(url).then(function (response) {
+      context.commit("getContactPage", response.data.contact);
+    });
+  },
+  othersPage: function othersPage(context, slug) {
+    var url = context.state.url + '/home/others-page/' + slug;
+    var requestData = {
+      slug: slug
     };
-}
-function transformCachableValue(value) {
-    if (typeof value === 'function')
-        return wrapFunction(value);
-    // This doesn't return, it just creates a 'done' promise for the transaction,
-    // which is later returned for transaction.done (see idbObjectHandler).
-    if (value instanceof IDBTransaction)
-        cacheDonePromiseForTransaction(value);
-    if (instanceOfAny(value, getIdbProxyableTypes()))
-        return new Proxy(value, idbProxyTraps);
-    // Return the same value back if we're not going to transform it.
-    return value;
-}
-function wrap(value) {
-    // We sometimes generate multiple promises from a single IDBRequest (eg when cursoring), because
-    // IDB is weird and a single IDBRequest can yield many responses, so these can't be cached.
-    if (value instanceof IDBRequest)
-        return promisifyRequest(value);
-    // If we've already transformed this value before, reuse the transformed value.
-    // This is faster, but it also provides object equality.
-    if (transformCache.has(value))
-        return transformCache.get(value);
-    const newValue = transformCachableValue(value);
-    // Not all types are transformed.
-    // These may be primitive types, so they can't be WeakMap keys.
-    if (newValue !== value) {
-        transformCache.set(value, newValue);
-        reverseTransformCache.set(newValue, value);
+    axios.get(url, {
+      params: requestData
+    }).then(function (response) {
+      context.commit("getPagedData", response.data.page);
+    });
+  },
+  allCampaign: function allCampaign(context, page) {
+    var url = context.state.url + '/home/campaign-lists?page=' + page;
+    axios.get(url).then(function (response) {
+      context.commit("getAllCampaign", response.data.campaigns);
+    });
+  },
+  campaignProducts: function campaignProducts(context, requestData) {
+    var url = context.state.url + '/home/campaign-products';
+    axios.get(url, {
+      params: requestData
+    }).then(function (response) {
+      context.commit("getCampaignProducts", response.data);
+    });
+  },
+  dailyDeals: function dailyDeals(context, form) {
+    var url = context.state.url + '/home/daily-deals?page=1';
+    axios.get(url, {
+      params: form
+    }).then(function (response) {
+      context.commit("getDailyDeals", response.data.products);
+    });
+  },
+  giftIdea: function giftIdea(context, form) {
+    var url = context.state.url + '/home/gift-idea?page=1';
+    axios.get(url, {
+      params: form
+    }).then(function (response) {
+      context.commit("getGiftIdea", response.data.products);
+    });
+  },
+  businessIdea: function businessIdea(context, form) {
+    var url = context.state.url + '/home/business-idea?page=1';
+    axios.get(url, {
+      params: form
+    }).then(function (response) {
+      context.commit("getBusinessIdea", response.data.products);
+    });
+  },
+  productDetails: function productDetails(context, set_params) {
+    var url = context.state.url + '/home/product-details/' + set_params.slug + '?trx_id=' + set_params.trx_id;
+    axios.get(url).then(function (response) {
+      var index = context.state.product_details.findIndex(function (p) {
+        return p.slug == response.data.product.slug;
+      });
+      if (index >= 0) {
+        context.state.product_details.splice(index, 1);
+      }
+      context.commit('setShimmer', 0);
+      context.commit("productDetails", response.data.product);
+      context.commit("getProductAttributes", response.data.attributes);
+    });
+  },
+  replyForm: function replyForm(context, id) {
+    context.commit("getReplyForm", id);
+  },
+  compareList: function compareList(context, data) {
+    context.commit("getCompareList", data);
+  },
+  userOrderList: function userOrderList(context) {},
+  userWishlistProduct: function userWishlistProduct(context, product) {
+    context.commit("getUserWishlist", product);
+  },
+  userCompareProduct: function userCompareProduct(context, product) {
+    context.commit("getUserCompare", product);
+  },
+  defaultCurrency: function defaultCurrency(context, currency) {
+    context.commit("getDefaultCurrency", currency);
+  },
+  carts: function carts(context, _carts) {
+    context.commit('getCarts', _carts);
+  },
+  homeComponents: function homeComponents(context, components) {
+    context.commit('getHomeComponents', components);
+  },
+  productView: function productView(context, _productView) {
+    var url = context.state.url + '/home/product-view';
+    axios.post(url, _productView).then(function (response) {
+      context.commit("getViewedProducts", response.data.viewProduct);
+    })["catch"](function (error) {
+      if (error.response.status == 401) {}
+    });
+  },
+  defaultAssets: function defaultAssets(context, data) {
+    context.commit('getDefaultAssets', data);
+  },
+  filterData: function filterData(context, slug) {
+    slug = slug ? slug : '';
+    var url = context.state.url + '/home/filter_data?slug=' + slug;
+    axios.get(url).then(function (response) {
+      var data = '';
+      context.commit("getShopCategories", response.data.categories);
+      if (slug) {
+        data = {
+          slug: slug,
+          attributes: response.data.attributes
+        };
+      } else {
+        data = {
+          slug: 'all',
+          attributes: response.data.attributes
+        };
+      }
+      context.commit("getShopAttributes", data);
+      context.commit("getShopBrands", response.data.brands);
+      context.commit("getShopColors", response.data.colors);
+      context.commit("getShop", response.data.shop);
+      context.commit("setPriceRange", response.data.price_range);
+      context.commit('getFilterLoaded', true);
+    });
+  },
+  countryList: function countryList(context) {
+    var url = context.state.url + '/get/country-list';
+    axios.get(url).then(function (response) {
+      context.commit("setCountryList", response.data.countries);
+    });
+  },
+  settings: function settings(context, _settings) {
+    context.commit('getSettings', _settings);
+  },
+  languageKeywords: function languageKeywords(context) {
+    var language = context.state.settings.lang_file;
+    axios.get(language).then(function (response) {
+      context.commit("setLangKeywords", response.data);
+    });
+  },
+  products: function products(context, data) {
+    var url = context.state.url + '/home/filtered_products';
+    axios.get(url, {
+      params: data
+    }).then(function (response) {
+      var type = response.data.type;
+      if (type == 'products') {
+        context.commit("getProducts", response.data.products);
+      } else if (type == 'category') {
+        var response_data = {
+          slug: response.data.slug,
+          products: response.data.products
+        };
+        var page_data = {
+          slug: response.data.slug,
+          page: response.data.page
+        };
+        context.commit("getCategoryProducts", response_data);
+        context.commit("getCategoryPage", page_data);
+      } else if (type == 'brand') {
+        var _response_data = {
+          slug: response.data.slug,
+          products: response.data.products
+        };
+        var _page_data = {
+          slug: response.data.slug,
+          page: response.data.page
+        };
+        context.commit("getBrandProducts", _response_data);
+        context.commit("getBrandPage", _page_data);
+      } else if (type == 'offer') {
+        context.commit("getOfferProducts", response.data.products);
+      } else if (type == 'best_selling') {
+        context.commit("getSellingProducts", response.data.products);
+      } else if (type == 'shop') {
+        var _response_data2 = {
+          slug: response.data.slug,
+          products: response.data.products
+        };
+        var _page_data2 = {
+          slug: response.data.slug,
+          page: response.data.page
+        };
+        context.commit("setSellerProducts", _response_data2);
+        context.commit("getSellerPage", _page_data2);
+      }
+    });
+  },
+  FollowedSellers: function FollowedSellers(context, page_no) {
+    if (!page_no) {
+      page_no = 1;
     }
-    return newValue;
-}
-const unwrap = (value) => reverseTransformCache.get(value);
+    var url = context.state.url + '/user/followed-sellers?page=' + page_no;
+    axios.get(url).then(function (response) {
+      var length = response.data.sellers.data;
+      if (length == 0) {
+        context.commit("setFollowedSellers", [{
+          id: 0
+        }]);
+      } else {
+        context.commit("setFollowedSellers", response.data.sellers.data);
+      }
+    });
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/getters.js":
+/*!***************************************!*\
+  !*** ./resources/js/store/getters.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  getBlogs: function getBlogs(state) {
+    return state.blogs;
+  },
+  getBlogDetails: function getBlogDetails(state) {
+    return state.blogsDetails;
+  },
+  getContactPage: function getContactPage(state) {
+    return state.contact_page;
+  },
+  getAllCampaign: function getAllCampaign(state) {
+    return state.all_campaigns;
+  },
+  getSettings: function getSettings(state) {
+    return state.settings;
+  },
+  getCampaignProducts: function getCampaignProducts(state) {
+    return state.campaign_products;
+  },
+  getCampaignBrands: function getCampaignBrands(state) {
+    return state.campaign_brands;
+  },
+  getCampaignShops: function getCampaignShops(state) {
+    return state.campaign_shops;
+  },
+  getCampaign: function getCampaign(state) {
+    return state.campaign;
+  },
+  getBlogCategories: function getBlogCategories(state) {
+    return state.blogCategories;
+  },
+  getBlogTags: function getBlogTags(state) {
+    return state.blogTags;
+  },
+  getShopCategories: function getShopCategories(state) {
+    return state.shop_categories;
+  },
+  getShopBrands: function getShopBrands(state) {
+    return state.shop_brands;
+  },
+  getShopColors: function getShopColors(state) {
+    return state.shop_colors;
+  },
+  getShopAttributes: function getShopAttributes(state) {
+    return state.shop_attributes;
+  },
+  getDailyDeals: function getDailyDeals(state) {
+    return state.daily_deals;
+  },
+  getGiftIdea: function getGiftIdea(state) {
+    return state.gift_idea;
+  },
+  getBusinessIdea: function getBusinessIdea(state) {
+    return state.business_idea;
+  },
+  getRecentPosts: function getRecentPosts(state) {
+    return state.recent_posts;
+  },
+  getProductDetails: function getProductDetails(state) {
+    return state.product_details;
+  },
+  getReplyForm: function getReplyForm(state) {
+    return state.reply_form;
+  },
+  getBlogComments: function getBlogComments(state) {
+    return state.blog_comments;
+  },
+  getPageData: function getPageData(state) {
+    return state.get_page_data;
+  },
+  getCompareList: function getCompareList(state) {
+    return state.compare_list;
+  },
+  getProfileOrders: function getProfileOrders(state) {
+    return state.profile_orders;
+  },
+  getUserOrderList: function getUserOrderList(state) {
+    return state.userOrderList;
+  },
+  getProductAttributes: function getProductAttributes(state) {
+    return state.product_attributes;
+  },
+  getUserCoupons: function getUserCoupons(state) {
+    return state.userCoupons;
+  },
+  getAllWishlists: function getAllWishlists(state) {
+    return state.allWishlist;
+  },
+  getShop: function getShop(state) {
+    return state.get_shop;
+  },
+  getUserWishlist: function getUserWishlist(state) {
+    return state.wishlist_products;
+  },
+  getUserCompare: function getUserCompare(state) {
+    return state.compare_products;
+  },
+  getDefaultCurrency: function getDefaultCurrency(state) {
+    return state.default_currency;
+  },
+  getCarts: function getCarts(state) {
+    return state.carts;
+  },
+  getHomeComponents: function getHomeComponents(state) {
+    return state.home_components;
+  },
+  getHomeResults: function getHomeResults(state) {
+    return state.home_results;
+  },
+  getCountCompare: function getCountCompare(state) {
+    return state.countCompare;
+  },
+  getShimmer: function getShimmer(state) {
+    return state.shimmer;
+  },
+  getAllCategories: function getAllCategories(state) {
+    return state.allCategories;
+  },
+  getAllBrands: function getAllBrands(state) {
+    return state.allBrands;
+  },
+  getAllSellers: function getAllSellers(state) {
+    return state.allSellers;
+  },
+  getDefaultAssets: function getDefaultAssets(state) {
+    return state.default_assets;
+  },
+  getProducts: function getProducts(state) {
+    return state.products;
+  },
+  getCategoryProducts: function getCategoryProducts(state) {
+    return state.category_products;
+  },
+  getBrandProducts: function getBrandProducts(state) {
+    return state.brand_products;
+  },
+  getCategoryPage: function getCategoryPage(state) {
+    return state.category_page;
+  },
+  getBrandPage: function getBrandPage(state) {
+    return state.brand_page;
+  },
+  getSellerPage: function getSellerPage(state) {
+    return state.seller_page;
+  },
+  getOfferProducts: function getOfferProducts(state) {
+    return state.offer_products;
+  },
+  getSellingProducts: function getSellingProducts(state) {
+    return state.selling_products;
+  },
+  getFilterLoaded: function getFilterLoaded(state) {
+    return state.filter_loaded;
+  },
+  getUserAddresses: function getUserAddresses(state) {
+    return state.userAddresses;
+  },
+  getAddons: function getAddons(state) {
+    return state.addons;
+  },
+  getWalletRecharges: function getWalletRecharges(state) {
+    return state.wallet_recharges;
+  },
+  getRewards: function getRewards(state) {
+    return state.rewards;
+  },
+  getOrderUrl: function getOrderUrl(state) {
+    return state.order_urls;
+  },
+  getInvoices: function getInvoices(state) {
+    return state.invoices;
+  },
+  getShopFollwer: function getShopFollwer(state) {
+    return state.shop_follwer;
+  },
+  getLoginRedirection: function getLoginRedirection(state) {
+    return state.login_redirect;
+  },
+  getTotalReward: function getTotalReward(state) {
+    return state.total_reward;
+  },
+  getNotifications: function getNotifications(state) {
+    return state.notifications;
+  },
+  getFollowedSellers: function getFollowedSellers(state) {
+    return state.followedSellers;
+  },
+  getActiveModal: function getActiveModal(state) {
+    return state.active_modal;
+  },
+  getLangKeywords: function getLangKeywords(state) {
+    return state.lang_keywords;
+  },
+  getShopContents: function getShopContents(state) {
+    return state.shop_contents;
+  },
+  getShopComponent: function getShopComponent(state) {
+    return state.shop_component_names;
+  },
+  getCommonData: function getCommonData(state) {
+    return state.common_data;
+  },
+  getPaymentData: function getPaymentData(state) {
+    return state.payment_data;
+  },
+  getSellerCoupons: function getSellerCoupons(state) {
+    return state.seller_coupons;
+  },
+  getSellerProducts: function getSellerProducts(state) {
+    return state.seller_products;
+  },
+  getActiveTab: function getActiveTab(state) {
+    return state.active_tab;
+  },
+  getPriceRange: function getPriceRange(state) {
+    return state.price_range;
+  },
+  getCountryList: function getCountryList(state) {
+    return state.countryList;
+  },
+  getResponseDone: function getResponseDone(state) {
+    return state.response_done;
+  },
+  getResponseCheck: function getResponseCheck(state) {
+    return state.responseCheck;
+  },
+  getVideoShops: function getVideoShops(state) {
+    return state.video_shops;
+  },
+  getVideoDetails: function getVideoDetails(state) {
+    return state.video_details;
+  },
+  getSliderBanners: function getSliderBanners(state) {
+    return state.slider_banners;
+  },
+  getMobileNo: function getMobileNo(state) {
+    return state.phone;
+  },
+  getHomeScroller: function getHomeScroller(state) {
+    return state.home_scroller;
+  },
+  getSidebarCategory: function getSidebarCategory(state) {
+    return state.sidebar_category;
+  },
+  getSmCategory: function getSmCategory(state) {
+    return state.show_sm_category;
+  },
+  getSmHomeMenu: function getSmHomeMenu(state) {
+    return state.show_sm_home_menu;
+  },
+  getCampaignStore: function getCampaignStore(state) {
+    return state.campaign_store;
+  },
+  getCurrentSellerId: function getCurrentSellerId(state) {
+    return state.currentSellerId;
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/index.js":
+/*!*************************************!*\
+  !*** ./resources/js/store/index.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// import pageModule from './page_data'
+// import pageModule from './page_data'
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  // modules: {
+  //     pageData: pageModule,
+  // },
+  state: {
+    languages: {},
+    currencies: {},
+    user: {},
+    activeLanguage: {},
+    activeCurrency: {},
+    totalWishlists: {},
+    wislistProductIds: [],
+    categories: {},
+    sliders: {},
+    defaultCategoryShow: false,
+    services: {},
+    viewedProducts: {},
+    pages: {},
+    navbarClass: '',
+    url: document.getElementById('base_url').value
+  },
+  getters: {
+    getLanguages: function getLanguages(state) {
+      return state.languages;
+    },
+    getCurrencies: function getCurrencies(state) {
+      return state.currencies;
+    },
+    getUser: function getUser(state) {
+      return state.user;
+    },
+    getActiveLanguage: function getActiveLanguage(state) {
+      return state.activeLanguage;
+    },
+    getActiveCurrency: function getActiveCurrency(state) {
+      return state.activeCurrency;
+    },
+    getTotalWishlists: function getTotalWishlists(state) {
+      return state.totalWishlists;
+    },
+    getCategories: function getCategories(state) {
+      return state.categories;
+    },
+    getSliders: function getSliders(state) {
+      return state.sliders;
+    },
+    getDefaultCategory: function getDefaultCategory(state) {
+      return state.defaultCategoryShow;
+    },
+    getServices: function getServices(state) {
+      return state.services;
+    },
+    getViewedProducts: function getViewedProducts(state) {
+      return state.viewedProducts;
+    },
+    getNavBarClass: function getNavBarClass(state) {
+      return state.navbarClass;
+    },
+    getBaseUrl: function getBaseUrl(state) {
+      return state.url;
+    },
+    getPages: function getPages(state) {
+      return state.pages;
+    },
+    isThisWishlisted: function isThisWishlisted(state) {
+      return function (product_id) {
+        return state.wislistProductIds.includes(product_id);
+      };
+    }
+  },
+  actions: {
+    languages: function languages(context, _languages) {
+      context.commit('getLanguages', _languages);
+    },
+    currencies: function currencies(context, _currencies) {
+      context.commit('getCurrencies', _currencies);
+    },
+    user: function user(context, _user) {
+      context.commit('getUser', _user);
+    },
+    activeLanguage: function activeLanguage(context, language) {
+      context.commit('getActiveLanguage', language);
+    },
+    activeCurrency: function activeCurrency(context, currency) {
+      context.commit('getActiveCurrency', currency);
+    },
+    wishlists: function wishlists(context, data) {
+      context.commit('getTotalWishlists', data);
+    },
+    getUserWishlists: function getUserWishlists(context, data) {
+      context.state.wislistProductIds = data.map(function (item) {
+        return item.product_id;
+      });
+    },
+    categories: function categories(context, _categories) {
+      context.commit('getCategories', _categories);
+    },
+    sliders: function sliders(context, _sliders) {
+      context.commit('getSliders', _sliders);
+    },
+    defaultCategoryShow: function defaultCategoryShow(context, flag) {
+      context.commit('getDefaultCategory', flag);
+    },
+    services: function services(context, _services) {
+      context.commit('getServices', _services);
+    },
+    viewedProducts: function viewedProducts(context, products) {
+      context.commit('getViewedProducts', products);
+    },
+    navbarClass: function navbarClass(context, nav_class) {
+      context.commit('getNavBarClass', nav_class);
+    },
+    pages: function pages(context, _pages) {
+      context.commit('getPages', _pages);
+    }
+  },
+  mutations: {
+    getLanguages: function getLanguages(state, data) {
+      return state.languages = data;
+    },
+    getCurrencies: function getCurrencies(state, data) {
+      return state.currencies = data;
+    },
+    getUser: function getUser(state, data) {
+      return state.user = data;
+    },
+    getActiveLanguage: function getActiveLanguage(state, data) {
+      return state.activeLanguage = data;
+    },
+    getActiveCurrency: function getActiveCurrency(state, data) {
+      return state.activeCurrency = data;
+    },
+    getTotalWishlists: function getTotalWishlists(state, data) {
+      return state.totalWishlists = data;
+    },
+    getCategories: function getCategories(state, data) {
+      return state.categories = data;
+    },
+    getSliders: function getSliders(state, data) {
+      return state.sliders = data;
+    },
+    getDefaultCategory: function getDefaultCategory(state, data) {
+      return state.defaultCategoryShow = data;
+    },
+    getServices: function getServices(state, data) {
+      return state.services = data;
+    },
+    getViewedProducts: function getViewedProducts(state, data) {
+      return state.viewedProducts = data;
+    },
+    getNavBarClass: function getNavBarClass(state, data) {
+      return state.navbarClass = data;
+    },
+    getPages: function getPages(state, data) {
+      return state.pages = data;
+    },
+    addNewWishlistId: function addNewWishlistId(state, product_id) {
+      if (!state.wislistProductIds.includes(product_id)) {
+        state.wislistProductIds.push(product_id);
+      }
+    },
+    removeFromWishlistID: function removeFromWishlistID(state, product_id) {
+      if (state.wislistProductIds.includes(product_id)) {
+        state.wislistProductIds = state.wislistProductIds.filter(function (val) {
+          return val !== product_id;
+        });
+      }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/module.js":
+/*!**************************************!*\
+  !*** ./resources/js/store/module.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _getters__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getters */ "./resources/js/store/getters.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./actions */ "./resources/js/store/actions.js");
+/* harmony import */ var _mutation__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./mutation */ "./resources/js/store/mutation.js");
 
 
 
+var getDefaultState = function getDefaultState() {
+  return {
+    blogs: {},
+    blogsDetails: {},
+    contact_page: '',
+    all_campaigns: [],
+    campaign_paginate_url: '',
+    campaign_paginate_page: 1,
+    seller_paginate_url: '',
+    seller_paginate_page: 1,
+    brand_paginate_url: '',
+    brand_paginate_page: 1,
+    campaign_products: [],
+    campaign_brands: [],
+    campaign_shops: [],
+    campaign_store: [],
+    blogCategories: {},
+    blogTags: {},
+    shop_categories: {},
+    shop_brands: {},
+    shop_colors: {},
+    shop_attributes: [],
+    daily_deals: {},
+    gift_idea: {},
+    business_idea: {},
+    recent_posts: {},
+    product_details: [],
+    product_images: {},
+    reply_form: {},
+    blog_comments: {},
+    language_product: {},
+    related_products: {},
+    compare_list: {},
+    product_attributes: {},
+    product_attribute_values: {},
+    default_form: {},
+    product_stocks: {},
+    product_colors: {},
+    get_page_data: '',
+    profile_orders: {},
+    userWishlist: {},
+    cart_list: {},
+    userOrderList: {},
+    userCoupons: {},
+    wishlist_products: [],
+    compare_products: [],
+    allWishlist: [],
+    default_currency: {},
+    get_shop: {},
+    carts: [],
+    home_components: [],
+    home_results: [],
+    countCompare: true,
+    shimmer: true,
+    allCategories: [],
+    social_links: [],
+    wholesale_prices: [],
+    allBrands: [],
+    allSellers: [],
+    default_assets: {},
+    settings: '',
+    userAddresses: {},
+    url: document.getElementById('base_url').value,
+    //for filtering
+    filter_loaded: false,
+    products: [],
+    category_products: [],
+    brand_products: [],
+    seller_products: [],
+    offer_products: [],
+    selling_products: [],
+    category_page: [],
+    brand_page: [],
+    seller_page: [],
+    addons: [],
+    wallet_recharges: [],
+    order_urls: [],
+    invoices: '',
+    shop_follwer: [],
+    login_redirect: '',
+    total_reward: '',
+    notifications: [],
+    followedSellers: [],
+    rewards: [],
+    active_modal: '',
+    lang_keywords: '',
+    shop_contents: [],
+    shop_component_names: [],
+    common_data: [],
+    payment_data: '',
+    seller_coupons: [],
+    active_tab: 'store',
+    price_range: {
+      min: 0,
+      max: 0
+    },
+    countryList: [],
+    response_done: [],
+    video_shops: [],
+    video_details: [],
+    slider_banners: [],
+    edit_number: '',
+    phone: '',
+    home_scroller: true,
+    sidebar_category: true,
+    show_sm_category: false,
+    show_sm_home_menu: false,
+    responseCheck: false,
+    currentSellerId: ''
+  };
+};
+var state = getDefaultState();
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  // namespaced: true,
+  state: state,
+  getters: _getters__WEBPACK_IMPORTED_MODULE_0__["default"],
+  actions: _actions__WEBPACK_IMPORTED_MODULE_1__["default"],
+  mutations: _mutation__WEBPACK_IMPORTED_MODULE_2__["default"]
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/mutation.js":
+/*!****************************************!*\
+  !*** ./resources/js/store/mutation.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  getBlogs: function getBlogs(state, data) {
+    return state.blogs = data;
+  },
+  blogDetails: function blogDetails(state, data) {
+    return state.blogsDetails = data;
+  },
+  getContactPage: function getContactPage(state, data) {
+    return state.contact_page = data;
+  },
+  getSettings: function getSettings(state, data) {
+    return state.settings = data;
+  },
+  getAllCampaign: function getAllCampaign(state, data) {
+    var campaign = data.data;
+    var _loop = function _loop(i) {
+      var found = state.all_campaigns.some(function (el) {
+        return el.id === campaign[i].id;
+      });
+      if (!found) state.all_campaigns.push(campaign[i]);
+    };
+    for (var i = 0; i < campaign.length; i++) {
+      _loop(i);
+    }
+    state.campaign_paginate_url = data.next_page_url;
+    state.campaign_paginate_page++;
+    return state.all_campaigns;
+  },
+  getCampaignProducts: function getCampaignProducts(state, data) {
+    var campaigns = state.campaign_products;
+    var products = {
+      data: []
+    };
+    var index = campaigns.findIndex(function (campaign) {
+      return campaign.slug == data.slug;
+    });
+    if (index > -1) {
+      products.data = campaigns[index].products.data;
+      for (var j = 0; j < data.products.data.length; j++) {
+        products.data.push(data.products.data[j]);
+      }
+      products.next_page_url = data.products.next_page_url;
+      return state.campaign_products[index].products = products;
+    }
+    return state.campaign_products.push(data);
+  },
+  getCampaignBrands: function getCampaignBrands(state, data) {
+    var campaigns = state.campaign_brands;
+    var products = {
+      data: []
+    };
+    var index = campaigns.findIndex(function (campaign) {
+      return campaign.slug == data.slug;
+    });
+    if (index > -1) {
+      products.data = campaigns[index].brands.data;
+      for (var j = 0; j < data.brands.data.length; j++) {
+        products.data.push(data.brands.data[j]);
+      }
+      products.next_page_url = data.brands.next_page_url;
+      return state.campaign_brands[index].brands = products;
+    }
+    return state.campaign_brands.push(data);
+  },
+  getCampaignShops: function getCampaignShops(state, data) {
+    var campaigns = state.campaign_shops;
+    var products = {
+      data: []
+    };
+    var index = campaigns.findIndex(function (campaign) {
+      return campaign.slug == data.slug;
+    });
+    if (index > -1) {
+      products.data = campaigns[index].shops.data;
+      for (var j = 0; j < data.shops.data.length; j++) {
+        products.data.push(data.shops.data[j]);
+      }
+      products.next_page_url = data.shops.next_page_url;
+      return state.campaign_shops[index].shops = products;
+    }
+    return state.campaign_shops.push(data);
+  },
+  getBlogCategories: function getBlogCategories(state, data) {
+    return state.blogCategories = data;
+  },
+  getBlogTags: function getBlogTags(state, data) {
+    return state.blogTags = data;
+  },
+  getShopCategories: function getShopCategories(state, data) {
+    return state.shop_categories = data;
+  },
+  getShopBrands: function getShopBrands(state, data) {
+    return state.shop_brands = data;
+  },
+  getShopColors: function getShopColors(state, data) {
+    return state.shop_colors = data;
+  },
+  getShopAttributes: function getShopAttributes(state, data) {
+    return state.shop_attributes.push({
+      slug: data.slug,
+      attributes: data.attributes
+    });
+  },
+  getDailyDeals: function getDailyDeals(state, data) {
+    return state.daily_deals = data;
+  },
+  getGiftIdea: function getGiftIdea(state, data) {
+    return state.gift_idea = data;
+  },
+  getBusinessIdea: function getBusinessIdea(state, data) {
+    return state.business_idea = data;
+  },
+  getRecentPosts: function getRecentPosts(state, data) {
+    return state.recent_posts = data;
+  },
+  productDetails: function productDetails(state, data) {
+    return state.product_details.push({
+      slug: data.slug,
+      product: data
+    });
+  },
+  setShopContents: function setShopContents(state, data) {
+    return state.shop_contents.push({
+      slug: data.slug,
+      contents: data
+    });
+  },
+  setShopComponents: function setShopComponents(state, data) {
+    return state.shop_component_names.push({
+      slug: data.slug,
+      contents: data.component_names
+    });
+  },
+  getReplyForm: function getReplyForm(state, data) {
+    return state.reply_form = data;
+  },
+  getBlogComments: function getBlogComments(state, data) {
+    return state.blog_comments = data;
+  },
+  getPagedData: function getPagedData(state, data) {
+    return state.get_page_data = data;
+  },
+  getCompareList: function getCompareList(state, data) {
+    return state.compare_list = data;
+  },
+  getProfileOrders: function getProfileOrders(state, data) {
+    return state.profile_orders = data;
+  },
+  getUserOrderList: function getUserOrderList(state, data) {
+    return state.userOrderList = data;
+  },
+  getProductAttributes: function getProductAttributes(state, data) {
+    return state.product_attributes = data;
+  },
+  getUserCoupons: function getUserCoupons(state, data) {
+    return state.userCoupons = data;
+  },
+  getWishlists: function getWishlists(state, data) {
+    return state.allWishlist = data;
+  },
+  getShop: function getShop(state, data) {
+    return state.get_shop = data;
+  },
+  getUserWishlist: function getUserWishlist(state, data) {
+    return state.wishlist_products.push(data);
+  },
+  getRemoveWishlist: function getRemoveWishlist(state, data) {
+    var index = state.wishlist_products.findIndex(function (c) {
+      return c.id == data.id;
+    });
+    return state.wishlist_products.splice(index, 1);
+  },
+  getUserCompare: function getUserCompare(state, data) {
+    return state.compare_products.push(data);
+  },
+  getRemoveCompare: function getRemoveCompare(state, data) {
+    var index = state.compare_products.findIndex(function (c) {
+      return c.id == data.id;
+    });
+    return state.compare_products.splice(index, 1);
+  },
+  getDefaultCurrency: function getDefaultCurrency(state, data) {
+    return state.default_currency = data;
+  },
+  getCarts: function getCarts(state, data) {
+    return state.carts = data;
+  },
+  getHomeComponents: function getHomeComponents(state, data) {
+    return state.home_components = data;
+  },
+  getHomeResults: function getHomeResults(state, data) {
+    return state.home_results = data;
+  },
+  getCountCompare: function getCountCompare(state, data) {
+    return state.countCompare = data;
+  },
+  setShimmer: function setShimmer(state, data) {
+    return state.shimmer = data;
+  },
+  getAllCategories: function getAllCategories(state, data) {
+    return state.allCategories = data;
+  },
+  getAllBrands: function getAllBrands(state, data) {
+    var brands = data.data;
+    var _loop2 = function _loop2(i) {
+      var found = state.allBrands.some(function (el) {
+        return el.id === brands[i].id;
+      });
+      if (!found) state.allBrands.push(brands[i]);
+    };
+    for (var i = 0; i < brands.length; i++) {
+      _loop2(i);
+    }
+    state.brand_paginate_url = data.next_page_url;
+    state.brand_paginate_page++;
+    return state.allBrands;
+  },
+  getAllSellers: function getAllSellers(state, data) {
+    var sellers = data.data;
+    var _loop3 = function _loop3(i) {
+      var found = state.allSellers.some(function (el) {
+        return el.id === sellers[i].id;
+      });
+      if (!found) state.allSellers.push(sellers[i]);
+    };
+    for (var i = 0; i < sellers.length; i++) {
+      _loop3(i);
+    }
+    state.seller_paginate_url = data.next_page_url;
+    state.seller_paginate_page++;
+    return state.allSellers;
+  },
+  getDefaultAssets: function getDefaultAssets(state, data) {
+    return state.default_assets = data;
+  },
+  getFilterLoaded: function getFilterLoaded(state, data) {
+    return state.filter_loaded = data;
+  },
+  getProducts: function getProducts(state, data) {
+    return state.products = data;
+  },
+  getCategoryProducts: function getCategoryProducts(state, data) {
+    var index = state.category_products.findIndex(function (c) {
+      return c.slug == data.slug;
+    });
+    if (index > -1) {
+      state.category_products.splice(index, 1);
+    }
+    return state.category_products.push(data);
+  },
+  getBrandProducts: function getBrandProducts(state, data) {
+    var index = state.brand_products.findIndex(function (c) {
+      return c.slug == data.slug;
+    });
+    if (index > -1) {
+      state.brand_products.splice(index, 1);
+    }
+    return state.brand_products.push(data);
+  },
+  getCategoryPage: function getCategoryPage(state, data) {
+    return state.category_page.push(data);
+  },
+  getBrandPage: function getBrandPage(state, data) {
+    return state.brand_page.push(data);
+  },
+  getSellerPage: function getSellerPage(state, data) {
+    return state.seller_page.push(data);
+  },
+  getOfferProducts: function getOfferProducts(state, data) {
+    return state.offer_products = data;
+  },
+  getSellingProducts: function getSellingProducts(state, data) {
+    return state.selling_products = data;
+  },
+  getUserAddresses: function getUserAddresses(state, data) {
+    return state.userAddresses = data;
+  },
+  getCountries: function getCountries(state, data) {
+    return state.countries = data;
+  },
+  getAddons: function getAddons(state, data) {
+    return state.addons = data;
+  },
+  getWalletRecharges: function getWalletRecharges(state, data) {
+    var _loop4 = function _loop4(i) {
+      var found = state.wallet_recharges.some(function (el) {
+        return el.id === data.data[i].id;
+      });
+      if (!found) {
+        if (data.unshift == 1) {
+          state.wallet_recharges.unshift(data.data[i]);
+        } else {
+          state.wallet_recharges.push(data.data[i]);
+        }
+      }
+    };
+    for (var i = 0; i < data.data.length; i++) {
+      _loop4(i);
+    }
+    return state.wallet_recharges;
+  },
+  getRewards: function getRewards(state, data) {
+    var _loop5 = function _loop5(i) {
+      var found = state.rewards.some(function (el) {
+        return el.id === data[i].id;
+      });
+      if (!found) {
+        state.rewards.push(data[i]);
+      }
+    };
+    for (var i = 0; i < data.length; i++) {
+      _loop5(i);
+    }
+    return state.rewards;
+  },
+  getOrderUrl: function getOrderUrl(state, data) {
+    return state.order_urls = data;
+  },
+  getInvoices: function getInvoices(state, data) {
+    return state.invoices = data;
+  },
+  getShopFollower: function getShopFollower(state, data) {
+    if (data.id) {
+      state.shop_follwer.push({
+        user_id: data.user_id,
+        seller_id: data.id,
+        status: 1
+      });
+    }
+    return state.shop_follwer;
+  },
+  getRemoveFollower: function getRemoveFollower(state, data) {
+    var index = state.shop_follwer.findIndex(function (c) {
+      return c.seller_id == data.seller_id;
+    });
+    if (index > -1) {
+      state.shop_follwer.splice(index, 1);
+    }
+    return state.shop_follwer;
+  },
+  setCurrentSellerId: function setCurrentSellerId(state, id) {
+    state.currentSellerId = id;
+  },
+  setLoginRedirection: function setLoginRedirection(state, data) {
+    return state.login_redirect = data;
+  },
+  setTotalReward: function setTotalReward(state, data) {
+    return state.total_reward = data;
+  },
+  setNotifications: function setNotifications(state, data) {
+    return state.notifications = data;
+  },
+  setFollowedSellers: function setFollowedSellers(state, data) {
+    var _loop6 = function _loop6(i) {
+      var found = state.followedSellers.some(function (el) {
+        return el.id === data[i].id;
+      });
+      if (!found) {
+        state.followedSellers.push(data[i]);
+      }
+    };
+    for (var i = 0; i < data.length; i++) {
+      _loop6(i);
+    }
+    return state.followedSellers;
+  },
+  removeFollowedSellers: function removeFollowedSellers(state, i) {
+    return state.followedSellers.splice(i, 1);
+  },
+  setActiveModal: function setActiveModal(state, data) {
+    return state.active_modal = data;
+  },
+  setLangKeywords: function setLangKeywords(state, data) {
+    return state.lang_keywords = data;
+  },
+  commonData: function commonData(state, data) {
+    return state.common_data = data;
+  },
+  setPaymentData: function setPaymentData(state, data) {
+    return state.payment_data = data;
+  },
+  setSellerCoupons: function setSellerCoupons(state, data) {
+    var seller_coupons = state.seller_coupons;
+    var coupons = {
+      data: []
+    };
+    for (var i = 0; i < seller_coupons.length; i++) {
+      if (seller_coupons[i].slug == data.slug) {
+        coupons.data = seller_coupons[i].coupons.data;
+        for (var j = 0; j < data.coupons.data.length; j++) {
+          coupons.data.push(data.coupons.data[i]);
+        }
+        coupons.next_page_url = data.coupons.next_page_url;
+        return state.seller_coupons[i].coupons = coupons;
+      }
+    }
+    return state.seller_coupons.push(data);
+  },
+  setSellerProducts: function setSellerProducts(state, data) {
+    var seller_products = state.seller_products;
+    var products = {
+      data: []
+    };
+    var index = seller_products.findIndex(function (seller) {
+      return seller.slug == data.slug;
+    });
+    if (index > -1) {
+      state.seller_products[index].products.data = [];
+      products.data = seller_products[index].products.data;
+      for (var i = 0; i < data.products.data.length; i++) {
+        products.data.push(data.products.data[i]);
+      }
+      products.next_page_url = data.products.next_page_url;
+      return state.seller_products[index].products = products;
+    }
+    return state.seller_products.push(data);
+  },
+  setActiveTab: function setActiveTab(state, data) {
+    return state.active_tab = data;
+  },
+  setPriceRange: function setPriceRange(state, data) {
+    return state.price_range = data;
+  },
+  setCountryList: function setCountryList(state, data) {
+    return state.countryList = data;
+  },
+  setResponseDone: function setResponseDone(state, data) {
+    return state.response_done = data;
+  },
+  setResponseCheck: function setResponseCheck(state, data) {
+    return state.responseCheck = data;
+  },
+  setVideoShops: function setVideoShops(state, data) {
+    var _loop7 = function _loop7(i) {
+      var found = state.video_shops.some(function (el) {
+        return el.id === data[i].id;
+      });
+      if (!found) state.video_shops.push(data[i]);
+    };
+    for (var i = 0; i < data.length; i++) {
+      _loop7(i);
+    }
+    return state.video_shops;
+  },
+  setVideoDetails: function setVideoDetails(state, data) {
+    var found = state.video_details.some(function (el) {
+      return el.id === data.id;
+    });
+    if (!found) state.video_details.push(data);
+    return state.video_details;
+  },
+  setEmptySeller: function setEmptySeller(state) {
+    var arr = [];
+    return state.allSellers = arr;
+  },
+  setSliderBanner: function setSliderBanner(state, data) {
+    return state.slider_banners = data;
+  },
+  setMobileNo: function setMobileNo(state, data) {
+    return state.phone = data;
+  },
+  setHomeScroller: function setHomeScroller(state, data) {
+    return state.home_scroller = data;
+  },
+  setSidebar: function setSidebar(state, data) {
+    return state.sidebar_category = data;
+  },
+  setSmCategory: function setSmCategory(state, data) {
+    return state.show_sm_category = data;
+  },
+  setSmHomeMenu: function setSmHomeMenu(state, data) {
+    return state.show_sm_home_menu = data;
+  },
+  setCampaignStore: function setCampaignStore(state, data) {
+    return state.campaign_store.push(data);
+  }
+});
 
 /***/ })
 
@@ -54715,7 +54761,7 @@ const unwrap = (value) => reverseTransformCache.get(value);
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames based on template
-/******/ 			return "public/frontend/js/chunks-193/" + chunkId + "." + {"resources_js_components_frontend_partials_loading_button_vue":"038aab9a24cfb96c","resources_js_components_frontend_pages_home_vue":"17ee99dbfb5983a5","resources_js_components_frontend_pages_about_vue":"3c3fb29fe2e68cbd","resources_js_components_frontend_pages_blogs_vue":"a9ba10a39a696deb","resources_js_components_frontend_pages_blog_details_vue":"9b4a88b81528d72c","resources_js_components_frontend_pages_brands_vue":"fa0ea6766c1c4dc1","resources_js_components_frontend_pages_all-seller_vue":"cc0665ecae56e80a","resources_js_components_frontend_pages_campaign_details_vue":"84fb1517ba121060","resources_js_components_frontend_pages_all_campaign_vue":"4971393de7bbd5d9","resources_js_components_frontend_pages_category_vue":"779e1ddd87a53f37","resources_js_components_frontend_pages_contact_vue":"8b3f346b486ba839","resources_js_components_frontend_pages_daily-deals_vue":"e8f89573cfadea4d","resources_js_components_frontend_pages_gift-idea_vue":"1a4b92415aeed4c3","resources_js_components_frontend_pages_business-idea_vue":"3c8617136abf773a","resources_js_components_frontend_pages_product-details_vue":"eb36baad4b77997b","resources_js_components_frontend_pages_track-order_vue":"b533bede3e89421a","resources_js_components_frontend_pages_after-track-order_vue":"238b3b619da793c0","resources_js_components_frontend_pages_checkout_vue":"21bee3dd2556b4fc","resources_js_components_frontend_pages_payment_vue":"44c8e484d6cbdc99","resources_js_components_frontend_pages_order-confirmation_vue":"2ef02a3bc41d3570","resources_js_components_frontend_pages_cart_vue":"880b861370d58b32","resources_js_components_frontend_pages_login_vue":"4045ef6d40ab35b7","resources_js_components_frontend_pages_register_vue":"11b6f373de130cf0","resources_js_components_frontend_pages_seller_register_vue":"84817647ee33ed4f","resources_js_components_frontend_pages_forgot-password_vue":"5252b1a290e406ef","resources_js_components_frontend_pages_user_wishlist_vue":"1f6f75ac4e123cb5","resources_js_components_frontend_pages_filter_sidebar_vue":"d76c6929bc9422ec","resources_js_components_frontend_pages_flash-sale_vue":"606fd6df3e7280e4","resources_js_components_frontend_pages_compare-list_vue":"c8b4b09b3d8dab0d","resources_js_components_frontend_pages_user_change_password_vue":"c61aa83546ab23c5","resources_js_components_frontend_pages_user_edit-profile_vue":"06cfe66c01ab3a07","resources_js_components_frontend_pages_user_migrate-to-seller_vue":"bd36ec4bc9e594eb","resources_js_components_frontend_pages_user_gift-voucher_vue":"dfec3deb10f52aef","resources_js_components_frontend_pages_user_notification_vue":"c688b3f996dbf059","resources_js_components_frontend_pages_user_order-history_vue":"853248e49609aa5d","resources_js_components_frontend_pages_user_dashboard_vue":"3d0e191319b763ed","resources_js_components_frontend_pages_user_addresses_vue":"4eb26283c9b7f8af","resources_js_components_frontend_pages_user_get-invoice_vue":"d08aaeb1fd5e9071","resources_js_components_frontend_pages_addons_rewards_vue":"ab650edb79cceb7c","resources_js_components_frontend_pages_user_wallet_vue":"1d579bbeeae3a6e3","resources_js_components_frontend_pages_shop_vue":"b5db900ed4be7cb3","resources_js_components_frontend_pages_user_followed-shop_vue":"99c7a17a1e9fcd96","resources_js_components_frontend_pages_user_digital-product-orders_vue":"c814df12e23aaca1","resources_js_components_frontend_pages_addons_video_shop_vue":"0e97e9b469a0696e","resources_js_components_frontend_pages_addons_video_shop_details_vue":"92941cf0804a8dba","resources_js_components_errors_not_found_vue":"98b1a386584fe923","resources_js_components_frontend_pages_affiliate_users_affiliate_register_vue":"80d6d61aaf0861e5","resources_js_components_frontend_pages_affiliate_users_affiliate_program_vue":"326b031f6fa4420a","resources_js_components_frontend_pages_affiliate_users_affiliate_system_vue":"f1fe4361cb6bd1b6","resources_js_components_frontend_pages_CreateClaim_vue":"24c9e318c7ecf358","resources_js_components_frontend_master_vue":"d3fcabe596e62550"}[chunkId] + ".js";
+/******/ 			return "public/frontend/js/chunks-193/" + chunkId + "." + {"resources_js_components_frontend_partials_loading_button_vue":"abe5585bcf85bc31","resources_js_components_frontend_pages_home_vue":"33f531ae4ed4f1f4","resources_js_components_frontend_pages_about_vue":"b46c1acf0dff0461","resources_js_components_frontend_pages_blogs_vue":"b9103e3a84e9efea","resources_js_components_frontend_pages_blog_details_vue":"49458b913607c791","resources_js_components_frontend_pages_brands_vue":"5f8fa6f9095d8214","resources_js_components_frontend_pages_all-seller_vue":"6203f4e0e0649623","resources_js_components_frontend_pages_campaign_details_vue":"c63f7e07b6b28f44","resources_js_components_frontend_pages_all_campaign_vue":"c295f81cbb752ebb","resources_js_components_frontend_pages_category_vue":"9aa332e6c8baae30","resources_js_components_frontend_pages_contact_vue":"63262b7c7c008a02","resources_js_components_frontend_pages_daily-deals_vue":"166e12951862edcb","resources_js_components_frontend_pages_gift-idea_vue":"fc3e621ce16be0cb","resources_js_components_frontend_pages_business-idea_vue":"a82d9a025e8c4551","resources_js_components_frontend_pages_product-details_vue":"6708c598a2a9b912","resources_js_components_frontend_pages_track-order_vue":"df9e7dfa2079656d","resources_js_components_frontend_pages_after-track-order_vue":"bde9028d3679eb45","resources_js_components_frontend_pages_checkout_vue":"467a3cf5226d9133","resources_js_components_frontend_pages_payment_vue":"440fd65ecb468454","resources_js_components_frontend_pages_order-confirmation_vue":"a02a54751a2e3311","resources_js_components_frontend_pages_cart_vue":"01f5192857f36a39","resources_js_components_frontend_pages_login_vue":"add8743319a3e257","resources_js_components_frontend_pages_register_vue":"b71600dd7686a6a7","resources_js_components_frontend_pages_seller_register_vue":"fb1ef93dc15b57f3","resources_js_components_frontend_pages_forgot-password_vue":"6f66a8f4fe89f106","resources_js_components_frontend_pages_user_wishlist_vue":"2a0e775d007e9725","resources_js_components_frontend_pages_filter_sidebar_vue":"c80d92b91ba9a45e","resources_js_components_frontend_pages_flash-sale_vue":"fceb0395812a1d7e","resources_js_components_frontend_pages_compare-list_vue":"681e600848c16fed","resources_js_components_frontend_pages_user_change_password_vue":"4c17b0e0a6f65a36","resources_js_components_frontend_pages_user_edit-profile_vue":"a6fb889814758940","resources_js_components_frontend_pages_user_migrate-to-seller_vue":"74266c8c9abdf99f","resources_js_components_frontend_pages_user_gift-voucher_vue":"647a0f81fdc33a19","resources_js_components_frontend_pages_user_notification_vue":"01680bd3e7c16733","resources_js_components_frontend_pages_user_order-history_vue":"77312e6d23b3ca3d","resources_js_components_frontend_pages_user_dashboard_vue":"e62450142934dce1","resources_js_components_frontend_pages_user_addresses_vue":"9dbbe9d114a00425","resources_js_components_frontend_pages_user_get-invoice_vue":"2ecdd7b79a733205","resources_js_components_frontend_pages_addons_rewards_vue":"3c4d9055e1533303","resources_js_components_frontend_pages_user_wallet_vue":"365004b80c082ee9","resources_js_components_frontend_pages_shop_vue":"24cff913e683dcd5","resources_js_components_frontend_pages_user_followed-shop_vue":"ce237a2846b88e71","resources_js_components_frontend_pages_user_digital-product-orders_vue":"98fd894c32d6d868","resources_js_components_frontend_pages_addons_video_shop_vue":"e522a425b9c31f5b","resources_js_components_frontend_pages_addons_video_shop_details_vue":"530499251664bf16","resources_js_components_errors_not_found_vue":"8dceca04572e4a86","resources_js_components_frontend_pages_affiliate_users_affiliate_register_vue":"98c5649d7ed67996","resources_js_components_frontend_pages_affiliate_users_affiliate_program_vue":"0b8218b774c4056e","resources_js_components_frontend_pages_affiliate_users_affiliate_system_vue":"14640ccd1036ab2b","resources_js_components_frontend_pages_CreateClaim_vue":"0155a520f66354c5","resources_js_components_frontend_pages_ReturnRequestForm_vue":"62f8529874c76c4f","resources_js_components_frontend_master_vue":"30841bbb8192f6f4"}[chunkId] + ".js";
 /******/ 		};
 /******/ 	})();
 /******/ 	
@@ -54808,20 +54854,20 @@ const unwrap = (value) => reverseTransformCache.get(value);
 /******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
 /******/ 		var document = __webpack_require__.g.document;
 /******/ 		if (!scriptUrl && document) {
-/******/ 			if (document.currentScript)
+/******/ 			if (document.currentScript && document.currentScript.tagName.toUpperCase() === 'SCRIPT')
 /******/ 				scriptUrl = document.currentScript.src;
 /******/ 			if (!scriptUrl) {
 /******/ 				var scripts = document.getElementsByTagName("script");
 /******/ 				if(scripts.length) {
 /******/ 					var i = scripts.length - 1;
-/******/ 					while (i > -1 && !scriptUrl) scriptUrl = scripts[i--].src;
+/******/ 					while (i > -1 && (!scriptUrl || !/^http(s?):/.test(scriptUrl))) scriptUrl = scripts[i--].src;
 /******/ 				}
 /******/ 			}
 /******/ 		}
 /******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
 /******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
 /******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
-/******/ 		scriptUrl = scriptUrl.replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		scriptUrl = scriptUrl.replace(/^blob:/, "").replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
 /******/ 		__webpack_require__.p = scriptUrl + "../../../";
 /******/ 	})();
 /******/ 	
@@ -54879,6 +54925,7 @@ const unwrap = (value) => reverseTransformCache.get(value);
 /******/ 			if((!__webpack_require__.o(installedChunks, chunkId) || installedChunks[chunkId] === undefined) && true) {
 /******/ 				installedChunks[chunkId] = null;
 /******/ 				var link = document.createElement('link');
+/******/ 				link.charset = 'utf-8';
 /******/ 		
 /******/ 				if (__webpack_require__.nc) {
 /******/ 					link.setAttribute("nonce", __webpack_require__.nc);
@@ -54936,13 +54983,13 @@ const unwrap = (value) => reverseTransformCache.get(value);
 /******/ 	/* webpack/runtime/startup prefetch */
 /******/ 	(() => {
 /******/ 		__webpack_require__.O(0, ["/frontend/js/app"], () => {
-/******/ 			["resources_js_components_frontend_pages_home_vue","resources_js_components_frontend_pages_about_vue","resources_js_components_frontend_pages_blogs_vue","resources_js_components_frontend_pages_blog_details_vue","resources_js_components_frontend_pages_brands_vue","resources_js_components_frontend_pages_all-seller_vue","resources_js_components_frontend_pages_campaign_details_vue","resources_js_components_frontend_pages_all_campaign_vue","resources_js_components_frontend_pages_category_vue","resources_js_components_frontend_pages_contact_vue","resources_js_components_frontend_pages_daily-deals_vue","resources_js_components_frontend_pages_gift-idea_vue","resources_js_components_frontend_pages_business-idea_vue","resources_js_components_frontend_pages_product-details_vue","resources_js_components_frontend_pages_track-order_vue","resources_js_components_frontend_pages_after-track-order_vue","resources_js_components_frontend_pages_checkout_vue","resources_js_components_frontend_pages_payment_vue","resources_js_components_frontend_pages_order-confirmation_vue","resources_js_components_frontend_pages_cart_vue","resources_js_components_frontend_pages_login_vue","resources_js_components_frontend_pages_register_vue","resources_js_components_frontend_pages_seller_register_vue","resources_js_components_frontend_pages_forgot-password_vue","resources_js_components_frontend_pages_user_wishlist_vue","resources_js_components_frontend_pages_filter_sidebar_vue","resources_js_components_frontend_pages_flash-sale_vue","resources_js_components_frontend_pages_compare-list_vue","resources_js_components_frontend_pages_user_change_password_vue","resources_js_components_frontend_pages_user_edit-profile_vue","resources_js_components_frontend_pages_user_migrate-to-seller_vue","resources_js_components_frontend_pages_user_gift-voucher_vue","resources_js_components_frontend_pages_user_notification_vue","resources_js_components_frontend_pages_user_order-history_vue","resources_js_components_frontend_pages_user_dashboard_vue","resources_js_components_frontend_pages_user_addresses_vue","resources_js_components_frontend_pages_user_get-invoice_vue","resources_js_components_frontend_pages_addons_rewards_vue","resources_js_components_frontend_pages_user_wallet_vue","resources_js_components_frontend_pages_shop_vue","resources_js_components_frontend_pages_user_followed-shop_vue","resources_js_components_frontend_pages_user_digital-product-orders_vue","resources_js_components_frontend_pages_addons_video_shop_vue","resources_js_components_frontend_pages_addons_video_shop_details_vue","resources_js_components_frontend_pages_affiliate_users_affiliate_register_vue","resources_js_components_frontend_pages_affiliate_users_affiliate_program_vue","resources_js_components_frontend_pages_affiliate_users_affiliate_system_vue","resources_js_components_frontend_pages_CreateClaim_vue"].map(__webpack_require__.E);
+/******/ 			["resources_js_components_frontend_pages_home_vue","resources_js_components_frontend_pages_about_vue","resources_js_components_frontend_pages_blogs_vue","resources_js_components_frontend_pages_blog_details_vue","resources_js_components_frontend_pages_brands_vue","resources_js_components_frontend_pages_all-seller_vue","resources_js_components_frontend_pages_campaign_details_vue","resources_js_components_frontend_pages_all_campaign_vue","resources_js_components_frontend_pages_category_vue","resources_js_components_frontend_pages_contact_vue","resources_js_components_frontend_pages_daily-deals_vue","resources_js_components_frontend_pages_gift-idea_vue","resources_js_components_frontend_pages_business-idea_vue","resources_js_components_frontend_pages_product-details_vue","resources_js_components_frontend_pages_track-order_vue","resources_js_components_frontend_pages_after-track-order_vue","resources_js_components_frontend_pages_checkout_vue","resources_js_components_frontend_pages_payment_vue","resources_js_components_frontend_pages_order-confirmation_vue","resources_js_components_frontend_pages_cart_vue","resources_js_components_frontend_pages_login_vue","resources_js_components_frontend_pages_register_vue","resources_js_components_frontend_pages_seller_register_vue","resources_js_components_frontend_pages_forgot-password_vue","resources_js_components_frontend_pages_user_wishlist_vue","resources_js_components_frontend_pages_filter_sidebar_vue","resources_js_components_frontend_pages_flash-sale_vue","resources_js_components_frontend_pages_compare-list_vue","resources_js_components_frontend_pages_user_change_password_vue","resources_js_components_frontend_pages_user_edit-profile_vue","resources_js_components_frontend_pages_user_migrate-to-seller_vue","resources_js_components_frontend_pages_user_gift-voucher_vue","resources_js_components_frontend_pages_user_notification_vue","resources_js_components_frontend_pages_user_order-history_vue","resources_js_components_frontend_pages_user_dashboard_vue","resources_js_components_frontend_pages_user_addresses_vue","resources_js_components_frontend_pages_user_get-invoice_vue","resources_js_components_frontend_pages_addons_rewards_vue","resources_js_components_frontend_pages_user_wallet_vue","resources_js_components_frontend_pages_shop_vue","resources_js_components_frontend_pages_user_followed-shop_vue","resources_js_components_frontend_pages_user_digital-product-orders_vue","resources_js_components_frontend_pages_addons_video_shop_vue","resources_js_components_frontend_pages_addons_video_shop_details_vue","resources_js_components_frontend_pages_affiliate_users_affiliate_register_vue","resources_js_components_frontend_pages_affiliate_users_affiliate_program_vue","resources_js_components_frontend_pages_affiliate_users_affiliate_system_vue","resources_js_components_frontend_pages_CreateClaim_vue","resources_js_components_frontend_pages_ReturnRequestForm_vue"].map(__webpack_require__.E);
 /******/ 		}, 5);
 /******/ 	})();
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+// This entry needs to be wrapped in an IIFE because it needs to be in strict mode.
 (() => {
 "use strict";
 /*!*****************************!*\

@@ -102,6 +102,8 @@ const affiliate_system = () => import(/* webpackPrefetch: true */
 //claim   
  const createClaim = () => import(/* webpackPrefetch: true */ 
         '../components/frontend/pages/CreateClaim.vue');
+        //request
+ const ReturnRequestForm = () => import( /* webpackPrefetch: true */ '../components/frontend/pages/ReturnRequestForm.vue'  );
 
 
         export const routes = [
@@ -559,9 +561,28 @@ const affiliate_system = () => import(/* webpackPrefetch: true */
                     title: 'Reclamation',
                 }
             },
+            // {
+            //     path: '/returns/create',
+            //     name: 'create.return', // Nom logique pour la route
+            //     component: ReturnRequestForm, // Assurez-vous d'avoir cette importation
+            //     meta: {
+            //       title: 'Demande de retour',
+            //       requiresAuth: true // Si l'utilisateur doit être connecté
+            //     }
+            //   },
+           
 
-            
-  
+        
+              {
+                path: '/demande-retour',
+                name: 'create.return',
+                component: ReturnRequestForm,
+                meta: {
+                  title: 'Demande de retour',
+                  requiresAuth: true
+                }
+              },
+         
 
 
 {

@@ -17,7 +17,9 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         $this->app->bind(
            \App\Repositories\Interfaces\Admin\ClaimInterface::class,
-            \App\Repositories\ClaimRepository::class
+            \App\Repositories\ClaimRepository::class,
+            ReturnRequestRepositoryInterface::class,
+            ReturnRequestRepository::class
         );    }
 
     /**

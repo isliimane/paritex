@@ -44,6 +44,7 @@
 
 <script>
 export default {
+  name: 'ClaimList',
   data() {
     return {
       claims: {},

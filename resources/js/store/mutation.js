@@ -138,6 +138,9 @@ export default {
     getProfileOrders(state, data) {
         return state.profile_orders = data;
     },
+    getUserOrders(state, data) {
+        return state.user_orders = data;
+    },
     getUserOrderList(state, data) {
         return state.userOrderList = data;
     },

@@ -5,6 +5,103 @@
             display: none !important;
         }
     }
+
+
+/* Icônes principales de la navbar */
+.navbar .bx {
+  color: #3498db !important; /* Bleu standard */
+  transition: all 0.3s ease;
+}
+
+/* Icône du menu burger */
+.navbar .bx-menu {
+  color: #3498db !important;
+}
+
+/* Icône de notification */
+.navbar .bx-bell {
+  color: #3498db !important;
+}
+
+/* Icône POS */
+.navbar .bx-printer {
+  color: #3498db !important;
+}
+
+/* Icône "Visit Store" */
+.navbar .bx-globe {
+  color: #3498db !important;
+}
+
+/* Effet au survol des icônes */
+.navbar .nav-link:hover .bx {
+  color: #2980b9 !important; /* Bleu plus foncé au survol */
+}
+
+/* Dropdown utilisateur - Icônes */
+.dropdown-menu .bx {
+  color: #3498db !important;
+  margin-right: 8px;
+}
+
+/* Icône de profil */
+.dropdown-menu .bx-user {
+  color: #3498db !important;
+}
+
+/* Icône des activités de connexion */
+.dropdown-menu .bx-file {
+  color: #3498db !important;
+}
+
+/* Icône de déconnexion */
+.dropdown-menu .bx-log-out {
+  color: #e74c3c !important; /* Rouge pour la déconnexion */
+}
+
+/* Style du nom d'utilisateur dans la navbar */
+.nav-link-user div {
+  color: #3498db !important;
+  font-weight: 600;
+}
+
+/* Style des flags/langues */
+.nav-link-flag img {
+  border: 2px solid #3498db;
+  border-radius: 3px;
+}
+
+/* Style du dropdown devise */
+.nav-link-flag .d-sm-none.d-lg-inline-block {
+  color: #3498db !important;
+  font-weight: 500;
+}
+
+/* Animation des icônes */
+.navbar .bx {
+  transition: transform 0.3s ease;
+}
+
+.navbar .nav-link:hover .bx {
+  transform: scale(1.1);
+}
+
+/* Badge de notification */
+.notification-toggle.beep::after {
+  background-color: #e74c3c; /* Rouge pour les notifications non lues */
+}
+
+/* Style spécifique pour les écrans mobiles */
+@media (max-width: 767px) {
+  .navbar .bx {
+    font-size: 1.4rem; /* Taille légèrement augmentée */
+  }
+  
+  .nav-link-user div {
+    font-size: 0.9rem;
+  }
+}
+
 </style>
 <!-- hide "visit store" button from movile view -->
 

@@ -51,13 +51,15 @@ class ClaimController extends Controller
             $data = $request->only(['status', 'admin_response']);
             $this->claimService->update($id, $data); // Correction ici
             Toastr::success(__('Réclamation mise à jour avec succès.'));
-            return redirect()->route('admin.claim.index');
-        } catch (\Exception $e) {
+            return redirect()->route('admin.claim.index');  
+
+    } catch (\Exception $e) {
             Toastr::error($e->getMessage());
             return redirect()->back();
         }
     }
 
+  
     // Dans app/Http/Controllers/ClaimController.php
 public function store(Request $request)
 {

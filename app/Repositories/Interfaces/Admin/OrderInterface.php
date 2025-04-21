@@ -34,6 +34,7 @@ interface OrderInterface
     public function orderByCodes($orderCode);
 
     public function orders($take);
+    public function userOrders();
 
     public function productOrderList($item,$user);
 

@@ -83,18 +83,15 @@
                             </div>
                         </div>
 
-                        <div class="form-group mt-3">
+                        <!-- <div class="form-group mt-3">
                             <label class="form-label">{{ __('Admin Response') }}</label>
                             <textarea name="admin_response" class="form-control" 
                                       rows="4" placeholder="{{ __('Enter your response here...') }}"
                             >{{ old('admin_response', $claim->admin_response) }}</textarea>
-                        </div>
+                        </div> -->
 
-                        <div class="d-flex justify-content-end mt-4">
-                            <button type="submit" class="btn btn-primary px-4">
-                                <i class="bx bx-save"></i> {{ __('Update Claim') }}
-                            </button>
-                        </div>
+                       
+
                     </form>
                 </div>
             </div>
@@ -105,6 +102,8 @@
 
 @push('scripts')
 <script>
+
+
     // Scripts supplémentaires si nécessaire
     $(document).ready(function() {
         console.log('Claim details page loaded');
