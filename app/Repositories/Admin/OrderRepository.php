@@ -474,6 +474,21 @@ class OrderRepository implements OrderInterface
             return [];
         }
     }
+    public function userOrders()
+    {
+        if (authUser()) {
+            $orders = Order::with('orderDetails.product')->where('user_id',authId())->where('is_deleted',0)->get();
+           
+            \Log::info($orders[0]);
+            return $orders;
+            // return OrderDetail::with('product:id,thumbnail,slug,product_file_id', 'order')
+            //     ->whereHas('order', function ($query) {
+                  
+            //     })->groupBy('order_id')->latest()->get();
+        } else {
+            return [];
+        }
+    }
     public function digitalProductOrders($limit,$token=null)
     {
         $user_id = authUser() ? authId() : $token;

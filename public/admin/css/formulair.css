@@ -328,33 +328,86 @@ select:focus {
 }
 
 /* styl said bar */
-.sidebar-brand {
+
+/* Style pour la sidebar complète */
+.main-sidebar {
+  background: linear-gradient(135deg, #00a241 0%, #008a3a 100%) !important;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style pour le logo et le nom court */
+.sidebar-brand, .sidebar-brand-sm a {
+  color: white !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  padding: 15px 0;
+}
+
+/* Style des éléments du menu */
+.sidebar-menu .nav-link {
+  color: white !important;
+  padding: 12px 15px;
+  margin: 5px 0;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+/* Effet au survol */
+.sidebar-menu .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  transform: translateX(5px);
+}
+
+/* Style des éléments actifs */
+.sidebar-menu .nav-link.active {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  font-weight: bold;
+}
+
+/* Style des sous-menus */
+.sidebar-menu .dropdown-menu {
+  background-color: #008a3a !important;
+  border: none;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Style des icônes */
+.sidebar-menu i.bx {
+  font-size: 1.2rem;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+/* .sidebar-brand {
   width: 500px;
   height: 500px;
   display: flex;
   justify-content: center;
   align-items: center;
- /* background-color: #f0f0f0;*/ /* Facultatif : couleur de fond */
-  overflow: hidden; /* Évite tout dépassement */
+  overflow: hidden; 
 }
 
 .sidebar-brand img {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* Garde les proportions du logo sans le couper */
+  object-fit: contain; 
 }
 
-/* .main-sidebar {
-  background-color: white !important; /* Fond blanc 
+.main-sidebar {
+  background-color: #3498db !important; 
 }
 
-.sidebar-menu {
-  background-color: white !important; /* S'assure que la liste a aussi un fond blanc 
+.sidebar-brand, .sidebar-brand-sm a {
+  color: white !important;
 }
 
-.sidebar-menu li a {
-  color: black !important; /* Texte en noir pour une meilleure lisibilité 
+.sidebar-menu .nav-link {
+  color: white !important;
+}
+
+.sidebar-menu .nav-link:hover {
+  background-color: rgba(230, 44, 44, 0.1) !important;
+}
+
+.sidebar-menu .dropdown-menu {
+  background-color: #2980b9 !important; 
 } */
-
-
-/**************************************/

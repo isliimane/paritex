@@ -99,8 +99,14 @@ const affiliate_program = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/affiliate_users/affiliate_program');
 const affiliate_system = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/affiliate_users/affiliate_system');
+//claim   
+ const createClaim = () => import(/* webpackPrefetch: true */ 
+        '../components/frontend/pages/CreateClaim.vue');
+        //request
+ const ReturnRequestForm = () => import( /* webpackPrefetch: true */ '../components/frontend/pages/ReturnRequestForm.vue'  );
 
-export const routes = [
+
+        export const routes = [
     {
         path: '/',
         component: () => import(/* webpackPrefetch : true" */'../components/frontend/master'),
@@ -548,10 +554,43 @@ export const routes = [
                 }
             },
             {
-                path: '/:pathMatch(.*)*',
-                name: '404',
-                component: error_404
+                path: '/create-claim',
+                name: 'create.claim',
+                component: createClaim,
+                meta: {
+                    title: 'Reclamation',
+                }
             },
-        ]
-    }
+            // {
+            //     path: '/returns/create',
+            //     name: 'create.return', // Nom logique pour la route
+            //     component: ReturnRequestForm, // Assurez-vous d'avoir cette importation
+            //     meta: {
+            //       title: 'Demande de retour',
+            //       requiresAuth: true // Si l'utilisateur doit être connecté
+            //     }
+            //   },
+           
+
+        
+              {
+                path: '/demande-retour',
+                name: 'create.return',
+                component: ReturnRequestForm,
+                meta: {
+                  title: 'Demande de retour',
+                  requiresAuth: true
+                }
+              },
+         
+
+
+{
+    path: '/:pathMatch(.*)*',
+    name: '404',
+    component: error_404
+},
+
+         ]
+     }
 ]

@@ -644,6 +644,13 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 Route::put('/{transfer}/update', [WarehouseTransferController::class, 'update'])->name('update');
                 Route::post('/{transfer}/approve', [WarehouseTransferController::class, 'approve'])->name('approve');
                 Route::post('/{transfer}/reject', [WarehouseTransferController::class, 'reject'])->name('reject');
+                //reclamation 
+                Route::get('claims', '\App\Http\Controllers\Admin\ClaimController@index')->name('admin.claim.index');
+                Route::get('claims/{id}', '\App\Http\Controllers\Admin\ClaimController@show')->name('admin.claim.show');
+                Route::post('claims/{id}/update', '\App\Http\Controllers\Admin\ClaimController@update')->name('admin.claim.update');
+                 //return
+                Route::get('return', '\App\Http\Controllers\Admin\ReturnRequestController@index')->name('admin.return.index');
+
             });
 
             Route::get('stock-movements', [StockMovementController::class, 'index'])->name('stock-movements.index');

@@ -75,6 +75,9 @@ export default {
     getProfileOrders(state) {
         return state.profile_orders;
     },
+    getUserOrders(state) {
+        return state.user_orders;
+    },
     getUserOrderList(state) {
         return state.userOrderList;
     },

@@ -24,7 +24,26 @@
                     </li>
                   </ul>
                 </div>
+   
               </li>
+          <li>
+  <li>
+ <router-link class="nav-link"
+    :to="{name: 'create.claim'}">
+    <i class="mdi mdi-alert-circle-outline mr-2"></i>
+    Faire une réclamation
+  </router-link>
+</li>
+  <li>
+  <router-link 
+    class="nav-link"
+    :to="{ name: 'create.return' }"> <!-- Assure-toi que le nom de la route correspond à ta config -->
+    <i class="mdi mdi-arrow-left-circle-outline mr-2"></i> <!-- Icône de retour (choisis celle qui convient) -->
+    Demande de retour
+  </router-link>
+</li>
+
+
               <li v-if="settings.currency_switcher != 0">
                 <div class="dropdown">
                   <button class="dropdown-toggle" type="button" id="" @click.stop="currencyDropdown"
@@ -77,17 +96,17 @@
                   <strong>{{ lang.call }}: {{ settings.header_contact_phone }}</strong>
                 </a>
               </li>
-              <li>
+             <!-- <li>
                 <router-link :to="{ name: 'track.order' }"
                 ><span class="mdi mdi-name mdi-map-marker-outline"></span>
                   {{ lang.track_order }}
                 </router-link>
-              </li>
-              <li>
+              </li>-->
+              <!--<li>
                 <router-link :class="{ has_compare: compareList > 0 }" :to="{ name: 'compare.list' }"
                 >{{ lang.compare }} <span v-if="compareList > 0">({{ compareList }})</span></router-link
                 >
-              </li>
+              </li>-->
               <li>
                 <router-link :to="{ name: 'blogs' }">{{ lang.blog }}</router-link>
               </li>
@@ -965,7 +984,7 @@ export default {
   justify-content: center;
   background: red;
   border-radius: 50%;
-  color: #fff;
+  color: #40A578;
   font-size: 11px;
 }
 

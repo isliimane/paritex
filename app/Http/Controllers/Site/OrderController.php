@@ -75,6 +75,20 @@ class OrderController extends Controller
         }
     }
 
+    public function userOrders(OrderInterface $order): \Illuminate\Http\JsonResponse
+    {
+        try {
+
+            $data = [
+                'orders' => $order->userOrders(),
+            ];
+            return response()->json($data);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' =>$e->getMessage()
+            ]);
+        }
+    }
     public function digitalProductOrders(Request $request, OrderInterface $order): \Illuminate\Http\JsonResponse
     {
         try {

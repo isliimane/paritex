@@ -41,6 +41,7 @@ const getDefaultState = () => {
         product_colors : {},
         get_page_data:'',
         profile_orders:{},
+        user_orders: {},
         userWishlist:{},
         cart_list:{},
         userOrderList:{},

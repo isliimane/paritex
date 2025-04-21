@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\RegisterController;
 use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\WalletController;
+use App\Http\Controllers\Admin\ClaimController;
+use App\Http\Controllers\ReturnRequestController;
 use App\Http\Controllers\Seller\CouponController;
 use App\Http\Controllers\Site\AddressController;
 use App\Http\Controllers\Site\BlogController;
@@ -42,7 +44,7 @@ Route::middleware(['XSS', 'isInstalled'])->group(function () {
     Route::get('/reset', [HomeController::class, 'reset'])->name('reset');
 
     Route::post('social-login', [SocialController::class, 'login'])->where('provider', 'facebook|twitter|google');
-//    Route::get('login/{provider}/callback', [SocialController::class,'callback'])->where('provider','facebook|twitter|google');
+    //    Route::get('login/{provider}/callback', [SocialController::class,'callback'])->where('provider','facebook|twitter|google');
 
     Route::middleware('logoutCheck')->group(function () {
         //admin register
@@ -104,6 +106,8 @@ Route::middleware(['XSS', 'isInstalled'])->group(function () {
             //order-routes
             Route::get('profile-orders', [OrderController::class, 'profileOrder'])->name('user.profile');
             Route::get('order-list', [OrderController::class, 'orderList'])->name('user.order.list');
+            Route::get('user-orders', [OrderController::class, 'userOrders'])->name('user.orders');
+            
             Route::get('digital-product-order-list', [OrderController::class, 'digitalProductOrders'])->name('user.digital.product.orders');
             Route::get('remove-order/{id}', [OrderController::class, 'removeOrder'])->name('remove.order');
             Route::get('cancel-order/{id}', [OrderController::class, 'cancelOrder'])->name('cancel.order');
@@ -112,7 +116,7 @@ Route::middleware(['XSS', 'isInstalled'])->group(function () {
             Route::get('reward-history', [RewardSystemController::class, 'rewardHistory'])->name('convert.reward.history');
             Route::get('affiliate-links', [AffiliateController::class, 'affiliateLinks'])->name('affiliate.links');
 
-//            Route::get('coupon-lists', [UserController::class, 'couponList'])->name('convert.reward.history');
+    //            Route::get('coupon-lists', [UserController::class, 'couponList'])->name('convert.reward.history');
         });
 
         //notification
@@ -306,11 +310,11 @@ Route::middleware(['XSS', 'isInstalled'])->group(function () {
     Route::get('telr/redirect/wallet', [WalletController::class, 'telrRedirect']);
     Route::post('delete-file', [HomeController::class, 'deleteFile'])->name('delete.file')->middleware('loginCheck');
     Route::get('set-default-language/{lang}', [LanguageController::class, 'setDefaultLanguage'])->name('set.default.language');
-//    Route::get('user/complete-recharge', [WalletController::Class, 'walletStore']);
+    //    Route::get('user/complete-recharge', [WalletController::Class, 'walletStore']);
     Route::match(['get', 'post'], 'user/complete-recharge', [WalletController::class, 'walletStore'])->name('wallet.complete.recharge');
     Route::get('file-download/{product_file}', [HomeController::class, 'fileDownload'])->name('file.download')->middleware('signed');
     Route::get('change-exchange-rate/{code}', [HomeController::class, 'changeCurrencyRate'])->name('change.currency.rate');
-//
+    //
     //Report Route
 
     Route::group(['prefix' => 'sitemap'], function () {
@@ -323,9 +327,18 @@ Route::middleware(['XSS', 'isInstalled'])->group(function () {
         Route::get('pages.xml', [SitemapController::class, 'pages'])->name('pages.sitemap');
     });
 
-    Route::get('migrate', function () {
-        \Illuminate\Support\Facades\Artisan::call('migrate');
+    //réclamation 
+    Route::middleware(['loginCheck'])->group(function () {
+        Route::post('send-claim', '\App\Http\Controllers\Admin\ClaimController@store')->name('claim.create');
+    });
+    Route::middleware(['loginCheck'])->group(function () {
+        Route::post('return-request', '\App\Http\Controllers\Admin\ReturnRequestController@store')->name('create.return');
+        Route::get('return/pending', '\App\Http\Controllers\Admin\ReturnRequestController@pendingRequests');
+        Route::post('return/{id}/process', '\App\Http\Controllers\Admin\ReturnRequestController@processRequest');
+        Route::get('/return', [ReturnRequestController::class, 'index'])->name('return.index');
+
     });
 
+     
 
 });

@@ -3,9 +3,103 @@
 @endphp
 
 <div class="main-sidebar">
+<style>
+/* Style pour la sidebar complète */
+.main-sidebar {
+  background: linear-gradient(135deg,rgb(77, 103, 181) 0%,rgb(250, 248, 248) 100%) !important;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style pour le logo et le nom court */
+.sidebar-brand, .sidebar-brand-sm a {
+  color: #000000 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  padding: 15px 0;
+}
+
+/* Style des éléments du menu */
+.sidebar-menu .nav-link {
+  color: #000000 !important;
+  padding: 12px 15px;
+  margin: 5px 0;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+/* Style des icônes - Version bleue */
+.sidebar-menu i.bx {
+  font-size: 1.2rem;
+  color:rgb(50, 13, 236) !important; /* Bleu clair */
+  margin-right: 10px;
+  vertical-align: middle;
+  transition: color 0.3s ease;
+}
+
+/* Alternative bleu plus foncé */
+/* .sidebar-menu i.bx {
+  color: #2980b9 !important; 
+} */
+
+/* Effet au survol */
+.sidebar-menu .nav-link:hover {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+  transform: translateX(5px);
+}
+
+.sidebar-menu .nav-link:hover i.bx {
+  color: #2c3e50 !important; /* Bleu foncé au survol */
+}
+
+/* Style des éléments actifs */
+.sidebar-menu .nav-link.active {
+  background-color: rgba(0, 0, 0, 0.1) !important;
+  font-weight: bold;
+  color: #000000 !important;
+}
+
+.sidebar-menu .nav-link.active i.bx {
+  color: #1a5276 !important; /* Bleu plus soutenu pour l'état actif */
+}
+
+/* Style des sous-menus */
+.sidebar-menu .dropdown-menu {
+  background-color:180deg,rgb(37, 82, 215) 0%,rgb(250, 248, 248) 100%t;
+  border: 1px solid #e0e0e0 !important;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-menu .dropdown-menu a {
+  color: #000000 !important;
+}
+
+.sidebar-menu .dropdown-menu i.bx {
+  color:rgb(15, 33, 227) !important; /* Même bleu que les icônes principales */
+}
+
+/* Animation douce pour l'ouverture de la sidebar */
+.aside {
+  transition: all 0.3s ease-out;
+}
+
+/* Ombre portée pour le contenu */
+#sidebar-wrapper {
+  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Séparateur entre les éléments du menu */
+.sidebar-menu li {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.sidebar-menu li:last-child {
+  border-bottom: none;
+}
+
+
+</style>
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand sidebar-brand-sm">
-            <a href="{{ route('dashboard') }}">{{ settingHelper('system_short_name') != '' ? settingHelper('system_short_name',app()->getLocale()) :  "Yoori" }}</a>
+            <a href="{{ route('dashboard') }}">{{ settingHelper('system_short_name') != '' ? settingHelper('system_short_name',app()->getLocale()) :  "Paritex" }}</a>
         </div>
         <div class="sidebar-brand">
             <a href="{{ route('dashboard') }}">
@@ -20,6 +114,33 @@
                             class="bx bxs-dashboard"></i>
                     <span>{{ __('Dashboard') }}</span></a>
             </li>
+            
+          <!-- reclamation  -->
+          @if(hasPermission('claim_read'))
+    <li class="@yield('claim')">
+        <a class="nav-link" href="{{ route('admin.claim.index') }}">
+            <i class="bx bx-error-circle"></i>
+            <span>{{ __('Réclamations') }}</span>
+        </a>
+    </li>
+@endif
+<!--return -->
+@if(hasPermission('return_read'))
+    <li class="@yield('return')">
+        <a class="nav-link" href="{{ route('admin.return.index') }}">
+            <i class="bx bx-arrow-back"></i>
+            <span>{{ __('Demandes de retour') }}</span>
+            
+            @php
+                $pendingCount = \App\Models\ReturnRequest::where('status', 'pending')->count();
+            @endphp
+            
+            @if($pendingCount > 0)
+                <span class="badge bg-danger float-end">{{ $pendingCount }}</span>
+            @endif
+        </a>
+    </li>
+@endif
             @if(hasPermission('order_read') || hasPermission('pickup_hub_read'))
                 <li class="nav-item dropdown @yield('order_active')">
                     <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
@@ -958,12 +1079,12 @@
                             <span>{{ __('System Update') }}</span>
                         </a>
                     </li>
-                    <li class="@yield('server-info')">
+                    <!-- <li class="@yield('server-info')">
                         <a class="nav-link" href="{{ route('admin.server.info') }}">
                             <i class="bx bx-server"></i>
                             <span>{{ __('Server Info') }}</span>
                         </a>
-                    </li>
+                    </li> -->
                 @endif
             @endif
             @if(hasPermission('warehouse_read'))

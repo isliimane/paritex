@@ -178,10 +178,43 @@ Route::prefix('v100')->group(function() {
     Route::get('video-shopping',[VideoShoppingController::class,'allVideos']);
     Route::get('video-shops-details/{slug}',[VideoShoppingController::class,'videoShoppingDetails']);
 
+    //return-request
+    // Route::middleware('auth:sanctum')->group(function () {
+    //     Route::post('/return-requests', [ReturnRequestController::class, 'store']);
+    //     Route::get('/return-requests', [ReturnRequestController::class, 'index']); // Pour lister les demandes
+    // });
+    Route::middleware('auth:sanctum')->get('/user/orders', function (Request $request) {
+        return $request->user()->orders()
+            ->with(['orderDetails.product' => function($query) {
+                $query->select('id', 'name');
+            }])
+            ->select('id', 'created_at', 'grand_total', 'payment_status')
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function($order) {
+                return [
+                    'id' => $order->id,
+                    'date' => $order->created_at->format('d/m/Y H:i'),
+                    'total' => $order->grand_total,
+                    'status' => $order->payment_status,
+                    'products' => $order->orderDetails->map(function($detail) {
+                        return [
+                            'name' => $detail->product->name,
+                            'quantity' => $detail->quantity
+                        ];
+                    })
+                ];
+            });
+    });
 
 });
+
 Route::match(['post','get'],'complete-order', [OrderController::class, 'completeOrder'])->name('api.complete.order');
 Route::match(['get', 'post'], 'complete-recharge', [WalletController::class, 'walletStore'])->name('api.wallet.complete.recharge');
 
 Route::get('payment-success', [OrderController::class, 'paymentSuccess'])->name('api.payment.success');
 Route::get('import-db', [APIController::class, 'importDb']);
+//pour return 
+Route::middleware(['jwt.verify'])->group(function() {
+    Route::get('return-eligible-orders', [OrderController::class, 'returnEligibleOrders']);
+});
