@@ -21,6 +21,7 @@ use App\Models\Order;
 use App\Models\DeliveryHistory;
 use App\Models\WarehouseProduct;
 use App\Models\Warehouse;
+use App\Models\ProductStock;
 use App\Repositories\Interfaces\Admin\Warehouse\WarehouseInterface;
 class OrderController extends Controller
 {
@@ -289,12 +290,19 @@ class OrderController extends Controller
 
             // Check if products are available in the selected warehouse
             foreach ($order->orderDetails as $detail) {
+                $product_stock = ProductStock::where('product_id', $detail->product_id)
+                ->where('name', $detail->variation)
+                ->first();
+                if(!$product_stock){
+                    Toastr::error(__('Product not found in the warehouse'));
+                    return back();
+                }
                 $warehouseStock = WarehouseProduct::where('id', $request->warehouse_id)
                     ->where('product_id', $detail->product_id)
-                    ->where('product_stock_id', $detail->id)
+                    ->where('product_stock_id', $product_stock->id)
                     ->first();
 
-                if (!$warehouseStock || $warehouseStock->quantity < $detail->current_stock) {
+                if (!$warehouseStock || $warehouseStock->quantity < $detail->quantity) {
                     Toastr::error(__('Insufficient stock in selected warehouse for product: ') . $detail->product->getTranslation('name', \App::getLocale()) . ' (' . $detail->variation . ')');
                     return back();
                 }

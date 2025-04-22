@@ -33,6 +33,7 @@ use PDF;
 use App\Services\StockMovementService;
 use Illuminate\Http\Request;
 use App\Models\Warehouse;
+use App\Models\WarehouseProduct;
 
 class OrderRepository implements OrderInterface
 {
@@ -1021,7 +1022,7 @@ class OrderRepository implements OrderInterface
                 
                 $warehouseStock = WarehouseProduct::where('id', $orderDetail->order->warehouse_id)
                     ->where('product_id', $orderDetail->product_id)
-                    ->where('product_stock_id', $orderDetail->id)
+                    ->where('product_stock_id', $product_stock->id)
                     ->first();
                 if($warehouseStock != null) {
                     if ($remove_quantity) {
