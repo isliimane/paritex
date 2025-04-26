@@ -21,7 +21,11 @@
                             <button type="button" class="btn btn-outline-secondary btn-circle edit-product" 
                                     data-id="{{ $product->id }}"
                                     data-quantity="{{ $product->quantity }}"
-                                    data-toggle="tooltip" title="" data-original-title="{{ __('Edit') }}">
+                                    data-available-stock="{{ $product->productStock->available_quantity ?? 0 }}"
+                                    data-available-space="{{ $warehouse->storage_capacity - $products->sum('quantity') }}"
+                                    data-target="#editProductModal"
+                                    data-toggle="modal"
+                                    title="" data-original-title="{{ __('Edit') }}">
                                 <i class="bx bx-edit"></i>
                             </button>
                         @endif

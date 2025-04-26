@@ -67,6 +67,28 @@ class WarehouseProductController extends Controller
         }
     }
 
+    public function create($warehouseId){
+        $warehouse = Warehouse::findOrFail($warehouseId);
+        $availableSpace = $this->getAvailableSpace($warehouse);
+        // Get all products with their stocks and calculate available quantities
+        $allProducts = Product::with(['stock' => function($query) {
+            $query->select('id', 'product_id', 'current_stock');
+        }])->get()->map(function($product) {
+            // Calculate total quantity of each stock in all warehouses
+            $stockQuantities = WarehouseProduct::whereIn('product_stock_id', $product->stock->pluck('id'))
+                ->select('product_stock_id', DB::raw('SUM(quantity) as total_quantity'))
+                ->groupBy('product_stock_id')
+                ->pluck('total_quantity', 'product_stock_id');
+
+            // Calculate available quantity for each stock
+            $product->stock->each(function($stock) use ($stockQuantities) {
+                $stock->available_quantity = $stock->current_stock - ($stockQuantities[$stock->id] ?? 0);
+            });
+
+            return $product;
+        });
+        return view('admin.warehouses.products.create', compact('warehouse', 'allProducts', 'availableSpace'));
+    }
     public function getStocks($warehouseId, $productId)
     {
         try {
@@ -148,47 +170,73 @@ class WarehouseProductController extends Controller
             DB::beginTransaction();
             
             $warehouse = Warehouse::findOrFail($warehouseId);
-            $product = Product::findOrFail($request->product_id);
-            $stock = ProductStock::findOrFail($request->product_stock_id);
+            $availableSpace = $this->getAvailableSpace($warehouse);
+            $totalRequestedQuantity = 0;
+            $items = $request->input('items', []);
 
-            // Check if product already exists in warehouse
-            $existingProduct = WarehouseProduct::where('warehouse_id', $warehouse->id)
-                ->where('product_id', $product->id)
-                ->where('product_stock_id', $stock->id)
-                ->first();
+            // Validate items array
+            if (empty($items)) {
+                throw new \Exception(__('No products selected'));
+            }
 
-            // Calculate total quantity in warehouse
-            $totalQuantityInWarehouse = WarehouseProduct::where('warehouse_id', $warehouse->id)
-                ->sum('quantity');
+            // Validate each item and calculate total quantity
+            foreach ($items as $item) {
+                $product = Product::findOrFail($item['product_id']);
+                $stock = ProductStock::findOrFail($item['product_stock_id']);
+                $quantity = (int)$item['quantity'];
 
-            // Calculate total quantity of this stock in all warehouses
-            $totalStockInWarehouses = WarehouseProduct::where('product_stock_id', $stock->id)
-                ->sum('quantity');
+                if ($quantity < 1) {
+                    throw new \Exception(__('Quantity must be at least 1 for all products'));
+                }
 
-            // Validate stock availability
-            if (($totalStockInWarehouses + $request->quantity) > $stock->current_stock) {
-                $availableQuantity = $stock->current_stock - $totalStockInWarehouses;
-                throw new \Exception(__('Not enough stock available. Available quantity: :quantity', ['quantity' => $availableQuantity]));
+                // Calculate total quantity of this stock in all warehouses
+                $totalStockInWarehouses = WarehouseProduct::where('product_stock_id', $stock->id)
+                    ->sum('quantity');
+
+                // Validate stock availability
+                if (($totalStockInWarehouses + $quantity) > $stock->current_stock) {
+                    $availableQuantity = $stock->current_stock - $totalStockInWarehouses;
+                    throw new \Exception(__('Not enough stock available for product :product. Available quantity: :quantity', [
+                        'product' => $product->getTranslation('name', app()->getLocale()),
+                        'quantity' => $availableQuantity
+                    ]));
+                }
+
+                $totalRequestedQuantity += $quantity;
             }
 
             // Validate warehouse capacity
-            if (($totalQuantityInWarehouse + $request->quantity) > $warehouse->storage_capacity) {
-                $availableSpace = $warehouse->storage_capacity - $totalQuantityInWarehouse;
-                throw new \Exception(__('Warehouse capacity exceeded. Available space: :space', ['space' => $availableSpace]));
+            if ($totalRequestedQuantity > $availableSpace) {
+                throw new \Exception(__('Warehouse capacity exceeded. Available space: :space', [
+                    'space' => $availableSpace
+                ]));
             }
 
-            if ($existingProduct) {
-                // Update existing product
-                $existingProduct->quantity += $request->quantity;
-                $existingProduct->save();
-            } else {
-                // Create new warehouse product
-                $warehouseProduct = new WarehouseProduct();
-                $warehouseProduct->warehouse_id = $warehouse->id;
-                $warehouseProduct->product_id = $product->id;
-                $warehouseProduct->product_stock_id = $stock->id;
-                $warehouseProduct->quantity = $request->quantity;
-                $warehouseProduct->save();
+            // Process each item
+            foreach ($items as $item) {
+                $product = Product::findOrFail($item['product_id']);
+                $stock = ProductStock::findOrFail($item['product_stock_id']);
+                $quantity = (int)$item['quantity'];
+
+                // Check if product already exists in warehouse
+                $existingProduct = WarehouseProduct::where('warehouse_id', $warehouse->id)
+                    ->where('product_id', $product->id)
+                    ->where('product_stock_id', $stock->id)
+                    ->first();
+
+                if ($existingProduct) {
+                    // Update existing product
+                    $existingProduct->quantity += $quantity;
+                    $existingProduct->save();
+                } else {
+                    // Create new warehouse product
+                    $warehouseProduct = new WarehouseProduct();
+                    $warehouseProduct->warehouse_id = $warehouse->id;
+                    $warehouseProduct->product_id = $product->id;
+                    $warehouseProduct->product_stock_id = $stock->id;
+                    $warehouseProduct->quantity = $quantity;
+                    $warehouseProduct->save();
+                }
             }
 
             DB::commit();
@@ -196,12 +244,12 @@ class WarehouseProductController extends Controller
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
-                    'message' => __('Product added to warehouse successfully'),
+                    'message' => __('Products added to warehouse successfully'),
                     'title' => __('Success')
                 ]);
             }
             
-            Toastr::success(__('Product added to warehouse successfully'), __('Success'));
+            Toastr::success(__('Products added to warehouse successfully'), __('Success'));
             return redirect()->route('warehouse.products.index', $warehouseId);
         } catch (\Exception $e) {
             DB::rollBack();
@@ -286,6 +334,17 @@ class WarehouseProductController extends Controller
             
             Toastr::error($e->getMessage(), __('Error'));
             return back();
+        }
+    }
+
+    public function getAvailableSpace(Warehouse $warehouse)
+    {
+        try {
+            $currentQuantity = WarehouseProduct::where('warehouse_id', $warehouse->id)->sum('quantity');
+            return $warehouse->storage_capacity - $currentQuantity;
+        } catch (\Exception $e) {
+            \Log::error('Error fetching current warehouse quantity: ' . $e->getMessage());
+            return 0;
         }
     }
 } 

@@ -631,6 +631,7 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 
                 Route::prefix('{warehouse}/products')->name('products.')->group(function () {
                     Route::get('/', [WarehouseProductController::class, 'index'])->name('index');
+                    Route::get('/create', [WarehouseProductController::class, 'create'])->name('create');
                     Route::post('/', [WarehouseProductController::class, 'store'])->name('store');
                     Route::put('/{id}', [WarehouseProductController::class, 'update'])->name('update');
                     Route::delete('/{id}', [WarehouseProductController::class, 'destroy'])->name('destroy');
