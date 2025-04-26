@@ -2925,5 +2925,7 @@
     "verify_license_to_make_purchase": "Verify License to make purchase",
     "verify_license_to_add_to_wishlist": "Verify License to add to wishlist",
     "verify_license_to_add_to_cart": "Verify License to add to cart",
-    "verify_license_to_buy_now": "Verify License to buy now"
+    "verify_license_to_buy_now": "Verify License to buy now",
+    "Complaints": "Complaints",
+    "make_complaint": "Make a complaint"
 }

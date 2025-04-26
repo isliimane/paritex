@@ -15,6 +15,12 @@ export default {
             context.commit("getContactPage", response.data.contact);
         })
     },
+    complaintPage(context) {
+        let url = context.state.url + '/home/complaint-page';
+        axios.get(url).then((response) => {
+            context.commit("getComplaintPage", response.data.complaint);
+        })
+    },
     othersPage(context,slug) {
         let url = context.state.url + '/home/others-page/' + slug;
         let requestData = {

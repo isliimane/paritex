@@ -39,6 +39,12 @@
                   </ul>
                 </div>
               </li>
+              <li>
+                <router-link :to="{name: 'complaint'}">
+                    <i class="mdi mdi-alert-circle-outline mr-2"></i>
+                    {{lang.make_complaint}}
+                </router-link>
+              </li>
               <li v-if="settings.topbar_play_store_link == 1">
                 <a :href="settings.play_store_link" target="_blank"
                 ><span class="mdi mdi-name mdi-google-play"></span> <small>{{ lang.play_store }}</small></a

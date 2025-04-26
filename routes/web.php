@@ -191,6 +191,7 @@ Route::middleware(['XSS', 'isInstalled'])->group(function () {
     Route::get('home/page', [FrontendController::class, 'home'])->name('home.page.data');
     Route::get('sidebar/categories', [HomeController::class, 'sidebarCategories']);
     Route::get('home/contact-page', [FrontendController::class, 'contactPage'])->name('home.contact');
+    Route::get('home/complaint-page', [FrontendController::class, 'complaintPage'])->name('home.complaint');
     Route::get('home/others-page/{slug}', [FrontendController::class, 'page'])->name('page');
     Route::get('home/campaign-lists', [FrontendController::class, 'campaigns'])->name('campaign.list');
     Route::get('home/campaign-products', [ProductController::class, 'campaignProducts'])->name('front.campaign.products');
@@ -232,6 +233,8 @@ Route::middleware(['XSS', 'isInstalled'])->group(function () {
     Route::get('change/currency/{currency}', [FrontendController::class, 'changeCurrency'])->name('change.currency');
     Route::post('send-message', [FrontendController::class, 'contactUs'])->name('store.contact.us');
     Route::post('reply-message', [FrontendController::class, 'reply'])->name('reply.contact.us');
+    Route::post('send-complaint', [FrontendController::class, 'createComplaint'])->name('store.create.complaint');
+    Route::post('reply-complaint', [FrontendController::class, 'complaintReply'])->name('reply.complaint');
     Route::get('user/wishlists', [FrontendController::class, 'wishlist'])->name('wishlist');
     Route::get('home/user/order-list', [ProductController::class, 'productOrderList'])->name('product.order.list')->middleware('customerCheck');
     Route::post('store/user-address', [AddressController::class, 'saveAddress'])->name('user.store.address');

@@ -317,6 +317,10 @@ class RepositoryServiceProvider extends ServiceProvider{
             'App\Repositories\Site\ContactUsRepository'
         );
         $this->app->bind(
+            'App\Repositories\Interfaces\Site\ComplaintInterface',
+            'App\Repositories\Site\ComplaintRepository'
+        );
+        $this->app->bind(
             'App\Repositories\Interfaces\Admin\NotificationInterface',
             'App\Repositories\Admin\NotificationRepository'
         );

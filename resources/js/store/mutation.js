@@ -8,6 +8,9 @@ export default {
     getContactPage(state, data) {
         return state.contact_page = data;
     },
+    getComplaintPage(state, data) {
+        return state.complaint_page = data;
+    },
     getSettings(state, data) {
         return state.settings = data;
     },

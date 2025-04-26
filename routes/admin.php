@@ -472,6 +472,10 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 Route::delete('delete/contact_us/{id}', [CommonController::class, 'delete'])->name('contact.us.delete');
                 Route::put('contact-us-replay/{id}', [SupportController::class, 'contactUsReplay'])->name('contact.us.replay');
 
+                Route::get('complaints', [SupportController::class, 'complaints'])->name('complaints');
+                Route::delete('delete/complaints/{id}', [CommonController::class, 'delete'])->name('complaints.delete');
+                Route::put('complaint-replay/{id}', [SupportController::class, 'ComplaintReplay'])->name('complaints.replay');
+
 
                 //support department
                 Route::get('support-department', [SupportDepartmentController::class, 'index'])->name('support.department')->middleware('PermissionCheck:support_department_read');

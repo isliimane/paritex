@@ -238,6 +238,10 @@ class PageRepository implements PageInterface
     {
         return Page::where('id',7)->where('status',1)->first();
     }
+    public function complaintPage()
+    {
+        return Page::where('id',8)->where('status',1)->first();
+    }
 
     public function pageBySlug($slug)
     {

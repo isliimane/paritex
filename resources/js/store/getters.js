@@ -8,6 +8,9 @@ export default {
     getContactPage(state) {
         return state.contact_page
     },
+    getComplaintPage(state) {
+        return state.complaint_page
+    },
     getAllCampaign(state) {
         return state.all_campaigns
     },

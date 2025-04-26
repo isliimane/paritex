@@ -19,6 +19,8 @@ const allCategory = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/category');
 const contact = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/contact');
+const complaint = () => import(/* webpackPrefetch: true */
+    '../components/frontend/pages/complaint');
 const dailyDeals = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/daily-deals');
 const giftIdea = () => import(/* webpackPrefetch: true */
@@ -253,6 +255,14 @@ export const routes = [
                 component: contact,
                 meta: {
                     title: 'Contact'
+                }
+            },
+            {
+                path: '/complaint',
+                name: 'complaint',
+                component: complaint,
+                meta: {
+                    title: 'Complaint'
                 }
             },
             {

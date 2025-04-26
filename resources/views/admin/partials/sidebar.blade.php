@@ -514,6 +514,11 @@
                                                                     href="{{route('contact.us')}}">{{ __('Contact Messages') }}</a>
                                 </li>
                             @endif
+                            @if(hasPermission('support_department_read'))
+                                <li class="@yield('Complaints')"><a class="nav-link"
+                                                                    href="{{route('complaints')}}">{{ __('Complaints') }}</a>
+                                </li>
+                            @endif
                         </ul>
                     </li>
                 @endif

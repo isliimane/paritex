@@ -7,6 +7,7 @@ use App\Http\Resources\SiteResource\BrandPaginateResource;
 use App\Http\Resources\SiteResource\CampaignPaginateResource;
 use App\Http\Resources\SiteResource\CategoryResource;
 use App\Http\Resources\SiteResource\ContactResource;
+use App\Http\Resources\SiteResource\ComplaintResource;
 use App\Http\Resources\SiteResource\ProductPaginateResource;
 use App\Http\Resources\SiteResource\ShopPaginateResource;
 use App\Http\Resources\SiteResource\VideoPaginateResource;
@@ -27,6 +28,7 @@ use App\Repositories\Interfaces\Admin\SellerInterface;
 use App\Repositories\Interfaces\Site\AddressInterface;
 use App\Repositories\Interfaces\Site\CartInterface;
 use App\Repositories\Interfaces\Site\ContactUsInterface;
+use App\Repositories\Interfaces\Site\ComplaintInterface;
 use App\Repositories\Interfaces\Site\ReviewInterface;
 use App\Repositories\Interfaces\Site\WishlistInterface;
 use App\Traits\HomePage;
@@ -80,6 +82,22 @@ class FrontendController extends Controller
             ]);
         }
     }
+
+    public function complaintPage(PageRepository $pageRepository): \Illuminate\Http\JsonResponse
+    {
+
+        try {
+            $data = [
+                'complaint'       =>new ComplaintResource($pageRepository->complaintPage()),
+            ];
+            return response()->json($data);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
 
     public function page(Request $request,PageRepository $pageRepository): \Illuminate\Http\JsonResponse
     {
@@ -260,11 +278,47 @@ class FrontendController extends Controller
         }
     }
 
+    public function createComplaint(ComplaintInterface $complaint, Request $request): \Illuminate\Http\JsonResponse
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'subject' => 'required',
+            'message' => 'required',
+        ]);
+        try {
+            $data = [
+                'complaint' => $complaint->storeComplaint($request),
+                'success' => __('Message Sent Successfully'),
+            ];
+            return response()->json($data);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
     public function reply(ContactUsInterface $contactUs, Request $request): \Illuminate\Http\JsonResponse
     {
         try {
             $data = [
                 'reply' => $contactUs->reply($request),
+                'success' => __('Reply Sent Successfully'),
+            ];
+            return response()->json($data);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function complaintReply(ComplaintInterface $complaint, Request $request): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $data = [
+                'reply' => $complaint->reply($request),
                 'success' => __('Reply Sent Successfully'),
             ];
             return response()->json($data);

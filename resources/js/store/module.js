@@ -6,6 +6,7 @@ const getDefaultState = () => {
         blogs: {},
         blogsDetails: {},
         contact_page: '',
+        complaint_page: '',
         all_campaigns: [],
         campaign_paginate_url:'',
         campaign_paginate_page:1,
