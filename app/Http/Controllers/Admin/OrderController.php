@@ -297,11 +297,10 @@ class OrderController extends Controller
                     Toastr::error(__('Product not found in the warehouse'));
                     return back();
                 }
-                $warehouseStock = WarehouseProduct::where('id', $request->warehouse_id)
+                $warehouseStock = WarehouseProduct::where('warehouse_id', $request->warehouse_id)
                     ->where('product_id', $detail->product_id)
                     ->where('product_stock_id', $product_stock->id)
                     ->first();
-
                 if (!$warehouseStock || $warehouseStock->quantity < $detail->quantity) {
                     Toastr::error(__('Insufficient stock in selected warehouse for product: ') . $detail->product->getTranslation('name', \App::getLocale()) . ' (' . $detail->variation . ')');
                     return back();

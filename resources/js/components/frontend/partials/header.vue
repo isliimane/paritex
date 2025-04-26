@@ -39,7 +39,7 @@
                   </ul>
                 </div>
               </li>
-              <li>
+              <li v-if="authUser">
                 <router-link :to="{name: 'complaint'}">
                     <i class="mdi mdi-alert-circle-outline mr-2"></i>
                     {{lang.make_complaint}}

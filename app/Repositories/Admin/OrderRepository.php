@@ -983,7 +983,7 @@ class OrderRepository implements OrderInterface
             })->where('code', $orderCode)->get();
     }
 
-    public function adjustQuantity($order, $remove_quantity = false,$reason = '')
+    public function adjustQuantity($order, $remove_quantity = false,$reason = 'manual')
     {
         foreach ($order->orderDetails as $key => $orderDetail) :
             return $this->updateQuantity($orderDetail, $remove_quantity,$reason);
@@ -1035,7 +1035,7 @@ class OrderRepository implements OrderInterface
                                     $orderDetail->product_id,
                                     $orderDetail->quantity,
                                     'out',
-                                    'order',
+                                    $reason,
                                     $orderDetail->order->id,
                                     $product_stock->id
                                     );
@@ -1052,7 +1052,7 @@ class OrderRepository implements OrderInterface
                                 $orderDetail->product_id,
                                 $orderDetail->quantity,
                                 'in',
-                                'cancel',
+                                $reason,
                                 $orderDetail->order->id,
                                 $product_stock->id  
                                 );

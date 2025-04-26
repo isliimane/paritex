@@ -113,8 +113,7 @@ class WarehouseTransferController extends Controller
             return redirect()->route('transfers.index');
         } catch (\Exception $e) {
             DB::rollBack();
-            dd($e->getMessage());
-            Toastr::error($e);
+            Toastr::error($e->getMessage());
             return back()->withInput();
         }
     }

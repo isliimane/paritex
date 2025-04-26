@@ -9,7 +9,7 @@
           <div class="row">
             <div class="col-md-8 offset-md-2 shadow p-5 rounded-5">
               <div class="title b-0">
-                <h1>{{ lang.send_message }}</h1>
+                <h1>{{ lang.make_complaint }}</h1>
               </div>
               <form @submit.prevent = "submit">
                   <div class="form-group">
