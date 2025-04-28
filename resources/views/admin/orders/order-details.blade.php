@@ -110,6 +110,8 @@
                                                 {{ $order->delivery_status == "picked_up" ? "selected" : "" }} value="picked_up">{{ __('Picked Up') }}</option>
                                         <option
                                                 {{ $order->delivery_status == "on_the_way" ? "selected" : "" }} value="on_the_way">{{ __('On The Way') }}</option>
+                                        <option
+                                                {{ $order->delivery_status == "postponed" ? "selected" : "" }} value="postponed">{{ __('Postponed') }}</option>
                                         @if($order->delivery_status != 'delivered')
                                             <option
                                                     {{ $order->delivery_status == "canceled" ? "selected" : "" }} value="canceled">{{__('Canceled')}}</option>
@@ -437,6 +439,8 @@
                                                 bg-success shadow-success
 @elseif($history->event == 'order_on_the_way_event')
                                                 bg-warning shadow-warning
+@elseif($history->event == 'order_postponed_event')
+                                                bg-danger shadow-danger
 @else
                                                 bg-primary shadow-primary
 @endif">
@@ -447,6 +451,8 @@
                                                             <i class="bx bx-x"></i>
                                                         @elseif($history->event == 'order_on_the_way_event')
                                                             <i class="bx bxs-truck"></i>
+                                                        @elseif($history->event == 'order_postponed_event')
+                                                            <i class="bx bx-time"></i>
                                                         @elseif($history->event == 'order_canceled_event')
                                                             <i class="bx bx-x"></i>
                                                         @elseif($history->event == 'order_delivered_event')

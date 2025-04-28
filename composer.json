@@ -29,6 +29,8 @@
     "iyzico/iyzipay-php": "^2.0",
     "joedixon/laravel-translation": "^1.1.2",
     "kkiapay/kkiapay-php": "dev-master",
+    "kreait/firebase-php": "5.25",
+    "kreait/laravel-firebase": "3.4",
     "laravel/framework": "^v8.83.2",
     "laravel/sanctum": "^2.14.2",
     "laravel/socialite": "^5.5.1",

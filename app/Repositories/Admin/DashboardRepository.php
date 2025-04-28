@@ -525,7 +525,7 @@ class DashboardRepository implements DashboardInterface
         $pending_order    = $orders->get();
         $completed_order  = $orders->get();
 
-        $processing_order               = $processing_order->whereIn('delivery_status',['confirm','picked_up','on_the_way']);
+        $processing_order               = $processing_order->whereIn('delivery_status',['confirm','picked_up','on_the_way','postponed']);
         $pending_order                  = $pending_order->where('delivery_status','pending');
         $completed_order                = $completed_order->where('delivery_status','delivered');
 //

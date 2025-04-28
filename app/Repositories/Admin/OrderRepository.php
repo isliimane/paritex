@@ -34,6 +34,7 @@ use App\Services\StockMovementService;
 use Illuminate\Http\Request;
 use App\Models\Warehouse;
 use App\Models\WarehouseProduct;
+use App\Notifications\DeliveryHeroAssigned;
 
 class OrderRepository implements OrderInterface
 {
@@ -351,6 +352,8 @@ class OrderRepository implements OrderInterface
         $delivery_history->delivery_hero_id = $request->delivery_hero;
 
         $delivery_history->save();
+        $order->deliveryHero->notify(new DeliveryHeroAssigned($order));
+
         return true;
     }
 

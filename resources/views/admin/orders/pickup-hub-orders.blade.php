@@ -56,6 +56,8 @@
                                         <option
                                             {{ @$ds == "on_the_way" ? "selected" : "" }} value="on_the_way">{{ __('On The Way') }}</option>
                                         <option
+                                            {{ @$ds == "postponed" ? "selected" : "" }} value="postponed">{{ __('Postponed') }}</option>
+                                        <option
                                             {{ @$ds == "Canceled" ? "selected" : "" }} value="canceled">{{__('Canceled')}}</option>
                                         <option
                                             {{ @$ds == "delivered" ? "selected" : "" }} value="delivered">{{__('Delivered')}}</option>
@@ -150,6 +152,8 @@
                                                 <div class="badge badge-info">{{__('Picked Up')}}</div>
                                             @elseif($value->delivery_status == 'on_the_way')
                                                 <div class="badge badge-secondary">{{__('On The Way')}}</div>
+                                            @elseif($value->delivery_status == 'postponed')
+                                                <div class="badge badge-danger">{{__('Postponed')}}</div>
                                             @endif
                                         </td>
                                         <td>
