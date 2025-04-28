@@ -130,10 +130,6 @@ export default {
         shimmer() {
             return this.$store.state.module.shimmer
         },
-        isLicenseVerified() {
-            console.log(this.authUser.license_verified);
-            return this.authUser && this.authUser.user_type === 'customer' && this.authUser.license_verified;
-        }
     },
     mounted() {
 

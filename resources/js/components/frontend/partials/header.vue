@@ -769,9 +769,6 @@ export default {
     compareList() {
       return this.$store.getters.getCompareList;
     },
-    isLicenseVerified() {
-      return this.authUser && this.authUser.user_type === 'customer' && this.authUser.license_verified;
-    }
   },
   methods: {
     subMenuToggle(event) {

@@ -203,9 +203,6 @@ export default {
       }
       return false;
     },
-    isLicenseVerified() {
-      return this.authUser && this.authUser.user_type === 'customer' && this.authUser.license_verified;
-    }
   },
 
   methods: {

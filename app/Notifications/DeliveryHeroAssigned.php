@@ -21,7 +21,7 @@ class DeliveryHeroAssigned extends Notification implements ShouldQueue
 
     public function via($notifiable)
     {
-        return ['database', 'fcm'];
+        return ['fcm'];
     }
 
     public function toFcm($notifiable)
@@ -32,7 +32,7 @@ class DeliveryHeroAssigned extends Notification implements ShouldQueue
                 "Tap to view the order details. "
             ))
             ->withData([
-                'order_id' => (string) $this->orderId,
+                'order_id' => (int) $this->orderId,
                 'click_action' => 'FLUTTER_NOTIFICATION_CLICK', // Important for click handling
             ]);
     }

@@ -19,6 +19,12 @@ Route::prefix('delivery-hero')->middleware(['CheckApiKey'])->group(function() {
                 Route::get('profile', [UserController::class,'profile']);
                 Route::post('update-profile', [UserController::class,'updateProfile']);
                 Route::post('change-password', [UserController::class,'changePassword']);
+                
+                Route::post('update-fcm-token', [UserController::class,'updateFcmToken']);
+                
+                Route::post('update-availability', [UserController::class,'updateAvailability']);
+                
+                
             });
 
             Route::get('home-screen', [HomeController::class,'homePageData']);

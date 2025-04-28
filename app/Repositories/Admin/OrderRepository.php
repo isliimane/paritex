@@ -352,8 +352,9 @@ class OrderRepository implements OrderInterface
         $delivery_history->delivery_hero_id = $request->delivery_hero;
 
         $delivery_history->save();
-        $order->deliveryHero->notify(new DeliveryHeroAssigned($order));
-
+        if(isset($order->deliveryHero)){
+            $order->deliveryHero->notify(new DeliveryHeroAssigned($order->id));
+        }
         return true;
     }
 

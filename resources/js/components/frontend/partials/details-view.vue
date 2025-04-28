@@ -844,9 +844,6 @@ export default {
       }
       return carts;
     },
-    isLicenseVerified() {
-      return this.authUser && this.authUser.user_type === 'customer' && this.authUser.license_verified;
-    }
   },
   methods: {
     activeImage(imageIndex) {

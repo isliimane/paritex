@@ -388,5 +388,9 @@ export default Vue.mixin({
             }
             return true;
         }
+    },
+
+    isLicenseVerified() {
+          return (this.authUser && this.authUser.user_type === 'admin') || (this.authUser && this.authUser.user_type === 'customer' && this.authUser.license_verified);
     }
 });
