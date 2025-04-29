@@ -3,7 +3,7 @@
     <section class="ragister-account text-center">
       <div class="container">
         <div class="account-content">
-          <div class="thumb">
+          <div class="thumb"> 
             <img :src="settings.affiliate_sing_up_banner" loading="lazy" :alt="form.user_type" class="img-fluid img-fit"/>
           </div>
           <div class="form-content">

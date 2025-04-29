@@ -649,6 +649,7 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 Route::put('/{transfer}/update', [WarehouseTransferController::class, 'update'])->name('update');
                 Route::post('/{transfer}/approve', [WarehouseTransferController::class, 'approve'])->name('approve');
                 Route::post('/{transfer}/reject', [WarehouseTransferController::class, 'reject'])->name('reject');
+
             });
 
             Route::get('stock-movements', [StockMovementController::class, 'index'])->name('stock-movements.index');

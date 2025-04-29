@@ -24,6 +24,7 @@
                     </li>
                   </ul>
                 </div>
+   
               </li>
               <li v-if="settings.currency_switcher != 0">
                 <div class="dropdown">
@@ -968,6 +969,7 @@ export default {
   justify-content: center;
   background: red;
   border-radius: 50%;
+  /* color: #40A578; */
   color: #fff;
   font-size: 11px;
 }

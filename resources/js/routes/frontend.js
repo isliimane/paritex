@@ -562,6 +562,7 @@ export const routes = [
                 name: '404',
                 component: error_404
             },
-        ]
-    }
+
+         ]
+     }
 ]
