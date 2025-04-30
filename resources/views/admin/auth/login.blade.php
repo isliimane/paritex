@@ -76,7 +76,7 @@
 
         /* Form Container */
         .form-container {
-            padding: 60px 50px;
+            padding: 20px 10px;
             width: 50%;
             display: flex;
             flex-direction: column;
@@ -85,7 +85,7 @@
         }
 
         .form-container h1 {
-            color: var(--text-dark);
+            color:rgb(0, 0, 0) ;
             font-size: 28px;
             font-weight: 600;
             margin-bottom: 10px;
@@ -135,17 +135,20 @@
             color: white;
             border: none;
             padding: 14px;
-            border-radius: 8px;
+            border-radius: 15px;
             font-size: 15px;
-            font-weight: 600;
+            font-weight: 400;
             cursor: pointer;
             transition: var(--transition);
-            width: 100%;
+            width: 50%;
             box-shadow: var(--shadow-sm);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 2px;
+            margin: 0 auto; /* Centre le bouton dans son conteneur */
+            display: block; /* Nécessaire pour que margin:auto fonctionne */
         }
 
+       
         .btn:hover {
             background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-light) 100%);
             box-shadow: var(--shadow-md);
@@ -202,8 +205,8 @@
             
             .form-container,
             .toggle-container {
-                width: 100%;
-                padding: 40px 30px;
+                width: 50%;
+                padding: 60px 50px;
             }
             
             .toggle-container {
@@ -258,8 +261,8 @@
                      alt="Logo">
             </div>
             
-            <h1>Welcome Back</h1>
-            <p>Enter your credentials to access your account</p>
+            <h1>Bienvenue chez Paritex</h1>
+            <p>Entrez vos identifiants pour accéder à votre compte</p>
             
             <form method="POST" class="login_form" action="{{route('admin.seller.login')}}">
                 @csrf
@@ -301,18 +304,25 @@
                 </div>
                 
                 <button type="submit" class="btn">Sign In</button>
+              
                 
                 <div class="auth-footer">
-                    <a href="#">{{__('Forgot Your Password?')}}</a>
+                    <a href="#">{{__('Oublier mot de passe?')}}</a>
                 </div>
             </form>
         </div>
         
         <!-- Toggle Panel -->
         <div class="toggle-container">
-            <h1>Hello, Friend!</h1>
-            <p>Enter your personal details and start your journey with us</p>
-            <button class="toggle-btn" id="register">Sign Up</button>
+        <div class="auth-logo">
+                @php
+                    $logo = settingHelper('admin_dark_logo')
+                @endphp
+                <img src="{{($logo && $logo != [] && @is_file_exists($logo['image_100x38'])) ? static_asset($logo['image_100x38']) : static_asset('images/default/dark-logo.png') }}"
+                     alt="Logo">
+            </div>
+            <p>Paritex, plus qu’un travail, une famille</p>
+           
         </div>
     </div>
 

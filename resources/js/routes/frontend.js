@@ -104,7 +104,7 @@ const affiliate_system = () => import(/* webpackPrefetch: true */
         '../components/frontend/pages/CreateClaim.vue');
         //request
  const ReturnRequestForm = () => import( /* webpackPrefetch: true */ '../components/frontend/pages/ReturnRequestForm.vue'  );
-
+ 
 
         export const routes = [
     {

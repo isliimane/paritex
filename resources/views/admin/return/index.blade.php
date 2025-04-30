@@ -54,7 +54,7 @@
                             </span>
                         </td>
                         <td>{{ $request->created_at->format('d/m/Y H:i') }}</td>
-                        <td>
+                        <!-- <td>
                             <div class="btn-group">
                                
                                 {{-- <a href="{{ route('admin.return-requests.show', $request->id) }}" 
@@ -78,7 +78,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="#" 
+                                            <a class="dropdown-item" href="#"  
                                                onclick="processReturn({{ $request->id }}, 'exchange')">
                                                 <i class="bx bx-refresh"></i> {{ __('Échanger') }}
                                             </a>
@@ -93,7 +93,51 @@
                                 </div>
                                 @endif
                             </div>
+                        </td> -->
+
+
+                        <td>
+                            <div class="btn-group">
+                               
+                                @if($request->status === 'pending')
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-success dropdown-toggle" data-bs-toggle="dropdown">
+                                        <i class="bx bx-check"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="dropdown-item" href="#" 
+                                               onclick="processReturn({{ $request->id }}, 'approve')">
+                                                <i class="bx bx-dollar"></i> {{ __('Rembourser') }}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="#"  
+                                               onclick="processReturn({{ $request->id }}, 'exchange')">
+                                                <i class="bx bx-refresh"></i> {{ __('Échanger') }}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item text-danger" href="#" 
+                                               onclick="processReturn({{ $request->id }}, 'reject')">
+                                                <i class="bx bx-x"></i> {{ __('Rejeter') }}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                @endif
+
+                                <!-- Bouton de suppression -->
+                                <a href="#"
+                                   onclick="deleteReturnRequest({{ $request->id }})"
+                                   class="btn btn-sm btn-danger"
+                                   title="{{ __('Supprimer') }}"
+                                   data-toggle="tooltip">
+                                    <i class="bx bx-trash"></i>
+                                </a>
+                            </div>
                         </td>
+                      
                     </tr>
                     @empty
                     <tr>
@@ -113,6 +157,7 @@
 </div>
 @endsection
 
+@push('scripts')
 @push('scripts')
 <script>
 function processReturn(requestId, action) {
@@ -134,6 +179,39 @@ function processReturn(requestId, action) {
             }).catch(error => {
                 Swal.fire('Erreur!', error.response.data.message, 'error');
             });
+        }
+    });
+}
+
+function deleteReturnRequest(requestId) {
+    Swal.fire({
+        title: '{{ __("Êtes-vous sûr ?") }}',
+        text: '{{ __("Vous ne pourrez pas annuler cette action !") }}',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '{{ __("Oui, supprimer !") }}',
+        cancelButtonText: '{{ __("Annuler") }}'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            axios.delete(`/admin/return-requests/${requestId}`)
+                .then(response => {
+                    Swal.fire(
+                        '{{ __("Supprimé !") }}',
+                        response.data.message,
+                        'success'
+                    ).then(() => {
+                        window.location.reload();
+                    });
+                })
+                .catch(error => {
+                    Swal.fire(
+                        '{{ __("Erreur !") }}',
+                        error.response.data.message,
+                        'error'
+                    );
+                });
         }
     });
 }

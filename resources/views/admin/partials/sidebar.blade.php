@@ -135,9 +135,9 @@
                 $pendingCount = \App\Models\ReturnRequest::where('status', 'pending')->count();
             @endphp
             
-            @if($pendingCount > 0)
+            <!-- @if($pendingCount > 0)
                 <span class="badge bg-danger float-end">{{ $pendingCount }}</span>
-            @endif
+            @endif -->
         </a>
     </li>
 @endif
