@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{{ static_asset('frontend/css/main.css') }}?{{ date('YmdHis') }}">
     <link rel="stylesheet" href="{{ static_asset('frontend/css/development.css') }}">
     <link rel="stylesheet" href="{{ static_asset('frontend/css/responsive.css') }}">
+    <link rel="stylesheet" href="{{ static_asset('frontend/css/yassine-responsive.css') }}">
     <link rel="stylesheet" href="{{ static_asset('admin/css/toastr.min.css') }}">
     <link rel="stylesheet" href="{{ static_asset('frontend/css/vue-toastr-2.min.css') }}">
 

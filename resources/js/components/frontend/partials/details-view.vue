@@ -46,7 +46,7 @@
           :class="{ 'col-lg-8 col-md-12': $route.name == 'product.details', 'col-lg-7': $route.name != 'product.details' }">
         <div class="row justify-content-md-center">
           <div
-              :class="{ 'col-lg-8 col-md-8': $route.name == 'product.details', 'col-lg-12': $route.name != 'product.details' }">
+              :class="{ 'col-lg-12 col-md-12': $route.name == 'product.details', 'col-lg-12': $route.name != 'product.details' }">
             <div class="product-details-2">
               <div class="product-details-header">
                 <h2>{{ productDetails.product_name }}</h2>
@@ -358,44 +358,7 @@
             </div>
           </div>
           <!-- /.col-lg-8 -->
-          <div v-if="$route.name == 'product.details'" class="col-lg-4 col-md-4">
-            <div class="sg-seller-product pb-sm-3">
-              <ul class="product_sidebar_store"
-                  v-if="settings.seller_system == 1 && productDetails.seller && $route.name == 'product.details'">
-                <single_seller :shop="productDetails.seller" :productDetailsPage="true"></single_seller>
-              </ul>
-              <div class="product-offer" v-if="settings.product_details_site_banner">
-                <img loading="lazy" :src="settings.product_details_site_banner" alt="banner-image" class="img-fluid"/>
-              </div>
-              <div class="product-widget-recent-entries" v-if="productDetails.sidebar_products.length > 0">
-                <h4>{{ lang.recent_products }}</h4>
-                <ul class="global-list">
-                  <li v-for="(product, index) in productDetails.sidebar_products" :key="index">
-                    <div class="shop">
-                      <div class="thumb">
-                        <router-link :to="{ name: 'product.details', params: { slug: product.slug } }">
-                          <img loading="lazy" :src="product.image_40x40" :alt="product.slug" class="img-fluid"/>
-                        </router-link>
-                      </div>
-                      <div class="info">
-                        <h3 class="text-ellipse-one">
-                          <router-link :to="{ name: 'product.details', params: { slug: product.slug } }">
-                            {{ product.product_name }}
-                          </router-link>
-                        </h3>
-                        <span class="price">
-													<span v-if="product.special_discount_check > 0">
-														{{ priceFormat(product.discount_percentage) }}
-													</span>
-													<span v-else>{{ priceFormat(product.price) }}</span>
-												</span>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div><!-- /.product-widget-sidebar -->
-          </div>
+          
           <!-- /.col-lg-8 -->
         </div>
       </div>

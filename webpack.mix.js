@@ -13,6 +13,7 @@ mix.js('resources/js/app.js', 'public/frontend/js')
     css_plugin + 'main.css',
     css_plugin + 'development.css',
     css_plugin + 'responsive.css',
+    css_plugin + 'yassine-responsive.css',
     css_plugin + 'vue-plyr.css',
 ], 'public/frontend/css/app.css').combine([
     js_plugin + 'html5shiv.min.js',

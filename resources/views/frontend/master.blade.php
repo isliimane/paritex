@@ -69,7 +69,10 @@
     @if($settings['text_direction'] == 'rtl')
         <link rel="stylesheet"
               href="{{ static_asset('frontend/css/rtl.css') }}?version={{ settingHelper('current_version') }}">
+              <link rel="stylesheet"
+              href="{{ static_asset('frontend/css/yassine-rtl.css') }}?version={{ settingHelper('current_version') }}">
     @endif
+    <link rel="stylesheet" href="{{ mix('frontend/css/yassine.css') }}">
     <style>
         :root {
             --primary-color: {{ settingHelper('primary_color')}};

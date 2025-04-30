@@ -71,7 +71,7 @@ trait ImageTrait
             File::ensureDirectoryExists('public/' . $directory, 0777);
             $originalImage = date('YmdHis') . "_original_" . $for. rand(1, 500) . '.' . $extension;
             $originalImageUrl = $directory . $originalImage;
-            $images = $this->cropFiles([
+            $images = $this->cropLogoImages([
                     'image' => $requestImage,
                     'directory' => $directory,
                     'extension' => $extension,
@@ -529,6 +529,31 @@ trait ImageTrait
                 function ($constraint) {
                     $constraint->aspectRatio();
                 })->save('public/' . $image_path, $encode_percentage, $extension);
+        }
+        return $images;
+    }
+
+    public function cropLogoImages($data): array
+    {
+        $requestImage   = $data['image'];
+        $directory      = $data['directory'];
+        $extension      = $data['extension'];
+        $image_array    = $data['image_sizes'];
+        $for            = getArrayValue('for', $data, '_media_');
+        $original_image = getArrayValue('original_image', $data);
+
+        $encode_percentage = $this->getEncodePercentage();
+        $images = [];
+        foreach ($image_array as $item) {
+            $key = $for == 'favicon' ? "image_$item".'_url' : "image_$item";
+            $image_path = $for == 'favicon' ? $directory .$for . "-$item.png" : $directory . date('YmdHis') . $item . $for . rand(1, 500) . '.' . $extension;
+            if (addon_is_activated('ramdhani') && $extension == 'gif') {
+                $images[$key] = $original_image;
+                continue;
+            }
+            $images[$key] = $image_path;
+            $size = explode('x',$item);
+            Image::make($requestImage)->save('public/' . $image_path, $encode_percentage, $extension);
         }
         return $images;
     }
