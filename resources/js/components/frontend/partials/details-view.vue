@@ -33,12 +33,6 @@
               </div>
             </div>
           </VueSlickCarousel>
-
-          <span class="base" v-if="productDetails.special_discount_check > 0">
-						{{
-              productDetails.special_discount_type == "flat" ? priceFormat(productDetails.special_discount_check) + " " + lang.off : productDetails.special_discount_check + "% " + lang.off
-            }}
-					</span>
           <productVideo v-if="productDetails.video_link" :productDetails="productDetails"></productVideo>
         </div>
       </div>
@@ -57,29 +51,35 @@
                 </div>
                 <div class="sg-rating" v-if="productDetails.rating > 0">
                   <h3>{{ productDetails.rating.toFixed(2) }} </h3>
-                  <star-rating v-model:rating="productDetails.rating" :read-only="true" :star-size="12"
+                  <star-rating v-model:rating="productDetails.rating" :read-only="true" :star-size="16"
                                :round-start-rating="false" class="rating-position"></star-rating>
-                  <span class="rating"> ({{ productDetails.reviews_count }} {{ lang.reviews }})</span>
+                  <span class="rating">{{ productDetails.reviews_count }} {{ lang.reviews }}</span>
                 </div>
               </div>
               <!-- /.product-details-header -->
 
+              
+              <p class="text-start" v-if="productDetails.has_variant && isLicenseVerified">{{ productDetails.variation_price }}</p>
+              <div class="sg-product-price" v-if="!productDetails.is_wholesale && isLicenseVerified">
+                <span v-if="productDetails.special_discount_check > 0">{{
+                    priceFormat(productDetails.product_stock.discount_percentage)
+                  }}</span>
+                <span v-else>{{ priceFormat(productDetails.product_stock.price) }}</span>
+                <del v-if="productDetails.special_discount_check > 0">
+                  {{ priceFormat(productDetails.product_stock.price) }}
+                </del>
+                <span class="discount-custom-badge" v-if="productDetails.special_discount_check > 0">
+                  {{
+                    productDetails.special_discount_type == "flat" ? priceFormat(productDetails.special_discount_check) + " " + lang.off : productDetails.special_discount_check + "% " + lang.off
+                  }}
+                </span>
+              </div>
+              <div class="sg-product-price" v-else-if="isLicenseVerified">
+                <span>{{ priceFormat(productDetails.price) }} </span>
+              </div>
               <div class="product-stock-delivery"
                    v-if="productDetails.special_discount_check > 0 || (productType() && productDetails.is_digital != 1 && productDetails.stock_visibility != 'hide_stock')">
-                <div
-                    v-if="productType() && productDetails.is_digital != 1 && productDetails.stock_visibility != 'hide_stock'">
-                  <div class="stock-in" v-if="stockFind().stock > 0">
-                    <span class="mdi mdi-check-circle-outline"></span>
-                    <div class="text-left">
-                      <h5 class="days">{{ lang.in_stock }}</h5>
-                      <h5 v-if="productDetails.stock_visibility == 'visible_with_quantity'">{{ stockFind().stock }}</h5>
-                    </div>
-                  </div>
-                  <div v-else class="stock-out">
-                    <span class="mdi mdi-close-circle-outline"></span>
-                    <h5>{{ lang.stock_out }}</h5>
-                  </div>
-                </div>
+                
                 <div v-if="productDetails.special_discount_check > 0" class="sg-countdown">
                   <ul class="countdown">
                     <li>
@@ -100,30 +100,26 @@
                     </li>
                   </ul>
                 </div>
+                <div
+                    v-if="productType() && productDetails.is_digital != 1 && productDetails.stock_visibility != 'hide_stock'">
+                  <div class="stock-in" v-if="stockFind().stock > 0">
+                    <span class="mdi mdi-check-circle-outline"></span>
+                    <div class="text-left">
+                      <h5 class="days">{{ lang.in_stock }}
+                        {{ productDetails.stock_visibility == 'visible_with_quantity'? '('+ stockFind().stock +')' : '' }}
+                      </h5>
+                    </div>
+                  </div>
+                  <div v-else class="stock-out">
+                    <span class="mdi mdi-close-circle-outline"></span>
+                    <h5>{{ lang.stock_out }}</h5>
+                  </div>
+                </div>
               </div>
               <!-- /.product-stock-delivery -->
-              <p class="text-start" v-if="productDetails.has_variant && isLicenseVerified">{{ productDetails.variation_price }}</p>
-              <div class="sg-product-price" v-if="!productDetails.is_wholesale && isLicenseVerified">
-                <span v-if="productDetails.special_discount_check > 0">{{
-                    priceFormat(productDetails.product_stock.discount_percentage)
-                  }}</span>
-                <span v-else>{{ priceFormat(productDetails.product_stock.price) }}</span>
-                <del v-if="productDetails.special_discount_check > 0">
-                  {{ priceFormat(productDetails.product_stock.price) }}
-                </del>
-                <p class="text-start" v-if="productDetails.special_discount_check > 0"
-                >{{ lang.you_save }}
-                  <span>{{
-                      productDetails.special_discount_type == "flat" ? priceFormat(productDetails.special_discount_check) : productDetails.special_discount_check + "%"
-                    }}</span>
-                </p>
-              </div>
-              <div class="sg-product-price" v-else-if="isLicenseVerified">
-                <span>{{ priceFormat(productDetails.price) }} </span>
-              </div>
               <div class="sg-product-color" v-if="productDetails.product_colors && productDetails.colors.length > 0">
                 <div class="sg-color">
-                  <h5>{{ lang.color }}:</h5>
+                  <h5>{{ lang.color }}</h5>
                   <div v-for="(color, index) in productDetails.product_colors" :key="'color' + index">
                     <input type="radio" value="color1" :id="'color' + color.id" v-model="product_form.color_id"
                            :value="color.id" @change="attributeSelect($event.target)"/>
@@ -137,7 +133,7 @@
               <div class="sg-product-size" v-for="(attribute, attribute_index) in attributes"
                    :key="'attribute' + attribute_index" v-if="attributes.length > 0">
                 <div class="sg-size">
-                  <h5>{{ attribute.title }}:</h5>
+                  <h5>{{ attribute.title }}</h5>
                   <form action="#">
                     <div v-for="(value, value_index) in productDetails.attribute_values" :key="'value' + value_index"
                          v-if="value.attribute_id == attribute.id">
@@ -187,23 +183,6 @@
                     <span class="mdi mdi-name mdi-plus"></span>
                   </a>
                 </div>
-                <h3 v-if="isLicenseVerified">{{ lang.total_price }}:
-                  <span v-if="productDetails.special_discount_check > 0 && productDetails.is_wholesale != 1">{{
-                      priceFormat(productDetails.product_stock.discount_percentage * product_form.quantity)
-                    }} </span>
-                  <span v-else-if="productDetails.is_wholesale != 1">{{
-                      priceFormat(productDetails.product_stock.price * product_form.quantity)
-                    }}</span>
-                  <span v-if="productDetails.is_wholesale == 1">{{ priceFind() }}</span>
-                </h3>
-              </div>
-
-              <div v-if="productDetails.is_catalog != 1" class="product-details-query mt-3 product-border">
-                <h3 v-if="productDetails.is_digital == 0 && productDetails.estimated_shipping_days">
-                  {{ productDetails.estimated_shipping_days }}
-                  {{ lang.days }} <span>{{ lang.estimated_delivery_time }}</span></h3
-                >
-
                 <div class="product-cart sg-quantity" v-if="productType()">
                   <div class="buttons d-flex align-items-center">
                     <a href="javascript:void(0);" class="btn btn-primary"
@@ -224,6 +203,8 @@
                       {{ lang.buy_now }}
                     </a>
                   </div>
+                </div>
+                <div class="product-cart sg-quantity custom-sg-quantity" v-if="productType()">
                   <ul class="global-list d-flex">
                     <li v-if="checkCompare()">
                       <a href="javascript:void(0)" @click="removeCompare">
@@ -267,7 +248,13 @@
                     </li>
                   </ul>
                 </div>
+              </div>
 
+              <div v-if="productDetails.is_catalog != 1" class="product-details-query mt-3 product-border">
+                <h3 v-if="productDetails.is_digital == 0 && productDetails.estimated_shipping_days && productDetails.estimated_shipping_days != 0">
+                  {{ productDetails.estimated_shipping_days }}
+                  {{ lang.days }} <span>{{ lang.estimated_delivery_time }}</span></h3
+                >
                 <div v-if="productDetails.is_classified == 1 && productDetails.contact_info">
                   <p>{{ lang.contact_to_more_info }}</p>
                   <table class="table table-bordered">
@@ -807,6 +794,9 @@ export default {
       }
       return carts;
     },
+    isLicenseVerified() {
+          return (this.authUser && this.authUser.user_type === 'admin') || (this.authUser && this.authUser.user_type === 'customer' && this.authUser.license_verified);
+    }
   },
   methods: {
     activeImage(imageIndex) {

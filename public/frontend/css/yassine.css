@@ -86,7 +86,62 @@
 .btnTOP:hover {
     background-color: #fff;
 }
-
+.product-details-2 .sg-rating {
+    margin: 15px 0;
+}
+.product-details-2 .sg-rating h3{
+    background: #FFF;
+    color: #000;
+    font-size: 14px;
+    padding: 0;
+}
+.product-details-2 .sg-rating span.rating {
+    padding-left: 10px;
+    border-left: 2px solid rgb(222, 226, 230);
+}
+.sg-product-price span, .related-product-shop span.price, .product-details-totalPrice h3 span{
+    color: #1f2937;
+    font-size: 24px;
+}
+.discount-custom-badge{
+    color: #fff !important;
+    background-color: #ff0008 !important;
+    text-transform: uppercase;
+    font-weight: 500 !important;
+    font-size: 12px !important;
+    padding: 5px;
+    border-radius: 4px;
+    margin: 0 10px;
+    position: relative;
+    top: -3px;
+}
+.product-stock-delivery .sg-countdown ul{
+    padding: 15px;
+    background-color: rgb(225 34 3 / 10%);
+}
+.product-stock-delivery .sg-countdown ul li{
+    background-color: transparent;
+    color: #e12203;
+}
+.product-stock-delivery{
+    display: block;
+}
+.product-stock-delivery .stock-in,.product-stock-delivery .stock-out{
+    background-color: transparent;
+    justify-content: flex-start;
+}
+.product-stock-delivery .sg-countdown {
+    margin-bottom: 12px;
+}
+.sg-product-color h5, .sg-product-size h5{
+    min-width: 45px;
+}
+.custom-sg-quantity{
+    width: 100%;
+}
+.custom-sg-quantity li{
+    margin-right: 15px;
+}
 /* .footer-section{
     background-color: rgb(52 133 41 / 10%) !important;
 }
