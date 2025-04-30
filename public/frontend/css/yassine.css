@@ -142,6 +142,14 @@
 .custom-sg-quantity li{
     margin-right: 15px;
 }
+.sg-progress span{
+    min-width: 26px;
+}
+.star-rating-custom{
+    position: relative;
+    top: -1px;
+    margin-left: 2px;
+}
 /* .footer-section{
     background-color: rgb(52 133 41 / 10%) !important;
 }

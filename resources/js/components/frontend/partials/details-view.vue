@@ -250,12 +250,7 @@
                 </div>
               </div>
 
-              <div v-if="productDetails.is_catalog != 1" class="product-details-query mt-3 product-border">
-                <h3 v-if="productDetails.is_digital == 0 && productDetails.estimated_shipping_days && productDetails.estimated_shipping_days != 0">
-                  {{ productDetails.estimated_shipping_days }}
-                  {{ lang.days }} <span>{{ lang.estimated_delivery_time }}</span></h3
-                >
-                <div v-if="productDetails.is_classified == 1 && productDetails.contact_info">
+              <div v-if="productDetails.is_catalog != 1 && productDetails.is_classified == 1 && productDetails.contact_info" class="product-details-query mt-3 product-border">
                   <p>{{ lang.contact_to_more_info }}</p>
                   <table class="table table-bordered">
                     <tbody>
@@ -289,7 +284,6 @@
                     </tr>
                     </tbody>
                   </table>
-                </div>
               </div>
               <!-- product-details -->
 
@@ -298,6 +292,19 @@
                    class="btn btn-primary btn-block">{{ lang.see_details }}</a>
               </div>
 
+              <div class="product-details-policy product-border mt-4"
+                   v-if="productDetails.is_catalog != 1 && productDetails.is_digital == 0 && productDetails.estimated_shipping_days && productDetails.estimated_shipping_days != 0">
+                <div class="related-product-shop">
+                  <div class="related-product-thumb text-center">
+                    <img :src="getUrl('public/images/custom/delivery-truck.svg')" alt="Delivery" class="img-fluid"/>
+                  </div>
+                  <div class="related-product-content">
+                    <h3 v-if="settings.refund_protection_sub_title">{{ productDetails.estimated_shipping_days }}
+                      {{ lang.days }}</h3>
+                    <h4 v-if="settings.refund_protection_title">{{ lang.estimated_delivery_time }}</h4>
+                  </div>
+                </div>
+              </div>
               <div class="product-details-policy product-border mt-4"
                    v-if="addons.includes('refund') && productDetails.is_refundable == '1'">
                 <div class="related-product-shop">
@@ -398,17 +405,20 @@
                   <div class="left-content">
                     <h2
                     >{{ productDetails.rating > 0 ? productDetails.rating.toFixed(2) : 0 }}
-                      <small>{{ lang.out_of }} {{ reviews.total }}</small>
+                      <!-- <small>{{ lang.out_of }} {{ reviews.total }}</small> -->
                     </h2>
                     <div class="sg-rating">
-                      <star-rating v-model:rating="productDetails.rating" :read-only="true" :star-size="12"
+                      <star-rating v-model:rating="productDetails.rating" :read-only="true" :star-size="16"
                                    :round-start-rating="false" class="rating-position"></star-rating>
                     </div>
-                    <h3>({{ productDetails.reviews_count }} {{ lang.reviews }})</h3>
+                    <h3>{{ productDetails.reviews_count }} {{ lang.reviews }}</h3>
                   </div>
                   <div class="right-content">
                     <div class="sg-progress" v-for="(percentage, index) in percentages" :key="'percentage' + index">
-                      <span>{{ index }} star</span>
+                      <span class="d-flex align-items-center justify-content-between">{{ index }} 
+                      <svg data-v-ef4bc576="" data-v-fde73a0c="" height="16" width="16" viewBox="0 0 12.000000000000002 12.000000000000002" class="star-rating-custom vue-star-rating-star" step="100"><linearGradient data-v-ef4bc576="" id="lz2otd" x1="0" x2="100%" y1="0" y2="0"><stop data-v-ef4bc576="" offset="100%" stop-color="#ffd055" stop-opacity="1"></stop><stop data-v-ef4bc576="" offset="100%" stop-color="#d8d8d8" stop-opacity="1"></stop></linearGradient><filter data-v-ef4bc576="" id="0m9rbg" height="130%" width="130%" filterUnits="userSpaceOnUse"><feGaussianBlur data-v-ef4bc576="" stdDeviation="0" result="coloredBlur"></feGaussianBlur><feMerge data-v-ef4bc576=""><feMergeNode data-v-ef4bc576="" in="coloredBlur"></feMergeNode><feMergeNode data-v-ef4bc576="" in="SourceGraphic"></feMergeNode></feMerge></filter><!----><polygon data-v-ef4bc576="" points="5.454545454545455,0.6060606060606061,1.8181818181818181,12.000000000000002,10.90909090909091,4.7272727272727275,0,4.7272727272727275,9.090909090909092,12.000000000000002" fill="url(#lz2otd)" stroke="#999" stroke-width="0" stroke-linejoin="miter"></polygon><polygon data-v-ef4bc576="" points="5.454545454545455,0.6060606060606061,1.8181818181818181,12.000000000000002,10.90909090909091,4.7272727272727275,0,4.7272727272727275,9.090909090909092,12.000000000000002" fill="url(#lz2otd)"></polygon></svg>  
+                    
+                    </span>
                       <div class="progress">
                         <div class="progress-bar" role="progressbar" :style="'width: ' + percentage + '%'"
                              :aria-valuenow="percentage" aria-valuemin="0" :aria-valuemax="percentage"></div>
@@ -425,29 +435,30 @@
                   <li v-for="(review, index) in reviews.data" :key="'review' + index">
                     <div class="comment_info">
                       <div class="commenter-avatar" v-if="review.user">
-                        <router-link :to="{ name: 'dashboard' }">
                           <img class="img-fluid" v-if="review.user.profile_image" loading="lazy"
                                :src="review.user.profile_image" :alt="review.user.full_name"/>
-                        </router-link>
                       </div>
                       <div class="comment-box">
                         <div class="comment-title" v-if="review.user">
 													<span class="title-1">
-														<router-link :to="{ name: 'dashboard' }" class="url">{{
+														<a href="javascript:void(0)" class="url">{{
                                 review.user.full_name
-                              }} </router-link>
+                              }} </a>
 													</span>
-                          <div class="sg-rating">
-                            <star-rating :rating="review.rating" :read-only="true" :star-size="10"
-                                         active-color="#C9151B"></star-rating>
-                          </div>
-                          <div class="comment-meta">
+                          <div class="comment-meta float-end">
                             <ul class="global-list">
                               <li
                               ><a href="javascript:void(0)">{{ review.review_date }}</a></li
                               >
                             </ul>
                           </div>
+                        </div>
+                        <div class="comment-title my-2" v-if="review.user">
+                          <div class="sg-rating">
+                            <star-rating :rating="review.rating" :read-only="true" :star-size="14"
+                                         active-color="#C9151B"></star-rating>
+                          </div>
+                         
                           <a class="float-end" v-if="authUser && review.user_id == authUser.id"
                              @click="editReview(review)" href="javascript:void(0)">{{ lang.edit }}</a>
                         </div>
@@ -507,17 +518,17 @@
                         <li v-for="(reply, index) in review.replies" :key="'reply' + index">
                           <div class="comment_info">
                             <div class="commenter-avatar" v-if="reply.user">
-                              <router-link :to="{ name: 'dashboard' }"><img class="img-fluid" loading="lazy"
-                                                                            :src="reply.user.profile_image"
-                                                                            :alt="reply.user.full_name"/></router-link>
+                              <img class="img-fluid" loading="lazy"
+                              :src="reply.user.profile_image"
+                              :alt="reply.user.full_name"/>
                             </div>
                             <div class="comment-box">
                               <div class="comment-title">
-																<span class="title-1" v-if="reply.user"
-                                ><router-link :to="{ name: 'dashboard' }" class="url">{{
-                                    reply.user.full_name
-                                  }}</router-link></span
-                                >
+																<span class="title-1" v-if="reply.user">
+                                  <a href="javascript:void(0)" class="url">
+                                    {{reply.user.full_name}}
+                                  </a>
+                                </span>
                                 <div class="comment-meta">
                                   <ul class="global-list">
                                     <li
@@ -597,7 +608,7 @@
     </div>
     <div class="col-lg-8">
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-12">
           <div class="products-details-info">
             <ul class="global-list d-flex justify-content-between">
               <div class="row">
@@ -616,9 +627,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4">
-          <shimmer class="mb-3" v-for="(list, i) in 2" :key="i" :height="list == 1 ? 200 : 300"></shimmer>
-        </div>
+      
       </div>
     </div>
   </div>

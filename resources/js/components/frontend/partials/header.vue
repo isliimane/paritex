@@ -56,25 +56,7 @@
                 ><span class="mdi mdi-name mdi-apple"></span> <small>{{ lang.app_store }}</small></a
                 >
               </li>
-              <li v-if="!addons.includes('ramdhani') && settings.seller_system == 1 && !authUser">
-                <router-link
-                    :to="{
-										name: 'seller-register',
-										params: { type: 'seller' },
-									}"
-                >
-                  {{ lang.be_a_seller }}
-                </router-link>
-              </li>
-              <li v-if="addons.includes('affiliate')">
-                <router-link
-                    :to="{
-										name: 'affiliate.program',
-									}"
-                >
-                  <span class="mdi mdi-name mdi-bank"></span> Affiliate Program
-                </router-link>
-              </li>
+              
             </ul>
           </div>
           <div class="right-content new-list">

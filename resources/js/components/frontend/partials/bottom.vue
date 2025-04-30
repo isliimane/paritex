@@ -155,17 +155,14 @@
 			</div>
 		</div>
 		<div class="btnTOP"><span class="icon mdi mdi-name mdi-chevron-up"></span></div>
-    <chat_system v-if="addons.includes('chat_system')"></chat_system>
 	</footer><!-- /.footer-section -->
 </template>
 
 <script>
-import chat_system from "../pages/addons/chat_system";
 
 export default {
 	name: "bottom",
   components: {
-    chat_system
   },
 
   data() {
