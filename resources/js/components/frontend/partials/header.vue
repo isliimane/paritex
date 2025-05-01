@@ -56,25 +56,7 @@
                 ><span class="mdi mdi-name mdi-apple"></span> <small>{{ lang.app_store }}</small></a
                 >
               </li>
-              <li v-if="!addons.includes('ramdhani') && settings.seller_system == 1 && !authUser">
-                <router-link
-                    :to="{
-										name: 'seller-register',
-										params: { type: 'seller' },
-									}"
-                >
-                  {{ lang.be_a_seller }}
-                </router-link>
-              </li>
-              <li v-if="addons.includes('affiliate')">
-                <router-link
-                    :to="{
-										name: 'affiliate.program',
-									}"
-                >
-                  <span class="mdi mdi-name mdi-bank"></span> Affiliate Program
-                </router-link>
-              </li>
+              
             </ul>
           </div>
           <div class="right-content new-list">
@@ -94,9 +76,6 @@
                 <router-link :class="{ has_compare: compareList > 0 }" :to="{ name: 'compare.list' }"
                 >{{ lang.compare }} <span v-if="compareList > 0">({{ compareList }})</span></router-link
                 >
-              </li>
-              <li>
-                <router-link :to="{ name: 'blogs' }">{{ lang.blog }}</router-link>
               </li>
             </ul>
           </div>
@@ -181,7 +160,7 @@
                        @keyup="searchProducts" @click.stop="searchDropdown"/>
                 <a class="search_btn cursor_pointer"
                    @click="$router.push({ name: 'search.product', query: { q: searchKey } })">
-                  <img :src="getUrl('public/images/others/search.svg')" alt="Product Search" class="img-fluid"/>
+                  <img :src="getUrl('public/images/custom/search-white.svg')" alt="Product Search" class="img-fluid"/>
                 </a>
                 <ul @click.stop class="dropdown-menu dropdown-menu-right show w-100 search_dropdown"
                     v-if="search_products.length > 0 && search_key_focus">
@@ -221,13 +200,13 @@
                   <div class="icon">
                     <img alt="Compare Icon" class="img-fluid" :src="getUrl('public/images/others/wishlist.svg')"/>
                   </div>
-                  <span class="badge" v-if="wishlists > 0">{{ wishlists }}</span>
+                  <span class="badge">0</span>
                 </router-link>
                 <a href="javascript:void(0)" v-else @click="redirectToProfile">
                   <div class="icon">
                     <img alt="Compare Icon" class="img-fluid" :src="getUrl('public/images/others/wishlist.svg')"/>
                   </div>
-                  <span class="badge" v-if="wishlists > 0">{{ wishlists }}</span>
+                  <span class="badge" >0</span>
                 </a>
               </li>
 
@@ -235,13 +214,13 @@
                 <router-link :to="{ name: 'cart' }" class="" v-if="isLicenseVerified">
                   <div class="icon">
                     <img alt="bag Icon" class="img-fluid" :src="getUrl('public/images/others/bag.svg')"/>
-                    <span v-if="carts && carts.length > 0" class="badge">{{ carts.filter(cart => cart.is_buy_now == false).length }}</span>
+                    <span  class="badge">0</span>
                   </div>
                 </router-link>
                 <a href="javascript:void(0)" v-else @click="redirectToProfile">
                   <div class="icon">
                     <img alt="bag Icon" class="img-fluid" :src="getUrl('public/images/others/bag.svg')"/>
-                    <span v-if="carts && carts.length > 0" class="badge">{{ carts.filter(cart => cart.is_buy_now == false).length }}</span>
+                    <span  class="badge">0</span>
                   </div>
                 </a>
                 <div class="sg-dropdown-menu" v-if="carts && carts.length > 0">
@@ -770,6 +749,9 @@ export default {
     compareList() {
       return this.$store.getters.getCompareList;
     },
+    isLicenseVerified() {
+          return (this.authUser && this.authUser.user_type === 'admin') || (this.authUser && this.authUser.user_type === 'customer' && this.authUser.license_verified);
+    }
   },
   methods: {
     subMenuToggle(event) {

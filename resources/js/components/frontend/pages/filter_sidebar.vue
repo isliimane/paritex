@@ -241,7 +241,7 @@
           </div>
           <div class="col-md-8 col-lg-9">
             <div class="sg-category-content sg-filter" :class="activeClass">
-              <div class="cta mb-4" v-if="page && page.image_835x200">
+              <!-- <div class="cta mb-4" v-if="page && page.image_835x200">
                 <div v-if="page.image_835x200 == getUrl('images/default/default-image-835x200.png')">
                   <a v-if="settings.category_default_banner != null"><img loading="lazy"
                                                                           :src="settings.category_default_banner"
@@ -252,8 +252,8 @@
                   <a v-if="page.image_835x200"><img loading="lazy" :src="page.image_835x200" :alt="form.slug"
                                                     class="img-fluid"/></a>
                 </div>
-              </div>
-              <div class="d-flex justify-content-between mb-4">
+              </div> -->
+              <div class="d-flex justify-content-between mb-4 custom-sort-container">
                 <div class="left-content">
                   <div class="title">
                     <h1>{{ lang.sort_by }}</h1>

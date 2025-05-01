@@ -115,32 +115,6 @@
                     <span>{{ __('Dashboard') }}</span></a>
             </li>
             
-          <!-- reclamation  -->
-          @if(hasPermission('claim_read'))
-    <li class="@yield('claim')">
-        <a class="nav-link" href="{{ route('admin.claim.index') }}">
-            <i class="bx bx-error-circle"></i>
-            <span>{{ __('Réclamations') }}</span>
-        </a>
-    </li>
-@endif
-<!--return -->
-@if(hasPermission('return_read'))
-    <li class="@yield('return')">
-        <a class="nav-link" href="{{ route('admin.return.index') }}">
-            <i class="bx bx-arrow-back"></i>
-            <span>{{ __('Demandes de retour') }}</span>
-            
-            @php
-                $pendingCount = \App\Models\ReturnRequest::where('status', 'pending')->count();
-            @endphp
-            
-            @if($pendingCount > 0)
-                <span class="badge bg-danger float-end">{{ $pendingCount }}</span>
-            @endif
-        </a>
-    </li>
-@endif
             @if(hasPermission('order_read') || hasPermission('pickup_hub_read'))
                 <li class="nav-item dropdown @yield('order_active')">
                     <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">

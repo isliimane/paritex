@@ -3,27 +3,10 @@
 		<div class="footer-top">
 			<div class="container">
 				<div class="footer-logo">
-					<router-link :to="{ name: 'home' }"><img loading="lazy" :src="settings.footer_logo" alt="preloader" class="img-fluid" width="89"/> </router-link>
+					<router-link :to="{ name: 'home' }"><img loading="lazy" :src="settings.footer_logo" alt="preloader" class="img-fluid" width="138"/> </router-link>
 				</div>
 				<div class="row">
-					<div class="col-sm-6 col-md-6" v-if="!addons.includes('ramdhani') && settings.seller_system == 1 && !authUser" :class="[classObj()]">
-						<div class="footer-widget widget-border" v-if="!authUser && settings.seller_system == 1">
-							<h3>{{ lang.seller_options }}</h3>
-							<ul class="global-list">
-								<li>
-									<router-link :to="{ name: 'login' }">{{ lang.login_as_seller }}</router-link>
-								</li>
-								<li>
-									<router-link :to="{
-										name: 'seller-register',
-										params: { type: 'seller' },
-									}">{{ lang.signup_as_seller }}
-									</router-link>
-								</li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-6" :class="[classObj()]">
+					<div class="col-sm-6 col-md-6 col-lg-3">
 						<div class="footer-widget widget-border">
 							<h3>{{ lang.my_account }}</h3>
 							<ul class="global-list" v-if="!authUser">
@@ -68,20 +51,9 @@
 									><a target="_blank" :href="getUrl('admin/password-change')">{{ lang.change_password }}</a></li
 								>
 							</ul>
-							<ul class="global-list" v-else-if="authUser && authUser.user_type == 'seller'">
-								<li
-									><a target="_blank" :href="getUrl('seller/dashboard')">{{ lang.dashboard }}</a></li
-								>
-								<li
-									><a target="_blank" :href="getUrl('seller/profile')">{{ lang.my_profile }}</a></li
-								>
-								<li
-									><a target="_blank" :href="getUrl('seller/password-change')">{{ lang.change_password }}</a></li
-								>
-							</ul>
 						</div>
 					</div>
-					<div class="col-sm-6 col-md-6" :class="[classObj()]">
+					<div class="col-sm-6 col-md-6 col-lg-3">
 						<div class="footer-widget widget-border">
 							<h3>{{ lang.useful_links }}</h3>
 							<ul class="global-list" v-for="(link, i) in usefulLinks" :key="i">
@@ -183,17 +155,14 @@
 			</div>
 		</div>
 		<div class="btnTOP"><span class="icon mdi mdi-name mdi-chevron-up"></span></div>
-    <chat_system v-if="addons.includes('chat_system')"></chat_system>
 	</footer><!-- /.footer-section -->
 </template>
 
 <script>
-import chat_system from "../pages/addons/chat_system";
 
 export default {
 	name: "bottom",
   components: {
-    chat_system
   },
 
   data() {
@@ -256,9 +225,6 @@ export default {
 			this.gdpr = false;
 			return localStorage.setItem("gdpr", "1");
 		},
-		classObj() {
-			return [this.settings.seller_system == 1 && !this.authUser ? "col-lg-2" : "col-lg-3"];
-		}
 	},
 };
 </script>

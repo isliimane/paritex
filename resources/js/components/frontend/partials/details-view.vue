@@ -33,12 +33,6 @@
               </div>
             </div>
           </VueSlickCarousel>
-
-          <span class="base" v-if="productDetails.special_discount_check > 0">
-						{{
-              productDetails.special_discount_type == "flat" ? priceFormat(productDetails.special_discount_check) + " " + lang.off : productDetails.special_discount_check + "% " + lang.off
-            }}
-					</span>
           <productVideo v-if="productDetails.video_link" :productDetails="productDetails"></productVideo>
         </div>
       </div>
@@ -46,7 +40,7 @@
           :class="{ 'col-lg-8 col-md-12': $route.name == 'product.details', 'col-lg-7': $route.name != 'product.details' }">
         <div class="row justify-content-md-center">
           <div
-              :class="{ 'col-lg-8 col-md-8': $route.name == 'product.details', 'col-lg-12': $route.name != 'product.details' }">
+              :class="{ 'col-lg-12 col-md-12': $route.name == 'product.details', 'col-lg-12': $route.name != 'product.details' }">
             <div class="product-details-2">
               <div class="product-details-header">
                 <h2>{{ productDetails.product_name }}</h2>
@@ -57,29 +51,35 @@
                 </div>
                 <div class="sg-rating" v-if="productDetails.rating > 0">
                   <h3>{{ productDetails.rating.toFixed(2) }} </h3>
-                  <star-rating v-model:rating="productDetails.rating" :read-only="true" :star-size="12"
+                  <star-rating v-model:rating="productDetails.rating" :read-only="true" :star-size="16"
                                :round-start-rating="false" class="rating-position"></star-rating>
-                  <span class="rating"> ({{ productDetails.reviews_count }} {{ lang.reviews }})</span>
+                  <span class="rating">{{ productDetails.reviews_count }} {{ lang.reviews }}</span>
                 </div>
               </div>
               <!-- /.product-details-header -->
 
+              
+              <p class="text-start" v-if="productDetails.has_variant && isLicenseVerified">{{ productDetails.variation_price }}</p>
+              <div class="sg-product-price" v-if="!productDetails.is_wholesale && isLicenseVerified">
+                <span v-if="productDetails.special_discount_check > 0">{{
+                    priceFormat(productDetails.product_stock.discount_percentage)
+                  }}</span>
+                <span v-else>{{ priceFormat(productDetails.product_stock.price) }}</span>
+                <del v-if="productDetails.special_discount_check > 0">
+                  {{ priceFormat(productDetails.product_stock.price) }}
+                </del>
+                <span class="discount-custom-badge" v-if="productDetails.special_discount_check > 0">
+                  {{
+                    productDetails.special_discount_type == "flat" ? priceFormat(productDetails.special_discount_check) + " " + lang.off : productDetails.special_discount_check + "% " + lang.off
+                  }}
+                </span>
+              </div>
+              <div class="sg-product-price" v-else-if="isLicenseVerified">
+                <span>{{ priceFormat(productDetails.price) }} </span>
+              </div>
               <div class="product-stock-delivery"
                    v-if="productDetails.special_discount_check > 0 || (productType() && productDetails.is_digital != 1 && productDetails.stock_visibility != 'hide_stock')">
-                <div
-                    v-if="productType() && productDetails.is_digital != 1 && productDetails.stock_visibility != 'hide_stock'">
-                  <div class="stock-in" v-if="stockFind().stock > 0">
-                    <span class="mdi mdi-check-circle-outline"></span>
-                    <div class="text-left">
-                      <h5 class="days">{{ lang.in_stock }}</h5>
-                      <h5 v-if="productDetails.stock_visibility == 'visible_with_quantity'">{{ stockFind().stock }}</h5>
-                    </div>
-                  </div>
-                  <div v-else class="stock-out">
-                    <span class="mdi mdi-close-circle-outline"></span>
-                    <h5>{{ lang.stock_out }}</h5>
-                  </div>
-                </div>
+                
                 <div v-if="productDetails.special_discount_check > 0" class="sg-countdown">
                   <ul class="countdown">
                     <li>
@@ -100,30 +100,26 @@
                     </li>
                   </ul>
                 </div>
+                <div
+                    v-if="productType() && productDetails.is_digital != 1 && productDetails.stock_visibility != 'hide_stock'">
+                  <div class="stock-in" v-if="stockFind().stock > 0">
+                    <span class="mdi mdi-check-circle-outline"></span>
+                    <div class="text-left">
+                      <h5 class="days">{{ lang.in_stock }}
+                        {{ productDetails.stock_visibility == 'visible_with_quantity'? '('+ stockFind().stock +')' : '' }}
+                      </h5>
+                    </div>
+                  </div>
+                  <div v-else class="stock-out">
+                    <span class="mdi mdi-close-circle-outline"></span>
+                    <h5>{{ lang.stock_out }}</h5>
+                  </div>
+                </div>
               </div>
               <!-- /.product-stock-delivery -->
-              <p class="text-start" v-if="productDetails.has_variant && isLicenseVerified">{{ productDetails.variation_price }}</p>
-              <div class="sg-product-price" v-if="!productDetails.is_wholesale && isLicenseVerified">
-                <span v-if="productDetails.special_discount_check > 0">{{
-                    priceFormat(productDetails.product_stock.discount_percentage)
-                  }}</span>
-                <span v-else>{{ priceFormat(productDetails.product_stock.price) }}</span>
-                <del v-if="productDetails.special_discount_check > 0">
-                  {{ priceFormat(productDetails.product_stock.price) }}
-                </del>
-                <p class="text-start" v-if="productDetails.special_discount_check > 0"
-                >{{ lang.you_save }}
-                  <span>{{
-                      productDetails.special_discount_type == "flat" ? priceFormat(productDetails.special_discount_check) : productDetails.special_discount_check + "%"
-                    }}</span>
-                </p>
-              </div>
-              <div class="sg-product-price" v-else-if="isLicenseVerified">
-                <span>{{ priceFormat(productDetails.price) }} </span>
-              </div>
               <div class="sg-product-color" v-if="productDetails.product_colors && productDetails.colors.length > 0">
                 <div class="sg-color">
-                  <h5>{{ lang.color }}:</h5>
+                  <h5>{{ lang.color }}</h5>
                   <div v-for="(color, index) in productDetails.product_colors" :key="'color' + index">
                     <input type="radio" value="color1" :id="'color' + color.id" v-model="product_form.color_id"
                            :value="color.id" @change="attributeSelect($event.target)"/>
@@ -137,7 +133,7 @@
               <div class="sg-product-size" v-for="(attribute, attribute_index) in attributes"
                    :key="'attribute' + attribute_index" v-if="attributes.length > 0">
                 <div class="sg-size">
-                  <h5>{{ attribute.title }}:</h5>
+                  <h5>{{ attribute.title }}</h5>
                   <form action="#">
                     <div v-for="(value, value_index) in productDetails.attribute_values" :key="'value' + value_index"
                          v-if="value.attribute_id == attribute.id">
@@ -187,23 +183,6 @@
                     <span class="mdi mdi-name mdi-plus"></span>
                   </a>
                 </div>
-                <h3 v-if="isLicenseVerified">{{ lang.total_price }}:
-                  <span v-if="productDetails.special_discount_check > 0 && productDetails.is_wholesale != 1">{{
-                      priceFormat(productDetails.product_stock.discount_percentage * product_form.quantity)
-                    }} </span>
-                  <span v-else-if="productDetails.is_wholesale != 1">{{
-                      priceFormat(productDetails.product_stock.price * product_form.quantity)
-                    }}</span>
-                  <span v-if="productDetails.is_wholesale == 1">{{ priceFind() }}</span>
-                </h3>
-              </div>
-
-              <div v-if="productDetails.is_catalog != 1" class="product-details-query mt-3 product-border">
-                <h3 v-if="productDetails.is_digital == 0 && productDetails.estimated_shipping_days">
-                  {{ productDetails.estimated_shipping_days }}
-                  {{ lang.days }} <span>{{ lang.estimated_delivery_time }}</span></h3
-                >
-
                 <div class="product-cart sg-quantity" v-if="productType()">
                   <div class="buttons d-flex align-items-center">
                     <a href="javascript:void(0);" class="btn btn-primary"
@@ -224,6 +203,8 @@
                       {{ lang.buy_now }}
                     </a>
                   </div>
+                </div>
+                <div class="product-cart sg-quantity custom-sg-quantity" v-if="productType()">
                   <ul class="global-list d-flex">
                     <li v-if="checkCompare()">
                       <a href="javascript:void(0)" @click="removeCompare">
@@ -267,8 +248,9 @@
                     </li>
                   </ul>
                 </div>
+              </div>
 
-                <div v-if="productDetails.is_classified == 1 && productDetails.contact_info">
+              <div v-if="productDetails.is_catalog != 1 && productDetails.is_classified == 1 && productDetails.contact_info" class="product-details-query mt-3 product-border">
                   <p>{{ lang.contact_to_more_info }}</p>
                   <table class="table table-bordered">
                     <tbody>
@@ -302,7 +284,6 @@
                     </tr>
                     </tbody>
                   </table>
-                </div>
               </div>
               <!-- product-details -->
 
@@ -311,6 +292,19 @@
                    class="btn btn-primary btn-block">{{ lang.see_details }}</a>
               </div>
 
+              <div class="product-details-policy product-border mt-4"
+                   v-if="productDetails.is_catalog != 1 && productDetails.is_digital == 0 && productDetails.estimated_shipping_days && productDetails.estimated_shipping_days != 0">
+                <div class="related-product-shop">
+                  <div class="related-product-thumb text-center">
+                    <img :src="getUrl('public/images/custom/delivery-truck.svg')" alt="Delivery" class="img-fluid"/>
+                  </div>
+                  <div class="related-product-content">
+                    <h3 v-if="settings.refund_protection_sub_title">{{ productDetails.estimated_shipping_days }}
+                      {{ lang.days }}</h3>
+                    <h4 v-if="settings.refund_protection_title">{{ lang.estimated_delivery_time }}</h4>
+                  </div>
+                </div>
+              </div>
               <div class="product-details-policy product-border mt-4"
                    v-if="addons.includes('refund') && productDetails.is_refundable == '1'">
                 <div class="related-product-shop">
@@ -358,44 +352,7 @@
             </div>
           </div>
           <!-- /.col-lg-8 -->
-          <div v-if="$route.name == 'product.details'" class="col-lg-4 col-md-4">
-            <div class="sg-seller-product pb-sm-3">
-              <ul class="product_sidebar_store"
-                  v-if="settings.seller_system == 1 && productDetails.seller && $route.name == 'product.details'">
-                <single_seller :shop="productDetails.seller" :productDetailsPage="true"></single_seller>
-              </ul>
-              <div class="product-offer" v-if="settings.product_details_site_banner">
-                <img loading="lazy" :src="settings.product_details_site_banner" alt="banner-image" class="img-fluid"/>
-              </div>
-              <div class="product-widget-recent-entries" v-if="productDetails.sidebar_products.length > 0">
-                <h4>{{ lang.recent_products }}</h4>
-                <ul class="global-list">
-                  <li v-for="(product, index) in productDetails.sidebar_products" :key="index">
-                    <div class="shop">
-                      <div class="thumb">
-                        <router-link :to="{ name: 'product.details', params: { slug: product.slug } }">
-                          <img loading="lazy" :src="product.image_40x40" :alt="product.slug" class="img-fluid"/>
-                        </router-link>
-                      </div>
-                      <div class="info">
-                        <h3 class="text-ellipse-one">
-                          <router-link :to="{ name: 'product.details', params: { slug: product.slug } }">
-                            {{ product.product_name }}
-                          </router-link>
-                        </h3>
-                        <span class="price">
-													<span v-if="product.special_discount_check > 0">
-														{{ priceFormat(product.discount_percentage) }}
-													</span>
-													<span v-else>{{ priceFormat(product.price) }}</span>
-												</span>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div><!-- /.product-widget-sidebar -->
-          </div>
+          
           <!-- /.col-lg-8 -->
         </div>
       </div>
@@ -448,17 +405,20 @@
                   <div class="left-content">
                     <h2
                     >{{ productDetails.rating > 0 ? productDetails.rating.toFixed(2) : 0 }}
-                      <small>{{ lang.out_of }} {{ reviews.total }}</small>
+                      <!-- <small>{{ lang.out_of }} {{ reviews.total }}</small> -->
                     </h2>
                     <div class="sg-rating">
-                      <star-rating v-model:rating="productDetails.rating" :read-only="true" :star-size="12"
+                      <star-rating v-model:rating="productDetails.rating" :read-only="true" :star-size="16"
                                    :round-start-rating="false" class="rating-position"></star-rating>
                     </div>
-                    <h3>({{ productDetails.reviews_count }} {{ lang.reviews }})</h3>
+                    <h3>{{ productDetails.reviews_count }} {{ lang.reviews }}</h3>
                   </div>
                   <div class="right-content">
                     <div class="sg-progress" v-for="(percentage, index) in percentages" :key="'percentage' + index">
-                      <span>{{ index }} star</span>
+                      <span class="d-flex align-items-center justify-content-between">{{ index }} 
+                      <svg data-v-ef4bc576="" data-v-fde73a0c="" height="16" width="16" viewBox="0 0 12.000000000000002 12.000000000000002" class="star-rating-custom vue-star-rating-star" step="100"><linearGradient data-v-ef4bc576="" id="lz2otd" x1="0" x2="100%" y1="0" y2="0"><stop data-v-ef4bc576="" offset="100%" stop-color="#ffd055" stop-opacity="1"></stop><stop data-v-ef4bc576="" offset="100%" stop-color="#d8d8d8" stop-opacity="1"></stop></linearGradient><filter data-v-ef4bc576="" id="0m9rbg" height="130%" width="130%" filterUnits="userSpaceOnUse"><feGaussianBlur data-v-ef4bc576="" stdDeviation="0" result="coloredBlur"></feGaussianBlur><feMerge data-v-ef4bc576=""><feMergeNode data-v-ef4bc576="" in="coloredBlur"></feMergeNode><feMergeNode data-v-ef4bc576="" in="SourceGraphic"></feMergeNode></feMerge></filter><!----><polygon data-v-ef4bc576="" points="5.454545454545455,0.6060606060606061,1.8181818181818181,12.000000000000002,10.90909090909091,4.7272727272727275,0,4.7272727272727275,9.090909090909092,12.000000000000002" fill="url(#lz2otd)" stroke="#999" stroke-width="0" stroke-linejoin="miter"></polygon><polygon data-v-ef4bc576="" points="5.454545454545455,0.6060606060606061,1.8181818181818181,12.000000000000002,10.90909090909091,4.7272727272727275,0,4.7272727272727275,9.090909090909092,12.000000000000002" fill="url(#lz2otd)"></polygon></svg>  
+                    
+                    </span>
                       <div class="progress">
                         <div class="progress-bar" role="progressbar" :style="'width: ' + percentage + '%'"
                              :aria-valuenow="percentage" aria-valuemin="0" :aria-valuemax="percentage"></div>
@@ -475,29 +435,30 @@
                   <li v-for="(review, index) in reviews.data" :key="'review' + index">
                     <div class="comment_info">
                       <div class="commenter-avatar" v-if="review.user">
-                        <router-link :to="{ name: 'dashboard' }">
                           <img class="img-fluid" v-if="review.user.profile_image" loading="lazy"
                                :src="review.user.profile_image" :alt="review.user.full_name"/>
-                        </router-link>
                       </div>
                       <div class="comment-box">
                         <div class="comment-title" v-if="review.user">
 													<span class="title-1">
-														<router-link :to="{ name: 'dashboard' }" class="url">{{
+														<a href="javascript:void(0)" class="url">{{
                                 review.user.full_name
-                              }} </router-link>
+                              }} </a>
 													</span>
-                          <div class="sg-rating">
-                            <star-rating :rating="review.rating" :read-only="true" :star-size="10"
-                                         active-color="#C9151B"></star-rating>
-                          </div>
-                          <div class="comment-meta">
+                          <div class="comment-meta float-end">
                             <ul class="global-list">
                               <li
                               ><a href="javascript:void(0)">{{ review.review_date }}</a></li
                               >
                             </ul>
                           </div>
+                        </div>
+                        <div class="comment-title my-2" v-if="review.user">
+                          <div class="sg-rating">
+                            <star-rating :rating="review.rating" :read-only="true" :star-size="14"
+                                         active-color="#C9151B"></star-rating>
+                          </div>
+                         
                           <a class="float-end" v-if="authUser && review.user_id == authUser.id"
                              @click="editReview(review)" href="javascript:void(0)">{{ lang.edit }}</a>
                         </div>
@@ -557,17 +518,17 @@
                         <li v-for="(reply, index) in review.replies" :key="'reply' + index">
                           <div class="comment_info">
                             <div class="commenter-avatar" v-if="reply.user">
-                              <router-link :to="{ name: 'dashboard' }"><img class="img-fluid" loading="lazy"
-                                                                            :src="reply.user.profile_image"
-                                                                            :alt="reply.user.full_name"/></router-link>
+                              <img class="img-fluid" loading="lazy"
+                              :src="reply.user.profile_image"
+                              :alt="reply.user.full_name"/>
                             </div>
                             <div class="comment-box">
                               <div class="comment-title">
-																<span class="title-1" v-if="reply.user"
-                                ><router-link :to="{ name: 'dashboard' }" class="url">{{
-                                    reply.user.full_name
-                                  }}</router-link></span
-                                >
+																<span class="title-1" v-if="reply.user">
+                                  <a href="javascript:void(0)" class="url">
+                                    {{reply.user.full_name}}
+                                  </a>
+                                </span>
                                 <div class="comment-meta">
                                   <ul class="global-list">
                                     <li
@@ -647,7 +608,7 @@
     </div>
     <div class="col-lg-8">
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-12">
           <div class="products-details-info">
             <ul class="global-list d-flex justify-content-between">
               <div class="row">
@@ -666,9 +627,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4">
-          <shimmer class="mb-3" v-for="(list, i) in 2" :key="i" :height="list == 1 ? 200 : 300"></shimmer>
-        </div>
+      
       </div>
     </div>
   </div>
@@ -844,6 +803,9 @@ export default {
       }
       return carts;
     },
+    isLicenseVerified() {
+          return (this.authUser && this.authUser.user_type === 'admin') || (this.authUser && this.authUser.user_type === 'customer' && this.authUser.license_verified);
+    }
   },
   methods: {
     activeImage(imageIndex) {
