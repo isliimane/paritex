@@ -110,11 +110,8 @@ class AddressController extends Controller
             'state_id'      => 'required',
             'city_id'       => 'nullable',
             'address'       => 'required',
+            'postal_code'   => 'required',
         ];
-        if (!addon_is_activated('ramdhani'))
-        {
-            $data['postal_code'] = 'required';
-        }
         $request->validate($data);
 
         try {

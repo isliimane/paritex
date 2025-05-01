@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\Addons\AffiliateController;
 use App\Http\Controllers\Admin\Addons\RewardSystemController;
 use App\Http\Controllers\Admin\CommonController;
 use App\Http\Controllers\Admin\LanguageController;
@@ -10,7 +9,6 @@ use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\RegisterController;
 use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\WalletController;
-use App\Http\Controllers\Seller\CouponController;
 use App\Http\Controllers\Site\AddressController;
 use App\Http\Controllers\Site\BlogController;
 use App\Http\Controllers\Site\CartController;
@@ -48,14 +46,12 @@ Route::middleware(['XSS', 'isInstalled'])->group(function () {
         //admin register
         Route::get('register', [HomeController::class, 'index'])->name('register');
         Route::post('register', [RegisterController::class, 'postRegister'])->name('register.post');
-        Route::post('seller-register', [RegisterController::class, 'sellerRegister'])->name('seller.register.post');
 
         Route::post('reset-password', [UserController::class, 'resetPassword'])->name('reset.password');
         Route::get('reset/{email}/{activationCode}', [HomeController::class, 'index']);
         Route::post('create-new-password', [UserController::class, 'createNewPassword'])->name('create.new.password');
         Route::post('register/by-phone', [RegisterController::class, 'registerByPhone'])->name('register.by.phone');
 
-        Route::get('seller/login', [LoginController::class, 'sellerLogin'])->name('seller.login.form');
         Route::get('admin/login', [LoginController::class, 'adminLogin'])->name('admin.login.form');
 
         //admin login
@@ -92,14 +88,8 @@ Route::middleware(['XSS', 'isInstalled'])->group(function () {
             Route::get('get-all-address', [AddressController::class, 'allAddress'])->name('user.addresses.axios');
             Route::get('add-to-wishlist/{id}', [WishlistController::class, 'addToWishlist'])->name('product.addToWishlist');
             Route::get('remove-wishlist-product/{id}', [WishlistController::class, 'wishlistProductRemove'])->name('wishlist.remove');
-            Route::post('user-to-seller', [RegisterController::class, 'postRegister'])->name('register.post.seller');
             Route::get('wallet-data', [UserController::class, 'walletData'])->name('wallet.data');
             Route::get('wallet-history', [UserController::class, 'walletHistory'])->name('wallet.history');
-
-            Route::get('follow-shop', [UserController::class, 'followShop'])->name('follow.shop');
-            Route::get('followed-sellers', [UserController::class, 'userFollowedShop'])->name('user.followed.shop');
-            Route::get('remove-followed', [UserController::class, 'removeFollow'])->name('remove.follow');
-
 
             //order-routes
             Route::get('profile-orders', [OrderController::class, 'profileOrder'])->name('user.profile');
@@ -111,7 +101,6 @@ Route::middleware(['XSS', 'isInstalled'])->group(function () {
             Route::post('product-review-store', [ProductController::class, 'storeReview'])->name('review.store');
             Route::post('convert-reward', [RewardSystemController::class, 'convertReward'])->name('convert.reward');
             Route::get('reward-history', [RewardSystemController::class, 'rewardHistory'])->name('convert.reward.history');
-            Route::get('affiliate-links', [AffiliateController::class, 'affiliateLinks'])->name('affiliate.links');
 
     //            Route::get('coupon-lists', [UserController::class, 'couponList'])->name('convert.reward.history');
         });
@@ -152,7 +141,6 @@ Route::middleware(['XSS', 'isInstalled'])->group(function () {
     Route::match(['get','post'],'user/recharge-wallet', [UserController::class, 'walletRecharge'])->name('recharge.wallet');
 
     Route::get('user/mail-order/{trx_id}', [OrderController::class, 'userSendMail']);
-    Route::get('user/mail-order-seller/{trx_id}', [OrderController::class, 'sendMailSeller']);
     Route::get('user/checkout', [CartController::class, 'createCheckout'])->name('user.checkout');
     Route::post('user/remove_coupon', [CartController::class, 'removeCoupon'])->name('remove.coupon');
     Route::match(['get', 'post'], 'user/complete-order', [OrderController::class, 'completeOrder'])->name('complete.order');
@@ -170,7 +158,6 @@ Route::middleware(['XSS', 'isInstalled'])->group(function () {
     Route::get('/best-selling/products', [HomeController::class, 'index'])->where('path', '*')->name('best.selling.products.list');
     Route::get('/offer/products', [HomeController::class, 'index'])->where('path', '*')->name('offer.products.list');
     Route::get('/brand/{slug}', [HomeController::class, 'index'])->where('path', '*')->name('brand-by-slug');
-    Route::get('/seller-products/{slug}', [HomeController::class, 'index'])->where('path', '*')->name('seller-by-slug');
     Route::get('/gadget-products/{slug}', [HomeController::class, 'index'])->where('path', '*')->name('category-by-slug.gadget');
     Route::get('/category-blogs/{slug}', [HomeController::class, 'index'])->where('path', '*')->name('category.blogs');
     Route::get('/product/{slug}', [HomeController::class, 'index'])->where('path', '*')->name('product-details');
@@ -178,12 +165,9 @@ Route::middleware(['XSS', 'isInstalled'])->group(function () {
     Route::get('/product-by-search/{searchKey}', [HomeController::class, 'index'])->where('path', '*')->name('product.by.search');
     Route::match(['get', 'post'], 'invoice/{trx_id}', [HomeController::class, 'index'])->where('path', '*')->name('invoice.by.trx');
     Route::get('/payment/{anypath}', [HomeController::class, 'index'])->where('path', '*');
-    Route::get('/register/seller', [HomeController::class, 'index'])->name('seller.register');
     Route::get('user/migrate/{type}', [HomeController::class, 'index'])->where('path', '*')->middleware('loginCheck');
     Route::get('page/{slug}', [HomeController::class, 'index'])->where('path', '*');
     Route::get('shop/{slug}', [HomeController::class, 'index'])->where('path', '*')->name('frontend.shop');
-    Route::get('video-shopping/{slug}', [HomeController::class, 'index'])->where('path', '*')->name('video.details');
-    Route::get('user/user-to-seller', [HomeController::class, 'index'])->where('path', '*');
     Route::match(['get','post'],'my-wallet', [HomeController::class, 'index'])->where('path', '*');
     Route::match(['get','post'],'payment', [HomeController::class, 'index'])->where('path', '*');
 
@@ -225,7 +209,6 @@ Route::middleware(['XSS', 'isInstalled'])->group(function () {
     Route::post('blog/unlike-reply', [BlogController::class, 'unlikeBlogReply'])->name('blog.unlike.reply');
     Route::post('track-order', [FrontendController::class, 'trackOrder'])->name('track.order');
     Route::get('home/brands', [FrontendController::class, 'brands'])->name('brands.all');
-    Route::get('home/sellers', [FrontendController::class, 'sellers'])->name('front.sellers');
     Route::get('home/offer-products', [ProductController::class, 'productByOffer'])->name('offer.products');
     Route::get('home/best-selling-products', [ProductController::class, 'productByBestSelling'])->name('best.selling.products');
     Route::get('home/flash-sale-products', [ProductController::class, 'productByFlashSale'])->name('flash.sale.products');
@@ -261,48 +244,28 @@ Route::middleware(['XSS', 'isInstalled'])->group(function () {
     Route::get('/home/load-colors', [ProductController::class, 'loadColors'])->name('load.colors');
     Route::get('/home/check-auth', [LoginController::class, 'checkAuth'])->name('check.auth');
     Route::get('language/keywords', [FrontendController::class, 'langKeywords'])->name('language.keywords');
-    Route::get('/shop-page-data/{slug}', [\App\Http\Controllers\Admin\SellerController::class, 'shop'])->name('shop.details');
     Route::get('/settings/data', [HomeController::class, 'settingsData'])->name('settings.data');
-    Route::get('/seller/coupons/{id}', [CouponController::class, 'coupons'])->name('front.seller.coupons');
     Route::match(['post', 'get'], 'get/ssl-response', [PaymentController::class, 'sslResponse'])->name('ssl.response');
     Route::get('get/country-list', [AddressController::class, 'countries'])->name('get.country');
     Route::get('set/text-direction/{dir}', [HomeController::class, 'textDirection'])->name('set.text-direction');
     Route::post('search/product', [ProductController::class, 'searchProduct'])->name('search.product');
     Route::get('summernote/clean', [HomeController::class, 'summernoteClean'])->name('summernote.clean');
-    Route::get('get/video-shops', [FrontendController::class, 'videoShopping']);
-    Route::get('get/video-shops-details/{slug}', [FrontendController::class, 'videoShoppingDetails']);
-    Route::get("user/payment/paytmRedirect", [PaymentController::class, 'paytmPayment']);
     Route::get('jazz/redirect', [PaymentController::class, 'jazzCashPayment'])->name('jazz.redirect');
     Route::get('stripe/redirect', [PaymentController::class, 'stripeRedirect']);
-    Route::get('dpo/redirect', [PaymentController::class, 'dpoRedirect']);
-    Route::get('mpesa/redirect', [PaymentController::class, 'mpesaRedirect']);
 
     Route::get('mollie/payment', [PaymentController::class, 'mollieRedirect'])->name('mollie.payment');
     Route::get('mollie/recharge-payment', [PaymentController::class, 'rechargeWithMollie'])->name('mollie.recharge.payment');
     Route::get('mollie/success', [PaymentController::class, 'mollieSuccess'])->name('mollie.success');
-    Route::post('paytm/success', [PaymentController::class, 'payTmSuccess'])->name('payTm.success');
     Route::get('mollie/recharge-success', [PaymentController::class, 'mollieRechargeSuccess'])->name('mollie.recharge.success');
     Route::post('fw-verify', [PaymentController::class, 'verifyFW']);
     Route::get('mercadopago/redirect', [PaymentController::class, 'mercadoPago']);
     Route::get('telr/redirect', [PaymentController::class, 'telrRedirect']);
-    Route::get('amarpay/redirect', [PaymentController::class, 'aamarpayRedirect']);
-    Route::get('bkash/redirect', [PaymentController::class, 'bkashRedirect']);
-    Route::get('bkash/execute', [PaymentController::class, 'bkashExecute']);
-    Route::get('bkash/execute', [PaymentController::class, 'bkashExecute']);
-    Route::get('nagad/redirect', [PaymentController::class, 'nagadRedirect']);
-    Route::get('nagad/callback', [PaymentController::class, 'nagadVerify']);
     Route::get('skrill/redirect', [PaymentController::class, 'skrillRedirect']);
     Route::get('iyzico/redirect', [PaymentController::class, 'iyzicoRedirect']);
-    Route::get('kkiapay/callback', [PaymentController::class, 'retrieveIyzico'])->name('iyzico.callback');
 
 
 
     Route::get('mercadopago/redirect/wallet', [WalletController::class, 'mercadoPago']);
-    Route::get('bkash/redirect/wallet', [WalletController::class, 'bkashRedirect']);
-    Route::get('bkash/execute/wallet', [WalletController::class, 'bkashExecute']);
-    Route::get('nagad/redirect/wallet', [WalletController::class, 'nagadRedirect']);
-    Route::get('nagad/callback/wallet', [WalletController::class, 'nagadVerify']);
-    Route::get('amarpay/redirect/wallet', [WalletController::class, 'aamarpayRedirect']);
     Route::get('skrill/redirect/wallet', [WalletController::class, 'skrillRedirect']);
 
     Route::get('iyzico/redirect/wallet', [WalletController::class, 'iyzicoRedirect']);
@@ -323,7 +286,6 @@ Route::middleware(['XSS', 'isInstalled'])->group(function () {
         Route::get('blogs.xml', [SitemapController::class, 'blogs'])->name('blogs.sitemap');
         Route::get('categories.xml', [SitemapController::class, 'categories'])->name('categories.sitemap');
         Route::get('brands.xml', [SitemapController::class, 'brands'])->name('brands.sitemap');
-        Route::get('shops.xml', [SitemapController::class, 'shops'])->name('shops.sitemap');
         Route::get('pages.xml', [SitemapController::class, 'pages'])->name('pages.sitemap');
     });
     Route::get('migrate', function () {

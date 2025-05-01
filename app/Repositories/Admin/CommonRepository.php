@@ -8,7 +8,6 @@ use App\Models\DeliveryHero;
 use App\Models\OfflineMethodLanguage;
 use App\Models\PageLanguage;
 use App\Models\ServiceLanguage;
-use App\Models\VideoShoppingLanguage;
 use App\Models\Wishlist;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
@@ -44,7 +43,7 @@ class CommonRepository implements CommonInterface{
     public function delete($table, $id){
         DB::beginTransaction();
         try {
-            if ($table == 'staff' || $table == 'customer' || $table == 'seller'):
+            if ($table == 'staff' || $table == 'customer'):
                 $user = User::find($id);
                 $this->deleteImage($user->images);
                 $user->delete();
@@ -146,9 +145,6 @@ class CommonRepository implements CommonInterface{
                 DB::table($table)->delete($id);
             elseif($table == 'services'):
                 ServiceLanguage::where('service_id',$id)->delete();
-                DB::table($table)->delete($id);
-            elseif($table == 'video_shoppings'):
-                VideoShoppingLanguage::where('video_shopping_id',$id)->delete();
                 DB::table($table)->delete($id);
             elseif($table == 'currencies'):
                 DB::table($table)->delete($id);

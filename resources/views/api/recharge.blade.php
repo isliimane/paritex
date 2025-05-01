@@ -94,19 +94,6 @@
                                     </div>
                                 </li>
                             @endif
-                            @if(settingHelper('is_paytm_activated') == 1)
-                                <li>
-                                    <div class="input-checkbox">
-                                        <input type="radio" id="paytm" value="paytm"
-                                               name="payment">
-                                        <label for="paytm">
-                                            <img src="{{ url('public/images/payment-method/paytm.svg') }}" alt="paytm"
-                                                 class="img-fluid">
-                                            {{ __('pay_with_paytm') }}
-                                        </label>
-                                    </div>
-                                </li>
-                            @endif
                             @if(settingHelper('is_razorpay_activated') == 1)
                                 <li>
                                     <div class="input-checkbox">
@@ -196,20 +183,6 @@
                                     </div>
                                 </li>
                             @endif
-                            @if(settingHelper('is_bkash_activated') == 1)
-                                <li>
-                                    <div class="input-checkbox">
-                                        <input type="radio" id="bkash"  value="bkash"
-                                                name="payment">
-                                        <label for="bkash">
-                                        <img src="{{ url('public/images/payment-method/bKash.svg') }}"
-                                             alt="bkash"
-                                             width="90"
-                                             class="img-fluid">
-                                            {{ __('pay_with_bkash') }}</label>
-                                    </div>
-                                </li>
-                            @endif
 {{--                            @if(settingHelper('is_google_pay_activated'))--}}
 {{--                                <li>--}}
 {{--                                    <div class="input-checkbox">--}}
@@ -261,19 +234,6 @@
                                         </div>
                                     </li>
                             @endif
-                            @if(addon_is_activated('hitpay_payment_gateway'))
-                                @if(settingHelper('is_hitpay_activated')==1)
-                                        <li>
-                                            <div class="input-checkbox">
-                                                <input type="radio" id="hitpay"  value="hitpay" name="payment">
-                                                <label for="hitpay">
-                                                    <img src="{{url('public/images/payment-method/hitpay.svg')}}"
-                                                        alt="hitpay"
-                                                        width="90" class="img-fluid">{{ __('pay_with_hitpay') }}</label>
-                                            </div>
-                                        </li>
-                                @endif
-                            @endif
                         </ul>
                     </div>
                 </div>
@@ -289,8 +249,6 @@
                                     $params = "payment_mode=api&amount=$amount&token=$token&curr=$currency&type=wallet&lang=$lang";
                                     @endphp
                                     <a href="{{ url("stripe/redirect?$params")  }}" class="btn btn-primary paymentBTNFixed payment_btns d-none stripe_btn"> {{ __('pay_now') }}</a>
-
-                                    <a href="{{ url("user/payment/paytmRedirect?$params") }}" class="btn btn-primary paymentBTNFixed payment_btns d-none paytm_btn">{{ __('pay_now') }}</a>
 
                                     <a href="{{ url("get/ssl-response?$params") }}" class="btn btn-primary paymentBTNFixed payment_btns d-none ssl_commerze_btn"> {{ __('pay_now') }}</a>
 
@@ -308,14 +266,7 @@
                                        class="btn btn-primary payment_btns amarpay_btn d-none">
                                         {{ __('pay_now') }}</a>
 
-                                    <a href="{{url("bkash/redirect/wallet?$params")}}"
-                                       class="btn btn-primary payment_btns bkash_btn d-none">
-                                        {{ __('pay_now') }}</a>
 
-                                    <a href="{{url("nagad/redirect/wallet?$params")}}"
-                                       class="btn btn-primary payment_btns nagad_btn d-none"></a>
-
-                                    <button class="btn btn-primary kkiapay-button paymentBTNFixed payment_btns d-none kkiapay_btn" >{{ __('pay_now') }}</button>
 
 
                                     <a href="{{url("skrill/redirect?$params")}}"
@@ -324,10 +275,6 @@
 
                                         <a href="{{url("iyzico/redirect/wallet?$params")}}"
                                            class="btn btn-primary payment_btns iyzico_btn d-none">
-                                            {{ __('pay_now') }}</a>
-
-                                        <a href="{{url("hitpay/redirect/wallet?$params")}}"
-                                           class="btn btn-primary payment_btns hitpay_btn d-none">
                                             {{ __('pay_now') }}</a>
 
                                     <button class="btn btn-primary paymentBTNFixed d-none loading" type="button" disabled>
@@ -495,19 +442,6 @@
             src="https://www.paypal.com/sdk/js?client-id={{ settingHelper('paypal_client_id') }}&currency=USD"></script>
     <script src="{{ static_asset('frontend/js/paypal.js') }}"></script>
 @endif
-
-@if(settingHelper('is_kkiapay_activated') == 1)
-    <script amount="{{ round($amount/$active_currency->exchange_rate * $xof->exchange_rate) }}"
-            callback="{{ url("user/recharge-wallet?amount=$amount&type=wallet&payment_type=kkiapay") }}"
-            data=""
-            url="{{ $dark_logo }}"
-            position="center"
-            theme="{{ settingHelper('menu_background_color') }}"
-            sandbox="{{ settingHelper('is_kkiapay_sandbox_enabled') == 1 ? 'true' : 'false' }}"
-            key="{{ settingHelper('kkiapay_public_api_key') }}"
-            src="{{ asset('public/frontend/js/k.js') }}"></script>
-@endif
-
 @if($paystack_activated)
     <script src="https://js.paystack.co/v2/inline.js">
 @endif

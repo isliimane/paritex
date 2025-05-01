@@ -240,34 +240,4 @@ class CampaignController extends Controller
         }
     }
 
-    public function campaignProductRequest($id){
-        $products          = $this->campaign->campaignProductRequests($id, get_pagination('pagination'));
-        return view('admin.marketing.campaign-product-request', compact('products'));
-    }
-
-    public function campaignProductRequestStatus(Request $request)
-    {
-        if (config('app.demo_mode')):
-            Toastr::info(__('This function is disabled in demo server.'));
-            return redirect()->back();
-        endif;
-
-        DB::beginTransaction();
-        try {
-            $this->campaign->campaignProductRequestStatus($request);
-            Toastr::success(__('Updated Successfully'));
-            DB::commit();
-            return redirect()->back();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            Toastr::error($e->getMessage());
-            return redirect()->back();
-        }
-    }
-
-    public function campaignRequests(){
-        $products          = $this->campaign->allCampaignProductRequests(get_pagination('pagination'));
-        return view('admin.marketing.all-campaign-request', compact('products'));
-    }
-
 }

@@ -2,15 +2,11 @@
 <html lang="en">
 @include('admin.partials.header-assets')
 
-    <body class="{{ request()->route()->getName() == 'admin.pos.system' ||  request()->route()->getName() == 'seller.pos.system' ? 'sidebar-mini' : '' }}">
+    <body>
         <div id="app">
             <div class="main-wrapper">
                 @include('admin.partials.header')
-                @if(Sentinel::getUser()->user_type == 'seller')
-                    @include('seller.partials.sidebar')
-                @else
-                    @include('admin.partials.sidebar')
-                @endif
+                @include('admin.partials.sidebar')
                 <div class="main-content">
                 <!-- Main Content -->
                 @yield('main-content')
@@ -24,7 +20,7 @@
         <input type="hidden" value="{{ settingHelper('live_api_currency') }}" id="is_currency_api_enabled">
         <input type="hidden" value="{{route('home')}}" id="url">
         <input type="hidden" value="{{route('index')}}" id="assets">
-        <input name="get-me" type="hidden" id="get_user_type" value="{{ Sentinel::getUser()->user_type == 'seller' ? 'seller' : 'admin'}}" />
+        <input name="get-me" type="hidden" id="get_user_type" value="admin" />
         <input type="hidden" class="sure" value="{{ __('Are you sure? ') }}">
         <input type="hidden" class="confirm_btn" value="{{ __('yes_do_it') }}">
         <input type="hidden" class="product_alert_danger" value="{{ __('product_disabled') }}">

@@ -10,7 +10,6 @@
             <h1>{{ lang.sign_up }} </h1>
             <p v-if="otp  && !settings.disable_otp">{{ lang.enter_to_complete_registration }}</p>
             <p v-else>{{ lang.sign_to_continue_shopping }}</p>
-            <h5 class="registration_heading" v-if="form.user_type == 'seller'">{{ lang.personal_info }}</h5>
             <form class="ragister-form" name="ragister-form" @submit.prevent="register">
               <div>
                 <div class="form-group">

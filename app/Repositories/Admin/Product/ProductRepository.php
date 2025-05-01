@@ -14,7 +14,6 @@ use App\Models\Review;
 use App\Models\Search;
 use App\Repositories\Interfaces\Admin\Product\ProductInterface;
 use App\Repositories\Interfaces\Admin\Product\ProductLanguageInterface;
-use App\Repositories\Interfaces\Admin\SellerInterface;
 use App\Traits\ImageTrait;
 use App\Traits\RandomStringTrait;
 use App\Traits\SlugTrait;
@@ -27,12 +26,10 @@ class ProductRepository implements ProductInterface
     use SlugTrait, ImageTrait, RandomStringTrait;
 
     protected $productLang;
-    protected $seller;
 
-    public function __construct(ProductLanguageInterface $productLang, SellerInterface $seller)
+    public function __construct(ProductLanguageInterface $productLang)
     {
         $this->productLang  = $productLang;
-        $this->seller       = $seller;
     }
 
     public function get($id)
@@ -46,28 +43,22 @@ class ProductRepository implements ProductInterface
             $product_lang = ProductLanguage::with('product')
                 ->where('lang', 'en')
                 ->where('product_id', $id)
-                ->when(settingHelper('seller_system') != 1, function ($q) {
-                    $q->whereHas('product', function ($qu) {
-                        $qu->UserCheck();
-                    });
+                ->whereHas('product', function ($qu) {
+                    $qu->UserCheck();
                 })->first();
         else:
             $product_lang = ProductLanguage::with('product')
                 ->where('lang', $lang)
                 ->where('product_id', $id)
-                ->when(settingHelper('seller_system') != 1, function ($q) {
-                    $q->whereHas('product', function ($qu) {
-                        $qu->UserCheck();
-                    });
+                ->whereHas('product', function ($qu) {
+                    $qu->UserCheck();
                 })->first();
             if (blank($product_lang)):
                 $product_lang = ProductLanguage::with('product')
                     ->where('lang', 'en')
                     ->where('product_id', $id)
-                    ->when(settingHelper('seller_system') != 1, function ($q) {
-                        $q->whereHas('product', function ($qu) {
-                            $qu->UserCheck();
-                        });
+                    ->whereHas('product', function ($qu) {
+                        $qu->UserCheck();
                     })->first();
                 $product_lang['translation_null'] = 'not-found';
             endif;
@@ -81,14 +72,14 @@ class ProductRepository implements ProductInterface
         return Product::with('productLanguages', 'createdBy')
             ->when(!addon_is_activated('wholesale'), function ($q) {
                 $q->where('is_wholesale', 0);
-            })->CheckSellerSystem()->latest();
+            })->CheckSeller()->latest();
     }
 
     public function paginate($request, $status, $limit, $product_for = null)
     {
         $products = Product::with('createdBy', 'productLanguages','user','stock')
             ->where('is_deleted', 0)
-            ->CheckSellerSystem()
+            ->CheckSeller()
             ->whereHas('productLanguages', function ($q) use ($request) {
                 $q->where('name', 'like', '%' . $request->q . '%');
                 $q->orWhere('tags', 'like', '%' . $request->q . '%');
@@ -117,9 +108,6 @@ class ProductRepository implements ProductInterface
                 $q->when($product_for == 'admin', function ($for) {
                     $for->where('user_id', 1);
                 });
-                $q->when($product_for == 'seller', function ($for) {
-                    $for->where('user_id', '!=', 1);
-                });
                 $q->when($product_for == 'digital', function ($for) {
                     $for->where('is_digital', 1);
                 });
@@ -132,10 +120,6 @@ class ProductRepository implements ProductInterface
                 $q->when($product_for == 'wholesale', function ($for) {
                     $for->where('is_wholesale', 1);
                 });
-            })
-            ->when($request->sl, function ($query) use ($request) {
-                $seller = $this->seller->getSeller($request->sl);
-                $query->where('user_id', $seller->user_id);
             })
             ->when($request->c, function ($q) use ($request) {
                 $q->where('category_id', $request->c);
@@ -210,9 +194,6 @@ class ProductRepository implements ProductInterface
         }
         return $stocks->with('product.productLanguages')
             ->whereHas('product',function ($query) use ($request){
-            $query->when(Sentinel::getUser()->user_type == 'seller', function ($q){
-                $q->where('user_id',authId())->UserCheck()->IsWholesale()->ProductPublished();
-            });
             $query->when(Sentinel::getUser()->user_type == 'admin', function ($q){
                 $q->where('user_id',1)->UserCheck()->IsWholesale()->ProductPublished();
             });
@@ -226,20 +207,6 @@ class ProductRepository implements ProductInterface
     public function store($request)
     {
         $product = new Product();
-        if (addon_is_activated('ramdhani'))
-        {
-            $product->shipping_class_id = $request->shipping_class_id;
-            if ($request->has('gift_idea')):
-                $product->gift_idea = $request->gift_idea;
-            else:
-                $product->gift_idea = 0;
-            endif;
-            if ($request->has('business_idea')):
-                $product->business_idea = $request->business_idea;
-            else:
-                $product->business_idea = 0;
-            endif;
-        }
         $product->description_images = $this->saveMultipleImage($request->description_images,$product);
         if ($request->thumbnail):
             $files     = $this->getImageWithRecommendedSize($request->thumbnail,190,230);
@@ -273,14 +240,7 @@ class ProductRepository implements ProductInterface
         $product->brand_id          = $request->brand != '' ? $request->brand : null;
         $product->created_by        = authUser($request)->id;
         $product->user_id = authUser($request)->id;
-        if (authUser($request)->user_type != 'seller'):
-            $product->is_approved   = 1;
-        else:
-
-            if (settingHelper('seller_product_auto_approve') == 1):
-                $product->is_approved = 1;
-            endif;
-        endif;
+        $product->is_approved   = 1;
         $product->status = $request->status;
         $product->minimum_order_quantity    = $request->minimum_order_quantity != '' ? $request->minimum_order_quantity : 1;
         $product->barcode                   = $request->barcode != '' ? $request->barcode : $this->generate_random_string(16, 'upper');
@@ -487,20 +447,6 @@ class ProductRepository implements ProductInterface
     public function update($request)
     {
         $product = $this->get($request->id);
-        if (addon_is_activated('ramdhani'))
-        {
-            $product->shipping_class_id = $request->shipping_class_id;
-            if ($request->has('gift_idea')):
-                $product->gift_idea = $request->gift_idea;
-            else:
-                $product->gift_idea = 0;
-            endif;
-            if ($request->has('business_idea')):
-                $product->business_idea = $request->business_idea;
-            else:
-                $product->business_idea = 0;
-            endif;
-        }
         $product->description_images = $this->saveMultipleImage($request->description_images,$product);
 
         if ($request->thumbnail):
@@ -788,7 +734,7 @@ class ProductRepository implements ProductInterface
     {
         DB::BeginTransaction();
         try {
-            $product                = Product::where('slug', $request['product_slug'])->CheckSellerSystem()->first();
+            $product                = Product::where('slug', $request['product_slug'])->CheckSeller()->first();
 
             $user_id                = authId();
             ProductView::where('product_id', $product->id)->delete();
@@ -852,9 +798,6 @@ class ProductRepository implements ProductInterface
     public function todayDeals()
     {
         $with = ['userWishlist'];
-        if (addon_is_activated('ramdhani')) {
-            $with[] = 'sellerProfile';
-        }
         return Product::with($with)->withAvg('reviews','rating')->withCount('reviews')->selectRaw('id,price,special_discount,minimum_order_quantity,current_stock,special_discount_type,special_discount_start,special_discount_end,rating,thumbnail,slug,reward,todays_deal,has_variant')
             ->ProductPublished()->where('todays_deal', 1)
             ->UserCheck()->IsWholesale()->IsStockOut()->latest()->take(16)->get();
@@ -874,9 +817,6 @@ class ProductRepository implements ProductInterface
             $limit = 8;
         }
         $with = ['userWishlist'];
-        if (addon_is_activated('ramdhani')) {
-            $with[] = 'sellerProfile';
-        }
         return Product::with($with)->withAvg('reviews','rating')->withCount('reviews')->UserCheck()->IsWholesale()->IsStockOut()->where('is_wholesale',0)
             ->selectRaw('id,user_id,price,special_discount,is_wholesale,special_discount_type,minimum_order_quantity,current_stock,special_discount_start,special_discount_end,rating,thumbnail,slug,reward')
             ->where('special_discount', '>', 0)->where('special_discount_end', '!=', null)->ProductPublished()
@@ -939,16 +879,6 @@ class ProductRepository implements ProductInterface
         return Product::withAvg('reviews','rating')->withCount('reviews')->ProductPublished()->UserCheck()->IsWholesale()->IsStockOut()
             ->where('todays_deal', 1)->latest()->paginate($paginate);
     }
-    public function giftIdea($paginate)
-    {
-        return Product::withAvg('reviews','rating')->withCount('reviews')->ProductPublished()->UserCheck()->IsWholesale()->IsStockOut()
-            ->where('gift_idea',1)->latest()->paginate($paginate);
-    }
-    public function businessIdea($paginate)
-    {
-        return Product::withAvg('reviews','rating')->withCount('reviews')->ProductPublished()->UserCheck()->IsWholesale()->IsStockOut()
-            ->where('business_idea',1)->latest()->paginate($paginate);
-    }
 
     public function productByCampaign($campaign_id, $paginate = null): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
@@ -970,9 +900,6 @@ class ProductRepository implements ProductInterface
     {
         $category = Category::where('slug', $slug)->first();
         $with = [];
-        if (addon_is_activated('ramdhani')) {
-            $with[] = 'sellerProfile';
-        }
         return Product::with($with)->withAvg('reviews','rating')->withCount('reviews')->where('category_id', $category->id)->ProductPublished()->UserCheck()->IsWholesale()->IsStockOut()
             ->paginate(8);
     }
@@ -987,7 +914,7 @@ class ProductRepository implements ProductInterface
                 $query->where('name', 'like', '%' . $data['key'] . '%');
             });
         } else {
-            if (!addon_is_activated('ramdhani') && $data['route'] == 'product.by.brand') {
+            if ($data['route'] == 'product.by.brand') {
                 $products->whereHas('brand', function ($q) use ($data) {
                     $q->where('slug', $data['slug']);
                 });
@@ -1014,11 +941,6 @@ class ProductRepository implements ProductInterface
             }
             if ($data['route'] == 'product.by.offer') {
                 $products->where('special_discount', '>', 0)->where('special_discount_end', '!=', null);
-            }
-            if ($data['route'] == 'shop') {
-                $products->whereHas('sellerProfile', function ($q) use ($data) {
-                    $q->where('slug', $data['slug']);
-                });
             }
             if (array_key_exists('category', $data) && count($data['category']) > 0) {
                 $all_nested_category = [];
@@ -1145,9 +1067,6 @@ class ProductRepository implements ProductInterface
     public function productByIds($ids)
     {
         $with = ['brand:id', 'category:id','userWishlist'];
-        if (addon_is_activated('ramdhani')) {
-            $with[] = 'sellerProfile';
-        }
         return Product::with($with)->withAvg('reviews','rating')->withCount('reviews')
             ->selectRaw('id,brand_id,category_id,status,price,special_discount,special_discount_type,special_discount_start,special_discount_end,rating,slug,thumbnail,minimum_order_quantity,has_variant,reward,current_stock')
             ->whereIn('id', $ids)->ProductPublished()->UserCheck()->IsWholesale()->IsStockOut()->get();
@@ -1170,9 +1089,6 @@ class ProductRepository implements ProductInterface
     public function bestSellingProduct($category_id)
     {
         $with = ['userWishlist'];
-        if (addon_is_activated('ramdhani')) {
-            $with[] = 'sellerProfile';
-        }
         return Product::with($with)->withAvg('reviews','rating')->withCount('reviews')->where('category_id',$category_id)->ProductPublished()
             ->UserCheck()->IsWholesale()->IsStockOut()->orderBy('total_sale','desc')->first();
     }
@@ -1192,56 +1108,12 @@ class ProductRepository implements ProductInterface
             ->UserCheck()->IsWholesale()->IsStockOut()->take(4)->get();
     }
 
-    public function sellerBestSelling($user_id)
-    {
-        return Product::with('userWishlist')->withAvg('reviews','rating')->withCount('reviews')->where('user_id',$user_id)->ProductPublished()->orderBy('total_sale','desc')
-            ->selectRaw('id,brand_id,category_id,status,price,special_discount,special_discount_type,special_discount_start,special_discount_end,rating,slug,thumbnail,minimum_order_quantity,has_variant,reward,current_stock')
-            ->UserCheck()->IsWholesale()->IsStockOut()->take(12)->get();
-    }
-
-    public function sellerOfferEnding($user_id)
-    {
-        return Product::with('userWishlist')->withAvg('reviews','rating')->withCount('reviews')->where('user_id',$user_id)->orderBy('total_sale','desc')->where('is_wholesale',0)
-            ->where('special_discount', '>', 0)->where('special_discount_end', '!=', null)->ProductPublished()
-            ->selectRaw('id,brand_id,category_id,status,price,special_discount,special_discount_type,special_discount_start,special_discount_end,rating,slug,thumbnail,minimum_order_quantity,has_variant,reward,current_stock')
-            ->UserCheck()->IsWholesale()->IsStockOut()->take(12)->get();
-    }
-
-    public function sellerProducts($user_id): \Illuminate\Contracts\Pagination\LengthAwarePaginator
-    {
-        return Product::with('userWishlist')->withAvg('reviews','rating')->withCount('reviews')->where('user_id', $user_id)->ProductPublished()
-            ->orderBy('id', 'desc')
-            ->selectRaw('id,brand_id,category_id,status,price,special_discount,special_discount_type,special_discount_start,special_discount_end,rating,slug,thumbnail,minimum_order_quantity,has_variant,reward,current_stock')
-            ->UserCheck()->IsWholesale()->IsStockOut()->paginate(12);
-    }
-
     public function latestProducts()
     {
         return Product::withAvg('reviews','rating')->withCount('reviews')->ProductPublished()
             ->selectRaw('id,brand_id,category_id,status,price,special_discount,special_discount_type,special_discount_start,special_discount_end,rating,slug,thumbnail,minimum_order_quantity,has_variant,reward,current_stock')
             ->UserCheck()->IsWholesale()->IsStockOut()->latest()->take(6)->get();
     }
-    public function businessProducts()
-    {
-        $with = [];
-        if (addon_is_activated('ramdhani')) {
-            $with[] = 'sellerProfile';
-        }
-        return Product::with($with)->withAvg('reviews','rating')->withCount('reviews')->ProductPublished()
-            ->selectRaw('id,user_id,brand_id,category_id,status,price,special_discount,special_discount_type,special_discount_start,special_discount_end,rating,slug,thumbnail,minimum_order_quantity,has_variant,reward,current_stock')
-            ->UserCheck()->IsWholesale()->IsStockOut()->where('business_idea',1)->latest()->take(6)->get();
-    }
-    public function giftProducts()
-    {
-        $with = [];
-        if (addon_is_activated('ramdhani')) {
-            $with[] = 'sellerProfile';
-        }
-        return Product::withAvg('reviews','rating')->withCount('reviews')->ProductPublished()
-            ->selectRaw('id,user_id,brand_id,category_id,status,price,special_discount,special_discount_type,special_discount_start,special_discount_end,rating,slug,thumbnail,minimum_order_quantity,has_variant,reward,current_stock')
-            ->UserCheck()->IsWholesale()->IsStockOut()->where('gift_idea',1)->latest()->take(6)->get();
-    }
-
     public function productByFlashSale()
     {
         return $this->takeAllCampaignProducts(0, null, 0);
@@ -1270,9 +1142,6 @@ class ProductRepository implements ProductInterface
     public function takeAllCampaignProducts($take, $id, $skip)
     {
         $with = [];
-        if (addon_is_activated('ramdhani')) {
-            $with[] = 'sellerProfile';
-        }
         return Product::with($with)->withAvg('reviews','rating')->withCount('reviews')->join('campaign_products', 'products.id', 'campaign_products.product_id')
             ->join('campaigns', 'campaign_products.campaign_id', 'campaigns.id')
             ->join('users', 'products.user_id', 'users.id')->where('users.status', 1)
@@ -1317,14 +1186,8 @@ class ProductRepository implements ProductInterface
     public function getLatestProducts($limit,$data)
     {
         $with = [];
-        if (addon_is_activated('ramdhani')) {
-            $with[] = 'sellerProfile';
-        }
-        return Product::with($with)->withAvg('reviews','rating')->withCount('reviews')->ProductPublished()->when(array_key_exists('seller_id',$data),function ($query) use($data){
-            $query->whereHas('sellerProfile',function ($q) use($data){
-                $q->where('id',$data['seller_id']);
-            });
-        })->selectRaw('id,user_id,status,price,special_discount,special_discount_type,special_discount_start,special_discount_end,rating,slug,thumbnail,minimum_order_quantity,reward,current_stock,total_sale,has_variant')
+        return Product::with($with)->withAvg('reviews','rating')->withCount('reviews')->ProductPublished()
+        ->selectRaw('id,user_id,status,price,special_discount,special_discount_type,special_discount_start,special_discount_end,rating,slug,thumbnail,minimum_order_quantity,reward,current_stock,total_sale,has_variant')
             ->UserCheck()->IsWholesale()->IsStockOut()->latest()->paginate($limit);
     }
 

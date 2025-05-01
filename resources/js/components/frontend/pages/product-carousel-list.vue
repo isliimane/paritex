@@ -158,24 +158,6 @@ export default {
 		if (this.authUser) {
 			setTimeout(() => this.pushWishlists(), 2000);
 		}
-    if (this.addons.includes('ramdhani')) {
-      let breakpoint_480 = {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      };
-      let breakpoint_320 = {
-        breakpoint: 320,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      };
-      this.slick_settings.responsive[4] = breakpoint_480;
-      this.slick_settings.responsive[5] = breakpoint_320;
-    }
 		this.compareList();
 	},
 	computed: {

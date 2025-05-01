@@ -266,7 +266,7 @@
                 
                 <div class="form-group">
                     <input id="email" type="email" class="form-control"
-                           value="{{config('app.demo_mode') ? request()->path() == 'admin/login' ? 'admin@spagreen.net' : (request()->path() == 'seller/login' ? 'seller@spagreen.net' : old('email')) : ''}}"
+                           value="admin@paritex.com"
                            name="email" placeholder="Email Address" required autofocus>
                     @if($errors->has('email'))
                         <div class="invalid-feedback">
@@ -277,7 +277,7 @@
                 
                 <div class="form-group">
                     <input id="password" type="password" class="form-control"
-                           value="{{config('app.demo_mode') ? request()->path() == 'admin/login' ? '123456' : (request()->path() == 'seller/login' ? '123456' : old('password')) : ''}}"
+                           value="admin123"
                            name="password" placeholder="Password" required>
                     <input type="hidden" value="{{ request()->path() }}" name="request_path" />
                     @if($errors->has('password'))

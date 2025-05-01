@@ -9,10 +9,6 @@ class CommissionHistory extends Model
 {
     use HasFactory;
 
-    public function sellerProfile(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(SellerProfile::class,'seller_id');
-    }
     public function order(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Order::class);

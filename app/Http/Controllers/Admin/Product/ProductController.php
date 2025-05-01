@@ -8,7 +8,6 @@ use App\Models\City;
 use App\Models\ProductCity;
 use App\Models\ProductStock;
 use App\Models\ReviewReply;
-use App\Repositories\Admin\Addon\ShippingClassRepository;
 use App\Repositories\Interfaces\Site\ReviewInterface;
 use App\Utility\VariantUtility;
 use App\Repositories\Admin\VatTaxRepository;
@@ -18,7 +17,6 @@ use App\Repositories\Interfaces\Admin\Product\BrandInterface;
 use App\Repositories\Interfaces\Admin\Product\CategoryInterface;
 use App\Repositories\Interfaces\Admin\Product\ColorInterface;
 use App\Repositories\Interfaces\Admin\Product\ProductInterface;
-use App\Repositories\Interfaces\Admin\SellerInterface;
 use Brian2694\Toastr\Facades\Toastr;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -34,7 +32,6 @@ class ProductController extends Controller
     protected $attributes;
     protected $vat_tax;
     protected $languages;
-    protected $sellers;
 
     public function __construct(ProductInterface $products,
                                 CategoryInterface $categories,
@@ -42,7 +39,6 @@ class ProductController extends Controller
                                 ColorInterface $colors,
                                 AttributeInterface $attributes,
                                 VatTaxRepository $vat_tax,
-                                SellerInterface $sellers,
                                 LanguageInterface $languages){
         $this->products         = $products;
         $this->categories       = $categories;
@@ -51,16 +47,13 @@ class ProductController extends Controller
         $this->attributes       = $attributes;
         $this->vat_tax          = $vat_tax;
         $this->languages        = $languages;
-        $this->sellers          = $sellers;
     }
     public function index(Request $request, $status = null){
         try {
             $products           = $this->products->paginate($request, $status ,get_pagination('pagination'),'');
 
             $selected_category  = isset($request->c) ? $this->categories->get($request->c) : null;
-            $selected_seller    = isset($request->sl) ? $this->sellers->getSeller($request->sl) : null;
-
-            return view('admin.products.products.index', compact('status','products','selected_category','selected_seller'));
+            return view('admin.products.products.index', compact('status','products','selected_category'));
         } catch (\Exception $e) {
             Toastr::error($e->getMessage());
             return back();
@@ -69,24 +62,8 @@ class ProductController extends Controller
     public function adminProducts(Request $request, $status = null){
         try {
             $products       = $this->products->paginate($request, $status ,get_pagination('pagination'),'admin');
-            $sellers        = $this->sellers->all()->where('is_user_banned',0)->where('status',1)->get();
-
             $selected_category  = isset($request->c) ? $this->categories->get($request->c) : null;
-
-            return view('admin.products.products.admin-products', compact('status','products','selected_category','sellers'));
-        } catch (\Exception $e) {
-            Toastr::error($e->getMessage());
-            return back();
-        }
-    }
-    public function sellerProducts(Request $request, $status = null){
-        try {
-            $products           = $this->products->paginate($request, $status ,get_pagination('pagination'),'seller');
-
-            $selected_category  = isset($request->c) ? $this->categories->get($request->c) : null;
-            $selected_seller    = isset($request->sl) ? $this->sellers->getSeller($request->sl) : null;
-
-            return view('admin.products.products.seller-products', compact('status','products','selected_category','selected_seller'));
+            return view('admin.products.products.admin-products', compact('status','products','selected_category'));
         } catch (\Exception $e) {
             Toastr::error($e->getMessage());
             return back();
@@ -95,11 +72,8 @@ class ProductController extends Controller
     public function digitalProducts(Request $request, $status = null){
         try {
             $products           = $this->products->paginate($request, $status ,get_pagination('pagination'),'digital');
-
             $selected_category  = isset($request->c) ? $this->categories->get($request->c) : null;
-            $selected_seller    = isset($request->sl) ? $this->sellers->getSeller($request->sl) : null;
-
-            return view('admin.products.products.digital-products', compact('status','products','selected_category','selected_seller'));
+            return view('admin.products.products.digital-products', compact('status','products','selected_category'));
         } catch (\Exception $e) {
             Toastr::error($e->getMessage());
             return back();
@@ -110,9 +84,7 @@ class ProductController extends Controller
             $products       = $this->products->paginate($request, $status ,\Config::get('yrsetting.paginate'),'catalog');
 
             $selected_category  = isset($request->c) ? $this->categories->get($request->c) : null;
-            $selected_seller    = isset($request->sl) ? $this->sellers->getSeller($request->sl) : null;
-
-            return view('admin.products.products.catalog-products', compact('status','products','selected_category','selected_seller'));
+            return view('admin.products.products.catalog-products', compact('status','products','selected_category'));
         } catch (\Exception $e) {
             Toastr::error($e->getMessage());
             return back();
@@ -123,8 +95,7 @@ class ProductController extends Controller
         try {
             $products           = $this->products->paginate($request, $status ,\Config::get('yrsetting.paginate'),'classified');
             $selected_category  = isset($request->c) ? $this->categories->get($request->c) : null;
-            $selected_seller    = isset($request->sl) ? $this->sellers->getSeller($request->sl) : null;
-            return view('admin.products.products.classified-products', compact('status','products','selected_category','selected_seller'));
+            return view('admin.products.products.classified-products', compact('status','products','selected_category'));
         } catch (\Exception $e) {
             Toastr::error($e->getMessage());
             return back();
@@ -142,10 +113,6 @@ class ProductController extends Controller
                 'campaigns' => \App\Models\Campaign::where('status', 1)->where('end_date', '>', Carbon::now()->format('Y-m-d'))->get(),
                 'r' => $request->r != '' ? $request->r : $request->server('HTTP_REFERER')
             ];
-            if (addon_is_activated('ramdhani')) {
-                $repo = new ShippingClassRepository();
-                $data['shipping_classes'] = $repo->activeClasses();
-            }
             return view('admin.products.products.form', $data);
         } catch (\Exception $e) {
             Toastr::error($e->getMessage());
@@ -216,10 +183,6 @@ class ProductController extends Controller
                     'lang'              => $lang
                 ];
 
-                if (addon_is_activated('ramdhani')) {
-                    $repo = new ShippingClassRepository();
-                    $data['shipping_classes'] = $repo->activeClasses();
-                }
                 return view('admin.products.products.edit',$data);
 
             else:
@@ -496,10 +459,6 @@ class ProductController extends Controller
                     'clone'             => 1,
                     'campaigns'         => \App\Models\Campaign::where('status', 1)->where('end_date','>',Carbon::now()->format('Y-m-d'))->get()
                 ];
-                if (addon_is_activated('ramdhani')) {
-                    $repo = new ShippingClassRepository();
-                    $data['shipping_classes'] = $repo->activeClasses();
-                }
                 if($product_language->product->is_wholesale != 1):
                     return view('admin.products.products.edit',$data);
                 else:

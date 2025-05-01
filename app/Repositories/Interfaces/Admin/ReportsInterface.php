@@ -13,8 +13,6 @@ interface ReportsInterface
 
     public function product($request, $limit, $for);
 
-    public function commissionHistory($request, $limit);
-
     public function walletRechargeHistory($request, $limit);
 
 

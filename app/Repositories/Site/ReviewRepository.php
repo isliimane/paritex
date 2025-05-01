@@ -6,7 +6,6 @@ use App\Models\Product;
 use App\Models\Review;
 use App\Models\ReviewLike;
 use App\Models\ReviewReply;
-use App\Models\SellerProfile;
 use App\Repositories\Interfaces\Site\ReviewInterface;
 use App\Traits\AITrait;
 use App\Traits\ImageTrait;
@@ -26,11 +25,7 @@ class ReviewRepository implements ReviewInterface
     public function paginateReviews($data)
     {
         return Review::with('replies.user:id,images,first_name,last_name','user:id,images,first_name,last_name','reviewLikes')->whereHas('product')
-            ->when(authUser()->user_type == 'seller', function ($q){
-                $q->whereHas('product', function ($q){
-                    $q->where('user_id', authId());
-                });
-            })->when(arrayCheck('product_id',$data), function ($q) use ($data){
+            ->when(arrayCheck('product_id',$data), function ($q) use ($data){
                 $q->where('product_id', $data['product_id']);
             })->latest()->paginate(get_pagination('pagination'));
     }
@@ -83,15 +78,6 @@ class ReviewRepository implements ReviewInterface
         $product = $review->product;
         $product->rating = $rating;
         $product->save();
-
-        $seller_product = Product::where('id',$request['product_id'])->first();
-        if ($seller_product->user_id != 1):
-            $user           = SellerProfile::where('user_id',$seller_product->user_id)->first();
-            $seller_rating  = Product::where('user_id',$user->user_id)->where('rating','>',0)->avg('rating');
-            $user->rating_count = $seller_rating;
-            $user->increment('reviews_count');
-            $user->save();
-        endif;
 
         return $review;
     }

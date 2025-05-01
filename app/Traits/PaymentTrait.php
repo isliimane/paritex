@@ -26,10 +26,6 @@ trait PaymentTrait
         }
 
         $active_currency = $currency->get($user_currency);
-        if (array_key_exists('store_id',$data) && $data['store_id'] == 'aamarpay') {
-            return $this->amarpayData($data);
-        }
-
 
         if ($data['payment_type'] == 'paypal') {
             return $this->paypal($data);
@@ -37,8 +33,6 @@ trait PaymentTrait
             return $this->stripe();
         } elseif ($data['payment_type'] == 'ssl_commerze') {
             return $this->sslResponseOutput($data);
-        } elseif ($data['payment_type'] == 'paytm') {
-            return $this->paytm($data);
         } elseif ($data['payment_type'] == 'razor_pay') {
             return $this->razorPay($data, $active_currency);
         } elseif ($data['payment_type'] == 'jazz_cash') {
@@ -55,18 +49,10 @@ trait PaymentTrait
             return $this->midTransData($data);
         }elseif ($data['payment_type'] == 'telr') {
             return $this->telrData($data);
-        }elseif ($data['payment_type'] == 'nagad') {
-            return $this->nagad($data);
-        }elseif ($data['payment_type'] == 'bKash') {
-            return $this->bKash($data);
         }elseif ($data['payment_type'] == 'skrill') {
             return $this->skrill($data);
         }elseif ($data['payment_type'] == 'iyzico') {
             return $this->iyzico($data);
-        }elseif ($data['payment_type'] == 'kkiapay') {
-            return $this->verifyKkiapay($data);
-        }elseif ($data['payment_type'] == 'hitpay') {
-            return $this->hitpay($data);
         }
         return false;
     }
@@ -96,12 +82,6 @@ trait PaymentTrait
 
     public function amountCalculator($orders=null,$data,$active_currency,$which_currency): array
     {
-        if (arrayCheck('package_id',$data) && addon_is_activated('seller_subscription')) {
-            $repo = new PackageRepository();
-            $package = $repo->find($data['package_id']);
-            $data['amount'] = $package->price;
-        }
-
         $amount = $orders && count($orders) > 0 ? $orders->sum('total_payable') : $data['amount'];
 
 
@@ -137,24 +117,6 @@ trait PaymentTrait
     }
 
     protected function paypal($data): array
-    {
-        $result = [];
-
-        if (array_key_exists('paymentSource', $data) && $data['paymentSource'] == 'card') {
-            $payer = @$data['order']['payer'];
-            if ($payer) {
-                $result = [
-                    'name' => $payer['name']['given_name'] . ' ' . $payer['name']['surname'],
-                    'email' => $payer['email_address'],
-                    'link' => $data['order']['links'][0]['href']
-                ];
-            }
-        }
-
-        return $result;
-    }
-
-    protected function hitpay($data): array
     {
         $result = [];
 
@@ -344,27 +306,6 @@ trait PaymentTrait
             'card_brand'    => $data['card_brand'],
             'base_fair'     => $data['base_fair'],
         ];
-    }
-
-    public function paytm($data)
-    {
-//        $transaction = PaytmWallet::with('receive');
-//        $response = $transaction->response();
-//        $order_id = $transaction->getOrderId();
-//
-//        if ($transaction->isSuccessful()) {
-//            return $data;
-//        } else if ($transaction->isFailed()) {
-//            return false;
-//        } else if ($transaction->isOpen()) {
-//            return false;
-//        }
-//        $transaction->getResponseMessage(); //Get Response Message If Available
-//        //get important parameters via public methods
-//        $transaction->getOrderId(); // Get order id
-//        $transaction->getTransactionId(); // Get transaction id
-
-        return [];
     }
 
     protected function mollie($data)
@@ -625,56 +566,6 @@ trait PaymentTrait
         return $payment_details;
     }
 
-    protected function verifyKkiapay($data): array
-    {
-        if (settingHelper('kkiapay_mode') == 'live') {
-            $url = 'https://api.kkiapay.me/api/v1/transactions/status';
-        } else {
-            $url = 'https://api-sandbox.kkiapay.me/api/v1/transactions/status';
-        }
-
-        $payment_details = [];
-
-        $client = new \GuzzleHttp\Client(['verify' => false ]);
-
-        $request  = $client->post($url, array(
-            "json" => array("transactionId" => $data['transaction_id']),
-            'headers' => [
-                'Accept' => 'application/json',
-                'X-API-KEY' => settingHelper('kkiapay_public_api_key'),
-                'X-PRIVATE-KEY' => settingHelper('kkiapay_private_api_key'),
-                'X-SECRET-KEY' => settingHelper('kkiapay_secret'),
-            ]
-        ));
-
-        $response = $request->getBody()->getContents();
-
-        if ($response) {
-            $data = json_decode($response);
-
-            if ($data->status == 'SUCCESS')
-            {
-                $client = $data->client;
-                $payment_details['status']              = 'SUCCESS';
-                $payment_details['type']                = $data->type;
-                $payment_details['source']              = $data->source;
-                $payment_details['source_common_name']  = $data->source_common_name;
-                $payment_details['amount']              = $data->amount;
-                $payment_details['fees']                = $data->fees;
-                $payment_details['before_balance']      = $data->before_balance;
-                $payment_details['after_balance']       = $data->after_balance;
-                $payment_details['transactionId']       = $data->transactionId;
-                $payment_details['client_name']         = $client->isNewGeneration;
-                $payment_details['fullname']            = $client->fullname;
-                $payment_details['country']             = $client->country;
-                $payment_details['phone']               = $client->phone;
-                $payment_details['email']               = $client->email;
-                $payment_details['account']             = $client->account;
-                $payment_details['person']              = $client->person;
-            }
-        }
-        return $payment_details;
-    }
 
     protected function midTransData($data): array
     {
@@ -718,132 +609,6 @@ trait PaymentTrait
         return [];
     }
 
-    protected function amarpayData($data): array
-    {
-        //2 means successful transaction as per as amarpay documentation
-        if (arrayCheck('status_code',$data) && $data['status_code'] == 2)
-        {
-            return [
-                'pg_txnid'              => arrayCheck('pg_txnid',$data) ?  $data['pg_txnid'] : '',
-                'epw_txnid'             => arrayCheck('epw_txnid',$data) ?  $data['epw_txnid'] : '',
-                'mer_txnid'             => arrayCheck('mer_txnid',$data) ?  $data['mer_txnid'] : '',
-                'store_amount'          => arrayCheck('store_amount',$data) ?  $data['store_amount'] : '',
-                'bank_txn'              => arrayCheck('bank_txn',$data) ?  $data['bank_txn'] : '',
-                'card_type'             => arrayCheck('card_type',$data) ?  $data['card_type'] : '',
-                'pg_service_charge_bdt' => arrayCheck('pg_service_charge_bdt',$data) ?  $data['pg_service_charge_bdt'] : '',
-                'amount_original'       => arrayCheck('amount_original',$data) ?  $data['amount_original'] : '',
-                'gateway_fee'           => arrayCheck('gateway_fee',$data) ?  $data['gateway_fee'] : '',
-                'card_number'           => arrayCheck('card_number',$data) ?  $data['card_number'] : '',
-                'card_holder'           => arrayCheck('card_holder',$data) ?  $data['card_holder'] : '',
-                'payment_type'          => 'aamarpay',
-            ];
-        }
-        else{
-            return [];
-        }
-
-    }
-
-    protected function bKash($data): array
-    {
-        if (settingHelper('is_bkash_sandbox_mode_activated') == 1) {
-            $base_url = 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized';
-        }
-        else {
-            $base_url = 'https://tokenized.pay.bka.sh/v1.2.0-beta/tokenized';
-        }
-
-        $post_token = array(
-            'paymentID' => $data['paymentID']
-        );
-        $auth  = session()->get('id_token');
-
-        $url = "$base_url/checkout/execute";
-        $posttoken = json_encode($post_token);
-
-        $client = new \GuzzleHttp\Client();
-
-        $response = $client->request('POST', $url, [
-            'body' => $posttoken,
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Authorization' => $auth,
-                "X-APP-Key" => settingHelper('bkash_app_key')
-            ],
-        ]);
-        $obj = json_decode($response->getBody()->getContents());
-
-        $data = [];
-        if ($obj->statusCode == '0000')
-        {
-            $data = [
-                "statusCode"            => $obj->statusCode,
-                "statusMessage"         => $obj->statusMessage,
-                "paymentID"             => $obj->paymentID,
-                "payerReference"        => $obj->payerReference,
-                "customerMsisdn"        => $obj->customerMsisdn,
-                "bkash_trxID"           => $obj->trxID,
-                "amount"                => $obj->amount,
-                "transactionStatus"     => $obj->transactionStatus,
-                "paymentExecuteTime"    => $obj->paymentExecuteTime,
-                "currency"              => $obj->currency,
-                "intent"                => $obj->intent,
-                "merchantInvoiceNumber" => $obj->merchantInvoiceNumber
-            ];
-        }
-        return $data;
-    }
-
-    public function bKashTokenGenerator($client)
-    {
-        if (settingHelper('is_bkash_sandbox_mode_activated') == 1)
-        {
-            $base_url = 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized';
-        }
-        else{
-            $base_url = 'https://tokenized.pay.bka.sh/v1.2.0-beta/tokenized';
-        }
-
-        $request_data = [
-            'app_key' => settingHelper('bkash_app_key'),
-            'app_secret' => settingHelper('bkash_app_secret')
-        ];
-        $request_data_json = json_encode($request_data);
-
-        $response = $client->request('POST', "$base_url/checkout/token/grant", [
-            'body' => $request_data_json,
-            'headers' => [
-                'accept' => 'application/json',
-                'content-type' => 'application/json',
-                'password' => settingHelper('bkash_password'),
-                'username' => settingHelper('bkash_username'),
-            ],
-        ]);
-        $decoded_data = json_decode($response->getBody()->getContents());
-
-        return $decoded_data->id_token;
-    }
-
-    protected function nagad($data): array
-    {
-        return [
-            'merchantId'                => arrayCheck('merchantId',$data) ? $data['merchantId'] : '',
-            'orderId'                   => arrayCheck('orderId',$data) ? $data['orderId'] : '',
-            'paymentRefId'              => arrayCheck('paymentRefId',$data) ? $data['paymentRefId'] : '',
-            'amount'                    => arrayCheck('amount',$data) ? $data['amount'] : '',
-            'clientMobileNo'            => arrayCheck('clientMobileNo',$data) ? $data['clientMobileNo'] : '',
-            'merchantMobileNo'          => arrayCheck('merchantMobileNo',$data) ? $data['merchantMobileNo'] : '',
-            'orderDateTime'             => arrayCheck('orderDateTime',$data) ? $data['orderDateTime'] : '',
-            'issuerPaymentDateTime'     => arrayCheck('issuerPaymentDateTime',$data) ? $data['issuerPaymentDateTime'] : '',
-            'issuerPaymentRefNo'        => arrayCheck('issuerPaymentRefNo',$data) ? $data['issuerPaymentRefNo'] : '',
-            'additionalMerchantInfo'    => arrayCheck('additionalMerchantInfo',$data) ? $data['additionalMerchantInfo'] : '',
-            'status'                    => arrayCheck('status',$data) ? $data['status'] : '',
-            'statusCode'                => arrayCheck('statusCode',$data) ? $data['statusCode'] : '',
-            'cancelIssuerDateTime'      => arrayCheck('cancelIssuerDateTime',$data) ? $data['cancelIssuerDateTime'] : '',
-            'cancelIssuerRefNo'         => arrayCheck('cancelIssuerRefNo',$data) ? $data['cancelIssuerRefNo'] : '',
-        ];
-
-    }
 
     public function skrill($data): array
     {
@@ -869,26 +634,9 @@ trait PaymentTrait
             }
         }
 
-        if ($data['payment_type'] == 'bKash')
-        {
-            if (!isset($payment_details['statusCode']) || $payment_details['statusCode'] != '0000')
-            {
-                Toastr::error(__('transaction_cant_be_completed'));
-                return false;
-            }
-        }
-
         if ($data['payment_type'] == 'paystack')
         {
             if ($payment_details['status'] != 'success')
-            {
-                Toastr::error(__('transaction_cant_be_completed'));
-                return false;
-            }
-        }
-        if ($data['payment_type'] == 'kkiapay')
-        {
-            if (!arrayCheck('status',$payment_details) || $payment_details['status'] != 'SUCCESS')
             {
                 Toastr::error(__('transaction_cant_be_completed'));
                 return false;

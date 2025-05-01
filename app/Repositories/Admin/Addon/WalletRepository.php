@@ -87,7 +87,6 @@ class WalletRepository implements WalletInterface
 
     public function manageDeliveredOrder($order)
     {
-        $this->calculateCommission($order);
         if ($order->deliveryHero):
             $this->deliveryHeroCommissionStore($order);
         endif;
@@ -104,16 +103,6 @@ class WalletRepository implements WalletInterface
     public function manageCanceledOrder($order)
     {
         $this->removePayment($order, 'order_canceled');
-    }
-
-    public function sellerBalanceStore($data, $source,$seller_earning)
-    {
-        $user           = new UserRepository();
-        $seller         = $user->get($data['user_id']);
-
-        $seller->balance += $seller_earning;
-        $seller->save();
-        $this->store($data);
     }
 
     public function customerBalanceStore($data, $source)
@@ -205,84 +194,9 @@ class WalletRepository implements WalletInterface
         $this->store($data);
     }
 
-    public function sellerBalanceRemove($order, $source)
-    {
-        // TODO: Implement sellerBalanceRemove() method.
-    }
-
     public function deliveryHeroCommissionRemove($order)
     {
         // TODO: Implement deliveryHeroCommissionRemove() method.
-    }
-
-    public function calculateCommission($order)
-    {
-        $commission_percentage      = 0;
-        $admin_commission           = 0;
-        $seller_earning             = 0;
-        $is_commission_applicable   = true;
-
-        foreach ($order->orderDetails as $key=> $orderDetail):
-            if ($order->seller_id != 1) :
-                if (settingHelper('category_commission_status')) :
-                    if (addon_is_activated('ramdhani')) {
-                        $is_commission_applicable = !($order->seller->sellerProfile && $order->seller->sellerProfile->is_supplier == 1);
-                    }
-                    $commission_percentage = $is_commission_applicable ? $orderDetail->product->category->commission : 0;
-                elseif (settingHelper('seller_commission_status')) :
-                    $commission_percentage = settingHelper('seller_commission') != '' ? settingHelper('seller_commission') : 0;
-                endif;
-
-                $commission          = (($orderDetail->price * $commission_percentage) / 100) * $orderDetail->quantity;
-                $seller_earning     += (((($orderDetail->price + $orderDetail->tax) - ($orderDetail->discount + $orderDetail->coupon_discount['discount'])) * $orderDetail->quantity)  - $commission);
-                $admin_commission   += $commission;
-            endif;
-        endforeach;
-
-        if ($order->seller_id != 1) :
-            $data['user_id']            = 1;
-            $data['order_id']           = $order->id;
-            $data['amount']             = $admin_commission;
-            $data['source']             = 'order_commission';
-            $data['type']               = 'income';
-            $data['status']             = 'approved';
-            $data['payment_method']     = 'system_automated';
-            $data['payment_details']    = ['type'=> 'system_automated'];
-
-            $this->adminBalanceStore($data, 'commission');
-
-            $data['user_id']            = $order->seller_id;
-            $data['order_id']           = $order->id;
-            $data['amount']             = $admin_commission;
-            $data['source']             = 'order_commission';
-            $data['type']               = 'expense';
-            $data['status']             = 'approved';
-            $data['payment_method']     = 'system_automated';
-            $data['payment_details']    = ['type'=> 'system_automated'];
-//            $this->sellerBalanceStore($data, 'order_delivery','');
-
-            $data['user_id']            = $order->seller_id;
-            $data['order_id']           = $order->id;
-            $data['amount']             = $seller_earning;
-            $data['source']             = 'order_delivery';
-            $data['type']               = 'income';
-            $data['status']             = 'approved';
-            $data['payment_method']     = 'system_automated';
-            $data['payment_details']    = ['type'=> 'system_automated'];
-            $this->sellerBalanceStore($data, 'order_delivery',$seller_earning);
-
-            $commission_history                     = new CommissionHistory();
-            $commission_history->order_id           = $order->id;
-            $commission_history->seller_id          = $order->seller_id;
-            $commission_history->admin_commission   = $admin_commission;
-            $commission_history->seller_earning     = $seller_earning;
-            $commission_history->save();
-
-
-        endif;
-
-        $order->commission_calculated = 1;
-        $order->save();
     }
 
     public function insertPayment($order, $request)
@@ -428,12 +342,6 @@ class WalletRepository implements WalletInterface
         $wallet['amount']               = $amount / $active_currency->exchange_rate;
         $wallet['source']               = $source;
 
-        if (array_key_exists('payment_type',$payment_details) && $payment_details['payment_type'] == 'aamarpay') {
-            $token = \Illuminate\Support\Facades\DB::table('payment_method')->where('trx_id',$data['opt_b'])->first();
-            $data['payment_type']   = 'aamarpay';
-            $wallet['user_id']      = $token->is_guest;
-            $wallet['amount']       = $token->amount;
-        }
 
         $wallet['type']                 = 'income';
         $wallet['status']               = 'pending';

@@ -151,8 +151,6 @@ class CreatePermissionsTable extends Migration
                     'update' => "seller_update",
                     'verify' => "seller_verify",
                     'ban' => "seller_ban",
-                    'seller_commission_read' => "seller_commission_read",
-                    'seller_commission_update' => "seller_commission_update",
                     'seller_payout_read' => "seller_payout_read",
                     'seller_payout_reject' => "seller_payout_reject",
                     'seller_payout_accept' => "seller_payout_accept",

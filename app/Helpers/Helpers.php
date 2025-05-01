@@ -1284,43 +1284,9 @@ if (!function_exists('currencyList')) {
         return $currency_list;
     }
 }
-if (!function_exists('subscriptionCheck')):
-    function subscriptionCheck(): bool
-    {
-        if (addon_is_activated('seller_subscription')) {
-            $subscription = authUser()->subscription;
-            $active_subscription = authUser()->active_subscription;
-            $user_product_upload = \App\Models\Product::where('user_id', authId())->where('is_deleted', 0)->count();
-
-            if ($subscription) {
-                if (!$active_subscription) {
-                    return true;
-                } else if ($subscription->status == 0) {
-                    return true;
-                } else if ($user_product_upload >= $subscription->product_upload_limit) {
-                    return true;
-                }
-                return false;
-            } else {
-                return true;
-            }
-        } else {
-            return false;
-        }
-    }
-endif;
 if (!function_exists('supplierProductPriceCalculator')) {
     function supplierProductPriceCalculator($price, $product): float
     {
-        if (addon_is_activated('ramdhani')) {
-            $seller = $product->sellerProfile;
-            if ($seller && $seller->is_supplier) {
-                $range = \App\Models\CategoryRange::where('category_id', $product->category_id)->where('min_price', '<=', $price)->where('max_price', '>=', $price)->first();
-                if ($range) {
-                    $price = $range->multiplier * $price;
-                }
-            }
-        }
         return $price;
     }
 }

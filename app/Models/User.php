@@ -73,16 +73,6 @@ class User extends EloquentUser implements JWTSubject, ContractAuthenticatable
         return $this->belongsTo(Role::class);
     }
 
-    public function payout()
-    {
-        return $this->hasMany(SellerPayout::class);
-    }
-
-    public function sellerProfile()
-    {
-        return $this->hasOne(SellerProfile::class);
-    }
-
     public function addresses()
     {
         return $this->hasMany(Address::class);
@@ -194,11 +184,6 @@ class User extends EloquentUser implements JWTSubject, ContractAuthenticatable
         return $amount;
     }
 
-    public function sellers()
-    {
-        return $this->belongsToMany(SellerProfile::class)->withTimestamps();
-    }
-
     public function wishlists()
     {
         return $this->hasMany(Wishlist::class);
@@ -212,11 +197,6 @@ class User extends EloquentUser implements JWTSubject, ContractAuthenticatable
     public function country()
     {
         return $this->belongsTo(Country::class);
-    }
-
-    public function subscription(): \Illuminate\Database\Eloquent\Relations\HasOne
-    {
-        return $this->hasOne(SellerSubscription::class)->whereHas('package')->latest();
     }
 
     public function getActiveSubscriptionAttribute()

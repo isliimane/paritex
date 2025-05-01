@@ -3,8 +3,6 @@
     <div class="sg-header-top-banner alert alert-dismissible fade show" role="alert"
          v-if="checkTopBanner() && settings.top_bar_banner">
       <img :src="settings.top_bar_banner" alt="banner Image"/>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" v-if="addons.includes('ramdhani') && authUser && authUser.id == 1"><span
-          class="mdi mdi-close mdi-15px" @click="topBanner"></span></button>
     </div>
     <div class="sg-topbar">
       <div class="container">
@@ -275,8 +273,6 @@
                   <router-link class="d-block" :to="{ name: 'dashboard' }" v-if="authUser.user_type == 'customer'">
                     {{ lang.profile }}
                   </router-link>
-                  <a class="d-block" :href="getUrl('seller/dashboard')"
-                     v-if="authUser.user_type == 'seller'">{{ lang.dashboard }}</a>
                   <a class="d-block" :href="getUrl('admin/dashboard')"
                      v-if="authUser.user_type == 'admin' || authUser.user_type == 'staff'">{{ lang.dashboard }}</a>
                   <a href="javascript:void(0)" @click="logout"> {{ lang.logout }}</a>
@@ -364,32 +360,7 @@
 									{{ lang.daily_deals }}</span
                 >
               </router-link>
-              <router-link :to="{ name: 'gift.idea' }" v-if="addons.includes('ramdhani')">
-								<span class="daily--icon business_idea" :class="{ active: $route.path == '/gift-idea' }">
-									<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em"
-                       preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
-										<path
-                        d="M21.4 11.6l-9-9C12 2.2 11.5 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .5.2 1 .6 1.4l9 9c.4.4.9.6 1.4.6c.5 0 1-.2 1.4-.6l7-7c.4-.4.6-.9.6-1.4c0-.5-.2-1-.6-1.4M13 20l-9-9V4h7l9 9M6.5 5C7.3 5 8 5.7 8 6.5S7.3 8 6.5 8S5 7.3 5 6.5S5.7 5 6.5 5m3.6 3.9l1.4-1.4L17 13l-1.4 1.4l-5.5-5.5m-2.5 2.5L9 10l4 4l-1.4 1.4l-4-4z"
-
-                    />
-									</svg>
-
-									{{ lang.gift_idea }}</span
-                >
-              </router-link>
-              <router-link :to="{ name: 'business.idea' }" v-if="addons.includes('ramdhani')">
-								<span class="daily--icon" :class="{ active: $route.path == '/business-idea' }">
-									<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em"
-                       preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
-										<path
-                        d="M21.4 11.6l-9-9C12 2.2 11.5 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .5.2 1 .6 1.4l9 9c.4.4.9.6 1.4.6c.5 0 1-.2 1.4-.6l7-7c.4-.4.6-.9.6-1.4c0-.5-.2-1-.6-1.4M13 20l-9-9V4h7l9 9M6.5 5C7.3 5 8 5.7 8 6.5S7.3 8 6.5 8S5 7.3 5 6.5S5.7 5 6.5 5m3.6 3.9l1.4-1.4L17 13l-1.4 1.4l-5.5-5.5m-2.5 2.5L9 10l4 4l-1.4 1.4l-4-4z"
-
-                    />
-									</svg>
-
-									{{ lang.business_idea }}</span
-                >
-              </router-link>
+             
             </div>
           </div>
         </div>
@@ -592,8 +563,6 @@
                 <router-link v-if="authUser.user_type == 'customer'" :to="{ name: 'dashboard' }">
                   <img :src="getUrl('public/images/others/user.svg')" alt="User"/>
                 </router-link>
-                <a class="d-block" :href="getUrl('seller/dashboard')" v-else-if="authUser.user_type == 'seller'"><img
-                    :src="getUrl('public/images/others/user.svg')" alt="User"/></a>
                 <a class="d-block" :href="getUrl('admin/dashboard')"
                    v-else-if="authUser.user_type == 'admin' || authUser.user_type == 'staff'"><img
                     :src="getUrl('public/images/others/user.svg')" alt="User"/></a>
@@ -927,7 +896,7 @@ export default {
       let flag = true;
       if (this.authUser && localStorage.getItem("top-banner-remover") == this.authUser.id) {
         flag = false;
-      } else if (!this.addons.includes('ramdhani') && localStorage.getItem("top-banner") == "1") {
+      } else if (localStorage.getItem("top-banner") == "1") {
           flag = false;
       }
       return flag;

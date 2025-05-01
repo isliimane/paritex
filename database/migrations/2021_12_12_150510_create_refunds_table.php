@@ -23,7 +23,6 @@ class CreateRefundsTable extends Migration
             $table->double('total_amount',20,3)->nullable();
             $table->double('shipping_cost',10,3)->nullable();
             $table->double('refund_amount',20,3)->nullable();
-            $table->string('seller_approval')->default('pending');
             $table->string('admin_approval')->default('pending');
             $table->string('status')->default('pending');
             $table->text('reject_reason')->nullable();

@@ -7,15 +7,12 @@ use App\Http\Middleware\HttpMiddleware;
 use App\Http\Middleware\InstallCheckMiddleware;
 use App\Http\Middleware\IsAdminMiddleware;
 use App\Http\Middleware\IsCustomerMiddleware;
-use App\Http\Middleware\IsSellerMiddleware;
-use App\Http\Middleware\IsAdminSellerMiddleware;
 use App\Http\Middleware\JwtMiddleware;
 use App\Http\Middleware\LoginCheckMiddleware;
 use App\Http\Middleware\LogoutCheckMiddleware;
 use App\Http\Middleware\NotInstallCheckMiddleware;
 use App\Http\Middleware\OnlineUserMiddleware;
 use App\Http\Middleware\PermissionCheckerMiddleware;
-use App\Http\Middleware\SellerPosPermission;
 use App\Http\Middleware\XssMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -91,12 +88,9 @@ class Kernel extends HttpKernel
         'logoutCheck' => LogoutCheckMiddleware::class,
         'adminCheck' => IsAdminMiddleware::class,
         'customerCheck' => IsCustomerMiddleware::class,
-        'sellerCheck' => IsSellerMiddleware::class,
-        'AdminSellerCheck' => IsAdminSellerMiddleware::class,
         'PermissionCheck' => PermissionCheckerMiddleware::class,
         'NotInstalledCheck' => NotInstallCheckMiddleware::class,
         'isInstalled' => InstallCheckMiddleware::class,
-        'posSellerCheck' => SellerPosPermission::class,
         'CheckApiKey'=> CheckApiKeyMiddleware::class,
         'jwt.verify'=> JwtMiddleware::class,
         'license.verified' => \App\Http\Middleware\CheckLicenseVerification::class,

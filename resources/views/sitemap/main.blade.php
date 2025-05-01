@@ -21,11 +21,6 @@
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>{{ url('') . '/sellers' }}</loc>
-        <changefreq>daily</changefreq>
-        <priority>0.9</priority>
-    </url>
-    <url>
         <loc>{{ url('') . '/blogs' }}</loc>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
@@ -58,14 +53,6 @@
         <url>
             <loc>{{ url('') . '/category/' . $category->slug }}</loc>
             <lastmod>{{ $category->created_at->tz('UTC')->toAtomString() }}</lastmod>
-            <changefreq>daily</changefreq>
-            <priority>0.9</priority>
-        </url>
-    @endforeach
-    @foreach ($shops as $shop)
-        <url>
-            <loc>{{ url('') . '/shop/' . $shop->slug }}</loc>
-            <lastmod>{{ $shop->created_at->tz('UTC')->toAtomString() }}</lastmod>
             <changefreq>daily</changefreq>
             <priority>0.9</priority>
         </url>

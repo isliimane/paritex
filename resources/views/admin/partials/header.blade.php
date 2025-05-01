@@ -115,29 +115,15 @@
     </form>
 
     <ul class="navbar-nav navbar-right">
-    <!--c'est pas la paine   
-    <li>
+        <!-- <li>
             <a href="{{ route('cache.clear') }}" class="btn btn-outline-danger btn-cache" tabindex="4">
                 {{ __('Cache') }}<i class="bx bx-trash"></i>
             </a>
-        </li>-->
-        @if (addon_is_activated('pos_system') && authUser()->user_type != 'seller')
-            <li>
-                <a href="{{ route('admin.pos.system') }}" target="_blank" class="nav-link nav-link-lg"
-                    data-toggle="tooltip" data-original-title="{{ __('POS') }}"><i class="bx bx-printer"></i></a>
-            </li>
-        @endif
-        @if (addon_is_activated('pos_system') &&
-                settingHelper('is_pos_activated_for_seller') &&
-                authUser()->user_type == 'seller')
-            <li>
-                <a href="{{ route('seller.pos.system') }}" target="_blank" class="nav-link nav-link-lg"
-                    data-toggle="tooltip" data-original-title="{{ __('POS') }}"><i class="bx bx-printer"></i></a>
-            </li>
-        @endif
+        </li> -->
+      
         @if (!config('app.mobile_mode') || is_dir('resources/views/frontend'))
             <li class="icon-visible">
-                <a href="{{ Sentinel::getUser()->user_type == 'seller' ? url('/') . '/shop/' . Sentinel::getUser()->sellerProfile->slug : url('/') }}"
+                <a href="{{ url('/') }}"
                     target="_blank" class="nav-link nav-link-lg" data-toggle="tooltip"
                     data-original-title="{{ __('Visit Store') }}"><i class="bx bx-globe"></i></a>
             </li>
@@ -183,8 +169,7 @@
                 </div>
             </div>
         </li>
-        @if (!addon_is_activated('ishopet') || (addon_is_activated('ishopet') && authUser()->user_type != 'seller'))
-            <li class="dropdown">
+        <li class="dropdown">
                 <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-flag">
                     {{--                $curr = authId() == 1 ? settingHelper('default_currency') : authUser()->currency_id; --}}
 
@@ -215,8 +200,7 @@
                         </a>
                     @endforeach
                 </div>
-            </li>
-        @endif
+        </li>
         <li class="dropdown">
             <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-flag">
                 @php
@@ -260,11 +244,11 @@
                         {{ __('Logged in :minutes', ['minutes' => \Carbon\Carbon::parse(Sentinel::getUser()->lastLogin())->diffForHumans()]) }}
                     </div>
                 @endif
-                <a href="{{ Sentinel::getUser()->user_type == 'seller' ? route('seller.profile') : route('admin.profile') }}"
+                <a href="{{ route('admin.profile') }}"
                     class="dropdown-item has-icon">
                     <i class="bx bx-user"></i> {{ __('Profile') }}
                 </a>
-                <a href="{{ Sentinel::getUser()->user_type == 'seller' ? route('seller.login.activity') : route('admin.login.activity') }}"
+                <a href="{{ route('admin.login.activity') }}"
                     class="dropdown-item has-icon">
                     <i class='bx bx-file'></i>{{ __('Login Activities') }}
                 </a>

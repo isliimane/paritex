@@ -14,13 +14,6 @@ class Kernel extends ConsoleKernel
 
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('subscription:check')->when(function (){
-            if (addon_is_activated('seller_subscription') && settingHelper('seller_system') == 1) {
-                return true;
-            }
-
-            return false;
-        })->everyFifteenMinutes();
     }
 
     protected function commands()

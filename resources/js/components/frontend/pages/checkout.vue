@@ -157,11 +157,6 @@
               <h6>{{ lang.price_details }}</h6>
               <coupon v-if="authUser" :coupon_list="coupon_list" :cartList="carts"
                       :trx_id="payment_form.trx_id"></coupon>
-              <div class="form-group mt-3" v-if="addons.includes('ramdhani')">
-                <h6>{{ lang.delivery_date }}</h6>
-                <input type="date" v-model="payment_form.delivery_date" class="form-control mb-0" id="delivery_date">
-                <small id="dateHelp" class="form-text text-muted">{{ lang.choose_your_preferable_date }}</small>
-              </div>
               <div class="sg-card">
                 <payment_details
                     :sub_total="payment_form.sub_total"

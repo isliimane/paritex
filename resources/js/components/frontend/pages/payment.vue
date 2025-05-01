@@ -32,9 +32,7 @@
                   <payment_method v-if="settings.is_sslcommerz_activated == 1  && checkCurrency('BDT')"
                                   :value="'ssl_commerze'" :label="lang.pay_with_sSLCOMMERZE" :image="getUrl('public/images/payment-method/sslcommerze.svg')">
                   </payment_method>
-                  <payment_method v-if="settings.is_paytm_activated == 1  && checkCurrency('INR')"
-                                  :value="'ssl_commerze'" :label="lang.pay_with_paytm" :image="getUrl('public/images/payment-method/paytm.svg')">
-                  </payment_method>
+                
                   <payment_method v-if="settings.is_razorpay_activated == 1  && checkCurrency('INR')"
                                   :value="'razor_pay'" :label="lang.pay_with_razorpay" :image="getUrl('public/images/payment-method/razorpay.svg')">
                   </payment_method>
@@ -62,12 +60,7 @@
                   <payment_method v-if="settings.is_google_pay_activated"
                                   :value="'google_pay'" :label="lang.pay_with_google_pay" :image="getUrl('public/images/payment-method/google_pay.svg')">
                   </payment_method>
-                  <payment_method v-if="settings.is_bkash_activated && checkCurrency('BDT')"
-                                  :value="'bkash'" :label="lang.pay_with_bkash" :image="getUrl('public/images/payment-method/bKash.svg')">
-                  </payment_method>
-                  <payment_method v-if="settings.is_nagad_activated && checkCurrency('BDT')"
-                                  :value="'nagad'" :label="lang.pay_with_nagad" :image="getUrl('public/images/payment-method/nagad.svg')">
-                  </payment_method>
+                
                   <payment_method v-if="settings.is_amarpay_activated && checkCurrency('BDT')"
                                   :value="'amarpay'" :label="lang.pay_with_amarpay" :image="getUrl('public/images/payment-method/amarpay.svg')">
                   </payment_method>
@@ -77,26 +70,12 @@
                   <payment_method v-if="settings.is_iyzico_activated"
                                   :value="'iyzico'" :label="lang.pay_with_iyzico" :image="getUrl('public/images/payment-method/iyzico.svg')">
                   </payment_method>
-                  <payment_method v-if="settings.is_kkiapay_activated"
-                                  :value="'kkiapay'" :label="lang.pay_with_kkiapay" :image="getUrl('public/images/payment-method/kkiapay.svg')">
-                  </payment_method>
+                 
                   <payment_method v-if="!code && settings.pay_later_system == 1 && authUser"
                                   :value="'pay_later'" :label="lang.pay_later" :image="getUrl('public/images/payment-method/paylater.svg')">
                   </payment_method>
                   <payment_method v-if="payment_form.total > 0 && !code && !check_cod"
                                   :value="'cash_on_delivery'" :label="lang.cash_on_delivery" :image="getUrl('public/images/payment-method/cash.svg')">
-                  </payment_method>
-                  <payment_method v-if="settings.is_hitpay_activated && addons.includes('hitpay_payment_gateway')"
-                                  :value="'hitpay'" :label="lang.pay_with_hitpay" :image="getUrl('public/images/payment-method/hitpay.svg')">
-                  </payment_method>
-                  <payment_method v-if="settings.is_hitpay_activated && addons.includes('hitpay_payment_gateway')"
-                                  :value="'hitpay'" :label="lang.pay_with_hitpay" :image="getUrl('public/images/payment-method/hitpay.svg')">
-                  </payment_method>
-                  <payment_method v-if="settings.is_dpo_activated"
-                                  :value="'dpo'" :label="lang.pay_with_dpo" :image="getUrl('public/images/payment-method/dpo.svg')">
-                  </payment_method>
-                  <payment_method v-if="settings.is_mpesa_activated && addons.includes('ramdhani')"
-                                  :value="'mpesa'" :label="lang.pay_with_mpesa" :image="getUrl('public/images/payment-method/mpesa_logo.png')">
                   </payment_method>
                   <li v-if="!code && addons.includes('offline_payment')"
                       v-for="(offline,index) in offline_methods" :key="index">
@@ -172,9 +151,6 @@
                    v-if="!payment_form.payment_type">
                   {{ lang.pay_now }}</a>
 
-                <a @click="payment" href="javascript:void(0)" class="btn btn-primary w-100"
-                   v-if="payment_form.payment_type == 'paytm'">
-                  {{ lang.pay_now }}</a>
 
                 <a href="javascript:void(0)" @click="payment" class="btn btn-primary w-100"
                    v-if="payment_form.payment_type == 'ssl_commerze' ">
@@ -215,32 +191,14 @@
                    v-if="payment_form.payment_type == 'amarpay'">
                   {{ lang.pay_now }}</a>
 
-                <a href="javascript:void(0)" @click="payment"
-                   class="btn btn-primary"
-                   v-if="payment_form.payment_type == 'bkash'">
-                  {{ lang.pay_now }}</a>
-
-                <a href="javascript:void(0)" @click="payment"
-                   class="btn btn-primary"
-                   v-if="payment_form.payment_type == 'nagad'">
-                  {{ lang.pay_now }}</a>
+              
                 <a href="javascript:void(0)" @click="payment"
                    class="btn btn-primary"
                    v-if="payment_form.payment_type == 'skrill'">
                   {{ lang.pay_now }}</a>
-                <a href="javascript:void(0)" @click="payment" class="btn btn-primary w-100"
-                   v-if="payment_form.payment_type == 'hitpay' ">
-                  {{ lang.pay_now }}</a>
-                <a href="javascript:void(0)" @click="payment" class="btn btn-primary w-100"
-                   v-if="payment_form.payment_type == 'dpo' ">
-                  {{ lang.pay_now }}</a>
-                <kkiapay v-if="settings.is_kkiapay_activated && settings.kkiapay_public_key && payment_form.payment_type == 'kkiapay' && xof" :trx_id="trx_id" :code="code" :amount="payment_form.total"
-                         :payment_type="payment_form.payment_type" :xof="xof" :type="'order'"></kkiapay>
-
+              
                 <paypal v-if="settings.is_paypal_activated == 1 && settings.paypal_key && payment_form.payment_type == 'paypal'" :trx_id="trx_id" :code="code"
                         :amount="payment_form.total" :payment_type="payment_form.payment_type" :type="'order'"></paypal>
-
-                <a href="javascript:void(0)" @click="payment" class="btn btn-primary w-100" v-if="payment_form.payment_type == 'mpesa'">{{ lang.pay_now }}</a>
 
                 <form name="jsform" :action="jazz_url" method="get">
                   <input v-for="(value,name) in jazz_data" :key="name" type="hidden" :name="name"
@@ -281,7 +239,6 @@
 import shimmer from "../partials/shimmer";
 import paypal from "../payment_partials/paypal";
 import offline_method from "../payment_partials/offline_method";
-import kkiapay from "../payment_partials/kkiapay";
 import paystack from "../payment_partials/paystack";
 import Flutter_wave from "../payment_partials/flutter_wave";
 import payment_details from "../partials/payment_details";
@@ -333,7 +290,7 @@ export default {
   components: {
     Payment_method,
     Flutter_wave, google_pay,apple_pay,
-    shimmer, paypal, offline_method, paystack, payment_details, midtrans,kkiapay,gdpr_page
+    shimmer, paypal, offline_method, paystack, payment_details, midtrans,gdpr_page
   },
   mounted() {
     this.takeOrders();
@@ -526,8 +483,6 @@ export default {
         return this.$refs.paystack.payStack();
       }else if (payment_type == 'stripe') {
         return window.location.href = this.getUrl('stripe/redirect?trx_id=' + this.trx_id + '&code=' + this.$route.params.code);
-      }else if (payment_type == 'paytm') {
-        return window.location.href = this.getUrl('user/payment/paytmRedirect?trx_id=' + this.trx_id + '&code=' + this.$route.params.code + '&payment_type=paytm');
       }else if (payment_type == 'ssl_commerze') {
         return window.location.href = this.getUrl('get/ssl-response?payment_type=ssl_commerze&code=' + this.$route.params.code + '&trx_id=' + this.trx_id);
       }else if (payment_type == 'mollie') {
@@ -538,18 +493,8 @@ export default {
         return window.location.href = this.getUrl('mercadopago/redirect?code='+this.$route.params.code+'&trx_id='+this.trx_id);
       }else if (payment_type == 'amarpay') {
         return window.location.href = this.getUrl('amarpay/redirect?code='+this.$route.params.code+'&trx_id='+this.trx_id);
-      }else if (payment_type == 'bkash') {
-        return window.location.href = this.getUrl('bkash/redirect?code='+ this.$route.params.code+'&trx_id='+ this.trx_id);
-      }else if (payment_type == 'nagad') {
-        return window.location.href = this.getUrl('nagad/redirect?code='+ this.$route.params.code+'&trx_id='+ this.trx_id);
       }else if (payment_type == 'skrill') {
         return window.location.href = this.getUrl('skrill/redirect?code='+ this.$route.params.code+'&trx_id='+ this.trx_id);
-      }else if (payment_type == 'hitpay') {
-        return window.location.href = this.getUrl('hitpay/redirect?code='+ this.$route.params.code+'&trx_id='+ this.trx_id);
-      }else if (payment_type == 'dpo') {
-        return window.location.href = this.getUrl('dpo/redirect?code='+ this.$route.params.code+'&trx_id='+ this.trx_id);
-      }else if (payment_type == 'mpesa') {
-        return window.location.href = this.getUrl('mpesa/redirect?code='+ this.$route.params.code+'&trx_id='+ this.trx_id);
       }
     },
     checkCurrency(code){

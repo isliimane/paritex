@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Admin\Addons\RefundController;
-use App\Http\Controllers\Seller\Addons\RefundController as SellerRefundController;
 use App\Http\Controllers\Site\Addons\RefundController as SiteRefundController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,19 +24,6 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 Route::get('settings', [RefundController::class, 'refundSetting'])->name('refund.setting')->middleware('PermissionCheck:refund_setting_read');
                 Route::put('setting-update', [RefundController::class, 'refundSettingUpdate'])->name('refund.setting.update')->middleware('PermissionCheck:refund_setting_update');
                 Route::put('pay-refund/{id}', [RefundController::class, 'payNow'])->name('pay.refund')->middleware('PermissionCheck:refund_approve');
-            });
-
-        });
-        Route::middleware(['sellerCheck', 'loginCheck', 'XSS'])->prefix('seller')->group(function () {
-
-            //Refunds Settings
-            Route::group(['prefix' => 'refunds'], function () {
-                Route::get('/', [SellerRefundController::class, 'refund'])->name('seller.refunds');
-                Route::put('approved-refund/{id}',[SellerRefundController::class,'approvedRefund'])->name('seller.approved.refund');
-                Route::get('processed/{status?}', [SellerRefundController::class, 'allProcessedRefund'])->name('seller.all.processed.refund');
-                Route::put('reject-refund',[SellerRefundController::class,'rejectRefund'])->name('seller.reject.refund');
-                Route::get('approved/{status?}', [SellerRefundController::class, 'allApprovedRefund'])->name('seller.all.approved.refund');
-                Route::get('rejected', [SellerRefundController::class, 'allRejectedRefund'])->name('seller.all.rejected.refund');
             });
 
         });

@@ -22,13 +22,6 @@
                         {{ __('You have total') . ' ' . $wallet_recharge_requests->total() . ' ' . __('Requests') }}
                     </p>
                 </div>
-                @if(addon_is_activated('offline_payment'))
-                    @if (hasPermission('offline_payment_read') || hasPermission('wallet_recharge_read'))
-                    <div class="buttons add-button">
-                        <a href="{{route('offline.wallet.recharge.history')}}" class="btn btn-icon icon-left btn-outline-primary">Show offline Request <i class="bx bx-credit-card-front "></i></a>
-                    </div>
-                    @endif
-                @endif
             </div>
             <div class="row">
                 <div class="col-sm-xs-12 col-md-12">

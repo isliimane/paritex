@@ -124,11 +124,7 @@ class StaffController extends Controller
             $this->staffs->update($request);
             Toastr::success(__('Updated Successfully'), __('Success'));
             DB::commit();
-            if(Sentinel::getUser()->user_type == 'seller' ):
-                return redirect()->route('seller.profile');
-            else:
-                return redirect()->route('admin.profile');
-            endif;
+            return redirect()->route('admin.profile');
         } catch (\Exception $e) {
             DB::rollBack();
             Toastr::error($e->getMessage());
@@ -164,11 +160,7 @@ class StaffController extends Controller
             $this->staffs->updatePassword($request);
             Toastr::success(__('Updated Successfully'), __('Success'));
             DB::commit();
-            if(Sentinel::getUser()->user_type == 'seller' ):
-                return redirect()->route('seller.profile');
-            else:
-                return redirect()->route('admin.profile');
-            endif;
+            return redirect()->route('admin.profile');
         } catch (\Exception $e) {
             DB::rollBack();
             Toastr::error($e->getMessage());

@@ -152,12 +152,7 @@
                         <td style="padding: 15px 30px">
                             <p>{{__('hi')}} {{ $content->first_name .' '.$content->last_name }},</p>
                             <p>{{ __('welcome_message') }}</p>
-                            @if($content->user_type == 'seller')
-                                <p>{{ __('Your Order Has Been Delivered') }}</p>
-                                <p>{{ __('Please find the invoice with Email Attachment') }}</p>
-                            @else
-                                <p>{{ __('Please find your invoice with Email Attachment') }}</p>
-                            @endif
+                            <p>{{ __('Please find your invoice with Email Attachment') }}</p>
                         </td>
                     </tr>
 

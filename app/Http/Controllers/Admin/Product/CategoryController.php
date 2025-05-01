@@ -84,9 +84,6 @@ class CategoryController extends Controller
                 'lang' => $lang,
                 'r' => $request->r ? $request->r : $request->server('HTTP_REFERER')
             ];
-            if (addon_is_activated('ramdhani')) {
-                $data['ranges'] = $category->ranges;
-            }
             return view('admin.products.categories.update', $data);
         } catch (\Exception $e) {
             Toastr::error($e->getMessage());

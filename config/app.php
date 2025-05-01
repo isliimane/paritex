@@ -262,7 +262,6 @@ return [
         'LaravelLocalization' => Mcamara\LaravelLocalization\Facades\LaravelLocalization::class,
         'Toastr'  => Brian2694\Toastr\Facades\Toastr::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-        'PaytmWallet' => Anand\LaravelPaytmWallet\Facades\PaytmWallet::class
     ],
 
 ];

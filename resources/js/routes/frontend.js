@@ -9,8 +9,6 @@ const blogDetails = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/blog_details');
 const brands = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/brands');
-const sellers = () => import(/* webpackPrefetch: true */
-    '../components/frontend/pages/all-seller');
 const campaignDetails = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/campaign_details');
 const allCampaign = () => import(/* webpackPrefetch: true */
@@ -23,10 +21,6 @@ const complaint = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/complaint');
 const dailyDeals = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/daily-deals');
-const giftIdea = () => import(/* webpackPrefetch: true */
-    '../components/frontend/pages/gift-idea');
-const businessIdea = () => import(/* webpackPrefetch: true */
-    '../components/frontend/pages/business-idea.vue');
 const productDetails = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/product-details');
 const trackOrder = () => import(/* webpackPrefetch: true */
@@ -45,8 +39,6 @@ const login = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/login');
 const register = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/register');
-const seller_register = () => import(/* webpackPrefetch: true */
-    '../components/frontend/pages/seller_register');
 const resetPassword = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/forgot-password');
 const wishlist = () => import(/* webpackPrefetch: true */
@@ -61,12 +53,6 @@ const changePassword = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/user/change_password');
 const editProfile = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/user/edit-profile');
-/*const migrateSeller = () => import(/!* webpackPrefetch: "product-details" *!/
-    '../components/frontend/pages/user/migrate-to-seller');*/
-
-const migrateSeller = () => import(/* webpackPrefetch: true */
-    '../components/frontend/pages/user/migrate-to-seller');
-
 const giftVoucher = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/user/gift-voucher');
 const notification = () => import(/* webpackPrefetch: true */
@@ -83,25 +69,10 @@ const reward = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/addons/rewards');
 const myWallet = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/user/wallet');
-const shop = () => import(/* webpackPrefetch: true */
-    '../components/frontend/pages/shop');
-const followedShop = () => import(/* webpackPrefetch: true */
-    '../components/frontend/pages/user/followed-shop');
 const digitalProductOrders = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/user/digital-product-orders');
-const videoShop = () => import(/* webpackPrefetch: true */
-    '../components/frontend/pages/addons/video_shop');
-const videoShopDetails = () => import(/* webpackPrefetch: true */
-    '../components/frontend/pages/addons/video_shop_details');
 const error_404 = () => import(/* webpackPrefetch : true" */
     '../components/errors/not_found');
-const affiliate_register = () => import(/* webpackPrefetch: true */
-    '../components/frontend/pages/affiliate_users/affiliate_register');
-const affiliate_program = () => import(/* webpackPrefetch: true */
-    '../components/frontend/pages/affiliate_users/affiliate_program');
-const affiliate_system = () => import(/* webpackPrefetch: true */
-    '../components/frontend/pages/affiliate_users/affiliate_system');
-
 export const routes = [
     {
         path: '/',
@@ -145,14 +116,6 @@ export const routes = [
                 component: brands,
                 meta: {
                     title: 'All Brands'
-                }
-            },
-            {
-                path: '/sellers',
-                name: 'sellers',
-                component: sellers,
-                meta: {
-                    title: 'All Sellers'
                 }
             },
             {
@@ -274,46 +237,6 @@ export const routes = [
                 }
             },
             {
-                path: '/gift-idea',
-                name: 'gift.idea',
-                component: giftIdea,
-                meta: {
-                    title: 'Gift Idea'
-                }
-            },
-            {
-                path: '/business-idea',
-                name: 'business.idea',
-                component: businessIdea,
-                meta: {
-                    title: 'Business Idea'
-                }
-            },
-            {
-                path: '/affiliate-register',
-                name: 'affiliate.register',
-                component: affiliate_register,
-                meta: {
-                    title: 'Affiliate Register'
-                }
-            },
-            {
-                path: '/affiliate-program',
-                name: 'affiliate.program',
-                component: affiliate_program,
-                meta: {
-                    title: 'Affiliate Program'
-                }
-            },
-            {
-                path: '/affiliate-system',
-                name: 'affiliate.system',
-                component: affiliate_system,
-                meta: {
-                    title: 'Affiliate System'
-                }
-            },
-            {
                 path: '/flash-sale',
                 name: 'flash.sale',
                 component: flashSale,
@@ -405,15 +328,6 @@ export const routes = [
                 component: resetPassword
             },
             {
-                path: '/register/:type',
-                name: 'seller-register',
-                component: seller_register,
-                meta: {
-                    title: 'Seller SingUp'
-                }
-            },
-
-            {
                 path: '/user/edit-profile',
                 name: 'edit.profile',
                 component: editProfile,
@@ -430,14 +344,6 @@ export const routes = [
                 }
             },
             {
-                path: '/user/followed-shop',
-                name: 'shop.followed',
-                component: followedShop,
-                meta: {
-                    title: 'Followed Shop'
-                }
-            },
-            {
                 path: '/user/digital-product-orders',
                 name: 'orders.digital.product',
                 component: digitalProductOrders,
@@ -445,12 +351,6 @@ export const routes = [
                     title: 'Digital Product Orders'
                 }
             },
-            {
-                path: '/user/user-to-seller',
-                name: 'migrate.seller',
-                component: migrateSeller
-            },
-
             {
                 path: '/user/notification',
                 name: 'notification',
@@ -531,30 +431,6 @@ export const routes = [
                 component: reward,
                 meta: {
                     title: 'Reward'
-                }
-            },
-            {
-                path: '/video-shopping',
-                name: 'video.shopping',
-                component: videoShop,
-                meta: {
-                    title: 'Video Shopping'
-                }
-            },
-            {
-                path: '/video-shopping/:slug',
-                name: 'video.shopping.details',
-                component: videoShopDetails,
-                meta: {
-                    title: 'Video Shopping'
-                }
-            },
-            {
-                path: '/shop/:slug',
-                name: 'shop',
-                component: shop,
-                meta: {
-                    title: 'Shop'
                 }
             },
             {

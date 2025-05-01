@@ -18,6 +18,5 @@ interface DashboardInterface
 
     public function topCategories();
 
-    public function topSellers();
     public function topProducts($report_type, $first_load);
 }

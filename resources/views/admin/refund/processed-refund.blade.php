@@ -34,17 +34,6 @@
                             <h4>{{ __('All Processed Refunds') }}</h4>
                             <div class="card-header-form">
                                 <form class="form-inline" id="sorting">
-                                    <div class="form-group">
-                                        <label for="slr">{{ __('Seller') }}</label>
-                                        <select class="seller-by-ajax form-control select2 sorting" name="slr" id="slr">
-                                            <option value="">{{ __('Filter By Seller') }}</option>
-                                            @if(isset($slr))
-                                                <option selected value="{{ @$slr }}">
-                                                    {{ @$selected_seller->shop_name }}
-                                                </option>
-                                            @endif
-                                        </select>
-                                    </div>
                                     <div class="input-group">
                                         <input type="text" class="form-control" name="q" value="{{ @$q }}"
                                                placeholder="{{ __('Search') }}">
@@ -87,7 +76,7 @@
                                                 </td>
                                             @endif
                                             <td>
-                                                @if($refund->seller_id == 1) {{__('admin')}} @elseif($refund->seller != null) {{$refund->seller->sellerProfile->shop_name}} @endif
+                                            {{__('admin')}}
                                             </td>
                                             <td class="{{ $refund->status == 'pending' ? 'text-warning' : 'text-success'}}">
                                                 {{ucfirst($refund->status)}}

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin\Addons;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Product\ProductStoreRequest;
 use App\Http\Requests\Admin\Product\ProductUpdateRequest;
-use App\Repositories\Admin\Addon\ShippingClassRepository;
 use App\Repositories\Admin\VatTaxRepository;
 use App\Repositories\Interfaces\Admin\LanguageInterface;
 use App\Repositories\Interfaces\Admin\Product\AttributeInterface;
@@ -13,7 +12,6 @@ use App\Repositories\Interfaces\Admin\Product\BrandInterface;
 use App\Repositories\Interfaces\Admin\Product\CategoryInterface;
 use App\Repositories\Interfaces\Admin\Product\ColorInterface;
 use App\Repositories\Interfaces\Admin\Product\ProductInterface;
-use App\Repositories\Interfaces\Admin\SellerInterface;
 use App\Repositories\Interfaces\Admin\WholesaleProductInterface;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
@@ -28,7 +26,6 @@ class WholeSaleProductController extends Controller
     protected $attributes;
     protected $vat_tax;
     protected $languages;
-    protected $sellers;
 
     public function __construct(ProductInterface $products,
                                 WholesaleProductInterface $wholesale_products,
@@ -37,7 +34,6 @@ class WholeSaleProductController extends Controller
                                 ColorInterface $colors,
                                 AttributeInterface $attributes,
                                 VatTaxRepository $vat_tax,
-                                SellerInterface $sellers,
                                 LanguageInterface $languages)
     {
         $this->products             = $products;
@@ -48,14 +44,12 @@ class WholeSaleProductController extends Controller
         $this->attributes           = $attributes;
         $this->vat_tax              = $vat_tax;
         $this->languages            = $languages;
-        $this->sellers              = $sellers;
     }
     public function wholesaleProducts(Request $request, $status = null){
         try {
             $products               = $this->products->paginate($request, $status ,get_yrsetting('paginate'),'wholesale');
             $selected_category      = isset($request->c) ? $this->categories->get($request->c) : null;
-            $selected_seller        = isset($request->sl) ? $this->sellers->getSeller($request->sl) : null;
-            return view('admin.wholesale-product.products', compact('status','products','selected_category','selected_seller'));
+            return view('admin.wholesale-product.products', compact('status','products','selected_category'));
         } catch (\Exception $e) {
             Toastr::error(__('Something went wrong, please try again'));
             return back();

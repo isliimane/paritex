@@ -39,11 +39,7 @@ trait ImageTrait
                 ];
             elseif ($for == 'admin_light_logo' || $for == 'admin_dark_logo' || $for == 'footer_logo' || $for == 'invoice_logo' ||
                 $for == 'light_logo' || $for == 'dark_logo' || $for == 'og_image' || $for == 'popup_image' ||
-                $for == 'payment_method_banner' || $for == 'service_image' || $for == 'seller_logo' || $for == 'seller_banner'):
-
-                if ($for == 'seller_logo' || $for == 'seller_banner'):
-                    $directory = 'images/seller/';
-                endif;
+                $for == 'payment_method_banner' || $for == 'service_image'):
 
                 if ($for == 'admin_light_logo' || $for == 'admin_dark_logo'):
                     $image_sizes = ['100x38'];
@@ -55,8 +51,6 @@ trait ImageTrait
                     $image_sizes = ['118x45'];
                 elseif ($for == 'payment_method_banner'):
                     $image_sizes = [];
-                elseif ($for == 'seller_banner'):
-                    $image_sizes = ['297x203'];
                 elseif ($for == 'popup_image'):
                     $image_sizes = ['270x260'];
                 elseif ($for == 'og_image'):
@@ -519,10 +513,6 @@ trait ImageTrait
         foreach ($image_array as $item) {
             $key = $for == 'favicon' ? "image_$item".'_url' : "image_$item";
             $image_path = $for == 'favicon' ? $directory .$for . "-$item.png" : $directory . date('YmdHis') . $item . $for . rand(1, 500) . '.' . $extension;
-            if (addon_is_activated('ramdhani') && $extension == 'gif') {
-                $images[$key] = $original_image;
-                continue;
-            }
             $images[$key] = $image_path;
             $size = explode('x',$item);
             Image::make($requestImage)->resize($size[0], $size[1],
@@ -547,10 +537,6 @@ trait ImageTrait
         foreach ($image_array as $item) {
             $key = $for == 'favicon' ? "image_$item".'_url' : "image_$item";
             $image_path = $for == 'favicon' ? $directory .$for . "-$item.png" : $directory . date('YmdHis') . $item . $for . rand(1, 500) . '.' . $extension;
-            if (addon_is_activated('ramdhani') && $extension == 'gif') {
-                $images[$key] = $original_image;
-                continue;
-            }
             $images[$key] = $image_path;
             $size = explode('x',$item);
             Image::make($requestImage)->save('public/' . $image_path, $encode_percentage, $extension);

@@ -36,7 +36,6 @@ class CreateOrdersTable extends Migration
             $table->tinyInteger('viewed')->default(0);
             $table->tinyInteger('delivery_viewed')->default(0);
             $table->tinyInteger('payment_status_viewed')->default(0);
-            $table->tinyInteger('commission_calculated')->default(0);
             $table->string('is_cancelled')->default(0)->nullable();
             $table->string('is_deleted')->default(0)->nullable();
             $table->string('trx_id');

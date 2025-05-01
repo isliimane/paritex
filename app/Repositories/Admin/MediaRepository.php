@@ -23,9 +23,7 @@ class MediaRepository implements MediaInterface
 
     public function getAll()
     {
-        return Media::latest()->when(Sentinel::getUser()->user_type == 'seller', function ($q){
-            $q->where('user_id', Sentinel::getUser()->id);
-        });
+        return Media::latest();
     }
 
     public function paginate($request, $limit)
@@ -58,9 +56,7 @@ class MediaRepository implements MediaInterface
                 break;
         }
 
-        return $medias->when(Sentinel::getUser()->user_type == 'seller', function ($q){
-            $q->where('user_id', Sentinel::getUser()->id);
-        })->paginate($limit)->appends(request()->query());
+        return $medias->paginate($limit)->appends(request()->query());
     }
 
     public function store($image, $type = 'image',$token=null)
