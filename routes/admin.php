@@ -600,11 +600,7 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 Route::get('claims', '\App\Http\Controllers\Admin\ClaimController@index')->name('admin.claim.index');
                 Route::get('claims/{id}', '\App\Http\Controllers\Admin\ClaimController@show')->name('admin.claim.show');
                 Route::post('claims/{id}/update', '\App\Http\Controllers\Admin\ClaimController@update')->name('admin.claim.update');
-                 //return
-                Route::get('return', '\App\Http\Controllers\Admin\ReturnRequestController@index')->name('admin.return.index');
-                Route::get('return/{id}', '\App\Http\Controllers\Admin\ReturnRequestController@show')->name('admin.return.show');
-
-
+                
             });
         });
     });

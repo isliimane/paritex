@@ -53646,9 +53646,7 @@ __webpack_require__.r(__webpack_exports__);
   getProfileOrders: function getProfileOrders(state) {
     return state.profile_orders;
   },
-  getUserOrders: function getUserOrders(state) {
-    return state.user_orders;
-  },
+
   getUserOrderList: function getUserOrderList(state) {
     return state.userOrderList;
   },

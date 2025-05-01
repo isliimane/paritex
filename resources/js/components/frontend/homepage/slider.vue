@@ -75,6 +75,7 @@ export default {
 			return this.$store.getters.getSliders;
 		},
 		banners() {
+		
 			return this.$store.getters.getSliderBanners;
 		},
 	},
