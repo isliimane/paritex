@@ -53655,7 +53655,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   getUserCoupons: function getUserCoupons(state) {
     return state.userCoupons;
-  },
+  }, 
   getAllWishlists: function getAllWishlists(state) {
     return state.allWishlist;
   },

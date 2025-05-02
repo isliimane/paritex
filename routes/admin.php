@@ -601,6 +601,7 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 Route::get('claims/{id}', '\App\Http\Controllers\Admin\ClaimController@show')->name('admin.claim.show');
                 Route::post('claims/{id}/update', '\App\Http\Controllers\Admin\ClaimController@update')->name('admin.claim.update');
                 
+                
             });
         });
     });
