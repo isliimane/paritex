@@ -33,7 +33,7 @@ class UserFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'phone' => $this->faker->unique()->phoneNumber(),
             'password' => bcrypt(123456),
-            'user_type' => $this->faker->randomElement(['customer', 'seller', 'staff','delivery_hero']),
+            'user_type' => $this->faker->randomElement(['customer', 'staff','delivery_hero']),
 
         ];
     }
@@ -55,11 +55,6 @@ class UserFactory extends Factory
             'role_read',
             'role_update',
             'role_delete',
-
-            'seller_create',
-            'seller_read',
-            'seller_update',
-            'seller_delete',
 
             'language_create',
             'language_read',
@@ -117,11 +112,6 @@ class UserFactory extends Factory
             'role_read',
             'role_update',
             'role_delete',
-
-            'seller_create',
-            'seller_read',
-            'seller_update',
-            'seller_delete',
 
             'language_create',
             'language_read',

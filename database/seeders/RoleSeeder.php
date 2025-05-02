@@ -42,12 +42,6 @@ class RoleSeeder extends Seeder
             'role_update',
             'role_delete',
 
-            'seller_create',
-            'seller_read',
-            'seller_update',
-            'seller_delete',
-            'seller_verify',
-
             'language_create',
             'language_read',
             'language_update',
@@ -112,13 +106,6 @@ class RoleSeeder extends Seeder
             'support_department_read',
             'support_department_update',
             'support_department_delete',
-
-            'seller_payout_read',
-            'seller_payout_accept',
-            'seller_payout_reject',
-
-            'seller_commission_read',
-            'seller_commission_update',
 
             'order_create',
             'order_read',
@@ -212,7 +199,6 @@ class RoleSeeder extends Seeder
             'city_delete',
 
             'admin_product_sale_read',
-            'seller_product_sale_read',
             'product_stock_read',
             'product_wishlist_read',
             'user_searches_read',
@@ -331,12 +317,6 @@ class RoleSeeder extends Seeder
             'role_read',
             'role_update',
             'role_delete',
-
-            'seller_create',
-            'seller_read',
-            'seller_update',
-            'seller_delete',
-            'seller_ban',
 
             'language_create',
             'language_read',

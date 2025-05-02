@@ -210,26 +210,8 @@ export default {
                     slug : response.data.slug,
                     page : response.data.page
                 };
-                context.commit("setSellerProducts", response_data);
-                context.commit("getSellerPage", page_data);
             }
         });
     },
-    FollowedSellers(context,page_no)
-    {
-        if(!page_no){
-            page_no = 1;
-        }
-        let url = context.state.url + '/user/followed-sellers?page='+ page_no;
-        axios.get(url).then((response) => {
-            let length = response.data.sellers.data;
-            if (length == 0)
-            {
-                context.commit("setFollowedSellers", [{id:0}]);
-            }
-            else{
-                context.commit("setFollowedSellers", response.data.sellers.data);
-            }
-        });
-    },
+  
 }

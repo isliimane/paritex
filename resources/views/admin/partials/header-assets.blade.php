@@ -94,7 +94,7 @@ i.mdi { /* Material Design Icons */
     <meta name="msapplication-TileImage"
         content="{{ ($icon && $icon != [] && @is_file_exists($icon['image_144x144_url'])) ? static_asset($icon['image_144x144_url']) : static_asset('images/ico/favicon-144x144.png') }}">
     <meta name="theme-color" content="#ffffff">
-    <meta name="get-me" content="{{ Sentinel::getUser()->user_type == 'seller' ? 'seller' : 'admin'}}" />
+    <meta name="get-me" content="admin" />
     <!-- End Favicon -->
     @yield('style')
     @stack('style')

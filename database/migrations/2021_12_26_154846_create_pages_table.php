@@ -26,16 +26,6 @@ class CreatePagesTable extends Migration
         $now = date('Y-m-d H:i:s');
         $pages = [
             [
-                'type' => 'seller_policy_pages',
-                'link' => 'seller-policy',
-                'status' => 1,
-                'content' => NULL,
-                'meta_image' => '[]',
-                'meta_image_id' => NULL,
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
                 'type' => 'refund_policy_page',
                 'link' => 'refund-policy',
                 'status' => 1,

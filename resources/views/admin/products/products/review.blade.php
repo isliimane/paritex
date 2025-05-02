@@ -20,27 +20,6 @@
             <div class="row">
                 <div class="col-12 col-md-12">
                     <div class="card">
-                        <div class="card-body p-0">
-                            @if(addon_is_activated('ai_writer') && settingHelper('ai_review_option') == 2)
-                                <table class="table table-md">
-                                    <tbody>
-                                    <tr>
-                                        <td>{{ __('automated_reply_for_review') }}</td>
-                                        <td width="300">
-                                            <label class="custom-switch mt-2">
-                                                <input type="checkbox" name="custom-switch-checkbox"
-                                                       value="config-user-review/{{ authId() }}" {{ authUser()->ai_review_option == 1 ? 'checked' : '' }}
-                                                       class="custom-switch-input status-change">
-                                                <span class="custom-switch-indicator"></span>
-                                            </label>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            @endif
-                        </div>
-                    </div>
-                    <div class="card">
                         <div class="card-header">
                             <h4>{{__('Reviews List')}}</h4>
                         </div>

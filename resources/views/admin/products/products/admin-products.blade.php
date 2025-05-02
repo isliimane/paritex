@@ -47,10 +47,7 @@
                 $all = DB::table('products')->where(function ($q){
                         $q->where('user_id',null)->orWhere('user_id', 1);
                     })
-                    ->when(settingHelper('seller_system') != 1, function ($q) {
-                        $q->where('user_id',1);
-                    })
-                    ->where('is_deleted',0)->get();
+                    ->where('user_id',1)->where('is_deleted',0)->get();
                  $total          = $all->count();
                  $published      = $all->where('status','published')->where('is_approved', 1)->count();
                  $unpublished    = $all->where('status','unpublished')->where('is_approved', 1)->count();

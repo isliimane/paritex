@@ -116,11 +116,7 @@ class MediaController extends Controller
             if ($response === false) {
                 return response()->json(__('Unable to upload' . ' ' . $name), 500);
             } elseif ($response === 's3_error') {
-                if (Sentinel::getUser()->user_type == 'seller') {
-                    return response()->json(__('Unable to upload, please contact with system owner'), 500);
-                } else {
-                    return response()->json(__('Unable to upload to S3, check your configuration'), 500);
-                }
+                return response()->json(__('Unable to upload to S3, check your configuration'), 500);
             }
             return true;
         } catch (\Exception $e) {
@@ -169,30 +165,4 @@ class MediaController extends Controller
         endif;
     }
 
-    public function sellerBannerstore($file, $token_id)
-    {
-        if (config('app.demo_mode')):
-            return response()->json(__('This function is disabled in demo server.'), 500);
-        endif;
-
-        $type = get_yrsetting('supported_mimes');
-        if ($file) {
-            $extension = strtolower($file->getClientOriginalExtension());
-            $name = strtolower($file->getClientOriginalName());
-
-            if (isset($type[$extension])):
-                $response = $this->medias->store($file, ($type[$extension]), $token_id);
-                if ($response === false):
-                    return response()->json(__('Unable to upload' . ' ' . $name), 500);
-                elseif ($response === 's3_error'):
-                    if (Sentinel::getUser()->user_type == 'seller'):
-                        return response()->json(__('Unable to upload, please contact with system owner'), 500);
-                    else:
-                        return response()->json(__('Unable to upload to S3, check your configuration'), 500);
-                    endif;
-                endif;
-                return $response;
-            endif;
-        }
-    }
 }

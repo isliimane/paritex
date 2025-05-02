@@ -24,8 +24,6 @@ use App\Repositories\Interfaces\Admin\Product\BrandInterface;
 use App\Repositories\Interfaces\Admin\Product\CategoryInterface;
 use App\Repositories\Interfaces\Admin\Product\ColorInterface;
 use App\Repositories\Interfaces\Admin\Product\ProductInterface;
-use App\Repositories\Interfaces\Admin\SellerInterface;
-use App\Repositories\Interfaces\Admin\SellerProfileInterface;
 use App\Repositories\Interfaces\Site\ReviewInterface;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -45,10 +43,6 @@ class ProductController extends Controller
 
     public function productDetails(Request $request,$slug, ColorInterface $color, AttributeInterface $attribute): \Illuminate\Http\JsonResponse
     {
-        if($request->referral_code && addon_is_activated('affiliate')) {
-            $referred_by_user = User::where('referral_code', $request->referral_code)->first();
-            $affiliate->processAffiliateStats($referred_by_user,1,0,0,0);
-        }
         try {
             $best_seller                            = 0;
             $product                                = $this->product->productDetails($slug);
@@ -179,7 +173,6 @@ class ProductController extends Controller
             $product->short_description         = @$language_product->short_description;
             $product->product_name              = @$language_product->product_name;
             $product->description_image         = $description_images;
-            $seller                             = $product->sellerProfile;
             $product->brand                     = @$product->brand;
             $product->is_wholesale              = (bool)$product->is_wholesale;
             $product->has_variant               = (bool)$product->has_variant;
@@ -200,33 +193,7 @@ class ProductController extends Controller
             ];
 
             $product['countdown'] = $countdown;
-
-            if ($seller):
-                $products = $seller->products;
-                $product->seller            = [
-                    'id'                    => $seller->id,
-                    'slug'                  => $seller->slug,
-                    'logo'                  => $seller->image_197x152,
-                    'banner'                => $seller->image_1920x412,
-                    'rating'                => round($seller->rating,2),
-                    'total_reviews'         => (int)$seller->total_reviews,
-                    'shop_name'             => $seller->shop_name,
-                    'total_products'        => count($products),
-                    'image_82x82'           => $seller->image_82x82,
-                    'image_297x203'         => $seller->image_297x203,
-                    'rating_count'          => (double)$seller->rating_count,
-                    'reviews_count'         => (int)$seller->reviews_count,
-                    'join_date'             => Carbon::parse($seller->created_at)->format('d M Y'),
-                    'is_followed'           => authUser() && count($seller->followedUsers) > 0 && $seller->followedUsers->where('user_id',authId())->first()
-                ];
-                $product->sidebar_products = ProductResource::collection($seller->products->where('id','!=', $product->id)->take(4));
-
-            else:
-                $product->sidebar_products = ProductResource::collection($this->product->adminProducts($product->id));
-
-            endif;
-
-            unset($product->sellerProfile);
+            $product->sidebar_products = ProductResource::collection($this->product->adminProducts($product->id));
 
             $product->form          = [
                 'attribute_values'  => [],
@@ -545,20 +512,13 @@ class ProductController extends Controller
         }
     }
 
-    public function campaignBrands(Request $request, BrandInterface $brand, CampaignInterface $campaign, SellerInterface $shop): \Illuminate\Http\JsonResponse
+    public function campaignBrands(Request $request, BrandInterface $brand, CampaignInterface $campaign): \Illuminate\Http\JsonResponse
     {
         $campaign = $campaign->getBySlug($request->slug);
         try {
-            if ($request->type == 'shop') {
-                $data = [
-                    'shops' => settingHelper('seller_system') == 1 ? new ShopPaginateResource($shop->shopByCampaign($campaign->id)) : [],
-                ];
-            } else {
                 $data = [
                     'brands' => $brand->brandByCampaign($campaign->id),
                 ];
-            }
-
             return response()->json($data);
         } catch (\Exception $e) {
             return response()->json([
@@ -635,7 +595,7 @@ class ProductController extends Controller
         try {
             $data = [
                 'categories'        => $category->shopCategory(),
-                'brands'            => addon_is_activated('ramdhani') ? ['data' => BrandResource::collection($brand->shopBrand())] : new BrandPaginateResource($brand->shopBrand()),
+                'brands'            => new BrandPaginateResource($brand->shopBrand()),
                 'attributes'        => AttributeResource::collection($attribute->shopAttribute($request->slug)),
                 'price_range'       => $this->product->priceRange(),
                 'colors'            => settingHelper('color') == 1 ? new ColorResource($color->shopColors()) : [],
@@ -664,7 +624,7 @@ class ProductController extends Controller
         }
     }
 
-    public function filterProducts(Request $request, ProductInterface $product, CategoryInterface $category, BrandInterface $brand, SellerProfileInterface $profile): \Illuminate\Http\JsonResponse
+    public function filterProducts(Request $request, ProductInterface $product, CategoryInterface $category, BrandInterface $brand): \Illuminate\Http\JsonResponse
     {
         try {
             $page = [];

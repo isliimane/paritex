@@ -6,7 +6,6 @@ $(function() {
         var url = $('#url').val();
 
         categoryByAjax();
-        sellerAjax();
         stateAjax();
         timezoneAjax();
         blogAjax();
@@ -106,48 +105,6 @@ function categoryByAjax(section_no) {
                 cache: true
             }
         });
-}
-
-function sellerAjax(section_no)
-{
-    var url = $('#url').val();
-
-    let selector;
-
-    if (section_no)
-    {
-        selector = $('.seller-by-ajax_'+section_no);
-    }
-    else{
-        selector = $('.seller-by-ajax');
-    }
-    var user_type = $('#get_user_type').val();
-    let date = new Date();
-    let timestamp = date.getMilliseconds();
-    selector.select2({
-        placeholder: "Select Seller",
-        minimumInputLength: 2,
-        ajax: {
-            type: "GET",
-            dataType: 'json',
-            url: url + '/' + user_type +'/seller-by-ajax?time='+timestamp,
-            data: function (params) {
-                return {
-                    q: params.term // search term
-                };
-            },
-            delay: 250,
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            processResults: function (data) {
-                return {
-                    results: data
-                };
-            },
-            cache: true
-        }
-    });
 }
 
 function blogAjax(section_no)

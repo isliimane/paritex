@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Admin\Addons;
 
 use App\Repositories\Interfaces\Admin\LanguageInterface;
 use App\Repositories\Interfaces\Admin\Page\PageInterface;
-use App\Repositories\Interfaces\Admin\SellerInterface;
-use App\Repositories\Interfaces\Admin\SellerPayoutInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Brian2694\Toastr\Facades\Toastr;
@@ -16,23 +14,17 @@ class RefundController extends Controller
 {
     protected       $settings;
     protected       $refunds;
-    protected       $sellers;
     protected       $payouts;
 
-    public function __construct(SettingInterface $settings , RefundInterface $refunds, SellerInterface $sellers,SellerPayoutInterface $payouts)
+    public function __construct(SettingInterface $settings , RefundInterface $refunds)
     {
         $this->settings     = $settings;
         $this->refunds      = $refunds;
-        $this->sellers       = $sellers;
         $this->payouts       = $payouts;
     }
     public function refund(Request $request){
         $refunds = $this->refunds->paginate($request,get_pagination('pagination'),'');
-        $selected_seller = null;
-        if (isset($request->slr)):
-            $selected_seller = $this->sellers->shop()->where('id', $request->slr)->first();
-        endif;
-        return view('admin.refund.index',compact('refunds','selected_seller'));
+        return view('admin.refund.index',compact('refunds'));
     }
     public function approvedRefund($id)
     {
@@ -64,7 +56,7 @@ class RefundController extends Controller
 
     public function payNow(Request $request, $id){
         $refund = $this->refunds->get($id);
-        if ($refund->seller_approval == 'rejected' || $refund->admin_approval == 'rejected'):
+        if ($refund->admin_approval == 'rejected'):
             $response['message'] = __('Already :status', ['status' => $refund->status]);
             $response['status']  = 'error';
             $response['title']   = __('Ops..!');

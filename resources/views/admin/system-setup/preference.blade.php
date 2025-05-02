@@ -83,28 +83,6 @@
                                             <th colspan="2">{{ __('Business Related') }}</th>
                                         </tr>
                                         <tr>
-                                            <td>{{ __('Seller System Activation') }}</td>
-                                            <td width="300">
-                                                <label class="custom-switch mt-2">
-                                                    <input type="checkbox" name="custom-switch-checkbox"
-                                                           value="setting-status-change/{{ 'seller_system' }}"
-                                                           class="custom-switch-input status-change" {{ settingHelper('seller_system') == 1 ? 'checked' : ''}} />
-                                                    <span class="custom-switch-indicator"></span>
-                                                </label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{ __('Seller Product Auto Approve') }}</td>
-                                            <td width="300">
-                                                <label class="custom-switch mt-2">
-                                                    <input type="checkbox" name="custom-switch-checkbox"
-                                                           value="setting-status-change/{{ 'seller_product_auto_approve' }}"
-                                                           class="custom-switch-input status-change" {{ settingHelper('seller_product_auto_approve') == 1 ? 'checked' : ''}} />
-                                                    <span class="custom-switch-indicator"></span>
-                                                </label>
-                                            </td>
-                                        </tr>
-                                        <tr>
                                             <td>{{ __('Wallet System Activation') }}</td>
                                             <td width="300">
                                                 <label class="custom-switch mt-2">

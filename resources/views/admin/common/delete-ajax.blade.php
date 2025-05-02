@@ -103,8 +103,8 @@
 
         function get_type(){
             var user_type = '{{ Sentinel::getUser()->user_type }}';
-            if ( user_type === 'seller'){
-                return 'seller';
+            if ( user_type === 'staff'){
+                return 'staff';
             } else{
                 return 'admin';
             }

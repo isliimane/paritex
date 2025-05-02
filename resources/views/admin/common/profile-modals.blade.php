@@ -1,4 +1,4 @@
-<form action="{{ Sentinel::getUser()->user_type == 'seller' ? route('seller.profile.update') : route('admin.profile.update') }}" method="post" enctype="multipart/form-data">
+<form action="{{ route('admin.profile.update') }}" method="post" enctype="multipart/form-data">
     @csrf
     @method('put')
     <div class="modal fade" id="profile_info" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"

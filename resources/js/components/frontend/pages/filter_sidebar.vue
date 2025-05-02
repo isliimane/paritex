@@ -62,7 +62,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="accordion-item" v-if="addons.includes('ramdhani') || form.route != 'product.by.brand'">
+                <div class="accordion-item" v-if="form.route != 'product.by.brand'">
                   <div class="accordion-header" id="ac4">
                     <button class="accordion-button" @click="brand = !brand" :class="{ collapsed: !brand }"
                             type="button" data-bs-toggle="collapse" data-bs-target="#brand_collapse"
@@ -342,16 +342,7 @@ export default {
       this.form.price.min = this.priceFormat(this.priceRange.min, true);
       this.form.price.max = this.priceFormat(this.priceRange.max, true);
     },
-    brands() {
-      // push id where slug is params slug
-      if (this.addons.includes('ramdhani')) {
-        let index = this.brands.data.findIndex((brand) => brand.slug == this.$route.params.slug);
-        if (index > -1) {
-          this.form.brand.push(this.brands.data[index].id);
-        }
-        this.$store.dispatch("products", this.form);
-      }
-    },
+   
   },
   created() {
     let tag = document.querySelector('meta[name="author"]');
@@ -417,13 +408,6 @@ export default {
       this.max_amount = this.priceFormat(this.priceRange.max, true);
       this.form.price.min = this.priceFormat(this.priceRange.min, true);
       this.form.price.max = this.priceFormat(this.priceRange.max, true);
-    }
-    if (this.addons.includes('ramdhani') && this.brands.data && this.brands.data.length > 0) {
-      // push id where slug is params slug
-      let index = this.brands.data.findIndex((brand) => brand.slug == this.$route.params.slug);
-      if (index > -1) {
-        this.form.brand.push(this.brands.data[index].id);
-      }
     }
     this.$store.dispatch("products", this.form);
   },
@@ -513,11 +497,6 @@ export default {
         }
       } else if (this.form.route == "product.by.brand") {
         let data = this.$store.getters.getBrandPage;
-        if (data) {
-          page = this.pageAssign(data);
-        }
-      } else if (this.form.route == "shop") {
-        let data = this.$store.getters.getSellerPage;
         if (data) {
           page = this.pageAssign(data);
         }

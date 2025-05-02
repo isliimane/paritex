@@ -10,7 +10,7 @@ class Cart extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['seller_id','user_id','guest_id','product_id','variant',
+    protected $fillable = ['user_id','guest_id','product_id','variant',
                             'quantity','price','discount','tax','shipping_cost','shipping_type',
                             'coupon_applied','coupon_discount','product_referral_code', 'retail_price','retail_discount', 'retail_tax'
                           ];
@@ -20,11 +20,6 @@ class Cart extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
-    }
-
-    public function seller(): BelongsTo
-    {
-        return $this->belongsTo(SellerProfile::class,'seller_id','user_id');
     }
 
     public function getImage40x40Attribute()

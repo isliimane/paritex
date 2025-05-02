@@ -37,9 +37,6 @@ class CommonController extends Controller
         $segments       = explode('/', $urlArray);
         $numSegments    = count($segments);
         $currentSegment = $segments[$numSegments - 2];
-        if (addon_is_activated('ramdhani') && $currentSegment == 'shipping-class'):
-            $currentSegment = 'shipping_classes';
-        endif;
         if ($status = $this->common->delete($currentSegment, $id)):
             if ($status === 'used'):
                 $response['message'] = __('Unable to delete because this type is already used');
@@ -92,47 +89,6 @@ class CommonController extends Controller
         $payment_details = '';
         if ($page_name == 'refund-view') {
             $refund       = Refund::find($otherLinks[0]);
-            if ($refund->payment_type == 'bKash' && $refund->payment_details && count($refund->payment_details) > 0)
-            {
-                $order = $refund->order;
-                $payment_id = $order->payment_details['paymentID'];
-                $trx_id = $order->payment_details['bkash_trxID'];
-
-                if (settingHelper('is_bkash_sandbox_mode_activated') == 1) {
-                    $base_url = 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized';
-                } else {
-                    $base_url = 'https://tokenized.pay.bka.sh/v1.2.0-beta/tokenized';
-                }
-                $client = new \GuzzleHttp\Client();
-
-                $bkash_token = $this->bKashTokenGenerator($client);
-                $bdt_currency = $this->getCurrency();
-
-                if (!$bdt_currency) {
-                    return false;
-                }
-                if ($bkash_token) {
-                    $post_token = [
-                        'paymentID' => $payment_id,
-                        'trxID' => $trx_id
-                    ];
-
-                    $url = "$base_url/checkout/payment/refund";
-                    $posttoken = json_encode($post_token);
-
-                    $client = new \GuzzleHttp\Client();
-
-                    $response = $client->request('POST', $url, [
-                        'body' => $posttoken,
-                        'headers' => [
-                            'Content-Type' => 'application/json',
-                            'Authorization' => $bkash_token,
-                            "X-APP-Key" => settingHelper('bkash_app_key')
-                        ],
-                    ]);
-                    $payment_details = (array)json_decode($response->getBody()->getContents());
-                }
-            }
         }
 
         $data = [

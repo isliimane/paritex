@@ -639,7 +639,6 @@ import shimmer from "../partials/shimmer";
 import StarRating from "vue-star-rating";
 import loading_button from "./loading_button";
 import productVideo from "./product-video";
-import single_seller from "./single_seller";
 
 export default {
   name: "details-view",
@@ -743,8 +742,7 @@ export default {
     shimmer,
     StarRating,
     loading_button,
-    productVideo,
-    single_seller
+    productVideo
   },
   mounted() {
     if (this.productDetails && this.productDetails.form) {

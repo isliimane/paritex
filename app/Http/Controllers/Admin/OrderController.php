@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Repositories\Interfaces\Admin\DeliveryHero\DeliveryHeroInterface;
 use App\Repositories\Interfaces\Admin\LanguageInterface;
 use App\Repositories\Interfaces\Admin\OrderInterface;
-use App\Repositories\Interfaces\Admin\SellerInterface;
 use App\Repositories\Interfaces\UserInterface;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
@@ -28,14 +27,12 @@ class OrderController extends Controller
     protected $order;
     protected $lang;
     protected $user;
-    protected $seller;
     protected $shipping;
     protected $warehouse;
-    public function __construct(OrderInterface $order, LanguageInterface $lang, UserInterface $user,SellerInterface $seller, ShippingInterface $shipping, WarehouseInterface $warehouse){
+    public function __construct(OrderInterface $order, LanguageInterface $lang, UserInterface $user, ShippingInterface $shipping, WarehouseInterface $warehouse){
         $this->order    = $order;
         $this->lang     = $lang;
         $this->user     = $user;
-        $this->seller   = $seller;
         $this->shipping = $shipping;
         $this->warehouse = $warehouse;
     }
@@ -43,8 +40,7 @@ class OrderController extends Controller
     public function index(Request $request){
         try{
             $orders             = $this->order->paginate($request, get_pagination('pagination'));
-            $selected_seller    = isset($request->sl) ? $this->seller->getSeller($request->sl) : null;
-            return view('admin.orders.orders',compact('orders','selected_seller'));
+            return view('admin.orders.orders',compact('orders'));
         } catch (\Exception $e) {
             Toastr::error($e->getMessage());
             return back();
@@ -94,36 +90,11 @@ class OrderController extends Controller
         }
     }
 
-    public function sellerOrders(Request $request){
-        try{
-            if(settingHelper('seller_system') != 1):
-                Toastr::error(__('Seller module is inactive.'));
-                return back();
-            endif;
-            $orders             = $this->order->sellerOrder($request, get_pagination('pagination'));
-            $selected_seller    = isset($request->sl) ? $this->seller->getSeller($request->sl) : null;
-            return view('admin.orders.seller-order',compact('orders','selected_seller'));
-        } catch (\Exception $e) {
-            Toastr::error($e->getMessage());
-            return back();
-        }
-    }
-
-    public function adminOrder(Request $request){
-        try{
-            $orders             = $this->order->adminOrder($request, get_pagination('pagination'));
-            return view('admin.orders.admin-orders',compact('orders'));
-        } catch (\Exception $e) {
-            Toastr::error($e->getMessage());
-            return back();
-        }
-    }
 
     public function pickupHubOrder(Request $request){
         try{
             $orders             = $this->order->pickupHubOrder($request, get_pagination('pagination'));
-            $selected_seller    = isset($request->sl) ? $this->seller->getSeller($request->sl) : null;
-            return view('admin.orders.pickup-hub-orders',compact('orders','selected_seller'));
+            return view('admin.orders.pickup-hub-orders',compact('orders'));
         } catch (\Exception $e) {
             Toastr::error($e->getMessage());
             return back();
@@ -133,10 +104,6 @@ class OrderController extends Controller
     public function view($id){
         try{
             $order              = $this->order->get($id);
-            /*if(settingHelper('seller_system') != 1 && $order->seller_id != 1):
-                Toastr::error(__('Seller module is inactive.'));
-                return back();
-            endif;*/
             $delivery_heroes    = $this->user->allTypeUser()->whereHas('deliveryHero')->where('user_type','delivery_hero')->where('status',1)->where('is_user_banned',0)->get();
             $warehouses = $this->warehouse->all();
             return view('admin.orders.order-details', compact('order','delivery_heroes','warehouses'));

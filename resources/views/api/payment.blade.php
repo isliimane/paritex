@@ -108,19 +108,6 @@
                                     </div>
                                 </li>
                             @endif
-                            @if(settingHelper('is_paytm_activated') == 1)
-                                <li>
-                                    <div class="input-checkbox">
-                                        <input type="radio" id="paytm" value="paytm"
-                                               name="payment">
-                                        <label for="paytm">
-                                            <img src="{{ url('public/images/payment-method/paytm.svg') }}" alt="paytm"
-                                                 class="img-fluid">
-                                            {{ __('pay_with_paytm') }}
-                                        </label>
-                                    </div>
-                                </li>
-                            @endif
                             @if(settingHelper('is_razorpay_activated') == 1)
                                 <li>
                                     <div class="input-checkbox">
@@ -235,34 +222,7 @@
                                     </div>
                                 </li>
                             @endif
-                            @if(addon_is_activated('hitpay_payment_gateway'))
-                                @if(settingHelper('is_hitpay_activated') == 1)
-                                    <li>
-                                        <div class="input-checkbox">
-                                            <input type="radio" value="hitpay" id="hitpay" name="hitpay">
-                                            <label for="hitpay">
-                                                <img src="{{ url('public/images/payment-method/hitpay.svg') }}"
-                                                    alt="paypal"
-                                                    class="img-fluid">
-                                                {{ __('pay_with_hitpay') }}
-                                            </label>
-                                        </div>
-                                    </li>
-                                @endif
-                            @endif
 
-                            @if(settingHelper('is_kkiapay_activated') == 1)
-                                <li>
-                                    <div class="input-checkbox">
-                                        <input type="radio" id="kkiapay" value="kkiapay"
-                                               name="payment">
-                                        <label for="kkiapay">
-                                            <img src="{{ url('public/images/payment-method/kkiapay.svg') }}"
-                                                 alt="kkiapay"
-                                                 width="90" class="img-fluid">{{ __('pay_with_kkiapay') }}</label>
-                                    </div>
-                                </li>
-                            @endif
 
                             @if(settingHelper('pay_later_system') == 1 && authUser())
                                 <li>
@@ -382,12 +342,6 @@
                                     <a href="{{ url("stripe/redirect?trx_id=$trx_id&payment_mode=api&code=$code&token=$token&curr=$currency")  }}"
                                        class="btn btn-primary paymentBTNFixed payment_btns d-none stripe_btn"> {{ __('pay_now') }}</a>
 
-                                    <a href="{{ url("hitpay/redirect?trx_id=$trx_id&payment_mode=api&code=$code&token=$token&curr=$currency")  }}"
-                                       class="btn btn-primary paymentBTNFixed payment_btns d-none stripe_btn"> {{ __('pay_now') }}</a>
-
-                                    <a href="{{ url("user/payment/paytmRedirect?payment_mode=api") }}"
-                                       class="btn btn-primary paymentBTNFixed payment_btns d-none paytm_btn">{{ __('pay_now') }}</a>
-
                                     <a href="{{ url("get/ssl-response?payment_type=ssl_commerze&code=$code&trx_id=$trx_id&payment_mode=api&token=$token") }}"
                                        class="btn btn-primary paymentBTNFixed payment_btns d-none ssl_commerze_btn"> {{ __('pay_now') }}</a>
                                     <a href="{{ url("amarpay/redirect?payment_type=amarpay&&code=$code&trx_id=$trx_id&payment_mode=api&token=$token") }}"
@@ -401,8 +355,6 @@
                                     <a href="#"
                                        class="btn btn-primary paymentBTNFixed payment_btns d-none flutter_wave_btn"
                                        data-toggle="modal" data-target="#fw_modal">{{ __('pay_now') }}</a>
-
-                                    <button class="btn btn-primary kkiapay-button paymentBTNFixed payment_btns d-none kkiapay_btn">{{ __('pay_now') }}</button>
 
                                     <button id="cod_n_pay_later_submit" type="button"
                                             class="btn btn-primary paymentBTNFixed d-none payment_btns confirm_btn form_submit">{{ __('confirm') }}</button>
@@ -578,17 +530,6 @@
 <script type="text/javascript" src="{{ static_asset('admin/js/bootstrap.min.js') }}"></script>
 <script src="{{ static_asset('frontend/js/vue-toastr-2.js') }}"></script>
 
-@if(settingHelper('is_kkiapay_activated') == 1)
-    <script amount="{{ round($orders->sum('total_payable') * $xof->exchange_rate) }}"
-            callback="{{ authUser() ? url("api/complete-order?payment_type=kkiapay&trx_id=$trx_id&code=$code&payment_type=kkiapay&token=$token") : url("api/complete-order?payment_type=kkiapay&trx_id=$trx_id&code=$code&payment_type=kkiapay&guest=1") }}"
-            data=""
-            url="{{ $dark_logo }}"
-            position="center"
-            theme="{{ settingHelper('menu_background_color') }}"
-            sandbox="{{ settingHelper('is_kkiapay_sandbox_enabled') == 1 ? 'true' : 'false' }}"
-            key="{{ settingHelper('kkiapay_public_api_key') }}"
-            src="{{ asset('public/frontend/js/k.js') }}"></script>
-@endif
 
 @if(settingHelper('is_paypal_activated') == 1)
     <script data-namespace="paypal_sdk"

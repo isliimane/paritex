@@ -17,20 +17,13 @@
                  :custom_products="componentName == 'custom_products' && homeResults[index] ? homeResults[index].data : []"
                  :blogs="componentName == 'blog' && homeResults[index] ? homeResults[index].data : []"
                  :brands="componentName == 'brands' && homeResults[index] ? homeResults[index].data :[] "
-                 :sellers="componentName == 'top_shop' && homeResults[index] ? homeResults[index].data : [] "
-                 :best_shop="componentName == 'best_shop' && homeResults[index] ? homeResults[index].data : [] "
-                 :featured_shop="componentName == 'featured_shop' && homeResults[index] ? homeResults[index].data : [] "
-                 :express_shop="componentName == 'express_shop' && homeResults[index] ? homeResults[index].data : [] "
                  :download_section="componentName == 'download_section' && homeResults[index] ? homeResults[index].data : [] "
                  :category_sec_banner="componentName == 'gadget_product' && homeResults[index] ? homeResults[index].banner : null "
                  :category_sec_banner_url="componentName == 'gadget_product' && homeResults[index] ? homeResults[index].banner_url : null"
                  :offer_ending_banner="componentName == 'offer_ending' && homeResults[index]  ? homeResults[index].banner : null "
                  :offer_ending_banner_url="componentName == 'offer_ending' && homeResults[index] ? homeResults[index].banner_url : null "
                  :campaigns="componentName == 'campaign' && homeResults[index] ? homeResults[index].data : []"
-                 :latest_products="componentName == 'latest_products' && homeResults[index] ? homeResults[index].data : []"
-                 :business_idea="componentName == 'business_idea' && homeResults[index] ? homeResults[index].data : []"
-                 :gift_idea="componentName == 'gift_idea' && homeResults[index] ? homeResults[index].data : []"
-                 :video_shopping="addons.includes('video_shopping') && componentName == 'video_shopping' && homeResults[index] ? homeResults[index].data : []">
+                 :latest_products="componentName == 'latest_products' && homeResults[index] ? homeResults[index].data : []">
       </component>
     </div>
     <viewed_product v-if="settings.recent_viewed == 1 "></viewed_product>
@@ -58,15 +51,8 @@ import viewed_product from "../homepage/viewed_product";
 import subscribe from "../homepage/subscribe";
 import deal from "../homepage/article";
 import brand from "../homepage/brand";
-import top_shop from "../homepage/top_shop";
-import best_shop from "../homepage/best_shop";
-import featured_shop from "../homepage/featured-shop";
-import express_shop from "../homepage/express-shop";
 import download_section from "../homepage/download_section";
 import latest_products from "../homepage/latest_product";
-import business_idea from "../homepage/business_idea.vue";
-import gift_idea from "../homepage/gift_idea.vue";
-import video_shop from "../homepage/video_shop";
 
 export default {
   name: "home.vue",
@@ -76,7 +62,6 @@ export default {
       scroller_key: 0,
       supportedComponents: [],
       results: [],
-      video_shops: [],
       paginate: 1
     }
   },
@@ -90,8 +75,6 @@ export default {
     today_deals: today_deals,
     flash_products: flash_products,
     latest_products: latest_products,
-    business_idea: business_idea,
-    gift_idea: gift_idea,
     gadget_product: gadget_product,
     best_selling_product: best_selling_product,
     offer_ending: offer_ending,
@@ -101,12 +84,7 @@ export default {
     subscribe: subscribe,
     deal: deal,
     brands: brand,
-    top_shop: top_shop,
-    best_shop: best_shop,
-    express_shop: express_shop,
-    featured_shop: featured_shop,
     download_section: download_section,
-    video_shopping: video_shop
   },
   mounted() {
     this.loadComponents();
@@ -190,14 +168,6 @@ export default {
               this.results.push({key: "latest_products", data: {}});
               this.supportedComponents.push('latest_products');
           }
-          if (keys[i] == 'business_idea') {
-              this.results.push({key: "business_idea", data: {}});
-              this.supportedComponents.push('business_idea');
-          }
-          if (keys[i] == 'gift_idea') {
-              this.results.push({key: "gift_idea", data: {}});
-              this.supportedComponents.push('gift_idea');
-          }
           if (keys[i] == 'category_section') {
               this.results.push({key: "gadget_product", data: {}, banner: null, banner_url: null});
               this.supportedComponents.push('gadget_product');
@@ -219,22 +189,6 @@ export default {
               this.results.push({key: 'brands', data: {}});
               this.supportedComponents.push('brands');
           }
-          if (keys[i] == "top_sellers") {
-              this.results.push({key: 'top_sellers', data: {}});
-              this.supportedComponents.push('top_shop');
-          }
-          if (keys[i] == "best_sellers") {
-              this.results.push({key: 'best_sellers', data: {}});
-              this.supportedComponents.push('best_shop');
-          }
-          if (keys[i] == "featured_sellers") {
-              this.results.push({key: 'featured_sellers', data: {}});
-              this.supportedComponents.push('featured_shop');
-          }
-          if (keys[i] == "express_sellers") {
-              this.results.push({key: 'express_sellers', data: {}});
-              this.supportedComponents.push('express_shop');
-          }
           if (keys[i] == 'download_section') {
               this.results.push({key: 'download_section', data: {}});
               this.supportedComponents.push('download_section');
@@ -242,10 +196,6 @@ export default {
           if (keys[i] == "campaign") {
               this.results.push({key: 'campaign', data: {}});
               this.supportedComponents.push('campaign');
-          }
-          if (keys[i] == "video_shopping") {
-              this.results.push({key: 'video_shopping', data: {}});
-              this.supportedComponents.push('video_shopping');
           }
           if (keys[i] == "custom_products") {
               this.results.push({key: 'custom_products', data: {}});
@@ -327,16 +277,6 @@ export default {
           this.scroll_continue = true;
           this.scroller_key++;
         }
-        if (component[0] == 'business_idea') {
-          this.dataReplace('business_idea', home_component[components[i]]);
-          this.scroll_continue = true;
-          this.scroller_key++;
-        }
-        if (component[0] == 'gift_idea') {
-          this.dataReplace('gift_idea', home_component[components[i]]);
-          this.scroll_continue = true;
-          this.scroller_key++;
-        }
         if (component[0] == 'gadget_product') {
           this.dataReplace('gadget_product', home_component);
           this.scroll_continue = true;
@@ -357,33 +297,8 @@ export default {
           this.scroll_continue = true;
           this.scroller_key++;
         }
-        if (component[0] == 'sellers') {
-          this.dataReplace('sellers', home_component[components[i]]);
-          this.scroll_continue = true;
-          this.scroller_key++;
-        }
-        if (component[0] == 'best_sellers') {
-          this.dataReplace('best_sellers', home_component[components[i]]);
-          this.scroll_continue = true;
-          this.scroller_key++;
-        }
-        if (component[0] == 'featured_sellers') {
-          this.dataReplace('featured_sellers', home_component[components[i]]);
-          this.scroll_continue = true;
-          this.scroller_key++;
-        }
-        if (component[0] == 'express_sellers') {
-          this.dataReplace('express_sellers', home_component[components[i]]);
-          this.scroll_continue = true;
-          this.scroller_key++;
-        }
         if (component[0] == 'download_section') {
           this.dataReplace('download_section', home_component[components[i]]);
-          this.scroll_continue = true;
-          this.scroller_key++;
-        }
-        if (component[0] == 'video_shopping') {
-          this.dataReplace('video_shopping', home_component[components[i]]);
           this.scroll_continue = true;
           this.scroller_key++;
         }

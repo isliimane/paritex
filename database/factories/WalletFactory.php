@@ -27,7 +27,7 @@ class WalletFactory extends Factory
             'amount'               => rand(1, 50000),
             'source'               => 'opening_balance',
             'type'                 => 'income',
-            'payment_method'       => 'bKash',
+            'payment_method'       => '',
             'payment_details'      => [],
         ];
     }

@@ -7,7 +7,6 @@ use App\Library\SslCommerz\SslCommerzNotification;
 use App\Models\Country;
 use App\Repositories\Admin\Addon\PackageRepository;
 use App\Repositories\Admin\CurrencyRepository;
-use App\Repositories\Interfaces\Admin\Addon\OfflineMethodInterface;
 use App\Repositories\Interfaces\Admin\Addon\WalletInterface;
 use App\Repositories\Interfaces\Admin\OrderInterface;
 use App\Traits\ApiReturnFormatTrait;
@@ -15,7 +14,6 @@ use App\Traits\HomePage;
 use App\Traits\PaymentTrait;
 use App\Traits\SendNotification;
 use App\Utility\AppSettingUtility;
-use App\Utility\PaytmChecksum;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -31,9 +29,6 @@ use Obydul\LaraSkrill\SkrillRequest;
 use Sentinel;
 use Stripe\Stripe;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use Xenon\NagadApi\Base;
-use Xenon\NagadApi\Helper;
-use Zepson\Dpo\Dpo;
 
 class PaymentController extends Controller
 {
@@ -92,17 +87,8 @@ class PaymentController extends Controller
             ]);
         } else {
             if (authUser() || $token) {
-                if ($request->package_id) {
-                    $url = URL::temporarySignedRoute('complete.package.purchase', now()->addMinutes(5), [
-                        'user_id' => $user->id,
-                        'trx_id' => $request->trx_id,
-                        'package_id' => $request->package_id,
-                        'response' => 'yes',
-                        'payment_type' => $request->payment_type,
-                    ]);
-                } elseif ($request->payment_mode == 'api') {
+                if ($request->payment_mode == 'api') {
                     $url = url("api/complete-order?trx_id=$request->trx_id&code=$request->code&payment_type=$request->payment_type&token=$token&curr=$request->curr&paymentID=$request->paymentID");
-
                 } else {
                     $url = url("user/complete-order?trx_id=$request->trx_id&code=$request->code&payment_type=$request->payment_type&paymentID=$request->paymentID");
                 }
@@ -201,9 +187,6 @@ class PaymentController extends Controller
             }
             $us = ['card']; //'alipay',  'us_bank_account', 'klarna'
 
-            if (addon_is_activated('dpo_payment_gateway') || url('/') == 'https://app.africom.market') {
-                $stripe_currency = 'zmw';
-            } else {
                 if ($active_currency && $active_currency->code == 'EUR') {
                     $stripe_currency = strtolower($active_currency->code);
                 } elseif ($active_currency && $active_currency->code == 'INR') {
@@ -211,7 +194,7 @@ class PaymentController extends Controller
                 } else {
                     $stripe_currency = 'usd';
                 }
-            }
+            
 
             if ($request->type == 'wallet') {
                 if ($active_currency->code == 'USD' || $active_currency->code == 'EUR' || $active_currency->code == 'INR') {
@@ -312,7 +295,7 @@ class PaymentController extends Controller
         }
     }
 
-    public function mollieSuccess(Request $request, OfflineMethodInterface $offlineMethod)
+    public function mollieSuccess(Request $request)
     {
         DB::beginTransaction();
         $user = authUser();
@@ -333,7 +316,7 @@ class PaymentController extends Controller
         }
 
         try {
-            $this->order->completeOrder($data, authUser(), $offlineMethod);
+            $this->order->completeOrder($data, authUser());
             $data = [
                 'success' => __('Order Completed')
             ];
@@ -535,166 +518,6 @@ class PaymentController extends Controller
         }
     }
 
-    public function paytmPayment(Request $request)
-    {
-        try {
-            $user = authUser();
-            $data = $request->all();
-            $trx_id = $this->tokenGenerator($data);
-            $request['payment_type'] = 'paytm';
-            $orders = $this->findOrders($data);
-            $code = $this->codeGenerator($data);
-            $token = $this->apiToken($data);
-            $amount = $this->amountCalculator($orders, $data, $this->activeCurrencyCheck(), $this->getCurrency('INR'));
-            $total_amount = $amount['total_amount'];
-            $db_amount = $amount['db_amount'];
-
-            if (authUser() || $token) {
-                if ($request->package_id) {
-                    $url = $this->successUrl($request, $user, $db_amount);
-                }
-                if ($request->payment_mode == 'api') {
-                    try {
-                        if (!$user = JWTAuth::parseToken()->authenticate()) {
-                            return $this->responseWithError(__('unauthorized_user'), [], 401);
-                        }
-                    } catch (\Exception $e) {
-                        return $this->responseWithError(__('unauthorized_user'), [], 401);
-                    }
-                    $url = url('paytm/success?trx_id=' . $trx_id . '&code=' . $code . '&payment_type=paytm&&payment_mode=api&token=' . $token . '&curr=' . $request->curr);
-                } else {
-                    $url = url('paytm/success?trx_id=' . $trx_id . '&code=' . $code . '&payment_type=paytm');
-                }
-                if ($request->type == 'wallet') {
-                    $url = url("paytm/success?user_id=$user->id&total=$db_amount&transaction_id=$trx_id&payment_type=$request->payment_type&type=wallet");
-                }
-            } else {
-                $user = getWalkInCustomer();
-                if ($request->payment_mode == 'api') {
-                    $url = url('paytm/success?trx_id=' . $trx_id . '&code=' . $code . '&payment_type=paytm&payment_mode=api&guest=1&curr=' . $request->curr);
-                } else {
-                    $url = url('paytm/success?trx_id=' . $trx_id . '&code=' . $code . '&payment_type=paytm&guest=1');
-                }
-            }
-            $order_id = date('YmdHis');
-            $merchant_id = settingHelper('merchant_id');
-            if (settingHelper('is_paytm_sandbox_mode_activated')) {
-                $base_url = "https://securegw-stage.paytm.in";
-            } else {
-                $base_url = "https://securegw.paytm.in";
-            }
-            $fields['body'] = [
-                "requestType" => "Payment",
-                "mid" => $merchant_id,
-                "orderId" => $order_id,
-                "callbackUrl" => $url,
-                "websiteName" => settingHelper('merchant_website'),
-                "txnAmount" => [
-                    "value" => round($total_amount,2),
-                    "currency" => "INR",
-                ],
-                "userInfo" => [
-                    "custId" => $user->id,
-                    "mobile" => $user->phone ?: "01631102838",
-                ],
-            ];
-
-            $checksum = PaytmChecksum::generateSignature(json_encode($fields['body'], JSON_UNESCAPED_SLASHES), settingHelper('merchant_key'));
-
-            $fields['head'] = [
-                "signature" => $checksum,
-                "channelId" => settingHelper('channel'),
-            ];
-
-            $post_data = json_encode($fields, JSON_UNESCAPED_SLASHES);
-            $url = "$base_url/theia/api/v1/initiateTransaction?mid=$merchant_id&orderId=$order_id";
-
-            $ch = curl_init($url);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
-            $response = curl_exec($ch);
-            $response = json_decode($response, true);
-
-            $token = $response['body']['txnToken'];
-            $data = [
-                'token' => $token,
-                'mid' => $merchant_id,
-                'orderId' => $order_id,
-                'base_url' => $base_url,
-            ];
-            return view('paytm', $data);
-        } catch (\Exception $e) {
-            return back()->with(['error' => $e->getMessage()]);
-        }
-    }
-
-    public function payTmSuccess(Request $request, OfflineMethodInterface $offlineMethod)
-    {
-        DB::beginTransaction();
-
-        if ($request->STATUS == 'TXN_FAILURE') {
-            $url = url("payment");
-
-            if ($request->payment_mode == 'api') {
-                $url = url("api/v100/payment?trx_id=$request->trx_id&token=$request->token&curr=$request->curr&lang=$request->lang");
-            }
-            session()->flash('error', $request->RESPMSG);
-            return redirect($url);
-        }
-        if ($request->type == 'wallet') {
-            $str = Str::random();
-            return redirect(URL::temporarySignedRoute('recharge.wallet', now()->addMinutes(5), ['user_id' => $request->user_id, 'total' => $request->total, 'transaction_id' => $str, 'response' => 'yes', 'payment_type' => $request->payment_type]));
-        }
-
-        $user = authUser();
-
-        $data = [
-            'trx_id' => $request->trx,
-            'payment_type' => 'paytm',
-        ];
-
-        if (!$user) {
-            $user = getWalkInCustomer();
-            $data['guest'] = 1;
-        }
-
-        if ($request->code) {
-            $data['code'] = $request->code;
-        }
-
-        try {
-            $this->order->completeOrder($data, authUser(), $offlineMethod);
-            $data = [
-                'success' => __('Order Completed')
-            ];
-
-            DB::commit();
-
-            if (request()->ajax()) {
-                return response()->json($data);
-            } else {
-                if ($request->code) {
-                    return redirect('get-invoice/' . $request->code);
-                } else {
-                    return redirect('invoice/' . $request->trx_id);
-                }
-            }
-        } catch (\Exception $e) {
-            DB::rollBack();
-
-            session()->forget('trx_id');
-            if (request()->ajax()) {
-                return response()->json([
-                    'error' => $e->getMessage()
-                ]);
-            } else {
-                return redirect()->back()->with(['error' => $e->getMessage()]);
-            }
-        }
-    }
-
     public function mercadoPago(Request $request)
     {
         $access_key = settingHelper('mercadopago_access_key');
@@ -796,330 +619,6 @@ class PaymentController extends Controller
         }
     }
 
-    public function redirect_to_merchant($url)
-    {
-        ?>
-        <html xmlns="http://www.w3.org/1999/xhtml">
-        <head>
-            <script type="text/javascript">
-                function closethisasap() {
-                    document.forms["redirectpost"].submit();
-                }
-            </script>
-        </head>
-        <body onLoad="closethisasap();">
-
-        <form name="redirectpost" method="post" action="<?php echo 'https://sandbox.aamarpay.com/' . $url; ?>"></form>
-        </body>
-        </html>
-        <?php
-        exit;
-    }
-
-    public function aamarpayRedirect(Request $request)
-    {
-        $bdt_currency = $this->getCurrency();
-
-        if (!$bdt_currency) {
-            return false;
-        }
-
-        if (settingHelper('is_amarpay_sandbox_mode_activated') == 1) {
-            $api_url = 'https://sandbox.aamarpay.com/request.php';
-        } else {
-            $api_url = 'https://secure.aamarpay.com/request.php';
-        }
-
-
-        $data = $request->all();
-        $request['payment_type'] = 'amarpay';
-        $orders = $this->findOrders($data);
-        $active_currency = $this->activeCurrencyCheck($data);
-        $token = $this->apiToken($data);
-        $user = $this->findUser($data);
-        $trx_id = $this->tokenGenerator($data);
-        $code = $this->codeGenerator($data);
-        $amount = $this->amountCalculator($orders, $data, $active_currency, $bdt_currency);
-        if (array_key_exists('payment_type', $request->all()) && $request->type == 'wallet') {
-            $data['payment_type'] = 'aamarpay';
-            $payment['trx_id'] = $trx_id;
-            $payment['code'] = $code;
-            $payment['api_token'] = '';
-            $payment['is_guest'] = $user->id;
-            $payment['amount'] = $amount['db_amount'];
-            $payment['type'] = '';
-            DB::table('payment_method')->insert($payment);
-        }
-
-        $success_url = '';
-        if ($request->package_id) {
-            $success_url = $this->successUrl($request, authUser());
-        } else if ($request->type != 'wallet') {
-            if ($request->payment_mode == 'api') {
-                $success_url = url("api/complete-order?payment_type=amarpay");
-            } else {
-                $success_url = url("user/complete-order?payment_type=amarpay");
-            }
-        } else if ($request->type == 'wallet') {
-            $success_url = url("user/recharge-wallet?payment_type=amarpay");
-        }
-        $total_amount = $amount['total_amount'];
-        $fields = [
-            'store_id' => settingHelper('amrapay_store_id'),
-            'amount' => round($total_amount),
-            'payment_type' => 'VISA',
-            'currency' => 'BDT',
-            'tran_id' => date('YmdHis'),
-            'cus_name' => $user ? $user->full_name : 'Yoori Customer',
-            'cus_email' => $user ? $user->email : 'yoori@example.com',
-            'cus_add1' => '',
-            'cus_add2' => '',
-            'cus_city' => '',
-            'cus_state' => '',
-            'cus_postcode' => '',
-            'cus_country' => 'Bangladesh',
-            'cus_phone' => $user ? $user->phone : '01634896248',
-            'cus_fax' => 'Not¬Applicable',
-            'ship_name' => $user ? $user->name : 'Yoori Customer',
-            'ship_add1' => '',
-            'ship_add2' => '',
-            'ship_city' => '',
-            'ship_state' => '',
-            'ship_postcode' => '',
-            'ship_country' => 'Bangladesh',
-            'desc' => 'Order Payments',
-            'success_url' => $success_url,
-            'fail_url' => $this->cancelUrl($request),
-            'cancel_url' => $this->cancelUrl($request),
-            'opt_a' => $user || $token ? '' : 1,
-            'opt_b' => $trx_id,
-            'opt_c' => $code,
-            'opt_d' => '',
-            'signature_key' => settingHelper('amarpay_signature_key')
-        ];
-        $fields_string = '';
-        foreach ($fields as $key => $value) {
-            $fields_string .= $key . '=' . $value . '&';
-        }
-
-
-        $fields_string = rtrim($fields_string, '&');
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_VERBOSE, true);
-        curl_setopt($ch, CURLOPT_URL, $api_url);
-        curl_setopt($ch, CURLOPT_POST, count($fields));
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        $url_forward = str_replace('"', '', stripslashes(curl_exec($ch)));
-        curl_close($ch);
-
-        $this->redirect_to_merchant($url_forward);
-
-    }
-
-    public function bkashRedirect(Request $request)
-    {
-        try {
-            $bdt_currency = $this->getCurrency();
-            if (!$bdt_currency) {
-                return false;
-            }
-
-            if (settingHelper('is_bkash_sandbox_mode_activated') == 1) {
-                $base_url = 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized';
-            } else {
-                $base_url = 'https://tokenized.pay.bka.sh/v1.2.0-beta/tokenized';
-            }
-
-            $data = $request->all();
-            $request['payment_type'] = 'bKash';
-            $orders = $this->findOrders($data);
-            $active_currency = $this->activeCurrencyCheck($data);
-            $token = $this->apiToken($data);
-            $trx_id = $this->tokenGenerator($data);
-            $code = $this->codeGenerator($data);
-            $amount = $this->amountCalculator($orders, $data, $active_currency, $bdt_currency);
-            $total_amount = $amount['total_amount'];
-            $client = new \GuzzleHttp\Client();
-
-            $bkash_token = $this->bKashTokenGenerator($client);
-
-            if ($bkash_token) {
-                $auth = $bkash_token;
-                session()->put('id_token', $auth);
-                $requestbody = [
-                    'mode' => '0011',
-                    'amount' => round($total_amount, 2),
-                    'currency' => 'BDT',
-                    'intent' => 'sale',
-                    'payerReference' => settingHelper('system_name'),
-                    'merchantInvoiceNumber' => date('YmdHis'),
-                    'callbackURL' => url("bkash/execute?trx_id=$trx_id&code=$code&token=$token&lang=$request->lang&curr=$request->curr&payment_mode=$request->payment_mode&payment_type=bKash")
-                ];
-
-                $requestbodyJson = json_encode($requestbody);
-
-                $response = $client->request('POST', "$base_url/checkout/create", [
-                    'body' => $requestbodyJson,
-                    'headers' => [
-                        'accept' => 'application/json',
-                        'content-type' => 'application/json',
-                        'Authorization' => $auth,
-                        'X-APP-Key' => settingHelper('bkash_app_key'),
-                    ],
-                ]);
-                $obj = json_decode($response->getBody()->getContents());
-
-                return redirect($obj->bkashURL);
-
-            }
-            return back()->with(['error' => __('Oops...Something Went Wrong')]);
-        } catch (\Exception $e) {
-            return back()->with(['error' => $e->getMessage()]);
-        }
-    }
-
-    public function bkashExecute(Request $request)
-    {
-        try {
-            $data = $request->all();
-            $id = $request->paymentID;
-            $status = $request->status;
-            $auth = session()->get('id_token');
-            $active_currency = $this->activeCurrencyCheck($data);
-            $bdt_currency = $this->getCurrency();
-            $user = $this->findUser($request->all());
-            $orders = $this->findOrders($data);
-            $amount = $this->amountCalculator($orders, $data, $active_currency, $bdt_currency);
-            $db_amount = $amount['db_amount'];
-            if (!$id || $status != 'success' || !$auth) {
-                return redirect($this->cancelUrl($request))->with(['error' => __('Something went wrong, please try again.')]);
-            }
-            if ($request->type == 'wallet' && $user) {
-                $str = Str::random();
-                $url = URL::temporarySignedRoute('recharge.wallet', now()->addMinutes(5), [
-                    'user_id' => $user->id,
-                    'total' => $db_amount,
-                    'transaction_id' => $str,
-                    'response' => 'yes',
-                    'payment_type' => 'bKash',
-                    'token' => $request->token
-                ]);
-                return redirect($url);
-            } else {
-                return redirect($this->successUrl($request));
-            }
-        } catch (\Exception $e) {
-            Toastr::error($e->getMessage());
-            return back();
-        }
-    }
-
-    public function nagadRedirect(Request $request)
-    {
-        $currency = new CurrencyRepository();
-        $bdt_currency = $currency->currencyByCode('BDT');
-        if (!$bdt_currency) {
-            return false;
-        }
-
-        $data = $request->all();
-        $request['payment_type'] = 'NAGAD';
-        $orders = $this->findOrders($data);
-        $active_currency = $this->activeCurrencyCheck($data);
-        $token = $this->apiToken($data);
-        $trx_id = $this->tokenGenerator($data);
-        $code = $this->codeGenerator($data);
-        $amount = $this->amountCalculator($orders, $data, $active_currency, $bdt_currency);
-        $total_amount = $amount['total_amount'];
-
-        $config = [
-            'NAGAD_APP_ENV' => 'development', //development|production
-            'NAGAD_APP_LOG' => '1',
-            'NAGAD_APP_ACCOUNT' => settingHelper('nagad_merchant_no'), //demo
-            'NAGAD_APP_MERCHANTID' => settingHelper('nagad_merchant_id'), //demo
-            'NAGAD_APP_MERCHANT_PRIVATE_KEY' => settingHelper('nagad_private_key'),
-            'NAGAD_APP_MERCHANT_PG_PUBLIC_KEY' => settingHelper('nagad_public_key'),
-            'NAGAD_APP_TIMEZONE' => 'Asia/Dhaka',
-        ];
-
-        $nagad = new Base($config, [
-            'amount' => round($total_amount, 2),
-            'invoice' => Helper::generateFakeInvoice(15, true),
-            'merchantCallback' => url("nagad/callback?token=$token&lang=$request->lang&curr=$request->curr&code=$code&trx_id=$trx_id"),
-        ]);
-
-        return redirect($nagad->payNow($nagad));
-    }
-
-    public function nagadVerify(Request $request, OfflineMethodInterface $offlineMethod)
-    {
-        $config = [
-            'NAGAD_APP_ENV' => 'development', //development|production
-            'NAGAD_APP_LOG' => '1',
-            'NAGAD_APP_ACCOUNT' => settingHelper('nagad_merchant_no'), //demo
-            'NAGAD_APP_MERCHANTID' => settingHelper('nagad_merchant_id'), //demo
-            'NAGAD_APP_MERCHANT_PRIVATE_KEY' => settingHelper('nagad_private_key'),
-            'NAGAD_APP_MERCHANT_PG_PUBLIC_KEY' => settingHelper('nagad_public_key'),
-            'NAGAD_APP_TIMEZONE' => 'Asia/Dhaka',
-        ];
-        $helper = new Helper($config);
-        $response = $helper->verifyPayment($request->payment_ref_id);
-
-        if ($response && $response['statusCode'] == "000") {
-            $data = [
-                'merchantId' => $response['merchantId'],
-                'orderId' => $response['orderId'],
-                'paymentRefId' => $response['paymentRefId'],
-                'amount' => $response['amount'],
-                'clientMobileNo' => $response['clientMobileNo'],
-                'merchantMobileNo' => $response['merchantMobileNo'],
-                'orderDateTime' => $response['orderDateTime'],
-                'issuerPaymentDateTime' => $response['issuerPaymentDateTime'],
-                'issuerPaymentRefNo' => $response['issuerPaymentRefNo'],
-                'additionalMerchantInfo' => $response['additionalMerchantInfo'],
-                'status' => $response['status'],
-                'statusCode' => $response['statusCode'],
-                'cancelIssuerDateTime' => $response['cancelIssuerDateTime'],
-                'cancelIssuerRefNo' => $response['cancelIssuerRefNo'],
-                'trx_id' => $request->trx_id,
-                'code' => $request->code,
-                'payment_type' => 'nagad',
-                'guest' => authUser() ? 0 : 1,
-            ];
-
-            try {
-                $this->order->completeOrder($data, authUser(), $offlineMethod);
-                $data = [
-                    'success' => __('Order Completed')
-                ];
-
-                DB::commit();
-
-                if (request()->ajax()) {
-                    return response()->json($data);
-                } else {
-                    if ($request->code) {
-                        return redirect('get-invoice/' . $request->code);
-                    } else {
-                        return redirect('invoice/' . session()->get('trx_id'));
-                    }
-                }
-            } catch (\Exception $e) {
-                DB::rollBack();
-                session()->forget('trx_id');
-                if (request()->ajax()) {
-                    return response()->json([
-                        'error' => $e->getMessage()
-                    ]);
-                } else {
-                    return redirect()->back()->with(['error' => $e->getMessage()]);
-                }
-            }
-        }
-        return redirect('payment');
-    }
 
     public function skrillRedirect(Request $request): \Illuminate\Http\RedirectResponse
     {
@@ -1275,60 +774,4 @@ class PaymentController extends Controller
         return $billingAddress;
     }
 
-    public function dpoRedirect(Request $request)
-    {
-        $data = $request->all();
-        $request['payment_type'] = 'dpo';
-        $orders = $this->findOrders($data);
-        $amount = $this->findAmount($data, $orders);
-
-        $user = $this->findUser($data);
-
-        $order_data = [
-            'paymentAmount' => round($amount, 2),
-            'paymentCurrency' => "ZMW",
-            'customerFirstName' => $user->first_name,
-            'customerLastName' => $user->last_name,
-            'customerAddress' => @$user->country->name,
-            'customerCity' => @$user->country->name,
-            'customerPhone' => $user->phone,
-            'customerEmail' => $user->email,
-            'accountType' => settingHelper('dpo_account_type'),
-            'redirectURL' => $this->successUrl($request, $user, $amount),
-            'backUrl' => $this->cancelUrl($request),
-            'companyRef' => $request->trx_id,
-            'companyToken' => settingHelper('dpo_company_token')
-        ];
-
-
-        envWrite('DPO_COMPANY_TOKEN', settingHelper('dpo_company_token'));
-        envWrite('DPO_ACCOUNT_TYPE', settingHelper('dpo_account_type'));
-        envWrite('DPO_IS_TEST_MODE', settingHelper('is_dpo_sandbox_mode_activated') == 1 ? 'true' : 'false');
-        envWrite('DPO_BACK_URL', $this->cancelUrl($request));
-        envWrite('DPO_REDIRECT_URL', $this->successUrl($request, $user, $amount));
-
-        $dpo = new Dpo;
-        $token = $dpo->createToken($order_data);
-        if ($token['success'] == 'false') {
-            return redirect()->back()->with(['error' => $token['resultExplanation']]);
-        }
-        $payment_url = $dpo->getPaymentUrl($token);
-        return redirect($payment_url);
-    }
-
-    public function mpesaRedirect(Request $request)
-    {
-        $data = $request->all();
-
-        $request['payment_type'] = 'mpesa';
-        $public_key = settingHelper('mpesa_public_key');
-
-        $decoded_public_key = base64_decode($public_key);
-
-        openssl_public_encrypt(settingHelper('mpesa_api_key'), $encrypted_api_key, $decoded_public_key);
-
-        $decoded_encrypted_api_key = base64_encode($encrypted_api_key);
-        dd($decoded_encrypted_api_key);
-
-    }
 }

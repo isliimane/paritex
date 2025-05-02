@@ -153,31 +153,6 @@
         }
 
         @endif
-        @if(addon_is_activated('ramdhani'))
-            @media (max-width: 479px) {
-            .category-products .grid-4 > li, .hero-banner-section .grid-4 > li {
-                -ms-flex: 0 0 1000%;
-                flex: 0 0 100%;
-                max-width: 100%;
-            }
-        }
-        @media (max-width: 479px)
-        {
-            .sg-filter .grid-4 > li {
-                -ms-flex: 0 0 100%;
-                flex: 0 0 100%;
-                max-width: 100%;
-            }
-        }
-        @media (max-width: 479px)
-        {
-            .campaign_details_page .grid-6 > li {
-                -ms-flex: 0 0 100%;
-                flex: 0 0 100%;
-                max-width: 100%;
-            }
-        }
-        @endif
     </style>
 
     @if(request()->route()->getName() == 'product-details')

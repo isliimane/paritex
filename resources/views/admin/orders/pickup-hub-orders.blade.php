@@ -34,15 +34,7 @@
                         <h4>{{ __('Pickup Hub Orders') }}</h4>
                         <div class="card-header-form">
                             <form class="form-inline" id="sorting">
-                                @if(settingHelper('seller_system') == 1)
-                                    <div class="form-group">
-                                        <select class="seller-by-ajax form-control select2" name="sl" id ="seller_id"  aria-hidden="true" >
-                                            @if(isset($sl))
-                                                <option selected value="{{ $selected_seller->id }}"> {{ $selected_seller->shop_name }} </option>
-                                            @endif
-                                        </select>
-                                    </div>
-                                @endif
+                              
                                 <div class="form-group">
                                     <select class="form-control select2 sorting" name="ds">
                                         <option
@@ -104,9 +96,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>{{ __('Order Code') }}</th>
-                                    @if(settingHelper('seller_system') == 1)
-                                        <th>{{ __('Seller') }}</th>
-                                    @endif
+                                 
                                     <th>{{ __('Customer') }}</th>
                                     <th>{{ __('Total Product') }}</th>
                                     <th>{{ __('Price') }}</th>
@@ -123,17 +113,7 @@
                                     <tr id="row_{{ $value->id }}" class="table-data-row">
                                         <td> {{ $orders->firstItem() + $key  }} </td>
                                         <td> {{ $value->code }} </td>
-                                        @if(settingHelper('seller_system') == 1)
-                                            <td>
-                                                @if($value->seller_id != 1)
-                                                    @if(isset($value->orderDetails[0]->product->sellerProfile))
-                                                        {{ $value->orderDetails[0]->product->sellerProfile->shop_name }}
-                                                    @endif
-                                                @else
-                                                    <div class="badge badge-warning">{{__('Admin Orders')}}</div>
-                                                @endif
-                                            </td>
-                                        @endif
+                                      
                                         <td> {{ @$value->user->first_name }} {{ @$value->user->last_name }} <br/>
                                             {{ config('app.demo_mode') && isset($value->user->phone) ? Str::of(@$value->user->phone)->mask('*', 0, strlen(@$value->user->phone)-3) : @$value->user->phone }}
                                         </td>

@@ -192,10 +192,6 @@
                                     <address>
                                         <strong>{{__('Order Date')}}:</strong><br>
                                         {{ \Carbon\Carbon::parse($order->date)->format('d F, Y h:i:s A') }}<br><br>
-                                        @if(addon_is_activated('ramdhani'))
-                                            <strong>{{__('delivery_date')}}:</strong><br>
-                                            {{ \Carbon\Carbon::parse($order->delivery_date)->format('d F, Y') }}<br><br>
-                                        @endif
                                     </address>
                                 </div>
                             </div>
@@ -363,7 +359,6 @@
                                             @endphp
                                         </tr>
                                         @if(($order->tax_method && $order->tax_method['vat_tax_type'] == 'product_base') || ($order->tax_method && $order->tax_method['vat_tax_type'] == 'order_base' && $order->tax_method['tax_type'] == 'before_tax') || (!$order->tax_method || !$order->tax_method['vat_tax_type']))
-                                            @if(!addon_is_activated('ramdhani') || (addon_is_activated('ramdhani') && $order->total_tax > 0))
                                                 <tr>
                                                     <td class="invoice-detail-name">(+) {{ __('Tax') }}:</td>
                                                     <td class="invoice-detail-value">{{ get_price($total_tax,user_curr()) }}</td>
@@ -371,7 +366,6 @@
                                                         $total_payable += $total_tax;
                                                     @endphp
                                                 </tr>
-                                            @endif
                                         @endif
                                         <tr>
                                             <td class="invoice-detail-name">(+) {{ __('Shipping Cost') }}:</td>

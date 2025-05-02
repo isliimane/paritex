@@ -9,7 +9,6 @@ use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use App\Models\SellerProfile;
 
 class SitemapController extends Controller
 {
@@ -18,10 +17,9 @@ class SitemapController extends Controller
         $blogs = Blog::all();
         $categories = Category::all();
         $brands = Brand::all();
-        $shops = SellerProfile::all();
         $pages = Page::all();
 
-        return response()->view('sitemap.main', compact('pages','products','shops','blogs','categories', 'brands'))->header('Content-Type', 'text/xml');
+        return response()->view('sitemap.main', compact('pages','products','blogs','categories', 'brands'))->header('Content-Type', 'text/xml');
     }
 
     public function links(){
@@ -29,10 +27,9 @@ class SitemapController extends Controller
         $blogs = Blog::all();
         $categories = Category::all();
         $brands = Brand::all();
-        $shops = SellerProfile::all();
         $pages = Page::all();
 
-        return response()->view('sitemap.links', compact('pages','products','shops','blogs','categories', 'brands'));
+        return response()->view('sitemap.links', compact('pages','products','blogs','categories', 'brands'));
     }
 
     public function products()
@@ -54,11 +51,6 @@ class SitemapController extends Controller
     {
         $brands = Brand::all();
         return response()->view('sitemap.brand', compact('brands'))->header('Content-Type', 'text/xml');
-    }
-    public function shops()
-    {
-        $shops = SellerProfile::all();
-        return response()->view('sitemap.shop', compact('shops'))->header('Content-Type', 'text/xml');
     }
     public function pages()
     {

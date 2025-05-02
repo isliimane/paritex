@@ -66,9 +66,6 @@
                 <button type="button" href="javascript:void(0)" @click="copyLoginInfo('admin@spagreen.net')"
                         class="btn copy_btn">Admin
                 </button>
-                <button v-if="settings.seller_system == 1" type="button" href="javascript:void(0)"
-                        @click="copyLoginInfo('seller@spagreen.net')" class="btn copy_btn">Seller
-                </button>
                 <button type="button" href="javascript:void(0)" @click="copyLoginInfo('customer@spagreen.net')"
                         class="btn copy_btn">Customer
                 </button>
@@ -224,9 +221,6 @@ export default {
               } else if (user.user_type == 'admin' || user.user_type == 'staff') {
                 this.loading = true;
                 document.location.href = this.getUrl('admin/dashboard');
-              } else if (user.user_type == 'seller') {
-                this.loading = true;
-                document.location.href = this.getUrl('seller/dashboard');
               }
             }
 

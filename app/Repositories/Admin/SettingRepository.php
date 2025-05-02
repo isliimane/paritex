@@ -241,28 +241,8 @@ class SettingRepository implements SettingInterface{
                 $setting->value     = $request['status'];
                 $setting->lang      = $default_language;
             else :
-                if($setting->title == "category_commission_status"):
-                    $seller_commission_status = Setting::where('title', 'seller_commission_status')->where('lang', $default_language)->first();
-
-                    $seller_commission_status->value = 0;
-                    $seller_commission_status->save();
-
                     $setting->value     = $request['status'];
                     $setting->lang      = $default_language;
-
-                elseif($setting->title == "seller_commission_status"):
-                    $seller_commission_status = Setting::where('title', 'category_commission_status')->where('lang', $default_language)->first();
-
-                    $seller_commission_status->value = 0;
-                    $seller_commission_status->save();
-
-                    $setting->value     = $request['status'];
-                    $setting->lang      = $default_language;
-
-                else:
-                    $setting->value     = $request['status'];
-                    $setting->lang      = $default_language;
-                endif;
             endif;
 
 

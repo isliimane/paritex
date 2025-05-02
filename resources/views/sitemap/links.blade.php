@@ -21,7 +21,6 @@
 <a href="{{ url('') . '/categories' }}">{{ url('') . '/categories' }}</a>
 <a href="{{ url('') . '/brands' }}">{{ url('') . '/brands' }}</a>
 <a href="{{ url('') . '/campaigns' }}">{{ url('') . '/campaigns' }}</a>
-<a href="{{ url('') . '/sellers' }}">{{ url('') . '/sellers' }}</a>
 <a href="{{ url('') . '/blogs' }}">{{ url('') . '/blogs' }}</a>
 
     @foreach ($pages as $page)
@@ -50,14 +49,6 @@
     
             <a href="{{ url('') . '/category/' . $category->slug }}">{{ url('') . '/category/' . $category->slug }}</a>
             {{ $category->created_at->tz('UTC')->toAtomString() }}
-            
-            
-    
-    @endforeach
-    @foreach ($shops as $shop)
-    
-            <a href="{{ url('') . '/shop/' . $shop->slug }}">{{ url('') . '/shop/' . $shop->slug }}</a>
-            {{ $shop->created_at->tz('UTC')->toAtomString() }}
             
             
     

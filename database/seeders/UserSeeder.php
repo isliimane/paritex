@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\DeliveryHero;
 use App\Models\Role;
-use App\Models\SellerProfile;
 use App\Models\User;
 use Cartalyst\Sentinel\Laravel\Facades\Activation;
 use Illuminate\Database\Seeder;
@@ -35,15 +34,10 @@ class UserSeeder extends Seeder
         Activation::complete($superAdmin, $activation->code);
         $superAdminRole->users()->attach($superAdmin);
 
-        $seller         = User::create([ 'first_name' => 'Seller', 'last_name'      => 'Seller', 'email' => 'seller@spagreen.net', 'phone' => '01737000000', 'permissions' => [], 'password' => bcrypt(123456), 'user_type'=>'seller' ]);
         $deliveryHero   = User::create([ 'first_name' => 'Delivery', 'last_name'    => 'Hero', 'email' => 'deliveryhero@dspagreen.net', 'phone' => '01737000001', 'permissions' => [], 'password' => bcrypt(123456), 'user_type' => "delivery_hero" ]);
         $customer       = User::create([ 'first_name' => 'Customer', 'last_name'    => 'Hero', 'email' => 'customeheror@spagreen.net', 'phone' => '01737000012', 'permissions' => [], 'password' => bcrypt(123456), 'user_type' => "customer" ]);
         $walkCustomer   = User::create([ 'first_name' => 'Walking', 'last_name'     => 'Customer', 'email' => 'walkingcustomer@spagreen.net', 'phone' => '01737000012', 'permissions' => [], 'password' => bcrypt(123456), 'user_type' => "customer" ]);
         $staff          = User::create([ 'first_name' => 'Staff', 'last_name'       => 'Hero', 'email' => 'staff@spagreen.net', 'phone' => '01737000002', 'permissions' => $this->superAdminPermissions(), 'password' => bcrypt(123456), 'user_type' => "staff" ]);
-
-        SellerProfile::factory()->create(['user_id' => 2])->first();
-        $activation = Activation::create($seller);
-        Activation::complete($seller, $activation->code);
 
         DeliveryHero::factory()->create(['user_id' => 3]);
         $activation = Activation::create($deliveryHero);
@@ -77,20 +71,6 @@ class UserSeeder extends Seeder
             'role_read',
             'role_update',
             'role_delete',
-
-            'seller_create',
-            'seller_read',
-            'seller_update',
-            'seller_delete',
-            'seller_verify',
-            'seller_ban',
-
-            'seller_payout_read',
-            'seller_payout_accept',
-            'seller_payout_reject',
-
-            'seller_commission_read',
-            'seller_commission_update',
 
             'language_create',
             'language_read',
@@ -250,7 +230,6 @@ class UserSeeder extends Seeder
             'city_delete',
 
             'admin_product_sale_read',
-            'seller_product_sale_read',
             'product_stock_read',
             'product_wishlist_read',
             'user_searches_read',

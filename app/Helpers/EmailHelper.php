@@ -29,16 +29,10 @@ if (!function_exists('sendMail')) :
                     $view           = 'email.auth.registration-success-email';
                     $subject        = __('verify_email_success_subject');
 
-                elseif($purpose == 'invoice' || $purpose == 'seller_invoice'):
+                elseif($purpose == 'invoice'):
                     $url            = '';
                     $view           = 'email.order-complete-email';
                     $subject        = __('Invoice') .' - '. $item->code;
-
-                /*elseif($purpose == 'seller_invoice'):
-
-                    $url            = '';
-                    $view           = 'email.seller-invoice';
-                    $subject        = __('Invoice') .' - '. $item->code;*/
 
                 elseif($purpose == 'order_status_update'):
                     $url            = url('/'). '/get-invoice/' .$code->code;
@@ -56,13 +50,7 @@ if (!function_exists('sendMail')) :
                 $data = ['url' => $url, 'user' => $user,'code' => $code,'otp' => $otp];
 
                 if ($item):
-
-                    if ($purpose == 'seller_invoice'):
-                        $pdf_view = 'admin.orders.seller-invoice';
-                    else:
-                        $pdf_view = 'admin.orders.invoice';
-                    endif;
-
+                    $pdf_view = 'admin.orders.invoice';
                     $data['order']      = $item;
                     $pdf = PDF::loadView($pdf_view, [
                         'order'             => $item,

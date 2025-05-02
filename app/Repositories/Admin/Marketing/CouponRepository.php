@@ -44,9 +44,7 @@ class CouponRepository implements CouponInterface
 
     public function all()
     {
-        return Coupon::latest()->when(Sentinel::getUser()->user_type == 'seller', function ($q){
-                            $q->where('user_id', Sentinel::getUser()->id);
-                        });
+        return Coupon::latest();
     }
 
     public function paginate($request, $limit)
@@ -57,7 +55,7 @@ class CouponRepository implements CouponInterface
     public function store($request)
     {
         $coupon = new Coupon();
-        $coupon->user_id            = Sentinel::getUser()->user_type == 'seller' ? Sentinel::getUser()->id : 1;
+        $coupon->user_id            = 1;
         $coupon->type               = $request->type;
         $coupon->code               = $request->code;
         $dates = explode(" - ", $request->date);
@@ -131,14 +129,6 @@ class CouponRepository implements CouponInterface
     {
         $now = Carbon::now()->format('Y-m-d H:i:s');
         return Coupon::with('currentLanguage')->where('start_date','<=',$now)->where('end_date','>=',$now)->where('status',1)->latest()->paginate(10);
-    }
-
-    public function sellerCoupons($id)
-    {
-        $now = Carbon::now()->format('Y-m-d H:i:s');
-        return  Coupon::with('currentLanguage')->where(function ($q) use ($now) {
-            $q->where('end_date', '>=', $now);
-        })->where('user_id', $id)->where('status', 1)->latest()->paginate(16);
     }
 
     public function deleteCoupon($request)

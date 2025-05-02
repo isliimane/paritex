@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\AdminResource\PosOfflineMethodResource;
 use App\Http\Resources\SiteResource\OrderResource;
 use App\Models\City;
 use App\Models\ProductCity;
-use App\Repositories\Interfaces\Admin\Addon\OfflineMethodInterface;
 use App\Repositories\Interfaces\Admin\CurrencyInterface;
 use App\Repositories\Interfaces\Admin\OrderInterface;
 use App\Repositories\Interfaces\Admin\Product\ProductInterface;
@@ -290,16 +288,13 @@ class OrderController extends Controller
         }
     }
 
-    public function userLastOrder(OrderInterface $order, CurrencyInterface $currency, OfflineMethodInterface $offlineMethod, Request $request): \Illuminate\Http\JsonResponse
+    public function userLastOrder(OrderInterface $order, CurrencyInterface $currency, Request $request): \Illuminate\Http\JsonResponse
     {
         try {
             $carts = [];
             if (!empty($request->code)) {
                 $orders = $order->orderByCodes($request->code);
-                if (!addon_is_activated('ramdhani'))
-                {
-                    $check_code = $order->checkCodByCode($request->code);
-                }
+                $check_code = $order->checkCodByCode($request->code);
             } else {
                 if(session()->get('is_buy_now') == 1) {
                     $carts = $this->cart->all()->where('is_buy_now',session()->get('is_buy_now'));
@@ -308,23 +303,12 @@ class OrderController extends Controller
                 }
                 $trx_id = count($carts) > 0 ?  $carts->first()->trx_id : '';
                 $orders = $order->takePaymentOrder($trx_id);
-                if (!addon_is_activated('ramdhani'))
-                {
-                    $check_code = $order->checkCodByTrx($trx_id);
-                }
+                $check_code = $order->checkCodByTrx($trx_id);
             }
 
             if (count($orders) > 0 && ($orders->first()->user_id == authId() || $orders->first()->user_id == getWalkInCustomer()->id))
             {
                 $first_order = $orders->first();
-                if (addon_is_activated('ramdhani') && !$first_order->pickup_hub_id)
-                {
-                    $city_id = $first_order->shipping_address['address_ids']['city_id'];
-                    foreach ($carts as $cart) {
-                        $check_code = (bool)ProductCity::where('product_id',$cart->product_id)->where('city_id',$city_id)->where('is_cod',0)->first();
-                        break;
-                    }
-                }
                 $returned_orders = [];
                 foreach ($orders as $order) {
                     $returned_orders[] = [
@@ -341,7 +325,6 @@ class OrderController extends Controller
                     'orders'            => $returned_orders,
                     'coupons'           => count($carts) > 0 && settingHelper('coupon_system') == 1 ? $this->cart->appliedCoupons(['trx_id' => $carts->first()->trx_id]) : [],
                     'indian_currency'   => $currency->currencyByCode('INR'),
-                    'offline_methods'   => addon_is_activated('offline_payment') ? PosOfflineMethodResource::collection($offlineMethod->activeMethods()) : [],
                     'jazz_data'         => $this->jazzCashPayment(),
                     'check_cod'         => $check_code ?? true,
                     'xof'               => $currency->currencyByCode('XOF'),
@@ -363,7 +346,7 @@ class OrderController extends Controller
         }
     }
 
-    public function completeOrder(OrderInterface $order, OfflineMethodInterface $offlineMethod, Request $request)
+    public function completeOrder(OrderInterface $order, Request $request)
     {
         DB::beginTransaction();
         try {
@@ -377,7 +360,7 @@ class OrderController extends Controller
                 $request_data['token'] = $request->opt_d;
             }
 
-            $order = $order->completeOrder($request_data, authUser(), $offlineMethod);
+            $order = $order->completeOrder($request_data, authUser());
 
             if (is_string($order)) {
                 $data = [
@@ -525,9 +508,6 @@ class OrderController extends Controller
             foreach ($orders as $item) {
                 $item->is_mailed = 1;
                 $item->save();
-//                sendMail(authUser(), $item->code, 'invoice', null, $item);
-//                sendMail($item->seller, $item->code, 'seller_invoice', null, $item);
-
                 $this->sendMail(authUser()->email,'invoice', $item, 'email.order-complete-email','',$item);
                 $this->sendMail($item->seller->email, 'seller_invoice', $item, 'email.order-complete-email','',$item);
 
@@ -541,27 +521,6 @@ class OrderController extends Controller
             DB::rollBack();
             return response()->json([
                 'error' => $e->getMessage()
-            ]);
-        }
-    }
-
-    public function sendMailSeller(OrderInterface $order, $trx_id): \Illuminate\Http\JsonResponse
-    {
-        DB::beginTransaction();
-        try {
-            $orders = $order->invoiceByTrx($trx_id);
-            foreach ($orders as $item) {
-                sendMail($item->seller, $item->code, 'seller_invoice', null, $item);
-            }
-            DB::commit();
-            return response()->json([
-                'success' => __('Seller Mailed Successfully'),
-                'orders' => $orders,
-            ]);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return response()->json([
-                'error' =>$e->getMessage()
             ]);
         }
     }

@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UserStoreRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Imports\CustomerImport;
-use App\Repositories\Interfaces\Admin\Addon\OfflineMethodInterface;
 use App\Repositories\Interfaces\Admin\CurrencyInterface;
 use Cartalyst\Sentinel\Laravel\Facades\Activation;
 use Illuminate\Http\Request;
