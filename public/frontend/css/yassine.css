@@ -165,3 +165,8 @@
 .footer-widget ul li a{
     color: #444444;
 } */
+
+.form-group > label {
+    font-weight: 500;
+    font-size: 14px;
+  }
