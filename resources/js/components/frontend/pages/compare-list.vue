@@ -42,7 +42,8 @@
 										<span v-else>{{ priceFormat(product.price) }}</span>
 									</span>
 									<span v-else class="text-danger">
-										{{ lang.verify_license_to_see_price }}
+										--
+										<!-- {{ lang.verify_license_to_see_price }} -->
 									</span>
 								</td>
 							</tr>

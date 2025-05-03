@@ -26,9 +26,9 @@
 								</span>
 								<span v-else>{{ priceFormat(product.price) }}</span>
 							</div>
-							<div class="price text-danger" v-else>
+							<!-- <div class="price text-danger" v-else>
 								{{ lang.verify_license_to_see_price }}
-							</div>
+							</div> -->
 							<h1 class="product-name text-ellipse-one text-ellipse-two" :title="product.product_name">
 								<a :href="'product/' + product.slug" @click.prevent="routerNavigator('product.details', product.slug)">
 									{{ product.product_name }}
