@@ -234,6 +234,35 @@
 
     <section class="section">
             <div class="row">
+                <div class="col-md-12 text-left">
+                    <div class="alert alert-danger">
+                        <p class="font-medium bold">Please update your purchase code here <a
+                                    href="{{ route('general.setting') }}" class="text-a">General Settings</a> to enable
+                             dashboard</p>
+                    </div>
+                </div>
+            </div>
+        @else
+            <div class="row">
+                <!-- <div class="col-md-3">
+                    <div class="mini-stats-wid card">
+                        <div class="card-body">
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                            <div class="d-flex">
+                                <div class="flex-grow-1">
+                                    <p class="text-muted fw-medium">{{ __('Orders')}}</p>
+                                    <h4 class="mb-0">{{ $total_orders }}</h4>
+                                </div>
+                                <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center" >
+                                    <span class="avatar-title">
+                                        <i class="bx bx-trending-up font-size-24"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
                 <div class="col-md-3">
                     <a href="{{ route('orders') }}" class="stats-card-link">  <!-- Lien ajouté ici -->
                         <div class="mini-stats-wid card">
@@ -271,6 +300,15 @@
                         </div>
                     </div>
                 </div>
+               
+               
+               
+               
+               
+               
+               
+               
+               
                 <div class="col-md-3">
                     <a href="{{ route('products') }}" class="stats-card-link">
                         <div class="mini-stats-wid card">
@@ -290,6 +328,8 @@
                         </div>
                     </a>
                 </div>
+
+
                 <div class="col-md-3">
                     <a href="{{ route('customers') }}" class="stats-card-link">
                         <div class="mini-stats-wid card">
@@ -310,8 +350,9 @@
                     </a>
                 </div>
             </div>
+
             <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-12">
+                <!-- <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="card card-statistic-2">
                         <div class="card-stats">
                             <div class="card-stats-title d-flex justify-content-between">
@@ -365,32 +406,80 @@
                             </div>
                         </div>
                     </div>
+                </div> -->
+                <div class="col-lg-9 col-md-6 col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>{{__('Order Statistics')}}</h4>
+                <div class="  d-inline dropdown-position badge badge-primary">
+                    <a class="font-weight-600 dropdown-toggle dropdown-toggle-custom" data-toggle="dropdown" href="#"
+                       id="orders-category-month">{{__('Today')}}</a>
+                    <ul class="dropdown-menu dropdown-menu-sm" data-url="/admin/order-statistics/"
+                        data-id="order-statistics">
+                        <li><a href="javaScript:void(0)" class="dropdown-item order-statistics active"
+                               id="today" data-report-type="today">{{ __('Today')}}</a></li>
+                        <li><a href="javaScript:void(0)" class="dropdown-item order-statistics"
+                               data-report-type="yesterday">{{ __('Yesterday')}}</a></li>
+                        <li><a href="javaScript:void(0)" class="dropdown-item order-statistics"
+                               data-report-type="this_week">{{ __('This Week')}}</a></li>
+                        <li><a href="javaScript:void(0)" class="dropdown-item order-statistics"
+                               data-report-type="last_week">{{ __('Last Week')}}</a></li>
+                        <li><a href="javaScript:void(0)" class="dropdown-item order-statistics"
+                               data-report-type="this_month">{{ __('This Month')}}</a></li>
+                        <li><a href="javaScript:void(0)" class="dropdown-item order-statistics"
+                               data-report-type="last_month">{{ __('Last Month')}}</a></li>
+                        <li><a href="javaScript:void(0)" class="dropdown-item order-statistics"
+                               data-report-type="last_3_month">{{ __('Last 3 Month')}}</a></li>
+                        <li><a href="javaScript:void(0)" class="dropdown-item order-statistics"
+                               data-report-type="last_6_month">{{ __('Last 6 Month')}}</a></li>
+                        <li><a href="javaScript:void(0)" class="dropdown-item order-statistics"
+                               data-report-type="this_year">{{ __('This Year')}}</a></li>
+                        <li><a href="javaScript:void(0)" class="dropdown-item order-statistics"
+                               data-report-type="last_year">{{ __('Last Year')}}</a></li>
+                        <li><a href="javaScript:void(0)" class="dropdown-item order-statistics"
+                               data-report-type="lifetime">{{ __('Lifetime')}}</a></li>
+                    </ul>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-12">
-                    <div class="card card-statistic-3">
-                        <div class="card-stats">
-                            <div class="card-stats-title d-flex justify-content-between">
-                                <h4>{{__('Order State')}}</h4>
-                                <div class="dropdown d-inline dropdown-position badge badge-primary">
-                                    <a class="font-weight-600 dropdown-toggle" data-toggle="dropdown" href="#"
-                                       id="orders-state-month">{{__('This Year')}}</a>
-                                    <ul class="dropdown-menu dropdown-menu-sm" data-url="/admin/order-state/"
-                                        data-id="order-state">
-                                        <li><a href="javaScript:void(0)" class="dropdown-item order-statistics-state"
-                                               data-report-type="this_year">{{ __('This Year')}}</a></li>
-                                        <li><a href="javaScript:void(0)" class="dropdown-item order-statistics-state"
-                                               data-report-type="last_year">{{ __('Last Year')}}</a></li>
-                                        <li><a href="javaScript:void(0)" class="dropdown-item order-statistics-state"
-                                               data-report-type="lifetime">{{ __('Lifetime')}}</a></li>
-                                    </ul>
-                                </div>
+            </div>
+            <div class="card-body">
+                <div class="row text-center" id="order-statistics">
+                    <div class="col-md-4">
+                        <div class="circle-stat">
+                            <div class="circle-stat-inner">
+                                <div class="circle-stat-count">{{ $order_statistics['pending_order'] }}</div>
+                                <div class="circle-stat-amount">{{ get_price($order_statistics['pending_order_price'],user_curr()) }}</div>
+                                <div class="circle-stat-label">{{__('Pending')}}</div>
                             </div>
-                            <div class="card-body" id="order-state">
-                                <canvas id="order_state" height="100px"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="circle-stat">
+                            <div class="circle-stat-inner">
+                                <div class="circle-stat-count">{{ $order_statistics['processing_order'] }}</div>
+                                <div class="circle-stat-amount">{{ get_price($order_statistics['processing_order_price'],user_curr()) }}</div>
+                                <div class="circle-stat-label">{{__('Processing')}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="circle-stat">
+                            <div class="circle-stat-inner">
+                                <div class="circle-stat-count">{{ $order_statistics['completed_order'] }}</div>
+                                <div class="circle-stat-amount">{{get_price($order_statistics['completed_order_price'],user_curr()) }}</div>
+                                <div class="circle-stat-label">{{__('Delivered')}}</div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fin de la modification -->
+    
+    
+
+
+               
                 <div class="col-md-3"> 
                     <div class="row">
                         <a  href="{{ route('brands') }}" class="stats-card-link col-lg-12 col-md-12 col-sm-12">
@@ -434,78 +523,83 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-12">
-                    <div class="card card-statistic-4">
-                        <div class="card-stats">
-                            <div class="card-stats-title d-flex justify-content-between">
-                                <h4>{{__('Category Product Sales Statistics')}}</h4>
-                                <div class="dropdown d-inline dropdown-position badge badge-primary">
-                                    <a class="font-weight-600 dropdown-toggle" data-toggle="dropdown" href="#"
-                                       id="orders-category-month">{{__('Today')}}</a>
-                                    <ul class="dropdown-menu dropdown-menu-sm" data-url="/admin/sales-by-category/"
-                                        data-id="order-category">
-                                        <li><a href="javaScript:void(0)"
-                                               class="dropdown-item order-statistics-category active" id="today"
-                                               data-report-type="today">{{ __('Today')}}</a></li>
-                                        <li><a href="javaScript:void(0)" class="dropdown-item order-statistics-category"
-                                               data-report-type="yesterday">{{ __('Yesterday')}}</a></li>
-                                        <li><a href="javaScript:void(0)" class="dropdown-item order-statistics-category"
-                                               data-report-type="this_week">{{ __('This Week')}}</a></li>
-                                        <li><a href="javaScript:void(0)" class="dropdown-item order-statistics-category"
-                                               data-report-type="last_week">{{ __('Last Week')}}</a></li>
-                                        <li><a href="javaScript:void(0)" class="dropdown-item order-statistics-category"
-                                               data-report-type="this_month">{{ __('This Month')}}</a></li>
-                                        <li><a href="javaScript:void(0)" class="dropdown-item order-statistics-category"
-                                               data-report-type="last_month">{{ __('Last Month')}}</a></li>
-                                        <li><a href="javaScript:void(0)" class="dropdown-item order-statistics-category"
-                                               data-report-type="last_3_month">{{ __('Last 3 Month')}}</a></li>
-                                        <li><a href="javaScript:void(0)" class="dropdown-item order-statistics-category"
-                                               data-report-type="last_6_month">{{ __('Last 6 Month')}}</a></li>
-                                        <li><a href="javaScript:void(0)" class="dropdown-item order-statistics-category"
-                                               data-report-type="this_year">{{ __('This Year')}}</a></li>
-                                        <li><a href="javaScript:void(0)" class="dropdown-item order-statistics-category"
-                                               data-report-type="last_year">{{ __('Last Year')}}</a></li>
-                                        <li><a href="javaScript:void(0)" class="dropdown-item order-statistics-category"
-                                               data-report-type="lifetime">{{ __('Lifetime')}}</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <canvas id="sates_by_category" height="100px"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-12">
-                    <div class="card card-statistic-5">
-                        <div class="card-stats">
-                            <div class="card-stats-title d-flex justify-content-between">
+                <div class="col-lg-6 col-md-6 col-sm-12"> 
+          <div class="card ">
+          <div class="card-header">
+    
+        <h4>{{__('Category Product Sales Statistics')}}</h4>
+        <div class="card-body">
+        <div class="  d-inline dropdown-position badge badge-primary">
+        <a class="font-weight-600 dropdown-toggle" data-toggle="dropdown" href="#"
+        id="orders-category-month">{{__('Today')}}</a>
+     <ul class="dropdown-menu dropdown-menu-sm" data-url="/admin/sales-by-category/"
+         data-id="order-category">
+         <li><a href="javaScript:void(0)"
+                class="dropdown-item order-statistics-category active" id="today"
+                data-report-type="today">{{ __('Today')}}</a></li>
+         <li><a href="javaScript:void(0)" class="dropdown-item order-statistics-category"
+                data-report-type="yesterday">{{ __('Yesterday')}}</a></li>
+         <li><a href="javaScript:void(0)" class="dropdown-item order-statistics-category"
+                data-report-type="this_week">{{ __('This Week')}}</a></li>
+         <li><a href="javaScript:void(0)" class="dropdown-item order-statistics-category"
+                data-report-type="last_week">{{ __('Last Week')}}</a></li>
+         <li><a href="javaScript:void(0)" class="dropdown-item order-statistics-category"
+                data-report-type="this_month">{{ __('This Month')}}</a></li>
+         <li><a href="javaScript:void(0)" class="dropdown-item order-statistics-category"
+                data-report-type="last_month">{{ __('Last Month')}}</a></li>
+         <li><a href="javaScript:void(0)" class="dropdown-item order-statistics-category"
+                data-report-type="last_3_month">{{ __('Last 3 Month')}}</a></li>
+         <li><a href="javaScript:void(0)" class="dropdown-item order-statistics-category"
+                data-report-type="last_6_month">{{ __('Last 6 Month')}}</a></li>
+         <li><a href="javaScript:void(0)" class="dropdown-item order-statistics-category"
+                data-report-type="this_year">{{ __('This Year')}}</a></li>
+         <li><a href="javaScript:void(0)" class="dropdown-item order-statistics-category"
+                data-report-type="last_year">{{ __('Last Year')}}</a></li>
+         <li><a href="javaScript:void(0)" class="dropdown-item order-statistics-category"
+                data-report-type="lifetime">{{ __('Lifetime')}}</a></li>
+     </ul>
+        </div>
+    </div>
+    </div>
+    <div class="card-body">
+    <canvas id="sates_by_category" height="100px"></canvas>
+      </div>
+       </div>
+        </div>
+               
+              
+    <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="card ">
+                        <div class="card-header">
+                            
                                 <h4>{{__('Sales State')}}</h4>
-                                <div class="dropdown d-inline dropdown-position badge badge-primary">
-                                    <a class="font-weight-600 dropdown-toggle" data-toggle="dropdown" href="#"
-                                       id="orders-sales-month">{{__('This Year')}}</a>
-                                    <ul class="dropdown-menu dropdown-menu-sm" data-url="/admin/total-sales-state/"
-                                        data-id="order-statistics">
-                                        <li><a href="javaScript:void(0)" class="dropdown-item order-statistics-sales"
-                                               data-report-type="this_year">{{ __('This Year')}}</a></li>
-                                        <li><a href="javaScript:void(0)" class="dropdown-item order-statistics-sales"
-                                               data-report-type="last_year">{{ __('Last Year')}}</a></li>
-                                        <li><a href="javaScript:void(0)" class="dropdown-item order-statistics-sales"
-                                               data-report-type="lifetime">{{ __('Lifetime')}}</a></li>
-                                    </ul>
+                                <div class="card-body">
+                                <div class="  d-inline dropdown-position badge badge-primary">
+                                <a class="font-weight-600 dropdown-toggle" data-toggle="dropdown" href="#"
+                                id="orders-sales-month">{{__('This Year')}}</a>
+                             <ul class="dropdown-menu dropdown-menu-sm" data-url="/admin/total-sales-state/"
+                                 data-id="order-statistics">
+                                 <li><a href="javaScript:void(0)" class="dropdown-item order-statistics-sales"
+                                        data-report-type="this_year">{{ __('This Year')}}</a></li>
+                                 <li><a href="javaScript:void(0)" class="dropdown-item order-statistics-sales"
+                                        data-report-type="last_year">{{ __('Last Year')}}</a></li>
+                                 <li><a href="javaScript:void(0)" class="dropdown-item order-statistics-sales"
+                                        data-report-type="lifetime">{{ __('Lifetime')}}</a></li>
+                             </ul>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <canvas id="sale_state" height="100px"></canvas>
                             </div>
+                            <div class="card-body">
+                            <canvas id="sale_state" height="100px"></canvas>
+                        </div>
                         </div>
                     </div>
-                </div>
+
             </div>
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-12">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-{{ settingHelper('seller_system') == 1 ? 4 : 6 }}">
                             <div class="card">
                                 <div class="card-header">
                                     <h4>{{ __('Top Categories') }}</h4>
@@ -529,7 +623,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-{{ settingHelper('seller_system') == 1 ? 4 : 6 }}">
                             <div class="card">
                                 <div class="card-header">
                                     <h4>{{ __('Top Brands') }}</h4>
@@ -562,10 +656,36 @@
                                 </div>
                             </div>
                         </div>
+                        @if(settingHelper('seller_system') == 1)
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4>{{ __('Top Sellers') }}</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="list-unstyled list-unstyled-border list-unstyled-noborder mb-0">
+                                            @foreach($top_sellers as $seller)
+                                                <li class="media">
+                                                    <img class="img-fluid mt-1 img-shadow" src="{{ $seller['image'] }}"
+                                                         alt="{{ $seller['shop_name'] }}" width="40">
+                                                    <div class="media-body ml-3">
+                                                        <a href="{{ route('frontend.shop',$seller['slug']) }}" target="_blank">
+                                                            <div class="media-title">{{ $seller['shop_name'] }}</div>
+                                                        </a>
+                                                        <div class="text-small text-muted">{{ number_format($seller['total_sale']) }} {{ __('Sales') }}
+                                                            <i class="fas fa-caret-down text-danger"></i></div>
+                                                    </div>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
 
-                <div class="col-lg-4">
+                <!-- <div class="col-lg-4">
                     <div class="card card-statistic-6">
                         <div class="card-stats">
                             <div class="card-stats-title d-flex justify-content-between">
@@ -620,12 +740,12 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-{{ settingHelper('seller_system') != 1 ? 12 : 8}}">
                     <div class="card">
                         <div class="card-header">
                             <h4>Invoices</h4>
                             <div class="card-header-action">
-                                <a href="{{ route('orders') }}"
+                                <a href="{{ Sentinel::getUser()->user_type != 'seller' ? route('orders') :route('seller.orders') }}"
                                    class="btn btn-outline-primary">{{ __('View More') }}<i
                                             class="fas fa-chevron-right"></i></a>
                             </div>
@@ -669,8 +789,6 @@
                                                     <div class="badge badge-info">{{__('Picked Up')}}</div>
                                                 @elseif($value->delivery_status == 'on_the_way')
                                                     <div class="badge badge-secondary">{{__('On The Way')}}</div>
-                                                @elseif($value->delivery_status == 'postponed')
-                                                    <div class="badge badge-danger">{{__('Postponed')}}</div>
                                                 @endif
                                             </td>
                                             <td>
@@ -721,12 +839,46 @@
                         </div>
                     </div>
                 </div>
+                @if(settingHelper('seller_system') == 1)
+                    <div class="col-md-4">
+                        <div class="card card-hero">
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <i class="far fa-question-circle"></i>
+                                </div>
+                                <h4>{{ $total_support }}</h4>
+                                <div class="card-description">{{__('Sellers need help')}}</div>
+                            </div>
+                            <div class="card-body p-7">
+                                <div class="tickets-list">
+                                    @foreach ($supports as $key => $support)
+                                        <a href="{{ route('ticket.replay',$support->id) }}" class="ticket-item">
+                                            <div class="ticket-title">
+                                                <h4>{{ $support->subject }}</h4>
+                                            </div>
+                                            <div class="ticket-info">
+                                                <div>{{ @$support->user->full_name }}</div>
+                                                <div class="bullet"></div>
+                                                <div class="text-primary">{{ Carbon\Carbon::parse($support->created_at)->diffForHumans() }}</div>
+                                            </div>
+                                        </a>
+                                    @endforeach
+                                    <a href="{{ route('support') }}" class="ticket-item ticket-more">
+                                        {{__('View All')}} <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
             </div>
+        @endif
     </section>
 @endsection
 @push('page-specific')
     <script src="{{ static_asset('admin/js/jquery.blockUI.js') }}"></script>
 @endpush
+@if(settingHelper('purchase_code') != '' && !config('app.demo_mode'))
     @push('script')
         <script src="{{ static_asset('admin/js/chart.js') }}"></script>
         <script>
@@ -1042,4 +1194,227 @@
                 })
             });
         </script>
+        <style>
+
+        /* Fond blanc pour tout le dashboard */
+body, 
+.section {
+    background-color: #ffffff !important;
+}
+
+/* Fond blanc pour les cartes principales */
+.card, 
+.mini-stats-wid, 
+.card-statistic-2, 
+.card-statistic-3, 
+.card-statistic-4, 
+.card-statistic-5, 
+.card-statistic-6 {
+    background-color: #ffffff !important;
+    border: 1px solid #f0f0f0 !important; /* Bordure légère pour la distinction */
+}
+        /* Couleurs principales */
+:root {
+    --primary-color:rgb(11, 108, 193);
+    --primary-light: #e6f7f3;
+    --primary-dark:rgb(15, 6, 109);
+    --white: #ffffff;
+    --light-gray: #f8f9fa;
+    --text-dark: #343a40;
+    --text-muted: #6c757d;
+}
+
+/* Cartes statistiques */
+.mini-stats-wid.card {
+    background-color: var(--white) !important;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(11, 193, 150, 0.1);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.mini-stats-wid.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(11, 193, 150, 0.2);
+}
+
+.mini-stats-wid .wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background-color: var(--primary-color);
+    clip-path: polygon(0 100%, 100% 100%, 100% 50%, 0 0);
+    opacity: 0.15;
+}
+
+.mini-stats-wid .wave:nth-child(2) {
+    height: 20px;
+    opacity: 0.1;
+    clip-path: polygon(0 100%, 100% 100%, 100% 70%, 0 30%);
+}
+
+.mini-stats-wid .card-body {
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.mini-stats-wid .text-muted {
+    color: var(--text-muted) !important;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.mini-stats-wid h4 {
+    color: var(--text-dark);
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.mini-stat-icon {
+    background-color: var(--white) !important;
+    border: 2px solid var(--primary-light) !important;
+}
+
+.mini-stat-icon i {
+    color: white !important; /* Changé de var(--primary-color) à white */
+    font-size: 20px;
+}
+
+/* Cartes principales */
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(11, 193, 150, 0.1);
+    margin-bottom: 24px;
+    background-color: var(--white) !important ;
+}
+
+.card-header {
+    background-color: var(--white);
+    border-bottom: 1px solid rgba(11, 108, 193, 0.1);
+    padding: 15px 20px;
+}
+
+.card-header h4 {
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* Badges */
+.badge-primary {
+    background-color: var(--primary-color) !important;
+    color: var(--white) !important;
+}
+
+.badge-success {
+    background-color:rgb(11, 160, 193) !important;
+}
+
+.badge-warning {
+    background-color:rgb(7, 226, 255) !important;
+    color: var(--text-dark) !important;
+}
+
+.badge-danger {
+    background-color: #dc3545 !important;
+}
+
+.badge-info {
+    background-color: #17a2b8 !important;
+}
+
+/* Boutons */
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* Tableaux */
+.table-responsive {
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    background-color: var(--primary-light);
+    color: var(--primary-dark);
+    border-top: none;
+}
+
+.table td, .table th {
+    vertical-align: middle;
+    padding: 12px 15px;
+}
+
+/* Graphiques */
+.card-statistic-2, 
+.card-statistic-3, 
+.card-statistic-4, 
+.card-statistic-5, 
+.card-statistic-6 {
+    background-color: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(11, 96, 193, 0.46);
+}
+
+/* Tickets */
+.ticket-item {
+    border-left: 3px solid var(--primary-color);
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    background-color: var(--light-gray);
+    border-radius: 10px;
+}
+
+.ticket-item:hover {
+    background-color: var(--primary-light);
+}
+
+/* Dropdowns */
+.dropdown-menu {
+    border: none;
+    box-shadow: 0 5px 15px rgba(11, 193, 150, 0.2);
+    border-radius: 8px;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+    background-color: var(--primary-light);
+    color: var(--primary-dark);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .mini-stats-wid .card-body {
+        padding: 15px;
+    }
+    
+    .mini-stats-wid h4 {
+        font-size: 20px;
+    }
+    
+}
+
+.dropdown-position .font-weight-600.dropdown-toggle {
+    color: white !important;
+}
+</style>
     @endpush
+@endif

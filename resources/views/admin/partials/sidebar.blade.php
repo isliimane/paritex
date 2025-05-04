@@ -5,50 +5,103 @@
 <div class="main-sidebar">
 <style>
 .main-sidebar {
-  background: #fff !important;
+  background: linear-gradient(135deg,rgb(77, 103, 181) 0%,rgb(250, 248, 248) 100%) !important;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
 }
+
+/* Style pour le logo et le nom court */
+.sidebar-brand, .sidebar-brand-sm a {
+  color: #000000 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  padding: 15px 0;
+}
+
+/* Style des éléments du menu */
 .sidebar-menu .nav-link {
   color: #000000 !important;
-  transition: all 0.2s ease;
+  padding: 12px 15px;
+  margin: 5px 0;
+  border-radius: 4px;
+  transition: all 0.3s ease;
 }
+
 /* Style des icônes - Version bleue */
 .sidebar-menu i.bx {
-  color:#000 !important; /* Bleu clair */
+  font-size: 1.2rem;
+  color:rgb(50, 13, 236) !important; /* Bleu clair */
+  margin-right: 10px;
+  vertical-align: middle;
+  transition: color 0.3s ease;
 }
+
+/* Alternative bleu plus foncé */
+/* .sidebar-menu i.bx {
+  color: #2980b9 !important; 
+} */
+
 /* Effet au survol */
 .sidebar-menu .nav-link:hover {
-  background-color: rgba(0, 0, 0, 0.05) !important;
+  background-color: rgba(255, 255, 255, 0.1) !important; /* Fond légèrement clair au survol */
   transform: translateX(5px);
 }
 
-.sidebar-menu .nav-link:hover i.bx, .sidebar-menu .nav-link.active i.bx {
+.sidebar-menu .nav-link:hover i.bx {
   color: #2c3e50 !important; /* Bleu foncé au survol */
 }
 .sidebar-menu .nav-link.active {
-  background-color: rgba(0, 0, 0, 0.05) !important;
-}
-.sidebar-menu .dropdown-menu {
-    border: 0;
-}
-.sidebar-menu .dropdown-menu li{
-    border: 0;
-}
-.sidebar-menu .dropdown-menu .nav-link {
-  padding-top: 22px;
-  padding-bottom: 22px;
+  background-color: rgba(0, 0, 0, 0.1) !important;
+  font-weight: bold;
   color: #000000 !important;
+}
+
+.sidebar-menu .nav-link.active i.bx {
+  color: #1a5276 !important; /* Bleu plus soutenu pour l'état actif */
+}
+
+/* Style des sous-menus */
+.sidebar-menu .dropdown-menu {
+  background-color:180deg,rgb(37, 82, 215) 0%,rgb(250, 248, 248) 100%t;
+  border: 1px solid #e0e0e0 !important;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-menu .dropdown-menu a {
+  color: #000000 !important;
+}
+
+.sidebar-menu .dropdown-menu i.bx {
+  color:rgb(15, 33, 227) !important; /* Même bleu que les icônes principales */
+}
+
+/* Animation douce pour l'ouverture de la sidebar */
+.aside {
+  transition: all 0.3s ease-out;
+}
+
+/* Ombre portée pour le contenu */
+#sidebar-wrapper {
+  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Séparateur entre les éléments du menu */
 .sidebar-menu li {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Séparateur clair */
 }
 
 .sidebar-menu li:last-child {
   border-bottom: none;
 }
 
+/* Style pour les badges */
+.badge, .badge-addon {
+  color: #000 !important; /* Texte noir pour les badges */
+  background-color: #fff !important; /* Fond blanc pour les badges */
+}
 
+/* Style pour le logo dans la sidebar */
+.sidebar-brand img {
+  filter: brightness(0) invert(1); /* Pour inverser les couleurs du logo (le rendre blanc) */
+}
 </style>
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand sidebar-brand-sm py-3">
@@ -70,14 +123,7 @@
             
 <<<<<<< HEAD
           <!-- reclamation  -->
-          @if(hasPermission('claim_read'))
-    <li class="@yield('claim')">
-        <a class="nav-link" href="{{ route('admin.claim.index') }}">
-            <i class="bx bx-error-circle"></i>
-            <span>{{ __('Réclamations') }}</span>
-        </a>
-    </li>
-@endif
+     
 <!--return -->
 @if(hasPermission('return_read'))
     <li class="@yield('return')">
@@ -95,8 +141,6 @@
         </a>
     </li>
 @endif
-=======
->>>>>>> temp2
             @if(hasPermission('order_read') || hasPermission('pickup_hub_read'))
                 <li class="nav-item dropdown @yield('order_active')">
                     <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">

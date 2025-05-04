@@ -9,49 +9,49 @@
 
 /* Icônes principales de la navbar */
 .navbar .bx {
-  color: #3498db !important; /* Bleu standard */
+  color: rgb(9, 173, 42) !important; /* Bleu standard */
   transition: all 0.3s ease;
 }
 
 /* Icône du menu burger */
 .navbar .bx-menu {
-  color: #3498db !important;
+  color:  rgb(9, 173, 42)  !important;
 }
 
 /* Icône de notification */
 .navbar .bx-bell {
-  color: #3498db !important;
+  color: rgb(9, 173, 42)  !important;
 }
 
 /* Icône POS */
 .navbar .bx-printer {
-  color: #3498db !important;
+  color: rgb(9, 173, 42)  !important;
 }
 
 /* Icône "Visit Store" */
 .navbar .bx-globe {
-  color: #3498db !important;
+  color:   rgb(9, 173, 42)  !important;
 }
 
 /* Effet au survol des icônes */
 .navbar .nav-link:hover .bx {
-  color: #2980b9 !important; /* Bleu plus foncé au survol */
+  color: rgb(9, 173, 42)  !important; /* Bleu plus foncé au survol */
 }
 
 /* Dropdown utilisateur - Icônes */
 .dropdown-menu .bx {
-  color: #3498db !important;
+  color: rgb(9, 173, 42)  !important;
   margin-right: 8px;
 }
 
 /* Icône de profil */
 .dropdown-menu .bx-user {
-  color: #3498db !important;
+  color: rgb(9, 173, 42) !important;
 }
 
 /* Icône des activités de connexion */
 .dropdown-menu .bx-file {
-  color: #3498db !important;
+  color: rgb(9, 173, 42)  !important;
 }
 
 /* Icône de déconnexion */
@@ -61,19 +61,19 @@
 
 /* Style du nom d'utilisateur dans la navbar */
 .nav-link-user div {
-  color: #3498db !important;
+  color: rgb(9, 173, 42)  !important;
   font-weight: 600;
 }
 
 /* Style des flags/langues */
 .nav-link-flag img {
-  border: 2px solid #3498db;
+  border: 2px solid rgb(9, 173, 42) ;
   border-radius: 3px;
 }
 
 /* Style du dropdown devise */
 .nav-link-flag .d-sm-none.d-lg-inline-block {
-  color: #3498db !important;
+  color:rgb(255, 255, 255) !important;
   font-weight: 500;
 }
 
@@ -100,6 +100,52 @@
   .nav-link-user div {
     font-size: 0.9rem;
   }
+  .navbar-bg .navbar{ 
+    color:rgb(62, 59, 59) !important; 
+  }
+}
+
+ 
+
+
+
+.navbar-bg {
+    background-color: #rgb(5, 20, 7)!important; /* Arrière-plan noir */
+    
+}
+
+.main-navbar {
+    background-color:rgb(5, 20, 7)!important; /* Noir légèrement transparent */
+}
+
+
+
+.navbar .nav-link div,
+.navbar .nav-link i,
+.navbar .dropdown-toggle div {
+    color: #fff !important; /* Texte et icônes en blanc */
+}
+
+.dropdown-menu {
+    background-color: #333 !important; /* Fond du menu déroulant plus foncé */
+    color: #fff !important;
+}
+
+.dropdown-item {
+    color: #fff !important;
+}
+
+.dropdown-item:hover {
+    background-color: #444 !important; /* Couleur de survol */
+}
+
+
+.dropdown-list-content {
+    background-color: #333 !important;
+}
+
+.dropdown-item-desc {
+    color: #fff !important;
 }
 
 </style>

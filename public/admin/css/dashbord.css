@@ -1,0 +1,744 @@
+/*dashbord.css*/
+
+/* Dashboard Noir - Style Complet */
+:root {
+    --primary-bg: #1a1a1a;
+    --secondary-bg: rgb(5, 20, 7);
+    --text-dark: #ffffff;
+    --text-muted: #b0b0b0;
+    --icon-circle: #3a3a3a;
+    --icon-circle-hover: #4a4a4a;
+    --border-color: #333333;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --hover-shadow: rgba(0, 0, 0, 0.5);
+    --card-radius: 8px;
+}
+.card .card-body .d-flex p {
+    line-height: 18px;
+    margin-bottom: 0;
+    color: rgb(255, 255, 255) !important;
+}
+.card .card-header .card-body .dropdown-toggle{
+    border-radius: 0%;
+}
+/* Structure de base */
+.section {
+    background-color: #414245 !important;
+    padding: 20px;
+    color: var(--text-dark);
+}
+
+/* Cartes Statistiques */
+.mini-stats-wid.card {
+    background: rgb(5, 20, 7) !important;
+    border: none !important;
+    border-radius: var(--card-radius);
+    box-shadow: 0 2px 10px var(--shadow-color);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    position: relative;
+    color: var(--text-dark);
+}
+
+.mini-stats-wid.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px var(--hover-shadow);
+}
+
+/* Effets de vague */
+.mini-stats-wid .wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background: linear-gradient(90deg, #555555 0%, #333333 100%);
+    opacity: 0.1;
+    clip-path: polygon(0 100%, 100% 100%, 100% 50%, 0 0);
+}
+
+.mini-stats-wid .wave:nth-child(2) {
+    height: 20px;
+    opacity: 0.05;
+    clip-path: polygon(0 100%, 100% 100%, 100% 70%, 0 30%);
+}
+
+/* Contenu des cartes */
+.mini-stats-wid .card-body {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+}
+body {
+    background-color: #444444 !important;}
+
+.mini-stats-wid h4 {
+    color: var(--text-dark);
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-bottom: 0;
+}
+
+.mini-stats-wid p.text-muted {
+    color: var(--text-muted) !important;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+/* Icônes */
+.mini-stat-icon {
+    background-color: var(--icon-circle) !important;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50% !important;
+    transition: all 0.3s ease;
+}
+
+.mini-stat-icon i {
+    color: var(--text-dark) !important;
+    font-size: 20px;
+}
+
+.mini-stats-wid:hover .mini-stat-icon {
+    background-color: var(--icon-circle-hover) !important;
+}
+
+/* Cartes principales */
+.card {
+    background: var(--secondary-bg) !important;
+    border: none !important;
+    border-radius: var(--card-radius);
+    box-shadow: 0 2px 10px var(--shadow-color);
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    color: var(--text-dark);
+}
+
+.card:hover {
+    box-shadow: 0 5px 15px var(--hover-shadow);
+}
+
+.card-header {
+    background: var(--secondary-bg) !important;
+    border-bottom: 1px solid var(--border-color);
+    padding: 15px 20px;
+    border-radius: var(--card-radius) var(--card-radius) 0 0 !important;
+    color: var(--text-dark);
+}
+
+.card-header h4 {
+    color: var(--text-dark);
+    font-weight: 600;
+    margin-bottom: 0;
+}
+
+.card-icon {
+    background-color: #444444 !important;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50% !important;
+}
+
+.card-icon i {
+    color: var(--text-dark) !important;
+    font-size: 24px;
+}
+
+/* Badges */
+.badge {
+   
+    font-weight: 500;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.badge, .badge-addon {
+    color: #000 !important;
+    background-color: #0d940f !important;
+}
+
+.badge-primary {
+    background-color: #444444 !important;
+    color: var(--text-dark) !important;
+}
+
+.badge-success {
+    background-color: #28a745 !important;
+}
+
+.badge-warning {
+    background-color: #ffc107 !important;
+    color: var(--primary-bg) !important;
+}
+
+.badge-danger {
+    background-color: #dc3545 !important;
+}
+
+.badge-info {
+    background-color: #17a2b8 !important;
+}
+
+/* Boutons */
+.btn-outline-primary {
+    color: var(--text-dark);
+    border-color: var(--text-dark);
+    background-color: transparent;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--text-dark);
+    color: var(--primary-bg);
+}
+
+.btn-outline-primary i {
+    color: var(--text-dark) !important;
+}
+
+.btn-outline-primary:hover i {
+    color: var(--primary-bg) !important;
+}
+
+.btn-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Tableaux */
+.table-responsive {
+    border-radius: var(--card-radius);
+    overflow: hidden;
+}
+
+.table {
+    margin-bottom: 0;
+    color: var(--text-dark);
+    background-color: var(--secondary-bg);
+}
+
+.table th {
+    background-color: #333333;
+    color: var(--text-dark);
+    border-top: none;
+    font-weight: 600;
+    border-color: var(--border-color);
+}
+
+.table td, .table th {
+    padding: 12px 15px;
+    vertical-align: middle;
+    border-color: var(--border-color);
+}
+
+.table i {
+    color: var(--text-dark) !important;
+}
+
+/* Graphiques */
+.card-statistic-2, 
+.card-statistic-3, 
+.card-statistic-4, 
+.card-statistic-5, 
+.card-statistic-6 {
+    background: var(--secondary-bg);
+    border-radius: var(--card-radius);
+    box-shadow: 0 2px 10px var(--shadow-color);
+}
+
+/* Tickets */
+.ticket-item {
+    border-left: 3px solid var(--text-dark);
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    background-color: #333333;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.ticket-item:hover {
+    background-color:rgb(58, 58, 58);
+}
+
+.ticket-item i {
+    color: var(--text-dark) !important;
+}
+
+/* Dropdowns */
+.dropdown-menu {
+    border: none;
+    box-shadow: 0 5px 15px var(--hover-shadow);
+    border-radius: var(--card-radius);
+    padding: 10px 0;
+    background-color: var(--secondary-bg);
+}
+
+.dropdown-item {
+    padding: 8px 15px;
+    color: var(--text-dark);
+}
+
+.dropdown-item:hover, 
+.dropdown-item:focus {
+    background-color: #333333;
+    color: var(--text-dark);
+}
+
+.dropdown-item.active, 
+.dropdown-item:active {
+    background-color:rgb(51, 51, 51);
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.dropdown-toggle i {
+    margin-left: 5px;
+    color: var(--text-dark) !important;
+}
+
+/* Liens */
+.stats-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.stats-card-link:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Style pour les statistiques circulaires */
+.circle-stat {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    background: linear-gradient(135deg,rgb(59, 173, 42) 0%,rgb(43, 189, 20) 100%);
+    box-shadow: 0 4px 20px rgba(85, 110, 230, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.circle-stat:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(85, 110, 230, 0.4);
+}
+
+.circle-stat-inner {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: var(--secondary-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 15px;
+}
+
+.circle-stat-count {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    line-height: 1;
+    margin-bottom: 5px;
+}
+
+.circle-stat-amount {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    line-height: 1;
+    margin-bottom: 5px;
+}
+
+.circle-stat-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .mini-stats-wid .card-body {
+        padding: 15px;
+    }
+    
+    .mini-stats-wid h4 {
+        font-size: 1.3rem;
+    }
+    
+    .card-header, .card-body {
+        padding: 15px;
+    }
+    
+    .mini-stat-icon {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .mini-stat-icon i {
+        font-size: 18px;
+    }
+    
+    .circle-stat {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .circle-stat-inner {
+        width: 85px;
+        height: 85px;
+    }
+    
+    .circle-stat-count {
+        font-size: 1.2rem;
+    }
+    
+    .circle-stat-amount {
+        font-size: 0.8rem;
+    }
+    
+    .circle-stat-label {
+        font-size: 0.7rem;
+    }
+}
+
+/* Animation des cartes */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Délai d'animation pour les cartes */
+.card:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2) { animation-delay: 0.2s; }
+.card:nth-child(3) { animation-delay: 0.3s; }
+.card:nth-child(4) { animation-delay: 0.4s; }
+
+/* Style pour les avatars et avatar-title */
+.avatar-sm {
+    width: 36px;
+    height: 36px;
+}
+
+.avatar-md {
+    width: 48px;
+    height: 48px;
+}
+
+.avatar-lg {
+    width: 60px;
+    height: 60px;
+}
+
+.avatar-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: var(--icon-circle);
+    color: var(--text-dark) !important;
+    font-weight: 600;
+    font-size: 1rem;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+/* Style pour les avatars avec icônes */
+.avatar-title i {
+    font-size: 1.2rem;
+    color: var(--text-dark);
+}
+
+/* Style pour les avatars avec texte */
+.avatar-title.text-avatar {
+    background-color: var(--text-dark);
+    color: var(--primary-bg) !important;
+}
+
+/* Style pour les avatars avec images */
+.avatar-title img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Effet hover */
+
+
+/* Style spécifique pour les mini-stat-icon */
+.mini-stat-icon .avatar-title {
+    background-color: var(--icon-circle);
+    width: 100%;
+    height: 100%;
+}
+
+/* Style pour le dropdown-toggle personnalisé */
+.font-weight-600.dropdown-toggle {
+    color: var(--text-dark) !important;
+    background-color: transparent;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.font-weight-600.dropdown-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    text-decoration: none;
+}
+
+.font-weight-600.dropdown-toggle::after {
+    content: "▼";
+    font-size: 0.6em;
+    margin-left: 8px;
+    transition: transform 0.3s ease;
+    border: none !important;
+    vertical-align: middle;
+    color: var(--text-dark);
+}
+
+.font-weight-600.dropdown-toggle[aria-expanded="true"]::after {
+    transform: rotate(180deg);
+}
+
+/* Style quand dans un badge */
+.badge .font-weight-600.dropdown-toggle {
+    color: var(--text-dark) !important;
+    padding: 4px 10px;
+}
+
+.badge .font-weight-600.dropdown-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Style pour l'icône */
+.font-weight-600.dropdown-toggle i {
+    margin-right: 6px;
+    font-size: 0.9em;
+}
+
+/* Ajustements pour les graphiques */
+.chartjs-render-monitor {
+    background-color: var(--secondary-bg);
+    border-radius: var(--card-radius);
+    padding: 10px;
+}
+
+/* Correction pour les textes dans les cartes */
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+/* Ajustement pour les tableaux */
+.table-hover tbody tr:hover {
+    background-color: #333333;
+    color: var(--text-dark);
+}
+
+/* Correction pour les liens dans les tableaux */
+.table a {
+    color: var(--text-dark);
+}
+
+.table a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+/* Ajustement pour les onglets */
+.nav-tabs .nav-link {
+    color: var(--text-muted);
+    border-color: var(--border-color);
+}
+
+.nav-tabs .nav-link.active {
+    color: var(--text-dark);
+    background-color: var(--secondary-bg);
+    border-color: var(--border-color) var(--border-color) var(--secondary-bg);
+}
+
+/* Ajustement pour les formulaires */
+.form-control {
+    background-color: #333333;
+    border-color: #444444;
+    color: var(--text-dark);
+}
+
+.form-control:focus {
+    background-color: #3a3a3a;
+    border-color: #555555;
+    color: var(--text-dark);
+    box-shadow: 0 0 0 0.2rem rgba(90, 90, 90, 0.25);
+}
+
+/* Ajustement pour les selects */
+.custom-select {
+    background-color: #333333;
+    border-color: #444444;
+    color: var(--text-dark);
+}
+
+/* Ajustement pour les paginations */
+.pagination .page-item .page-link {
+    background-color: #333333;
+    border-color: #444444;
+    color: var(--text-dark);
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #555555;
+    border-color: #555555;
+}
+
+.pagination .page-item.disabled .page-link {
+    background-color: #2a2a2a;
+    border-color: #3a3a3a;
+    color: #666666;
+}
+.card .card-header h4 {
+
+ 
+    color:rgb(250, 253, 251) !important;
+  
+}
+
+.card .card-header {
+    border-bottom-color: rgb(9, 173, 42) !important;
+}
+
+/* Style pour le bouton principal */
+.dropdown-toggle-custom {
+    background-color: rgb(9, 173, 42) !important;
+    border-color: #09ad2a !important;
+  
+    padding: 8px 10px !important;        /* Padding réduit */
+    font-size: 0.85rem !important;      /* Taille de police réduite */
+    min-width: 100px !important;         /* Largeur minimale réduite */
+    text-align: center;
+}
+
+/* Style pour le menu déroulant */
+.dropdown-menu-sm {
+    background-color: rgb(9, 173, 42) !important;
+    border-color: #09ad2a !important;
+    min-width: 100px !important;
+    padding: 2px 0 !important;
+}
+
+/* Style pour le bouton déclencheur */
+.dropdown-toggle-custom {
+    min-width: 100px;
+    background-color: rgb(9, 173, 42) !important;
+    border-color: #09ad2a !important;
+    color: white !important;
+}
+
+/* Style de base pour les éléments du menu */
+.dropdown-item.order-statistics {
+    color: white !important;
+    background-color: rgb(32, 37, 33) !important;
+    padding: 8px 16px !important;
+    white-space: nowrap;
+    transition: background-color 0.2s ease;
+}
+
+/* État actif */
+.dropdown-item.order-statistics.active {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    font-weight: bold;
+}
+
+/* Effet au survol */
+.dropdown-item.order-statistics:hover {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    text-decoration: none;
+}
+
+/***************************************************************/
+/* Style pour le conteneur badge */
+.d-inline.dropdown-position.badge-primary {
+    background-color: rgb(9, 173, 42) !important;
+    border-color: rgb(7, 150, 36) !important;
+}
+.badge {
+    background-color: rgb(9, 173, 42) !important;
+    border-color: rgb(7, 150, 36) !important;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Style pour le bouton déclencheur */
+.badge .dropdown-toggle {
+    background-color: rgb(9, 173, 42) !important;
+    border-color: #09ad2a !important;
+    color: white !important;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    min-width: 100px;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+}
+
+/* Style pour le menu déroulant */
+.badge .dropdown-menu-sm {
+    background-color: rgb(9, 173, 42) !important;
+    border-color: #09ad2a !important;
+    min-width: 100px !important;
+    padding: 4px 0;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Style des éléments du menu */
+.badge .dropdown-item.order-statistics-state {
+    color: white !important;
+    background-color: transparent !important;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+/* État actif */
+.badge .dropdown-item.order-statistics-state.active {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    font-weight: bold;
+}
+
+/* Effet au survol */
+.badge .dropdown-item.order-statistics-state:hover {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    text-decoration: none;
+}
+

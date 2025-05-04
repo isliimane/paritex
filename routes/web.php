@@ -288,9 +288,17 @@ Route::middleware(['XSS', 'isInstalled'])->group(function () {
         Route::get('brands.xml', [SitemapController::class, 'brands'])->name('brands.sitemap');
         Route::get('pages.xml', [SitemapController::class, 'pages'])->name('pages.sitemap');
     });
-    Route::get('migrate', function () {
 
-        \Illuminate\Support\Facades\Artisan::call('migrate');
+    //réclamation 
+    Route::middleware(['loginCheck'])->group(function () {
+        Route::post('send-claim', '\App\Http\Controllers\Admin\ClaimController@store')->name('claim.create');
+    });
+    Route::middleware(['loginCheck'])->group(function () {
+        Route::post('return-request', '\App\Http\Controllers\Admin\ReturnRequestController@store')->name('create.return');
+        Route::get('return/pending', '\App\Http\Controllers\Admin\ReturnRequestController@pendingRequests');
+        Route::post('return/{id}/process', '\App\Http\Controllers\Admin\ReturnRequestController@processRequest');
+        Route::get('/return', [ReturnRequestController::class, 'index'])->name('return.index');
+
     });
 
      

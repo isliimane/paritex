@@ -7,7 +7,7 @@
     <meta name="keyword" content="{{ settingHelper('keyword') }}" />
     <meta name="article" content="{{ settingHelper('article') }}" />
     <meta name="language" content="{{ settingHelper('default_language') }}" />
-    <title>@yield('title') | {{ settingHelper('admin_panel_title') != '' ?  settingHelper('admin_panel_title') : __('Yoori') }}</title>
+    <title>@yield('title') | {{ settingHelper('admin_panel_title') != '' ?  settingHelper('admin_panel_title') : __('PARITEX') }}</title>
 @php
     $logo = settingHelper('og_image');
 @endphp

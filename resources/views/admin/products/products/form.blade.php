@@ -1536,3 +1536,29 @@
         });
     </script>
 @endpush
+<style>
+    /* Bouton Back  */
+.custom-button {
+  position: relative;
+  transition: all 0.3s ease-in-out;
+  padding-block: 0.5rem;
+  padding-inline: 1.25rem;
+  background-color:rgb(0, 162, 57); /* ✅ Vert */
+  border-radius: 9px !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color:rgb(255, 255, 255);
+  gap: 10px;
+  font-weight: bold;
+  border: 3px solidrgba(186, 43, 43, 0.3);
+  outline: none;
+  overflow: hidden;
+  font-size: 15px;
+  text-decoration: none; /* Supprime le soulignement */
+}
+.bx-arrow-back:before {
+    content: "\ec17"; 
+    color: #ffffff !important;}
+    </style>
