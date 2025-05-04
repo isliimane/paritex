@@ -32,16 +32,6 @@
                 role="presentation"><a class="nav-link" href="javaScript:void(0)" aria-controls="brands"
                                       role="tab" data-bs-toggle="tab"
                                       aria-expanded="true">{{ lang.brands }}</a></li>
-            <li class="nav-item" @click="shopActive"
-                :class="{'show active' : activeNav == 'shops'}" role="presentation"><a class="nav-link"
-                                                                                      href="javaScript:void(0)"
-                                                                                      aria-controls="shops"
-                                                                                      role="tab"
-                                                                                      data-bs-toggle="tab"
-                                                                                      aria-expanded="true">{{
-                lang.shops
-              }}</a>
-            </li>
           </ul>
         </div>
 
@@ -97,13 +87,6 @@
               </div>
             </div>
           </div>
-          <div role="tabpanel" class="tab-pane fade" :class="{'show active' : activeNav == 'shops'}"
-              id="shops">
-            <section class="sg-seller-product">
-              <h6 v-if="responseCheck && shops.data && shops.data.length == 0" class="text-center">{{ lang.no_data_found }}</h6>
-              <seller v-else :sellers="shops.data" :class_name="'grid-4'" :is_shimmer="is_shimmer"></seller>
-            </section>
-          </div><!-- /.tab-pane -->
         </div><!-- /.tab-content -->
 
         <div class="col-md-12 text-center show-more" v-show="loading">
@@ -123,13 +106,11 @@ import product from "./product";
 import FlipCountdown from "vue2-flip-countdown";
 import StarRating from 'vue-star-rating';
 import shimmer from "../partials/shimmer";
-import seller from "../partials/seller";
-
 
 export default {
   name: "campaign_details",
   components: {
-    product, FlipCountdown, StarRating, shimmer, seller
+    product, FlipCountdown, StarRating, shimmer
   },
   data() {
     return {
@@ -151,9 +132,6 @@ export default {
   },
   mounted() {
     this.campaignProducts();
-    if (this.lengthCounter(this.shops) > 0) {
-      this.is_shimmer = true;
-    }
   },
   computed: {
     baseUrl() {
@@ -173,15 +151,6 @@ export default {
       for (let i = 0; i < brands.length; i++) {
         if (brands[i].slug == this.$route.params.slug) {
           return brands[i].brands;
-        }
-      }
-      return [];
-    },
-    shops() {
-      let shops = this.$store.getters.getCampaignShops;
-      for (let i = 0; i < shops.length; i++) {
-        if (shops[i].slug == this.$route.params.slug) {
-          return shops[i].shops;
         }
       }
       return [];
@@ -261,13 +230,6 @@ export default {
             };
             this.brand_next_page_url = response.data.brands.next_page_url;
             this.$store.commit('getCampaignBrands', data);
-          } else if (response.data.shops) {
-            let data = {
-              slug: this.$route.params.slug,
-              shops: response.data.shops
-            };
-            this.shop_next_page_url = response.data.shops.next_page_url;
-            this.$store.commit('getCampaignShops', data);
           }
         }
       });
@@ -299,35 +261,6 @@ export default {
         this.$store.commit('getCampaignBrands', data);
       })
     },
-    shopActive() {
-      this.activeNav = 'shops'
-      if (this.lengthCounter(this.shops) != 0) {
-        this.shop_next_page_url = this.shops.next_page_url;
-        return this.shops;
-      }
-      let url = this.baseUrl + '/home/campaign-brands';
-      this.loading = true
-      let requestData = {
-        slug: this.$route.params.slug,
-        type: 'shop',
-      };
-      axios.get(url, {params: requestData}).then((response) => {
-        this.is_shimmer = true;
-        this.loading = false;
-        this.$store.commit('setResponseCheck',true);
-        if (response.data.error) {
-          toastr.error(response.data.error, this.lang.Error + ' !!');
-        }
-        else{
-          let data = {
-            slug: this.$route.params.slug,
-            shops: response.data.shops
-          };
-          this.shop_next_page_url = response.data.shops.next_page_url;
-          this.$store.commit('getCampaignShops', data);
-        }
-      })
-    }
   }
 }
 </script>

@@ -23,7 +23,8 @@ class ProductStock extends Model
     protected $appends = [
         'stock_image',
         'discount_percentage',
-        'image_190x230'
+        'image_190x230',
+        'available_quantity'
     ];
 
     public function wholeSalePrice(){
@@ -69,4 +70,13 @@ class ProductStock extends Model
         return @is_file_exists($this->image['image_190x230'] , $this->image['storage']) ? @get_media($this->image['image_190x230'],$this->image['storage']) : static_asset('images/default/190x230_no_bg.png');
     }
 
+    public function getAvailableQuantityAttribute()
+    {
+        // Get total quantity of this stock in all warehouses
+        $totalInWarehouses = WarehouseProduct::where('product_stock_id', $this->id)
+            ->sum('quantity');
+
+        // Calculate available quantity
+        return $this->current_stock - $totalInWarehouses;
+    }
 }

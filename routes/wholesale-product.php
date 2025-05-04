@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Admin\Addons\WholeSaleProductController;
-use App\Http\Controllers\Seller\Addons\WholeSaleProductController as SellerWholesaleProduct;
 use Illuminate\Support\Facades\Route;
 
 Route::group(
@@ -22,20 +21,6 @@ Route::group(
             Route::post('update-product',[WholeSaleProductController::class, 'update'])->name('wholesale.product.update')->middleware('PermissionCheck:wholesale_product_update');
             Route::get('product-clone/{id}',[WholeSaleProductController::class, 'cloneWholesaleProduct'])->name('wholesale.product.clone')->middleware('PermissionCheck:wholesale_product_clone');
             Route::post('clone-product',[WholeSaleProductController::class, 'storeCloneWholesaleProduct'])->name('wholesale.product.clone.store')->middleware('PermissionCheck:wholesale_product_clone');
-        });
-    });
-    Route::middleware(['sellerCheck', 'loginCheck', 'XSS'])->prefix('seller')->group(function () {
-
-        //Refunds Settings
-        Route::group(['prefix' => 'wholesale'], function () {
-
-            Route::get('products/{status?}',[SellerWholesaleProduct::class,'wholesaleProducts'])->name('seller.wholesale.products')->middleware('PermissionCheck:seller_can_create_wholesale');
-            Route::get('product/create',[SellerWholesaleProduct::class,'create'])->name('seller.wholesale.product.create')->middleware('PermissionCheck:seller_can_create_wholesale');
-            Route::post('product/create',[SellerWholesaleProduct::class,'store'])->name('seller.wholesale.product.create.post')->middleware('PermissionCheck:seller_can_create_wholesale');
-            Route::get('edit-product/{id}',[SellerWholesaleProduct::class, 'edit'])->name('seller.wholesale.product.edit')->middleware('PermissionCheck:seller_can_create_wholesale');
-            Route::post('update-product',[SellerWholesaleProduct::class, 'update'])->name('seller.wholesale.product.update')->middleware('PermissionCheck:seller_can_create_wholesale');
-            Route::get('product-clone/{id}',[SellerWholesaleProduct::class, 'cloneWholesaleProduct'])->name('seller.wholesale.product.clone')->middleware('PermissionCheck:seller_can_create_wholesale');
-            Route::post('clone-product',[SellerWholesaleProduct::class, 'storeCloneWholesaleProduct'])->name('seller.wholesale.product.clone.store')->middleware('PermissionCheck:seller_can_create_wholesale');
         });
     });
 });

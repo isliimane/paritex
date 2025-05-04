@@ -8,6 +8,9 @@ export default {
     getContactPage(state, data) {
         return state.contact_page = data;
     },
+    getComplaintPage(state, data) {
+        return state.complaint_page = data;
+    },
     getSettings(state, data) {
         return state.settings = data;
     },
@@ -63,25 +66,6 @@ export default {
 
         return state.campaign_brands.push(data);
     },
-    getCampaignShops(state, data) {
-        let campaigns = state.campaign_shops;
-        let products = {
-            data: []
-        };
-        let index = campaigns.findIndex(campaign => campaign.slug == data.slug);
-
-        if (index > -1) {
-            products.data = campaigns[index].shops.data;
-            for (let j = 0; j < data.shops.data.length; j++) {
-                products.data.push(data.shops.data[j]);
-            }
-
-            products.next_page_url = data.shops.next_page_url;
-            return state.campaign_shops[index].shops = products;
-        }
-
-        return state.campaign_shops.push(data);
-    },
 
     getBlogCategories(state, data) {
         return state.blogCategories = data;
@@ -89,39 +73,15 @@ export default {
     getBlogTags(state, data) {
         return state.blogTags = data;
     },
-    getShopCategories(state, data) {
-        return state.shop_categories = data;
-    },
-    getShopBrands(state, data) {
-        return state.shop_brands = data;
-    },
-    getShopColors(state, data) {
-        return state.shop_colors = data;
-    },
-    getShopAttributes(state, data) {
-        return state.shop_attributes.push({ slug : data.slug,attributes : data.attributes })
-    },
 
     getDailyDeals(state, data) {
         return state.daily_deals = data;
-    },
-    getGiftIdea(state, data) {
-        return state.gift_idea = data;
-    },
-    getBusinessIdea(state, data) {
-        return state.business_idea = data;
     },
     getRecentPosts(state, data) {
         return state.recent_posts = data;
     },
     productDetails(state, data) {
         return state.product_details.push({slug: data.slug, product: data});
-    },
-    setShopContents(state, data) {
-        return state.shop_contents.push({slug: data.slug, contents: data});
-    },
-    setShopComponents(state, data) {
-        return state.shop_component_names.push({slug: data.slug, contents: data.component_names});
     },
     getReplyForm(state, data) {
         return state.reply_form = data;
@@ -138,9 +98,6 @@ export default {
     getProfileOrders(state, data) {
         return state.profile_orders = data;
     },
-    getUserOrders(state, data) {
-        return state.user_orders = data;
-    },
     getUserOrderList(state, data) {
         return state.userOrderList = data;
     },
@@ -152,9 +109,6 @@ export default {
     },
     getWishlists(state, data) {
         return state.allWishlist = data;
-    },
-    getShop(state, data) {
-        return state.get_shop = data;
     },
     getUserWishlist(state, data) {
         return state.wishlist_products.push(data);
@@ -206,17 +160,7 @@ export default {
         state.brand_paginate_page++
         return state.allBrands;
     },
-    getAllSellers(state, data) {
-        let sellers = data.data
-        for (let i = 0; i < sellers.length; i++) {
-            let found = state.allSellers.some(el => el.id === sellers[i].id);
-            if (!found)
-                state.allSellers.push(sellers[i])
-        }
-        state.seller_paginate_url = data.next_page_url
-        state.seller_paginate_page++
-        return state.allSellers;
-    },
+   
     getDefaultAssets(state, data) {
         return state.default_assets = data;
     },
@@ -250,9 +194,7 @@ export default {
     getBrandPage(state, data) {
         return state.brand_page.push(data);
     },
-    getSellerPage(state, data) {
-        return state.seller_page.push(data);
-    },
+   
     getOfferProducts(state, data) {
         return state.offer_products = data;
     },
@@ -296,26 +238,8 @@ export default {
     getInvoices(state, data) {
         return state.invoices = data;
     },
-    getShopFollower(state, data) {
-        if (data.id) {
-            state.shop_follwer.push({user_id: data.user_id, seller_id: data.id, status: 1});
-        }
-        return state.shop_follwer;
-    },
-    getRemoveFollower(state, data) {
-        var index = state.shop_follwer.findIndex(c =>
-            c.seller_id == data.seller_id
-        );
-        if (index > -1) {
-            state.shop_follwer.splice(index, 1);
-        }
+   
 
-        return state.shop_follwer;
-    },
-
-    setCurrentSellerId(state, id) {
-        state.currentSellerId = id;
-    },
     setLoginRedirection(state, data) {
         return state.login_redirect = data;
     },
@@ -324,18 +248,6 @@ export default {
     },
     setNotifications(state, data) {
         return state.notifications = data;
-    },
-    setFollowedSellers(state, data) {
-        for (let i = 0; i < data.length; i++) {
-            let found = state.followedSellers.some(el => el.id === data[i].id);
-            if (!found) {
-                state.followedSellers.push(data[i])
-            }
-        }
-        return state.followedSellers;
-    },
-    removeFollowedSellers(state, i) {
-        return state.followedSellers.splice(i,1);
     },
     setActiveModal(state, data) {
         return state.active_modal = data;
@@ -350,45 +262,6 @@ export default {
         return state.payment_data = data;
     },
 
-    setSellerCoupons(state, data) {
-        let seller_coupons = state.seller_coupons;
-        let coupons = {
-            data: []
-        };
-
-        for (let i = 0; i < seller_coupons.length; i++) {
-            if (seller_coupons[i].slug == data.slug) {
-                coupons.data = seller_coupons[i].coupons.data;
-                for (let j = 0; j < data.coupons.data.length; j++) {
-                    coupons.data.push(data.coupons.data[i]);
-                }
-
-                coupons.next_page_url = data.coupons.next_page_url;
-                return state.seller_coupons[i].coupons = coupons;
-            }
-        }
-        return state.seller_coupons.push(data);
-    },
-    setSellerProducts(state, data) {
-        let seller_products = state.seller_products;
-        let products = {
-            data: []
-        };
-
-        let index = seller_products.findIndex(seller => seller.slug == data.slug)
-
-        if (index > -1) {
-            state.seller_products[index].products.data = [];
-            products.data = seller_products[index].products.data;
-            for (let i = 0; i < data.products.data.length; i++) {
-                products.data.push(data.products.data[i]);
-            }
-            products.next_page_url = data.products.next_page_url;
-            return state.seller_products[index].products = products;
-        }
-
-        return state.seller_products.push(data);
-    },
     setActiveTab(state, data) {
         return state.active_tab = data;
     },
@@ -403,25 +276,6 @@ export default {
     },
     setResponseCheck(state, data) {
         return state.responseCheck = data;
-    },
-    setVideoShops(state, data) {
-        for (let i = 0; i < data.length; i++) {
-            let found = state.video_shops.some(el => el.id === data[i].id);
-            if (!found)
-                state.video_shops.push(data[i])
-        }
-        return state.video_shops;
-    },
-    setVideoDetails(state, data) {
-        let found = state.video_details.some(el => el.id === data.id);
-        if (!found)
-            state.video_details.push(data)
-
-        return state.video_details;
-    },
-    setEmptySeller(state) {
-        let arr = [];
-        return state.allSellers = arr;
     },
     setSliderBanner(state, data) {
         return state.slider_banners = data;

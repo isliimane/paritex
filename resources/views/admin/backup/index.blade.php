@@ -76,16 +76,7 @@
                                             <td>
                                                 <span class="badge badge-success">Active</span>
                                             </td>
-                                            <td>
-                                                <a href="{{route('seller-packages.edit',1)}}" class="btn btn-outline-secondary btn-circle"
-                                                   data-toggle="tooltip" title=""
-                                                   data-original-title="{{ __('Edit') }}"><i class="bx bx-edit"></i></a>
-
-                                                <a href="javascript:void(0)" onclick="delete_row('seller-packages/destroy',9)"
-                                                   class="btn btn-outline-danger btn-circle" data-toggle="tooltip"
-                                                   title=""
-                                                   data-original-title="{{ __('Delete') }}"><i class="bx bx-trash"></i></a>
-                                            </td>
+                                            
                                         </tr>
                                     @endforeach
                                     </tbody>

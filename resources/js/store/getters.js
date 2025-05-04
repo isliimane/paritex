@@ -8,6 +8,9 @@ export default {
     getContactPage(state) {
         return state.contact_page
     },
+    getComplaintPage(state) {
+        return state.complaint_page
+    },
     getAllCampaign(state) {
         return state.all_campaigns
     },
@@ -19,9 +22,6 @@ export default {
     },
     getCampaignBrands(state) {
         return state.campaign_brands
-    },
-    getCampaignShops(state) {
-        return state.campaign_shops
     },
     getCampaign(state) {
         return state.campaign
@@ -47,12 +47,6 @@ export default {
     getDailyDeals(state) {
         return state.daily_deals;
     },
-    getGiftIdea(state) {
-        return state.gift_idea;
-    },
-    getBusinessIdea(state) {
-        return state.business_idea;
-    },
     getRecentPosts(state) {
         return state.recent_posts;
     },
@@ -74,9 +68,6 @@ export default {
     },
     getProfileOrders(state) {
         return state.profile_orders;
-    },
-    getUserOrders(state) {
-        return state.user_orders;
     },
     getUserOrderList(state) {
         return state.userOrderList;
@@ -123,9 +114,6 @@ export default {
     getAllBrands(state) {
         return state.allBrands
     },
-    getAllSellers(state) {
-        return state.allSellers
-    },
     getDefaultAssets(state) {
         return state.default_assets;
     },
@@ -143,9 +131,6 @@ export default {
     },
     getBrandPage(state) {
         return state.brand_page;
-    },
-    getSellerPage(state) {
-        return state.seller_page;
     },
     getOfferProducts(state) {
         return state.offer_products;
@@ -189,10 +174,6 @@ export default {
     {
         return state.notifications;
     },
-    getFollowedSellers(state)
-    {
-        return state.followedSellers;
-    },
     getActiveModal(state)
     {
         return state.active_modal;
@@ -216,12 +197,6 @@ export default {
     {
         return state.payment_data;
     },
-    getSellerCoupons(state) {
-        return state.seller_coupons;
-    },
-    getSellerProducts(state) {
-        return state.seller_products
-    },
     getActiveTab(state) {
         return state.active_tab;
     },
@@ -238,14 +213,6 @@ export default {
     getResponseCheck(state)
     {
         return state.responseCheck;
-    },
-    getVideoShops(state)
-    {
-        return state.video_shops;
-    },
-    getVideoDetails(state)
-    {
-        return state.video_details;
     },
     getSliderBanners(state)
     {
@@ -269,7 +236,4 @@ export default {
     getCampaignStore(state) {
         return state.campaign_store;
     },
-    getCurrentSellerId(state){
-        return state.currentSellerId;
-    }
 }

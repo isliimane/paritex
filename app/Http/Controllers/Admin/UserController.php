@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UserStoreRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Imports\CustomerImport;
-use App\Repositories\Interfaces\Admin\Addon\OfflineMethodInterface;
 use App\Repositories\Interfaces\Admin\CurrencyInterface;
 use Cartalyst\Sentinel\Laravel\Facades\Activation;
 use Illuminate\Http\Request;
@@ -157,6 +156,17 @@ class UserController extends Controller
             return redirect()->back();
         endif;
         if ($this->users->emailVerify($user_id)):
+            return redirect()->back();
+        else:
+            return back()->withInput();
+        endif;
+    }
+    public function licenseVerify($user_id){
+        if (config('app.demo_mode')):
+            Toastr::info(__('This function is disabled in demo server.'));
+            return redirect()->back();
+        endif;
+        if ($this->users->licenseVerify($user_id)):
             return redirect()->back();
         else:
             return back()->withInput();

@@ -60,6 +60,7 @@ class UserRepository implements UserInterface
         $user->permissions  = [];
         $user->images       = $image_response['images'] ?? [];
         $user->country_id   = $request->country_id;
+        $user->license_no   = $request->license_no;
         $user->save();
 
         $activation = Activation::create($user);
@@ -100,6 +101,7 @@ class UserRepository implements UserInterface
         $user->date_of_birth        = $request->date_of_birth;
         $user->socials              = $request->socials;
         $user->country_id           = $request->country_id;
+        $user->license_no           = $request->license_no;
         if ($request->password != ""):
             $user->password         = bcrypt($request->password);
         endif;
@@ -147,6 +149,28 @@ class UserRepository implements UserInterface
         }
     }
 
+    public function licenseVerify($user_id)
+    {
+        DB::beginTransaction();
+        try {
+            $user = User::find($user_id);
+            if($user->license_verified == 1):
+                $user->license_verified = 0;
+                Toastr::success(__('License Number is Inactivated'));
+            else:
+                $user->license_verified = 1;
+                Toastr::success(__('License Number is Activated')); 
+            endif;
+
+            $user->save();
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollback();
+            Toastr::error(__('Something went wrong, please try again'));
+            return false;
+        }
+    }
     public function currencyUpdate($data)
     {
         try {

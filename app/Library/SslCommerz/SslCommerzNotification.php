@@ -332,7 +332,6 @@ class SslCommerzNotification extends AbstractSslCommerz
             abbank = AB Bank IB
             ibbl = IBBL IB and Mobile Banking
             mtbl = Mutual Trust Bank IB
-            bkash = Bkash Mobile Banking
             dbblmobilebanking = DBBL Mobile Banking
             city = City Touch IB
             upay = Upay

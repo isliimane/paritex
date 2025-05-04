@@ -33,6 +33,10 @@
                     <td>{{ $user->email }}</td>
                 </tr>
                 <tr>
+                    <td>{{ __('License Number :') }}</td>
+                    <td>{{ $user->license_no }}</td>
+                </tr>
+                <tr>
                     <td>{{ __('Register On:') }}</td>
                     <td>{{ \Carbon\Carbon::parse($user->created_at)->diffForHumans() }}</td>
                 </tr>

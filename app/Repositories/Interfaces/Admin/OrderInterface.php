@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Interfaces\Admin;
 
-use App\Repositories\Interfaces\Admin\Addon\OfflineMethodInterface;
+use Illuminate\Http\Request;
 
 interface OrderInterface
 {
@@ -11,13 +11,9 @@ interface OrderInterface
     public function get($id);
     public function getDetail($id);
 
-    public function sellerProfile($id);
-
     public function paginate($request, $limit);
 
     public function adminOrder($request, $limit);
-
-    public function sellerOrder($request, $limit);
 
     public function pickupHubOrder($request, $limit);
 
@@ -34,7 +30,6 @@ interface OrderInterface
     public function orderByCodes($orderCode);
 
     public function orders($take);
-    public function userOrders();
 
     public function productOrderList($item,$user);
 
@@ -50,7 +45,7 @@ interface OrderInterface
 
     public function takePaymentOrder($trx_id);
 
-    public function completeOrder($data,$user,$offline);
+    public function completeOrder($data,$user);
 
     public function checkCodByTrx($trx_id);
 
@@ -59,15 +54,14 @@ interface OrderInterface
     public function digitalProductOrders($limit,$token);
 
     //quantity manage
-    public function adjustQuantity($order, $remove_quantity);
+    public function adjustQuantity($order, $remove_quantity,$reason = '');
 
-    public function updateQuantity($orderDetail, $remove_quantity = false);
+    public function updateQuantity($orderDetail, $remove_quantity = false,$reason = '');
 
     public function saleUpdate($orderDetail, $remove_sale = false);
 
     public function allOrder($take,$user);
 
-    public function apiSellerOrder($user,$data);
 
-    public function userCommission($request);
+    public function updateOrder(Request $request, $id);
 }

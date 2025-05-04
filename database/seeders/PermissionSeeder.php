@@ -62,20 +62,6 @@ class PermissionSeeder extends Seeder
                 'user_reward_read'          => 'user_reward_read',
                 'user_reward_update'        => 'user_reward_update'
             ],
-            'seller'                => [
-                'read'                      => 'seller_read',
-                'create'                    => 'seller_create',
-                'update'                    => 'seller_update',
-//                'delete'                    => 'seller_delete',
-                'verify'                    => 'seller_verify',
-                'ban'                       => 'seller_ban',
-                'seller_commission_read'    => 'seller_commission_read',
-                'seller_commission_update'  => 'seller_commission_update',
-                'seller_payout_read'        => 'seller_payout_read',
-                'seller_payout_reject'      => 'seller_payout_reject',
-                'seller_payout_accept'      => 'seller_payout_accept'
-            ],
-
             'delivery_hero'         => [
                 'read'                      => 'delivery_hero_read',
                 'create'                    => 'delivery_hero_create',
@@ -100,7 +86,6 @@ class PermissionSeeder extends Seeder
             ],
             'report'                => [
                 'admin_product_sale'        => 'admin_product_sale_read',
-                'seller_product_sale'       => 'seller_product_sale_read',
                 'product_stock'             => 'product_stock_read',
                 'product_wishlist'          =>'product_wishlist_read',
                 'user_searches'             => 'user_searches_read',
@@ -219,6 +204,19 @@ class PermissionSeeder extends Seeder
                 'read'                  => 'pos_order',
                 'update'                => 'pos_config_update',
             ],
+            'warehouse'        => [
+                'read'                  => 'warehouse_read',
+                'create'                => 'warehouse_create',
+                'update'                => 'warehouse_update',
+                'destroy'                => 'warehouse_destroy',
+            ],
+            'warehouse_product'        => [
+                'read'                  => 'warehouse_product_read',
+                'create'                => 'warehouse_product_create',
+                'edit'                => 'warehouse_product_edit',
+                'delete'                => 'warehouse_product_delete',
+            ],
+
 
         ];
 

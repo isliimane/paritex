@@ -117,7 +117,6 @@ class StoreFrontController extends Controller
             'languages'     => $this->languages->all()->orderBy('id', 'asc')->get(),
             'lang'          => $request->lang == '' ? app()->getLocale() : $request->lang,
             'pages'         => $page->allPages(),
-            'seller_gdpr'   => settingHelper('seller_agreement') ? : [],
             'customer_gdpr' => settingHelper('customer_agreement') ? : [],
             'privacy_gdpr'  => settingHelper('privacy_agreement') ? : [],
             'payment_gdpr'  => settingHelper('payment_agreement') ? : []
@@ -245,20 +244,6 @@ class StoreFrontController extends Controller
                     'images' => $this->getImageWithRecommendedSize($request->product_details_site_banner, '263', '263', true)
                 ];
             }
-            if ($request->seller_sing_up_banner) {
-                $key = "seller_sing_up_banner";
-                $images[$key] = [
-                    'id' => $request->seller_sing_up_banner,
-                    'images' => $this->getImageWithRecommendedSize($request->seller_sing_up_banner, '320', '852', true)
-                ];
-            }
-            if ($request->affiliate_sing_up_banner) {
-                $key = "affiliate_sing_up_banner";
-                $images[$key] = [
-                    'id' => $request->affiliate_sing_up_banner,
-                    'images' => $this->getImageWithRecommendedSize($request->affiliate_sing_up_banner, '320', '852', true)
-                ];
-            }
             if ($request->top_bar_banner) {
                 $key = "top_bar_banner";
                 $images[$key] = [
@@ -266,7 +251,7 @@ class StoreFrontController extends Controller
                     'images' => $this->getImageWithRecommendedSize($request->top_bar_banner, '2600', '100', true)
                 ];
             }
-            $all_images = $request->except('_token', '_method','user_dashboard_banner','featured_category_banner','category_default_banner','product_details_site_banner','seller_sing_up_banner','affiliate_sing_up_banner','top_bar_banner');
+            $all_images = $request->except('_token', '_method','user_dashboard_banner','featured_category_banner','category_default_banner','product_details_site_banner','top_bar_banner');
             foreach ($all_images as $key => $banner):
                 $images[$key] = [
                     'id' => $banner,

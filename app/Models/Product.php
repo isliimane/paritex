@@ -50,7 +50,7 @@ class Product extends Model
     protected $fillable = ['name', 'user_id', 'brand_id', 'category_id', 'created_by', 'slug', 'price', 'purchase_cost',
         'barcode', 'video_provider', 'video_url', 'current_stock', 'minimum_order_quantity', 'is_approved', 'is_catalog',
         'external_link', 'is_refundable', 'cash_on_delivery', 'attribute_sets','images', 'meta_image', 'colors',
-        'selected_variants', 'selected_variants_ids', 'contact_info','status', 'is_returnable'
+        'selected_variants', 'selected_variants_ids', 'contact_info','status'
     ];
 
     public function createdBy()
@@ -120,11 +120,6 @@ class Product extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function sellerProfile(): HasOne
-    {
-        return $this->hasOne(SellerProfile::class,'user_id','user_id');
     }
 
     public function vatTaxes($product)
@@ -262,12 +257,6 @@ class Product extends Model
             $qu->where('status',1)->where('is_user_banned',0)->where(function ($q){
                 $q->where('user_type','admin')->orWhere('user_type','staff');
             });
-        })->when(settingHelper('seller_system') == 1, function ($q){
-            $q->orWhereHas('user',function ($qu){
-                $qu->where('status',1)->where('is_user_banned',0)->where('user_type','seller')->whereHas('sellerProfile',function ($q){
-                    $q->where('verified_at','!=',null);
-                });
-            });
         });
     }
 
@@ -277,12 +266,10 @@ class Product extends Model
             $q->where('is_wholesale',0);
         });
     }
-    public function scopeCheckSellerSystem($query)
+    public function scopeCheckSeller($query)
     {
-        return $query->when(settingHelper('seller_system') != 1, function ($q) {
-            $q->whereHas('user',function ($qu){
-                $qu->where('user_type','admin')->orWhere('user_type','staff');
-            });
+        return $query->whereHas('user', function ($qu) {
+            $qu->where('user_type', 'admin')->orWhere('user_type', 'staff');
         });
     }
 

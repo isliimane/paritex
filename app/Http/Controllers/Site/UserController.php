@@ -4,14 +4,11 @@ namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\ResetPasswordPostRequest;
-use App\Http\Resources\AdminResource\PosOfflineMethodResource;
 use App\Http\Resources\SiteResource\ShopPaginateResource;
 use App\Models\User;
-use App\Repositories\Interfaces\Admin\Addon\OfflineMethodInterface;
 use App\Repositories\Interfaces\Admin\Addon\WalletInterface;
 use App\Repositories\Interfaces\Admin\CurrencyInterface;
 use App\Repositories\Interfaces\Admin\Marketing\CouponInterface;
-use App\Repositories\Interfaces\Admin\SellerInterface;
 use App\Repositories\Interfaces\Site\AddressInterface;
 use App\Repositories\Interfaces\UserInterface;
 use App\Traits\SendMailTrait;
@@ -113,7 +110,6 @@ class UserController extends Controller
         if ($reminder = Reminder::exists($user, $request->resetCode)) {
 
             Reminder::complete($user, $request->resetCode, $request->newPassword);
-//            sendMail($user, '', 'reset_password', $request->newPassword);
             $this->sendmail($request->email, 'Forgot Password', $user, 'email.auth.reset-success-email', '');
 
 
@@ -187,12 +183,11 @@ class UserController extends Controller
         }
     }
 
-    public function walletData(CurrencyInterface $currency,OfflineMethodInterface $offlineMethod): \Illuminate\Http\JsonResponse
+    public function walletData(CurrencyInterface $currency): \Illuminate\Http\JsonResponse
     {
         try {
             $data = [
                 'indian_currency'   => $currency->currencyByCode('INR'),
-                'offline_methods'   => addon_is_activated('offline_payment') ? PosOfflineMethodResource::collection($offlineMethod->activeMethods()) : [],
                 'jazz_data'         => [],
                 'jazz_url'          => config('jazz_cash.TRANSACTION_POST_URL'),
                 'xof'               => $currency->currencyByCode('XOF'),
@@ -244,66 +239,6 @@ class UserController extends Controller
             $data = [
                 'recharges' => $wallet->walletHistory(),
                 'balance' => $wallet->userBalance()
-            ];
-            return response()->json($data);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage()
-            ]);
-        }
-    }
-
-    public function followShop(Request $request,SellerInterface $sellers)
-    {
-        try {
-            $sellers->followSeller($request->id);
-
-            $data = [
-                /*'follower' => FollowShop::collection($sellers->shop()
-                    ->withCount('products')
-                    ->whereHas('users', function($q){
-                        $q->where('user_id',authId());
-                    })
-                    ->where('verified_at','!=',null)
-                    ->orderBy('products_count','desc')
-                    ->latest()
-                    ->get()),*/
-                'success' => 'Added Successfully'
-            ];
-            return response()->json($data);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage()
-            ]);
-        }
-    }
-    public function userFollowedShop(SellerInterface $sellers)
-    {
-        try {
-            $data = [
-                'sellers' => new ShopPaginateResource($sellers->shop()
-                    ->withCount('products')
-                    ->whereHas('users', function($q){
-                        $q->where('user_id',authId());
-                    })
-                    ->where('verified_at','!=',null)
-                    ->orderBy('products_count','desc')
-                    ->latest()
-                    ->paginate(12))
-            ];
-            return response()->json($data);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage()
-            ]);
-        }
-    }
-
-    public function removeFollow(Request $request,SellerInterface $seller)
-    {
-        try {
-            $data = [
-                'follower' => $seller->unfollowSeller($request->id),
             ];
             return response()->json($data);
         } catch (\Exception $e) {

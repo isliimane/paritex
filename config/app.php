@@ -181,7 +181,6 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
-        App\Providers\RepositoryServiceProvider::class,
 
 
         /*
@@ -191,7 +190,6 @@ return [
         /*
          * Application Service Providers...
          */
-         App\Providers\RepositoryServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
@@ -264,7 +262,6 @@ return [
         'LaravelLocalization' => Mcamara\LaravelLocalization\Facades\LaravelLocalization::class,
         'Toastr'  => Brian2694\Toastr\Facades\Toastr::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-        'PaytmWallet' => Anand\LaravelPaytmWallet\Facades\PaytmWallet::class
     ],
 
 ];

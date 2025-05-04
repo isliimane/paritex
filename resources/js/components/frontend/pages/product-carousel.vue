@@ -1,7 +1,7 @@
 <template>
   <div :class="{ 'ishopet-slider-effect slider-arrows' : addons.includes('ishopet') }">
     <VueSlickCarousel v-bind="slick_settings" :rtl="settings.text_direction == 'rtl'" ref="carousel_best" @reInit="swipeSlide">
-        <div v-for="(product,index) in products" :key="index" class="padding_17" :class="{ 'ishopet-pr-0' : addons.includes('ishopet') }">
+        <div v-for="(product,index) in products" :key="index" class="padding_17 m-2" :class="{ 'ishopet-pr-0' : addons.includes('ishopet') }">
           <div class="sg-product slider_div" :class="{ 'style-1' : type == 'flash', 'ishopet-sg-product' : addons.includes('ishopet') }">
             <a :href="'product/'+product.slug" @click.prevent="routerNavigator('product.details',product.slug)">
               <div class="product-thumb">
@@ -14,17 +14,20 @@
                 <span class="base reword-badge" v-if="addons.includes('reward') && product.reward > 0">{{
                     lang.reward_point
                   }}: {{ product.reward }}</span>
-                <img :src="product.image_190x230" :alt="product.product_name" class="img-fluid">
+                <img :src="product.image_190x230" :alt="product.product_name" class="img-fluid w-100">
               </div>
             </a>
             <div class="product-info">
-            <span class="price">
-              <del v-if="product.special_discount_check > 0">{{ priceFormat(product.price) }} </del>
+            <div class="price" v-if="isLicenseVerified">
+              <del v-if="product.special_discount_check > 0">{{ priceFormat(product.price) }}</del>
               <span v-if="product.special_discount_check > 0">
                 {{ priceFormat(product.discount_percentage) }}
               </span>
               <span v-else>{{ priceFormat(product.price) }}</span>
-            </span>
+            </div>
+            <!-- <div class="price text-danger" v-else>
+              {{ lang.verify_license_to_see_price }}
+            </div> -->
               <h1 class="product-name text-ellipse-one" :title="product.product_name ">
                 <a :href="'product/'+product.slug"
                    @click.prevent="routerNavigator('product.details',product.slug)">
@@ -33,9 +36,7 @@
               </h1>
               <div class="sg-rating" v-if="!addons.includes('ishopet')">
                 <star-rating v-model:rating="product.rating" :read-only="true" :star-size="12" :round-start-rating="false"></star-rating>
-                <span class="reviews" v-if="product.reviews_count > 0">({{
-                    product.reviews_count
-                  }} {{ lang.reviews }})</span>
+                <span class="reviews" v-if="product.reviews_count > 0">({{product.reviews_count}})</span>
               </div>
               <div class="icons">
                 <ul class="global-list">
@@ -102,8 +103,8 @@ export default {
         infinite: true,
         speed: 500,
         touchThreshold: 5,
-        slidesToShow: 6,
-        slidesToScroll: 6,
+        slidesToShow: 5,
+        slidesToScroll: 1,
         initialSlide: 0,
         arrows: true,
         autoplay: true,
@@ -112,8 +113,8 @@ export default {
           {
             breakpoint: 1024,
             settings: {
-              slidesToShow: 5,
-              slidesToScroll: 5,
+              slidesToShow: 4,
+              slidesToScroll: 4,
               infinite: false,
               dots: false
             }
@@ -157,24 +158,6 @@ export default {
     if (this.authUser) {
       setTimeout(() => this.pushWishlists(), 2000);
     }
-    if (this.addons.includes('ramdhani')) {
-      let breakpoint_480 = {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      };
-      let breakpoint_320 = {
-        breakpoint: 320,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      };
-      this.slick_settings.responsive[3] = breakpoint_480;
-      this.slick_settings.responsive[4] = breakpoint_320;
-    }
     this.compareList();
   },
   computed: {
@@ -199,6 +182,9 @@ export default {
         }
       }
       return false;
+    },
+    isLicenseVerified() {
+          return (this.authUser && this.authUser.user_type === 'admin') || (this.authUser && this.authUser.user_type === 'customer' && this.authUser.license_verified);
     }
   },
 
@@ -327,6 +313,9 @@ export default {
       } else if(event == 'right') {
         this.$refs.carousel_best.prev();
       }
+    },
+    redirectToProfile() {
+      toastr.error(this.lang.verify_license_to_continue, this.lang.Error + ' !!');
     }
   }
 }

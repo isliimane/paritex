@@ -109,9 +109,11 @@
                                                 <div class="form-group">
                                                     <label for="category">{{ __('Category') }} *</label>
                                                     <select class="form-control filter-categories-by-ajax" name="category" id="category">
-                                                        @if($category)
+                                                        {{-- 
+                                                      @if($category)
                                                             <option value="{{ $category->id }}">{{ $category->getTranslation('title', App::getLocale()) }}</option>
                                                         @endif
+                                                        --}}
                                                     </select>
 
                                                     @if ($errors->has('category'))
@@ -125,9 +127,11 @@
                                                 <div class="form-group">
                                                     <label for="brand">{{ __('Brand') }}</label>
                                                     <select class="form-control brand-by-ajax" name="brand" id="brand">
+                                                        {{-- 
                                                         @if($brand)
                                                             <option value="{{ $brand->id }}">{{ $brand->getTranslation('title', App::getLocale()) }}</option>
                                                         @endif
+                                                        --}}
                                                     </select>
 
                                                     @if ($errors->has('brand'))
@@ -691,23 +695,7 @@
                                         <h4>{{__('Shipping Info')}}</h4>
                                     </div>
                                     <div class="card-body extra-padding">
-                                        @if(addon_is_activated('ramdhani'))
-                                            <div class="form-group">
-                                                <label for="shipping_type">{{ __('Shipping Class') }}</label>
-                                                <select class="form-control selectric"
-                                                        name="shipping_class_id">
-                                                    <option value="">{{ __('Select Shipping Class') }}</option>
-                                                    @foreach($shipping_classes as $shipping_class)
-                                                        <option value="{{ $shipping_class->id }}" {{ old('shipping_class_id') == $shipping_class->id ? 'selected' : '' }}>{{ $shipping_class->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                                @if ($errors->has('shipping_class_id'))
-                                                    <div class="invalid-feedback">
-                                                        <p>{{ $errors->first('shipping_class_id') }}</p>
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        @else
+                                      
                                             @if(settingHelper('shipping_fee_type') == 'product_base')
                                                 <div class="section-title">
                                                     {{ __('Shipping Fee') }}
@@ -765,8 +753,6 @@
                                                 {{ __('Product base shipping fee is disabled. Configure your shipping fee here') }}
                                                 <a href="{{ route('shipping-configuration') }}">{{ __('Shipping Configuration') }}</a>
                                             @endif
-                                        @endif
-                                        @if(!addon_is_activated('ramdhani'))
                                             <div class="section-title mt-0">{{ __('Estimated Shipping Days & COD') }}</div>
                                             <div class="form-group row mt-2">
                                                 <label class="col-md-5 col-from-label">{{ __('Cash On Delivery') }}</label>
@@ -786,7 +772,6 @@
                                                     @endif
                                                 </div>
                                             </div>
-                                        @endif
                                         <div class="form-group mt-2 shipping-days">
                                             <label for="estimated_shipping_days">{{ __('Shipping Days') }}</label>
                                             <input type="text" name="estimated_shipping_days"
@@ -861,44 +846,7 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        @if(addon_is_activated('ramdhani'))
-                                            <div class="form-group row mt-2">
-                                                <label class="col-md-5 col-from-label">{{ __("Gift Idea") }}</label>
-                                                <div class="col-md-7">
-                                                    <label class="custom-switch">
-                                                        <input type="checkbox" value="1" name="gift_idea"
-                                                               {{ old('gift_idea') == 1 ? 'checked' : '' }}
-                                                               class="custom-switch-input">
-                                                        <span class="custom-switch-indicator"></span>
-                                                        <span
-                                                                class="custom-switch-description">{{ __("Add to Gift Idea") }}</span>
-                                                    </label>
-                                                    @if ($errors->has('gift_idea'))
-                                                        <div class="invalid-feedback">
-                                                            <p>{{ $errors->first('gift_idea') }}</p>
-                                                        </div>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            <div class="form-group row mt-2">
-                                                <label class="col-md-5 col-from-label">{{ __("Business Idea") }}</label>
-                                                <div class="col-md-7">
-                                                    <label class="custom-switch">
-                                                        <input type="checkbox" value="1" name="business_idea"
-                                                               {{ old('business_idea') == 1 ? 'checked' : '' }}
-                                                               class="custom-switch-input">
-                                                        <span class="custom-switch-indicator"></span>
-                                                        <span
-                                                                class="custom-switch-description">{{ __("Add to Business Idea") }}</span>
-                                                    </label>
-                                                    @if ($errors->has('business_idea'))
-                                                        <div class="invalid-feedback">
-                                                            <p>{{ $errors->first('business_idea') }}</p>
-                                                        </div>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        @endif
+                                    
                                     </div>
                                 </div>
                             </div>
@@ -1016,9 +964,6 @@
     <script src="{{ static_asset('admin/js/summernote-bs4.js') }}"></script>
     <script type="text/javascript" src="{{ static_asset('admin/js/daterangepicker.min.js') }}"></script>
     <script type="text/javascript" src="{{ static_asset('admin/js/ajax-live-search.js') }}"></script>
-    @if(addon_is_activated('ai_writer'))
-        <script src="{{ static_asset('admin/js/ai_writer.js') }}"></script>
-    @endif
 @endpush
 @push('script')
     <script type="text/javascript" src="{{ static_asset('admin/js/dropzone.min.js') }}"></script>

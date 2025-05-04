@@ -35,7 +35,6 @@
                                         <th>{{ __('Order Code') }}</th>
                                         <th>{{ __('Product') }}</th>
                                         <th>{{ __('Shop Name') }}</th>
-                                        <th>{{ __('Seller Approval') }}</th>
                                         <th>{{ __('Admin Approval') }}</th>
                                         <th>{{ __('Option') }}</th>
                                     </tr>
@@ -55,11 +54,9 @@
                                                     </td>
                                                 @endif
                                                 <td>
-                                                    @if($refund->seller_id == 1) {{__('admin')}} @elseif($refund->seller != null) {{$refund->seller->sellerProfile->shop_name}} @endif
+                                                    {{__('admin')}} 
                                                 </td>
-                                                <td class=" {{$refund->seller_approval == 'pending' ? 'text-warning' : ($refund->seller_approval == 'approved' ? 'text-success' : 'text-danger')}}">
-                                                    {{ ucfirst($refund->seller_approval)}}
-                                                </td>
+                                               
                                                 <td class=" {{$refund->admin_approval == 'pending' ? 'text-info' : ($refund->admin_approval == 'approved' ? 'text-success' : 'text-danger')}}">
                                                     {{ ucfirst($refund->admin_approval)}}
                                                 </td>

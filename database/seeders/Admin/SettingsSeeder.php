@@ -27,9 +27,7 @@ class SettingsSeeder extends Seeder
         //Preference Setting
         Setting::create(['title' => 'https',                                   'value' => 0,                                           'lang' => 'en']);
         Setting::create(['title' => 'maintenance_mode',                        'value' => 0,                                           'lang' => 'en']);
-        Setting::create(['title' => 'seller_system',                           'value' => 1,                                           'lang' => 'en']);
         Setting::create(['title' => 'classified_product',                      'value' => 1,                                           'lang' => 'en']);
-        Setting::create(['title' => 'seller_product_auto_approve',             'value' => 1,                                           'lang' => 'en']);
         Setting::create(['title' => 'wallet_system',                           'value' => 1,                                           'lang' => 'en']);
         Setting::create(['title' => 'coupon_system',                           'value' => 1,                                           'lang' => 'en']);
         Setting::create(['title' => 'pickup_point',                            'value' => 1,                                           'lang' => 'en']);
@@ -156,7 +154,7 @@ class SettingsSeeder extends Seeder
 
         //Header Menu
 
-        Setting::create(['title' => 'header_menu',                             'value'  => 'a:7:{i:0;a:2:{s:5:"label";s:4:"Home";s:3:"url";s:1:"/";}i:1;a:2:{s:5:"label";s:8:"Products";s:3:"url";s:9:"/products";}i:2;a:2:{s:5:"label";s:10:"Categories";s:3:"url";s:11:"/categories";}i:3;a:2:{s:5:"label";s:6:"Brands";s:3:"url";s:7:"/brands";}i:4;a:2:{s:5:"label";s:9:"Campaigns";s:3:"url";s:10:"/campaigns";}i:5;a:2:{s:5:"label";s:7:"Sellers";s:3:"url";s:8:"/sellers";}i:6;a:5:{s:5:"label";s:5:"Pages";s:3:"url";s:18:"javascript:void(0)";i:0;a:2:{s:5:"label";s:5:"Blogs";s:3:"url";s:6:"/blogs";}i:1;a:2:{s:5:"label";s:8:"About Us";s:3:"url";s:11:"/page/about";}i:2;a:2:{s:5:"label";s:10:"Contact Us";s:3:"url";s:8:"/contact";}}}', 'lang' => 'en']);
+        Setting::create(['title' => 'header_menu',                             'value'  => 'a:7:{i:0;a:2:{s:5:"label";s:4:"Home";s:3:"url";s:1:"/";}i:1;a:2:{s:5:"label";s:8:"Products";s:3:"url";s:9:"/products";}i:2;a:2:{s:5:"label";s:10:"Categories";s:3:"url";s:11:"/categories";}i:3;a:2:{s:5:"label";s:6:"Brands";s:3:"url";s:7:"/brands";}i:4;a:2:{s:5:"label";s:9:"Campaigns";s:3:"url";s:10:"/campaigns";}i:5;a:5:{s:5:"label";s:5:"Pages";s:3:"url";s:18:"javascript:void(0)";i:0;a:2:{s:5:"label";s:5:"Blogs";s:3:"url";s:6:"/blogs";}i:1;a:2:{s:5:"label";s:8:"About Us";s:3:"url";s:11:"/page/about";}i:2;a:2:{s:5:"label";s:10:"Contact Us";s:3:"url";s:8:"/contact";}}}', 'lang' => 'en']);
         //Footer About
         Setting::create(['title' => 'footer_theme',                            'value'  => 'footer_theme1',                            'lang' => 'en']);
         Setting::create(['title' => 'about_description',                       'value'  => '<p><span style="font-family: Poppins, Helvetica, sans-serif;"><font color="#767676"><b>Yoori&nbsp;</b></font></span><span style="color: rgb(102, 102, 102); font-family: Roboto, Helvetica, sans-serif;">being the trusted online shop in over the world aims to provide a trouble-free shopping experience for the people of the world but is also providing ample opportunity for international online shopping from yoori.&nbsp;</span><span style="font-size: 0.875rem; font-family: Roboto, Helvetica, sans-serif;"><font color="#767676"><span style="font-weight: bolder;">Yoori&nbsp;</span></font></span><span style="font-size: 0.875rem; color: rgb(102, 102, 102); font-family: Roboto, Helvetica, sans-serif;">being the trusted online shop in over the world aims to provide a trouble-free shopping experience for the people of the world but is also providing ample opportunity for international online shopping from yoori.&nbsp;</span>',                                       'lang' => 'en']);
@@ -252,15 +250,6 @@ class SettingsSeeder extends Seeder
         Setting::create(['title' => 'is_sslcommerz_activated',                 'value'  => 1,                                          'lang' => 'en']);
         Setting::create(['title' => 'is_sslcommerz_sandbox_mode_activated',    'value'  => 0,                                          'lang' => 'en']);
 
-        //Paytm Setting
-        Setting::create(['title' => 'merchant_id',                             'value'  => 'asdasdsa',                                 'lang' => 'en']);
-        Setting::create(['title' => 'merchant_key',                            'value'  => '&77cn6xIrDf#89TK',                         'lang' => 'en']);
-        Setting::create(['title' => 'merchant_website',                        'value'  =>  'WEBSTAGING',                              'lang' => 'en']);
-        Setting::create(['title' => 'channel',                                 'value'  =>  'WEB',                                     'lang' => 'en']);
-        Setting::create(['title' => 'industry_type',                           'value'  => 'Retail',                                   'lang' => 'en']);
-        Setting::create(['title' => 'is_paytm_activated',                      'value'  => 1,                                          'lang' => 'en']);
-        Setting::create(['title' => 'is_paytm_sandbox_mode_activated',         'value'  => 0,                                          'lang' => 'en']);
-
         //JazzCash Setting
         Setting::create(['title' => 'jazz_cash_merchant_id',                    'value'  => 'MC34318',                                 'lang' => 'en']);
         Setting::create(['title' => 'jazz_cash_password',                       'value'  => '8h484tw2t8',                              'lang' => 'en']);
@@ -306,10 +295,6 @@ class SettingsSeeder extends Seeder
         Setting::create(['title' => 'admob_native_ads_id',                      'value'  => null,                                      'lang' => 'en']);
         Setting::create(['title' => 'ads_enable',                               'value'  => 0,                                         'lang' => 'en']);
 
-        //Seller Commission
-        Setting::create(['title' => 'seller_commission',                        'value'  => null,                                     'lang' => 'en']);
-        Setting::create(['title' => 'seller_commission_status',                 'value'  => 1,                                        'lang' => 'en']);
-
         //Delivery Hero Configuration
         Setting::create(['title' => 'delivery_hero_payment_type',               'value'  => 'delivery_hero_salary',                   'lang' => 'en']);
         Setting::create(['title' => 'delivery_hero_send_mail',                  'value'  => 0,                                        'lang' => 'en']);
@@ -329,7 +314,7 @@ class SettingsSeeder extends Seeder
         Setting::create(['title' => 'shipping_fee_admin_product',               'value'  => null,                                     'lang' => 'en']);
 
         //home page sections
-        Setting::create(['title' => 'home_page_contents',                       'value'   => 'a:13:{i:0;a:1:{s:8:"campaign";a:2:{i:0;s:1:"1";i:1;s:1:"2";}}i:1;a:1:{s:16:"popular_category";a:8:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"8";i:3;s:1:"3";i:4;s:1:"4";i:5;s:1:"5";i:6;s:1:"6";i:7;s:1:"7";}}i:2;a:1:{s:21:"best_selling_products";a:1:{i:0;s:1:"3";}}i:3;a:1:{s:12:"top_category";a:7:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"8";i:3;s:1:"4";i:4;s:1:"5";i:5;s:1:"6";i:6;s:2:"10";}}i:4;a:1:{s:11:"todays_deal";s:1:"5";}i:5;a:1:{s:16:"category_section";a:3:{s:8:"category";s:1:"5";s:6:"banner";s:0:"";s:10:"banner_url";s:26:"http://yoori-laravel.test/";}}i:6;a:1:{s:11:"top_sellers";a:1:{i:0;s:1:"7";}}i:7;a:1:{s:11:"latest_news";a:1:{i:0;s:1:"8";}}i:8;a:1:{s:10:"flash_deal";s:1:"9";}i:9;a:1:{s:14:"popular_brands";a:1:{i:0;s:2:"10";}}i:10;a:1:{s:17:"offer_ending_soon";a:2:{s:6:"banner";s:0:"";s:10:"banner_url";s:0:"";}}i:11;a:1:{s:21:"best_selling_products";a:1:{i:0;s:2:"12";}}i:12;a:1:{s:16:"download_section";a:3:{s:4:"text";s:13:"download here";s:8:"sub_text";s:18:"download from here";s:6:"banner";s:0:"";}}}',                                     'lang' => 'en']);
+        Setting::create(['title' => 'home_page_contents',                       'value'   => 'a:13:{i:0;a:1:{s:8:"campaign";a:2:{i:0;s:1:"1";i:1;s:1:"2";}}i:1;a:1:{s:16:"popular_category";a:8:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"8";i:3;s:1:"3";i:4;s:1:"4";i:5;s:1:"5";i:6;s:1:"6";i:7;s:1:"7";}}i:2;a:1:{s:21:"best_selling_products";a:1:{i:0;s:1:"3";}}i:3;a:1:{s:12:"top_category";a:7:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"8";i:3;s:1:"4";i:4;s:1:"5";i:5;s:1:"6";i:6;s:2:"10";}}i:4;a:1:{s:11:"todays_deal";s:1:"5";}i:5;a:1:{s:16:"category_section";a:3:{s:8:"category";s:1:"5";s:6:"banner";s:0:"";s:10:"banner_url";s:26:"http://yoori-laravel.test/";}}i:6;{s:11:"latest_news";a:1:{i:0;s:1:"8";}}i:8;a:1:{s:10:"flash_deal";s:1:"9";}i:9;a:1:{s:14:"popular_brands";a:1:{i:0;s:2:"10";}}i:10;a:1:{s:17:"offer_ending_soon";a:2:{s:6:"banner";s:0:"";s:10:"banner_url";s:0:"";}}i:11;a:1:{s:21:"best_selling_products";a:1:{i:0;s:2:"12";}}i:12;a:1:{s:16:"download_section";a:3:{s:4:"text";s:13:"download here";s:8:"sub_text";s:18:"download from here";s:6:"banner";s:0:"";}}}',                                     'lang' => 'en']);
         Setting::create(['title' => 'show_service_info_section',               'value'    => 1,                                           'lang' => 'en']);
         Setting::create(['title' => 'show_subscription_section',               'value'    => 1,                                           'lang' => 'en']);
 

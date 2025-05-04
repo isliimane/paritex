@@ -100,7 +100,6 @@
 											<td>
 												<ul class="global-list">
 													<li>{{ lang.order_date }}</li>
-													<li v-if="addons.includes('ramdhani') && order.delivery_date">{{ lang.delivery_date }}</li>
 													<li>{{ lang.order_status }}</li>
 													<li>{{ lang.payment_status }}</li>
 													<li>{{ lang.payment_type }}</li>
@@ -109,7 +108,6 @@
 											<td>
 												<ul class="global-list">
 													<li>{{ order.date }}</li>
-													<li v-if="addons.includes('ramdhani') && order.delivery_date">{{ order.delivery_date ? order.delivery_date : '' }}</li>
 													<li class="text-capitalize">{{ order.delivery_status }}</li>
 													<li class="text-capitalize">{{ order.payment_status }}</li>
 													<li class="text-capitalize">{{ order.payment_type }}</li>
@@ -125,7 +123,7 @@
 										<div class="sg-card">
                       <ul class="global-list">
                         <li>{{ lang.subtotal }} <span>{{ priceFormat(order.sub_total) }}</span></li>
-                        <li v-if="(order.tax_type == 'before_tax' || order.vat_tax_type == 'product_base') || (order.total_tax > 0 && addons.includes('ramdhani'))">{{ lang.tax }} <span>{{ priceFormat(order.total_tax) }}</span></li>
+                        <li v-if="(order.tax_type == 'before_tax' || order.vat_tax_type == 'product_base')">{{ lang.tax }} <span>{{ priceFormat(order.total_tax) }}</span></li>
                         <li>{{ lang.discount }}<span>{{ priceFormat(order.discount) }}</span>
                         </li>
                         <li v-if="settings.shipping_cost != 'area_base' || $route.name != 'cart'">{{ lang.shipping_cost }}<span>{{
@@ -261,12 +259,7 @@ export default {
 		sendMail() {
 			let url = this.getUrl("user/mail-order/" + this.trx_id);
 			axios.get(url).then((response) => {
-				// this.sendMailSeller();
 			});
-		},
-		sendMailSeller() {
-			let url = this.getUrl("user/mail-order-seller/" + this.trx_id);
-			axios.get(url).then((response) => {});
 		},
 		download(id, code) {
 			this.loading = true;

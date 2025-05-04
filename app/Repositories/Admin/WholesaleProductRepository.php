@@ -36,20 +36,6 @@ class WholesaleProductRepository implements WholesaleProductInterface
 
             $product                   = new Product();
 
-            if (addon_is_activated('ramdhani'))
-            {
-                $product->shipping_class_id = $request->shipping_class_id;
-                if ($request->has('gift_idea')):
-                    $product->gift_idea = $request->gift_idea;
-                else:
-                    $product->gift_idea = 0;
-                endif;
-                if ($request->has('business_idea')):
-                    $product->business_idea = $request->business_idea;
-                else:
-                    $product->business_idea = 0;
-                endif;
-            }
 
             if ($request->thumbnail ):
                 $product->thumbnail        = $this->getImageWithRecommendedSize($request->thumbnail,190,230);
@@ -73,15 +59,8 @@ class WholesaleProductRepository implements WholesaleProductInterface
             $product->category_id               = $request->category != '' ? $request->category : null;
             $product->brand_id                  = $request->brand != '' ? $request->brand : null;
             $product->created_by                = Sentinel::getUser()->id;
-            if (Sentinel::getUser()->user_type != 'seller'):
-                $product->user_id                   = 1;
-                $product->is_approved               = 1;
-            else:
-                $product->user_id               = Sentinel::getUser()->id;
-                if (settingHelper('seller_product_auto_approve') == 1):
-                    $product->is_approved           = 1;
-                endif;
-            endif;
+            $product->user_id                   = 1;
+            $product->is_approved               = 1;
             $product->status                    = $request->status;
             $product->minimum_order_quantity    = $request->minimum_order_quantity != '' ? $request->minimum_order_quantity : 1;
             $product->barcode                   = $request->barcode != '' ? $request->barcode : $this->generate_random_string(16, 'upper');
@@ -302,20 +281,6 @@ class WholesaleProductRepository implements WholesaleProductInterface
         DB::BeginTransaction();
         try {
             $product                   = $this->products->get($request->id);
-            if (addon_is_activated('ramdhani'))
-            {
-                $product->shipping_class_id = $request->shipping_class_id;
-                if ($request->has('gift_idea')):
-                    $product->gift_idea = $request->gift_idea;
-                else:
-                    $product->gift_idea = 0;
-                endif;
-                if ($request->has('business_idea')):
-                    $product->business_idea = $request->business_idea;
-                else:
-                    $product->business_idea = 0;
-                endif;
-            }
             if ($request->thumbnail):
                 $product->thumbnail = $this->getImageWithRecommendedSize($request->thumbnail,190,230);
                 $product->thumbnail_id     = $request->thumbnail;

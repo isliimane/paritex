@@ -250,14 +250,12 @@
         <td colspan="1" class="right">{{ get_price($order->retail_coupon_discount > 0 ? $order->retail_coupon_discount : $order->coupon_discount,user_curr()) }}</td>
     </tr>
 
-    @if(!addon_is_activated('ramdhani') || (addon_is_activated('ramdhani') && $order->total_tax > 0))
         <tr class="border-less">
             <td colspan="5" align="right">(+) {{ __('Total Tax') }}:</td>
             <td colspan="1" class="right">
                 {{ get_price($order->retail_total_tax > 0 ? $order->retail_total_tax : $order->total_tax,user_curr()) }}
             </td>
         </tr>
-    @endif
     <tr class="border-less" style="border-bottom: 1px solid #ececec !important;">
         <td colspan="5" align="right"><strong>{{ __('Total Amount') }}</strong></td>
         <td colspan="1" class="right"><strong>{{ get_price($order->retail_total_amount > 0 ? $order->retail_total_amount : $order->total_amount,user_curr()) }}</strong></td>

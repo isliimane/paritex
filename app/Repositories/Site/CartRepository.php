@@ -5,7 +5,6 @@ namespace App\Repositories\Site;
 use App\Models\Cart;
 use App\Models\Checkout;
 use App\Models\City;
-use App\Models\ClassCity;
 use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\Product;
@@ -35,7 +34,7 @@ class CartRepository implements CartInterface
     {
         if (authUser()) {
             $carts = Cart::with('product.stock:id,product_id,image,name,sku,current_stock',
-                'product:slug,shipping_fee,user_id,price,id,thumbnail,minimum_order_quantity,is_refundable,current_stock,shipping_fee_depend_on_quantity,special_discount,special_discount_start,special_discount_end,special_discount_type,is_digital','seller:user_id,shop_name,logo')
+                'product:slug,shipping_fee,user_id,price,id,thumbnail,minimum_order_quantity,is_refundable,current_stock,shipping_fee_depend_on_quantity,special_discount,special_discount_start,special_discount_end,special_discount_type,is_digital')
                 ->where('user_id', authId())->get();
         } else {
             Cart::where('created_at','<',Carbon::now()->subDays(2))->delete();
@@ -44,7 +43,7 @@ class CartRepository implements CartInterface
                 session()->put('walk_in_id',Str::random(21));
             }
             $carts = Cart::with('product.stock:id,product_id,image,name,sku,current_stock',
-                'product:slug,user_id,price,shipping_fee,id,thumbnail,minimum_order_quantity,is_refundable,current_stock,shipping_fee_depend_on_quantity,special_discount,special_discount_start,special_discount_end,special_discount_type,is_digital','seller:user_id,shop_name,logo')
+                'product:slug,user_id,price,shipping_fee,id,thumbnail,minimum_order_quantity,is_refundable,current_stock,shipping_fee_depend_on_quantity,special_discount,special_discount_start,special_discount_end,special_discount_type,is_digital')
                 ->where('user_id', getWalkInCustomer()->id)->where('trx_id',session()->get('walk_in_id'))->get();
         }
         return $carts;
@@ -186,9 +185,6 @@ class CartRepository implements CartInterface
                     endif;
 
                     $cart_item->price = $price;
-                    if (addon_is_activated('ramdhani')) {
-                        $cart_item->retail_price = $retail_price;
-                    }
 
                     $cart_item->save();
                 endif;
@@ -205,11 +201,6 @@ class CartRepository implements CartInterface
                 $cart_item->quantity        = $request['quantity'];
                 $cart_item->is_buy_now      = $request['is_buy_now'];
                 $cart_item->price           = $price;
-                if (addon_is_activated('ramdhani')) {
-                    $cart_item->retail_price = $retail_price;
-                    $cart_item->retail_discount = $retail_discount;
-                    $cart_item->retail_tax = $retail_tax;
-                }
                 $cart_item->discount        = $discount;
                 $cart_item->trx_id          = $trx_id;
                 $cart_item->tax             = $tax;
@@ -228,11 +219,6 @@ class CartRepository implements CartInterface
             $cart_item->quantity            = $request['quantity'];
             $cart_item->is_buy_now          = $request['is_buy_now'];
             $cart_item->price               = $price;
-            if (addon_is_activated('ramdhani')) {
-                $cart_item->retail_price = $retail_price;
-                $cart_item->retail_discount = $retail_discount;
-                $cart_item->retail_tax = $retail_tax;
-            }
             $cart_item->discount            = $discount;
             $cart_item->tax                 = $tax;
             $cart_item->trx_id              = $trx_id;
@@ -280,8 +266,6 @@ class CartRepository implements CartInterface
                                 'min_quantity'          => $product->minimum_order_quantity,
                                 'current_stock'         => $product_stock->current_stock,
                                 'quantity'              => $cart_item['quantity'] + $request['quantity'],
-                                'shop_name'             => @$product->sellerProfile->shop_name,
-                                'shop_image'            => @$product->sellerProfile->image_90x60,
                                 'price'                 => $price,
                                 'discount_price'        => $product->discount_percentage,
                                 'variant'               => $variant,
@@ -310,8 +294,6 @@ class CartRepository implements CartInterface
                     'min_quantity'          => $product->minimum_order_quantity,
                     'current_stock'         => $product_stock->current_stock,
                     'quantity'              => $request['quantity'],
-                    'shop_name'             => @$product->sellerProfile->shop_name,
-                    'shop_image'            => @$product->sellerProfile->image_90x60,
                     'price'                 => $price,
                     'discount_price'        => $product->discount_percentage,
                     'variant'               => $variant,
@@ -338,8 +320,6 @@ class CartRepository implements CartInterface
                 'image_40x40'           => $image['image_40x40'],
                 'image_72x72'           => $image['image_72x72'],
                 'quantity'              => $request['quantity'],
-                'shop_name'             => @$product->sellerProfile->shop_name,
-                'shop_image'            => @$product->sellerProfile->image_90x60,
                 'price'                 => $price,
                 'discount_price'        => $product->discount_percentage,
                 'variant'               => $variant,
@@ -427,9 +407,6 @@ class CartRepository implements CartInterface
         }
 
         $cart_item->price = $price;
-        if (addon_is_activated('ramdhani')) {
-            $cart_item->retail_price = supplierProductPriceCalculator($price, $product);
-        }
         $cart_item->shipping_cost = $shipping_cost;
         $cart_item->save();
 
@@ -458,39 +435,16 @@ class CartRepository implements CartInterface
 
         if ($coupon) {
             $coupon_user = $coupon->user;
-            $seller      = $coupon_user->sellerProfile;
             if ($coupon->start_date <= now() && $coupon->end_date > now()) {
 
-                if ($coupon->user_id > 1)
-                {
-                    if ($coupon_user->status == 0)
-                    {
-                        return __('seller_is_disabled');
-                    }
-                    if ($coupon_user->is_user_banned == 1)
-                    {
-                        return __('seller_is_banned');
-                    }
-
-                    if (!$seller->verified_at)
-                    {
-                        return __('seller_is_unverified');
-                    }
-                    if (!$seller)
-                    {
-                        return __('seller_coupon_is_disabled');
-                    }
-                }
-                $carts  = Cart::where('user_id', $user->id)->when($coupon->user_id > 1,function ($q) use($coupon){
-                    $q->where('seller_id', $coupon->user_id);
-                })->where('trx_id',$data['trx_id'])->get();
+                $carts  = Cart::where('user_id', $user->id)->where('trx_id',$data['trx_id'])->get();
 
 
                 $checkout       = Checkout::where('user_id', $user->id)->where('seller_id', $coupon->user_id)->where('trx_id',$data['trx_id'])->where('status',1)->first();
                 $coupon_used    = Checkout::where('user_id', $user->id)->where('coupon_id', $coupon->id)->where('trx_id',$data['trx_id'])->where('status',1)->first();
 
                 if ($checkout) {
-                    return __('This Seller Coupon is Already Used');
+                    return __('This Coupon is Already Used');
                 }
 
                 if ($coupon_used) {
@@ -521,7 +475,7 @@ class CartRepository implements CartInterface
 
                         return Checkout::create([
                             'user_id'           => $user->id,
-                            'seller_id'         => $coupon->user_id > 1 ? $seller->id : 1,
+                            'seller_id'         => 1,
                             'coupon_id'         => $coupon->id,
                             'trx_id'            => $data['trx_id'],
                             'coupon_discount'   => $total_coupon_discount,
@@ -545,7 +499,7 @@ class CartRepository implements CartInterface
                         $coupon_discount            = min($discount_amount, $max_discount);
 
                         return Checkout::create([
-                            'seller_id'         => $coupon->user_id > 1 ? $seller->id : 1,
+                            'seller_id'         => 1,
                             'user_id'           => $user->id,
                             'coupon_id'         => $coupon->id,
                             'trx_id'            => $data['trx_id'],
@@ -611,22 +565,6 @@ class CartRepository implements CartInterface
                     $shipping_cost  = $city ? $city->cost : 0;
                 }
             }
-            elseif (addon_is_activated('ramdhani') && settingHelper('shipping_fee_type') == 'product_base')
-            {
-                $city_id = 0;
-                if ($user)
-                {
-                    $shipping_address   = $user->addresses()->where('default_shipping', 1)->first();
-                }
-                else{
-                    $shipping_address   = $walk_user->addresses()->where('default_shipping', 1)->first();
-                }
-                if ($shipping_address && $shipping_address->address_ids) {
-                    $city_id        = $shipping_address->address_ids['city_id'];
-                }
-                $class_ids = Product::whereIn('id',$carts->pluck('product_id')->toArray())->pluck('shipping_class_id')->toArray();
-                $shipping_cost = ClassCity::whereIn('shipping_class_id',$class_ids)->where('city_id',$city_id)->sum('cost');
-            }
 
             $tax_amount = [];
             $retail_tax_amount = [];
@@ -636,7 +574,7 @@ class CartRepository implements CartInterface
                     $sub_total = $retail_sub_total = 0;
                     $tax_amount[$key] = $retail_tax_amount[$key] = 0;
                     foreach ($seller_cart as $cart) {
-                        if (!addon_is_activated('ramdhani') && settingHelper('shipping_fee_type') == 'product_base')
+                        if (settingHelper('shipping_fee_type') == 'product_base')
                         {
                             $shipping_cost = $cart->shipping_cost;
                         }
@@ -683,8 +621,6 @@ class CartRepository implements CartInterface
                 $group_carts[$key] = [
                     'id'            => '',
                     'seller_id'     => $key,
-                    'name'          => @$seller_cart[0]->seller->shop_name,
-                    'image'         => @$seller_cart[0]->seller->image_90x60,
                     'code'          => '',
                     'is_applied'    => 0,
                     'discount'      => 0,
@@ -774,8 +710,6 @@ class CartRepository implements CartInterface
             $group_carts[$key] = [
                 'id'            => '',
                 'seller_id'     => $key,
-                'name'          => @$seller_cart['shop_name'],
-                'image'         => @$seller_cart['shop_image'],
                 'code'          => '',
                 'is_applied'    => 0,
                 'discount'      => 0,
@@ -789,13 +723,7 @@ class CartRepository implements CartInterface
 
     public function shippingCostFind($carts, $data)
     {
-        $shipping_cost  = 0;
-        if (addon_is_activated('ramdhani') && settingHelper('shipping_fee_type') == 'product_base')
-        {
-            $class_ids = Product::whereIn('id',$carts->pluck('product_id')->toArray())->pluck('shipping_class_id')->toArray();
-            $shipping_cost = ClassCity::whereIn('shipping_class_id',$class_ids)->where('city_id',$data['city_id'])->sum('cost');
-        }
-        else{
+            $shipping_cost  = 0;
             $seller_carts   = $carts->groupBy('seller_id');
             $shipping_repo  = new ShippingRepository();
             $city           = $shipping_repo->getCity($data['city_id']);
@@ -804,7 +732,6 @@ class CartRepository implements CartInterface
             foreach ($seller_carts as $key => $seller_cart) {
                 $shipping_cost += $cost;
             }
-        }
 
         return $shipping_cost;
     }
@@ -820,7 +747,7 @@ class CartRepository implements CartInterface
         if ($user)
         {
             $carts = Cart::with('product.stock:id,product_id,image,name,sku,current_stock',
-                'product:slug,user_id,price,id,thumbnail,minimum_order_quantity,is_refundable,current_stock,shipping_fee_depend_on_quantity,special_discount,special_discount_start,special_discount_end,special_discount_type,is_digital','seller:user_id,shop_name,logo')
+                'product:slug,user_id,price,id,thumbnail,minimum_order_quantity,is_refundable,current_stock,shipping_fee_depend_on_quantity,special_discount,special_discount_start,special_discount_end,special_discount_type,is_digital')
                 ->where('user_id', $user->id)->latest()->get();
         }
         else{
@@ -835,7 +762,7 @@ class CartRepository implements CartInterface
             Cart::where('created_at','<',Carbon::now()->subDays(2))->delete();
 
             $carts = Cart::with('product.stock:id,product_id,image,name,sku,current_stock',
-                'product:slug,user_id,price,id,thumbnail,minimum_order_quantity,is_refundable,current_stock,shipping_fee_depend_on_quantity,special_discount,special_discount_start,special_discount_end,special_discount_type,is_digital','seller:user_id,shop_name,logo')
+                'product:slug,user_id,price,id,thumbnail,minimum_order_quantity,is_refundable,current_stock,shipping_fee_depend_on_quantity,special_discount,special_discount_start,special_discount_end,special_discount_type,is_digital')
                 ->where('user_id', getWalkInCustomer()->id)->where('trx_id',$trx_id)->latest()->get();
         }
 

@@ -69,7 +69,10 @@
     @if($settings['text_direction'] == 'rtl')
         <link rel="stylesheet"
               href="{{ static_asset('frontend/css/rtl.css') }}?version={{ settingHelper('current_version') }}">
+              <link rel="stylesheet"
+              href="{{ static_asset('frontend/css/yassine-rtl.css') }}?version={{ settingHelper('current_version') }}">
     @endif
+    <link rel="stylesheet" href="{{ mix('frontend/css/yassine.css') }}">
     <style>
         :root {
             --primary-color: {{ settingHelper('primary_color')}};
@@ -149,31 +152,6 @@
             margin-right: 90px !important;
         }
 
-        @endif
-        @if(addon_is_activated('ramdhani'))
-            @media (max-width: 479px) {
-            .category-products .grid-4 > li, .hero-banner-section .grid-4 > li {
-                -ms-flex: 0 0 1000%;
-                flex: 0 0 100%;
-                max-width: 100%;
-            }
-        }
-        @media (max-width: 479px)
-        {
-            .sg-filter .grid-4 > li {
-                -ms-flex: 0 0 100%;
-                flex: 0 0 100%;
-                max-width: 100%;
-            }
-        }
-        @media (max-width: 479px)
-        {
-            .campaign_details_page .grid-6 > li {
-                -ms-flex: 0 0 100%;
-                flex: 0 0 100%;
-                max-width: 100%;
-            }
-        }
         @endif
     </style>
 

@@ -9,8 +9,6 @@ const blogDetails = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/blog_details');
 const brands = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/brands');
-const sellers = () => import(/* webpackPrefetch: true */
-    '../components/frontend/pages/all-seller');
 const campaignDetails = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/campaign_details');
 const allCampaign = () => import(/* webpackPrefetch: true */
@@ -19,12 +17,10 @@ const allCategory = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/category');
 const contact = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/contact');
+const complaint = () => import(/* webpackPrefetch: true */
+    '../components/frontend/pages/complaint');
 const dailyDeals = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/daily-deals');
-const giftIdea = () => import(/* webpackPrefetch: true */
-    '../components/frontend/pages/gift-idea');
-const businessIdea = () => import(/* webpackPrefetch: true */
-    '../components/frontend/pages/business-idea.vue');
 const productDetails = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/product-details');
 const trackOrder = () => import(/* webpackPrefetch: true */
@@ -43,8 +39,6 @@ const login = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/login');
 const register = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/register');
-const seller_register = () => import(/* webpackPrefetch: true */
-    '../components/frontend/pages/seller_register');
 const resetPassword = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/forgot-password');
 const wishlist = () => import(/* webpackPrefetch: true */
@@ -59,12 +53,6 @@ const changePassword = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/user/change_password');
 const editProfile = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/user/edit-profile');
-/*const migrateSeller = () => import(/!* webpackPrefetch: "product-details" *!/
-    '../components/frontend/pages/user/migrate-to-seller');*/
-
-const migrateSeller = () => import(/* webpackPrefetch: true */
-    '../components/frontend/pages/user/migrate-to-seller');
-
 const giftVoucher = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/user/gift-voucher');
 const notification = () => import(/* webpackPrefetch: true */
@@ -81,32 +69,11 @@ const reward = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/addons/rewards');
 const myWallet = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/user/wallet');
-const shop = () => import(/* webpackPrefetch: true */
-    '../components/frontend/pages/shop');
-const followedShop = () => import(/* webpackPrefetch: true */
-    '../components/frontend/pages/user/followed-shop');
 const digitalProductOrders = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/user/digital-product-orders');
-const videoShop = () => import(/* webpackPrefetch: true */
-    '../components/frontend/pages/addons/video_shop');
-const videoShopDetails = () => import(/* webpackPrefetch: true */
-    '../components/frontend/pages/addons/video_shop_details');
 const error_404 = () => import(/* webpackPrefetch : true" */
     '../components/errors/not_found');
-const affiliate_register = () => import(/* webpackPrefetch: true */
-    '../components/frontend/pages/affiliate_users/affiliate_register');
-const affiliate_program = () => import(/* webpackPrefetch: true */
-    '../components/frontend/pages/affiliate_users/affiliate_program');
-const affiliate_system = () => import(/* webpackPrefetch: true */
-    '../components/frontend/pages/affiliate_users/affiliate_system');
-//claim   
- const createClaim = () => import(/* webpackPrefetch: true */ 
-        '../components/frontend/pages/CreateClaim.vue');
-        //request
- const ReturnRequestForm = () => import( /* webpackPrefetch: true */ '../components/frontend/pages/ReturnRequestForm.vue'  );
- 
-
-        export const routes = [
+export const routes = [
     {
         path: '/',
         component: () => import(/* webpackPrefetch : true" */'../components/frontend/master'),
@@ -149,14 +116,6 @@ const affiliate_system = () => import(/* webpackPrefetch: true */
                 component: brands,
                 meta: {
                     title: 'All Brands'
-                }
-            },
-            {
-                path: '/sellers',
-                name: 'sellers',
-                component: sellers,
-                meta: {
-                    title: 'All Sellers'
                 }
             },
             {
@@ -262,51 +221,19 @@ const affiliate_system = () => import(/* webpackPrefetch: true */
                 }
             },
             {
+                path: '/complaint',
+                name: 'complaint',
+                component: complaint,
+                meta: {
+                    title: 'Complaint'
+                }
+            },
+            {
                 path: '/daily-deals',
                 name: 'daily.deals',
                 component: dailyDeals,
                 meta: {
                     title: 'Daily Deals'
-                }
-            },
-            {
-                path: '/gift-idea',
-                name: 'gift.idea',
-                component: giftIdea,
-                meta: {
-                    title: 'Gift Idea'
-                }
-            },
-            {
-                path: '/business-idea',
-                name: 'business.idea',
-                component: businessIdea,
-                meta: {
-                    title: 'Business Idea'
-                }
-            },
-            {
-                path: '/affiliate-register',
-                name: 'affiliate.register',
-                component: affiliate_register,
-                meta: {
-                    title: 'Affiliate Register'
-                }
-            },
-            {
-                path: '/affiliate-program',
-                name: 'affiliate.program',
-                component: affiliate_program,
-                meta: {
-                    title: 'Affiliate Program'
-                }
-            },
-            {
-                path: '/affiliate-system',
-                name: 'affiliate.system',
-                component: affiliate_system,
-                meta: {
-                    title: 'Affiliate System'
                 }
             },
             {
@@ -401,15 +328,6 @@ const affiliate_system = () => import(/* webpackPrefetch: true */
                 component: resetPassword
             },
             {
-                path: '/register/:type',
-                name: 'seller-register',
-                component: seller_register,
-                meta: {
-                    title: 'Seller SingUp'
-                }
-            },
-
-            {
                 path: '/user/edit-profile',
                 name: 'edit.profile',
                 component: editProfile,
@@ -426,14 +344,6 @@ const affiliate_system = () => import(/* webpackPrefetch: true */
                 }
             },
             {
-                path: '/user/followed-shop',
-                name: 'shop.followed',
-                component: followedShop,
-                meta: {
-                    title: 'Followed Shop'
-                }
-            },
-            {
                 path: '/user/digital-product-orders',
                 name: 'orders.digital.product',
                 component: digitalProductOrders,
@@ -441,12 +351,6 @@ const affiliate_system = () => import(/* webpackPrefetch: true */
                     title: 'Digital Product Orders'
                 }
             },
-            {
-                path: '/user/user-to-seller',
-                name: 'migrate.seller',
-                component: migrateSeller
-            },
-
             {
                 path: '/user/notification',
                 name: 'notification',
@@ -530,66 +434,10 @@ const affiliate_system = () => import(/* webpackPrefetch: true */
                 }
             },
             {
-                path: '/video-shopping',
-                name: 'video.shopping',
-                component: videoShop,
-                meta: {
-                    title: 'Video Shopping'
-                }
+                path: '/:pathMatch(.*)*',
+                name: '404',
+                component: error_404
             },
-            {
-                path: '/video-shopping/:slug',
-                name: 'video.shopping.details',
-                component: videoShopDetails,
-                meta: {
-                    title: 'Video Shopping'
-                }
-            },
-            {
-                path: '/shop/:slug',
-                name: 'shop',
-                component: shop,
-                meta: {
-                    title: 'Shop'
-                }
-            },
-            {
-                path: '/create-claim',
-                name: 'create.claim',
-                component: createClaim,
-                meta: {
-                    title: 'Reclamation',
-                }
-            },
-            // {
-            //     path: '/returns/create',
-            //     name: 'create.return', // Nom logique pour la route
-            //     component: ReturnRequestForm, // Assurez-vous d'avoir cette importation
-            //     meta: {
-            //       title: 'Demande de retour',
-            //       requiresAuth: true // Si l'utilisateur doit être connecté
-            //     }
-            //   },
-           
-
-        
-              {
-                path: '/demande-retour',
-                name: 'create.return',
-                component: ReturnRequestForm,
-                meta: {
-                  title: 'Demande de retour',
-                  requiresAuth: true
-                }
-              },
-         
-
-
-{
-    path: '/:pathMatch(.*)*',
-    name: '404',
-    component: error_404
-},
 
          ]
      }

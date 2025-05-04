@@ -10,7 +10,6 @@ use App\Repositories\Interfaces\Admin\Product\BrandInterface;
 use App\Repositories\Interfaces\Admin\Product\CategoryInterface;
 use App\Repositories\Interfaces\Admin\Product\ProductInterface;
 use App\Repositories\Interfaces\Admin\Refund\RefundInterface;
-use App\Repositories\Interfaces\Admin\SellerInterface;
 use App\Repositories\Interfaces\Admin\Support\SupportInterface;
 use App\Repositories\Interfaces\UserInterface;
 use App\Utility\AppSettingUtility;
@@ -23,7 +22,6 @@ class DashboardRepository implements DashboardInterface
     protected $product;
     protected $user;
     protected $brand;
-    protected $seller;
     protected $category;
     protected $support;
     protected $refund;
@@ -33,7 +31,6 @@ class DashboardRepository implements DashboardInterface
         ProductInterface $product,
         UserInterface $user,
         BrandInterface $brand,
-        SellerInterface $seller,
         CategoryInterface $category,
         SupportInterface $support,
         RefundInterface $refund
@@ -43,7 +40,6 @@ class DashboardRepository implements DashboardInterface
         $this->product      = $product;
         $this->user         = $user;
         $this->brand        = $brand;
-        $this->seller       = $seller;
         $this->category     = $category;
         $this->support      = $support;
         $this->refund       = $refund;
@@ -52,21 +48,10 @@ class DashboardRepository implements DashboardInterface
     public function index(): array
     {
         $total_order_amount             = $this->order->all()->where('delivery_status', 'delivered')
-                                                            ->when(settingHelper('seller_system') != 1,function ($q){
-                                                                $q->where('seller_id', 1);
-                                                            })
-                                                            ->when(authUser()->user_type == 'seller',function ($q){
-                                                                $q->where('seller_id',authId());
-                                                            })
-                                                            ->sum('total_payable');
+                                                            ->where('seller_id', 1)->sum('total_payable');
         if(addon_is_activated('refund')):
             $total_refund                   = $this->refund->all()
-                ->when(settingHelper('seller_system') != 1,function ($q){
-                    $q->where('seller_id', 1);
-                })
-                ->when(authUser()->user_type == 'seller',function ($q){
-                    $q->where('seller_id',authId());
-                })->where('status','processed')->sum('refund_amount');
+                ->where('seller_id', 1)->where('status','processed')->sum('refund_amount');
         else:
             $total_refund = 0;
         endif;
@@ -77,48 +62,20 @@ class DashboardRepository implements DashboardInterface
 
         $top_products                   = $this->topProducts('this_week', true);
         $orders                         = $this->order->all()->withCount('orderDetails')
-                                            ->when(settingHelper('seller_system') != 1,function ($q){
-                                                $q->where('seller_id', 1);
-                                            })->when(authUser()->user_type == 'seller',function ($q){
-                                                $q->where('seller_id',authId());
-                                            })->take(5)->get();
+                                            ->where('seller_id', 1)->take(5)->get();
 
-        if (authUser()->user_type != 'seller'):
             $data[] = [
                 'top_categories'                 => $this->topCategories(),
                 'top_brands'                     => Product::with('brand')->whereHas('brand')->ProductPublished()->UserCheck()->IsWholesale()->IsStockOut()->groupBy('brand_id')->selectRaw('SUM(total_sale) as brand_total_sale,brand_id')
                     ->orderBy('brand_total_sale','desc')->take(5)->get(),
-                'top_sellers'                    => $this->topSellers(),
                 'total_brand'                    => $this->brand->all()->where('lang','en')->where('status',1)->count(),
+                'total_categories'              =>$this->category->all()->count(),
+
             ];
-           if (settingHelper('seller_system') == 1):
-               $supports                            = $this->support->all()->where('status','pending');
-               $data[] = [
-                   'top_sellers'                    => $this->topSellers(),
-                   'total_seller'                   => $this->seller->all()->count(),
-                   'total_support'                  => $supports->count(),
-                   'supports'                       => $supports->take(3)->get(),
-               ];
-           else:
-               $data[] = [
-                   'total_categories'              =>$this->category->all()->count(),
-               ];
-            endif;
-        endif;
         $data[] = [
-            'total_orders'              => $this->order->all()
-                                                ->when(settingHelper('seller_system') != 1,function ($q){
-                                                    $q->where('seller_id', 1);
-                                                })
-                                                ->when(authUser()->user_type == 'seller',function ($q){
-                                                $q->where('seller_id',authId());
-                                            })->count(),
+            'total_orders'              => $this->order->all()->where('seller_id', 1)->count(),
             'total_sale'                => $total_order_amount - $total_refund,
-            'total_product'             => $this->product->all()
-                                                ->UserCheck()
-                                                ->when(authUser()->user_type == 'seller',function ($q){
-                                                $q->where('user_id',authId());
-                                            })->count(),
+            'total_product'             => $this->product->all()->UserCheck()->count(),
             'total_customer'            => $this->user->all()->where('status',1)->where('is_user_banned',0)->count(),
             'order_statistics'          => $this->orderStatistics('today', true),
             'order_state'               => json_encode($order_state),
@@ -148,12 +105,7 @@ class DashboardRepository implements DashboardInterface
             $end_month      = $report_type == 'this_year' ? date('Y-'.'12') : date('Y-'.'12',strtotime('-1 year'));
 
             $orders             = $this->order->all()
-                                    ->when(settingHelper('seller_system') != 1,function ($q){
-                                        $q->where('seller_id', 1);
-                                    })
-                                    ->when(authUser()->user_type == 'seller',function ($q){
-                                        $q->where('seller_id',authId());
-                                    })
+                                    ->where('seller_id', 1)
                                     ->where('created_at', '>=', $start_month. ' 00:00:00')
                                     ->where('created_at', '<=', $end_month. ' 23:59:59')->get();
 
@@ -188,12 +140,7 @@ class DashboardRepository implements DashboardInterface
                     $start                  = $created_at . '-01';
                     $end                    = $created_at . '-' . $this->getLastDateOfMonth($i);
                     $orders                 = $this->order->all()
-                                                ->when(settingHelper('seller_system') != 1,function ($q){
-                                                    $q->where('seller_id', 1);
-                                                })
-                                                ->when(authUser()->user_type == 'seller',function ($q){
-                                                    $q->where('seller_id',authId());
-                                                })
+                                                ->where('seller_id', 1)
                                                 ->where('created_at', '>=', $start. ' 00:00:00')
                                                 ->where('created_at', '<=', $end. ' 23:59:59')->count();
                     array_push($data, $orders);
@@ -205,12 +152,7 @@ class DashboardRepository implements DashboardInterface
                     $end   = $i.'-12-31';
 
                     $orders                 = $this->order->all()
-                                                    ->when(settingHelper('seller_system') != 1,function ($q){
-                                                        $q->where('seller_id', 1);
-                                                    })
-                                                    ->when(authUser()->user_type == 'seller',function ($q){
-                                                    $q->where('seller_id',authId());
-                                                })
+                                                ->where('seller_id', 1)
                                                 ->where('created_at', '>=', $start. ' 00:00:00')
                                                 ->where('created_at', '<=', $end. ' 23:59:59')->count();
                     array_push($data, $orders);
@@ -242,12 +184,7 @@ class DashboardRepository implements DashboardInterface
                 $q->whereIn('category_id', $category_ids);
             })->whereHas('order', function ($q){
                 $q->where('delivery_status', 'delivered')
-                    ->when(settingHelper('seller_system') != 1,function ($q){
-                        $q->where('seller_id', 1);
-                    })
-                    ->when(authUser()->user_type == 'seller',function ($q){
-                        $q->where('seller_id',authId());
-                    });
+                ->where('seller_id', 1);
             })->whereDoesntHave('refund',function ($q){
                 $q->where('status','processed');
             });
@@ -350,12 +287,8 @@ class DashboardRepository implements DashboardInterface
             }
 
             $orders                 = DB::table('orders')
-                ->when(settingHelper('seller_system') != 1,function ($q){
-                    $q->where('orders.seller_id', 1);
-                })
-                ->when(authUser()->user_type == 'seller',function ($q){
-                    $q->where('orders.seller_id',authId());
-                })->whereBetween('orders.created_at',  [$date[0]. ' 00:00:00',$date[1]. ' 23:59:59'])
+                ->where('orders.seller_id', 1)
+                ->whereBetween('orders.created_at',  [$date[0]. ' 00:00:00',$date[1]. ' 23:59:59'])
                 ->where('delivery_status', 'delivered')
                 ->leftjoin('refunds','orders.id','refunds.order_id')->selectRaw('(SUM(total_payable) - ifnull(refund_amount, 0)) as amount,MONTH(orders.created_at) as month,Year(orders.created_at) as year')
                 ->groupByRaw('MONTH(orders.created_at)')->get();
@@ -381,12 +314,7 @@ class DashboardRepository implements DashboardInterface
                     $start                  = $created_at . '-01';
                     $end                    = $created_at . '-' . $this->getLastDateOfMonth($i);
                     $orders                 = $this->order->all()
-                        ->when(settingHelper('seller_system') != 1,function ($q){
-                            $q->where('seller_id', 1);
-                        })
-                        ->when(authUser()->user_type == 'seller',function ($q){
-                            $q->where('seller_id',authId());
-                        })
+                        ->where('seller_id', 1)
                         ->where('created_at', '>=', $start. ' 00:00:00')
                         ->where('created_at', '<=', $end. ' 23:59:59')->where('delivery_status', 'delivered')->withSum('processedRefunds', 'refund_amount')->get();
 
@@ -402,12 +330,7 @@ class DashboardRepository implements DashboardInterface
                     $end   = $i.'-12-31';
 
                     $orders                 = $this->order->all()
-                        ->when(settingHelper('seller_system') != 1,function ($q){
-                            $q->where('seller_id', 1);
-                        })
-                        ->when(authUser()->user_type == 'seller',function ($q){
-                            $q->where('seller_id',authId());
-                        })
+                        ->where('seller_id', 1)
                         ->where('created_at', '>=', $start. ' 00:00:00')
                         ->where('created_at', '<=', $end. ' 23:59:59')->where('delivery_status', 'delivered')->withSum('processedRefunds', 'refund_amount')->get();
 
@@ -446,13 +369,7 @@ class DashboardRepository implements DashboardInterface
         $processing_order       = 0;
         $completed_order        = 0;
 //        $canceled_order         = 0;
-        $orders                 = $this->order->all()
-                                        ->when(settingHelper('seller_system') != 1,function ($q){
-                                            $q->where('seller_id', 1);
-                                        })
-                                        ->when(authUser()->user_type == 'seller',function ($q){
-                                        $q->where('seller_id',authId());
-                                    });
+        $orders                 = $this->order->all()->where('seller_id', 1);
         $now = Carbon::now();
         switch($report_type){
 
@@ -525,7 +442,7 @@ class DashboardRepository implements DashboardInterface
         $pending_order    = $orders->get();
         $completed_order  = $orders->get();
 
-        $processing_order               = $processing_order->whereIn('delivery_status',['confirm','picked_up','on_the_way']);
+        $processing_order               = $processing_order->whereIn('delivery_status',['confirm','picked_up','on_the_way','postponed']);
         $pending_order                  = $pending_order->where('delivery_status','pending');
         $completed_order                = $completed_order->where('delivery_status','delivered');
 //
@@ -557,10 +474,7 @@ class DashboardRepository implements DashboardInterface
         foreach ($categories as $category) {
             $category_ids = \App\Utility\CategoryUtility::getMyAllChildIds($category->id);
             $category_ids[] = $category->id;
-            $orders = Product::whereIn('category_id', $category_ids)
-                                ->when(settingHelper('seller_system') != 1,function ($q){
-                                    $q->where('user_id', 1);
-                                })->sum('total_sale');
+            $orders = Product::whereIn('category_id', $category_ids)->where('user_id', 1)->sum('total_sale');
 
             if ($orders > 0):
                 $data[$category->id] = $orders;
@@ -585,28 +499,6 @@ class DashboardRepository implements DashboardInterface
         return $top_categories;
     }
 
-    public function topSellers()
-    {
-        $data = [];
-        $products = Product::with('user.sellerProfile')->where('user_id','!=',1)
-            ->groupBy('user_id')->selectRaw('SUM(total_sale) AS seller_total_sale,user_id')
-            ->orderBy('seller_total_sale','desc')->take(5)->get();
-
-        foreach ($products as $key => $product){
-            $seller = $product->user;
-            $seller_profile = @$seller->sellerProfile;
-            if ($seller && $seller_profile):
-                $item['shop_name']  = $seller_profile->shop_name;
-                $item['image']      = getFileLink('72x72', $seller_profile->logo);
-                $item['total_sale'] = $product->seller_total_sale;
-                $item['slug']       = $seller_profile->slug;
-
-                $data[] = $item;
-            endif;
-        }
-        return $data;
-    }
-
     public function topProducts($report_type, $first_load)
     {
         $products = OrderDetail::with('product.productLanguages','order')
@@ -617,13 +509,7 @@ class DashboardRepository implements DashboardInterface
                                 })->whereDoesntHave('refund',function ($q){
                                     $q->where('status','processed');
                                 })->whereHas('order',function ($q){
-                                    $q->where('delivery_status','delivered')
-                                        ->when(settingHelper('seller_system') != 1,function ($q){
-                                            $q->where('seller_id', 1);
-                                        })
-                                        ->when(authUser()->user_type == 'seller',function ($q){
-                                            $q->where('seller_id',authId());
-                                        });
+                                    $q->where('delivery_status','delivered')->where('seller_id', 1);
                                 })->groupBy('product_id');
 
         $now = Carbon::now();

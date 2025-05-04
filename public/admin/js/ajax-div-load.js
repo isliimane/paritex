@@ -21,7 +21,6 @@
                     productByAjax(i);
                     categoryByAjax(i);
                     blogAjax(i);
-                    sellerAjax(i);
                 }
             }
         }
@@ -226,7 +225,6 @@
                     $('body, html').animate({scrollTop: $('.' + newlyAdded).offset().top}, 1000);
                     categoryByAjax(content_number);
                     blogAjax(content_number);
-                    sellerAjax(content_number);
                     /*else {
                         $('.select2').select2();
                     }*/

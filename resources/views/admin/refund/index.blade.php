@@ -32,17 +32,6 @@
                             <div class="card-header-form">
                                 <form class="form-inline" id="sorting">
                                     <div class="form-group">
-                                        <label for="slr">{{ __('Seller') }}</label>
-                                        <select class="seller-by-ajax form-control select2 sorting" name="slr" id="slr">
-                                            <option value="">{{ __('Filter By Seller') }}</option>
-                                            @if(isset($slr))
-                                                <option selected value="{{ @$slr }}">
-                                                    {{ @$selected_seller->shop_name }}
-                                                </option>
-                                            @endif
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
                                         <select class="form-control selectric sorting" name="s">
                                             <option value="" selected>{{ __('Filter By Status') }}</option>
                                             <option value="pending" {{ $s == 'pending' ? 'selected' : '' }} >{{ __('Pending Request') }}</option>
@@ -72,7 +61,6 @@
                                         <th>{{ __('Product') }}</th>
                                         <th>{{ __('Shop') }}</th>
                                         <th>{{ __('Admin Approval') }}</th>
-                                        <th>{{ __('Seller Approval') }}</th>
                                         <th>{{ __('Refund Status') }}</th>
                                         @if (hasPermission('refund_approve') || hasPermission('refund_reject') || hasPermission('refund_process'))
                                             <th>{{ __('Options') }}</th>
@@ -95,13 +83,10 @@
                                                 </td>
                                             @endif
                                             <td>
-                                                @if($refund->seller_id == 1) <span class="badge badge-warning">{{__('Admin Product')}}</span> @elseif($refund->seller != null) {{$refund->seller->sellerProfile->shop_name}} @endif
+                                                <span class="badge badge-warning">{{__('Admin Product')}}</span>
                                             </td>
                                             <td class=" {{$refund->admin_approval == 'pending' ? 'text-warning' : ($refund->admin_approval == 'approved' ? 'text-success' : 'text-danger')}}">
                                                 {{ ucfirst($refund->admin_approval)}}
-                                            </td>
-                                            <td class=" {{$refund->seller_approval == 'pending' ? 'text-warning' : ($refund->seller_approval == 'approved' ? 'text-success' : 'text-danger')}}">
-                                                @if($refund->seller_id != 1) {{ ucfirst($refund->seller_approval)}} @else <span class="badge badge-warning">{{__('Admin Product')}}</span> @endif
                                             </td>
                                             <td class=" {{$refund->status == 'pending' ? 'text-warning' : ($refund->status == 'processed' ? 'text-success' : 'text-danger')}}">
                                                 {{ ucfirst($refund->status)}}
@@ -136,7 +121,7 @@
                                                         </a>
                                                     @endif
                                                 @endif
-                                                @if($refund->admin_approval == 'approved' && $refund->seller_approval == 'approved' && $refund->status == 'approved')
+                                                @if($refund->admin_approval == 'approved' && $refund->status == 'approved')
                                                     <a href="javascript:void(0)"
                                                        class="btn btn-outline-info btn-circle"
                                                        onclick="process_payment('{{ route('pay.refund',$refund->id) }}')"

@@ -25,7 +25,7 @@
                             <h4>{{__('Change Password')}}</h4>
                         </div>
                         <div class="card-body p-0">
-                            <form action="{{ Sentinel::getUser()->user_type == 'seller' ? route('seller.password.update') : route('password.update') }}" enctype="multipart/form-data" method="POST">
+                            <form action="{{ route('password.update') }}" enctype="multipart/form-data" method="POST">
                                 @csrf
                                 @method('PUT')
                                 <div class="card-body card-body-paddding">

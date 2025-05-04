@@ -56,11 +56,6 @@ class RepositoryServiceProvider extends ServiceProvider{
             'App\Repositories\Admin\StaffRepository'
         );
 
-        //Seller management
-        $this->app->bind(
-            'App\Repositories\Interfaces\Admin\SellerInterface',
-            'App\Repositories\Admin\SellerRepository'
-        );
         //color
         $this->app->bind(
             'App\Repositories\Interfaces\Admin\Product\ColorInterface',
@@ -124,16 +119,6 @@ class RepositoryServiceProvider extends ServiceProvider{
         $this->app->bind(
             'App\Repositories\Interfaces\Admin\CurrencyInterface',
             'App\Repositories\Admin\CurrencyRepository'
-        );
-        //Seller Payout
-        $this->app->bind(
-            'App\Repositories\Interfaces\Admin\SellerPayoutInterface',
-            'App\Repositories\Admin\SellerPayoutRepository'
-        );
-        //Seller Profile
-        $this->app->bind(
-            'App\Repositories\Interfaces\Admin\SellerProfileInterface',
-            'App\Repositories\Admin\SellerProfileRepository'
         );
 
         //Blog
@@ -303,12 +288,6 @@ class RepositoryServiceProvider extends ServiceProvider{
 
         //offline payments
         $this->app->bind(
-            'App\Repositories\Interfaces\Admin\Addon\OfflineMethodInterface',
-            'App\Repositories\Admin\Addon\OfflineMethodRepository'
-        );
-
-        //offline payments
-        $this->app->bind(
             'App\Repositories\Interfaces\Admin\Addon\WalletInterface',
             'App\Repositories\Admin\Addon\WalletRepository'
         );
@@ -317,17 +296,12 @@ class RepositoryServiceProvider extends ServiceProvider{
             'App\Repositories\Site\ContactUsRepository'
         );
         $this->app->bind(
+            'App\Repositories\Interfaces\Site\ComplaintInterface',
+            'App\Repositories\Site\ComplaintRepository'
+        );
+        $this->app->bind(
             'App\Repositories\Interfaces\Admin\NotificationInterface',
             'App\Repositories\Admin\NotificationRepository'
-        );
-        $this->app->bind(
-            'App\Repositories\Interfaces\Admin\Addon\VideoShoppingInterface',
-            'App\Repositories\Admin\Addon\VideoShoppingRepository'
-        );
-        //posSystem
-        $this->app->bind(
-            'App\Repositories\Interfaces\Admin\Addon\PosSystemInterface',
-            'App\Repositories\Admin\Addon\PosSystemRepository'
         );
         //banner
         $this->app->bind(
@@ -339,17 +313,23 @@ class RepositoryServiceProvider extends ServiceProvider{
             'App\Repositories\Interfaces\Admin\ApiKeyInterface',
             'App\Repositories\Admin\ApiKeyRepository'
         );
-
-        //seller_subscription
-        $this->app->bind(
-            'App\Repositories\Interfaces\Admin\Addon\SellerSubscriptionInterface',
-            'App\Repositories\Admin\Addon\SellerSubscriptionRepository'
-        );
-
         //font
         $this->app->bind(
             'App\Repositories\Interfaces\Admin\FontInterface',
             'App\Repositories\Admin\FontRepository'
         );
+
+        $this->app->bind(
+            'App\Repositories\Interfaces\Admin\Warehouse\WarehouseInterface',
+            'App\Repositories\Admin\Warehouse\WarehouseRepository'
+        );
+        
+        $this->app->bind(
+            'App\Repositories\Interfaces\Admin\Warehouse\WarehouseProductInterface',
+            'App\Repositories\Admin\Warehouse\WarehouseProductRepository'
+        );
+
+        
+
     }
 }

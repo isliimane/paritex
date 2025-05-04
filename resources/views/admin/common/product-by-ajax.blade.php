@@ -24,9 +24,7 @@
         function product_find(product_length){
             var user_type = $('meta[name="get-me"]').attr('content');
 
-            if (user_type !== 'seller') {
                 user_type = 'admin';
-            }
 
             var url = $('#url').val() + '/' + user_type + '/' + 'product/by/ajax';
 

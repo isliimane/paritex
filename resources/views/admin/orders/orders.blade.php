@@ -34,17 +34,6 @@
                         <h4>{{ __('Orders') }}</h4>
                         <div class="card-header-form">
                             <form class="form-inline" id="sorting">
-                                @if(settingHelper('seller_system') == 1)
-                                    <div class="form-group">
-                                        <select class="seller-by-ajax form-control select2" name="sl" id="seller_id"
-                                                aria-hidden="true">
-                                            @if(isset($sl))
-                                                <option selected
-                                                        value="{{ $selected_seller->id }}"> {{ $selected_seller->shop_name }} </option>
-                                            @endif
-                                        </select>
-                                    </div>
-                                @endif
                                 <div class="form-group">
                                     <select class="form-control select2 sorting" name="ds">
                                         <option {{ @$ds == "" ? "selected" : "" }} value="">{{ __('Delivery Status') }}</option>
@@ -52,6 +41,7 @@
                                         <option {{ @$ds == "confirm" ? "selected" : "" }} value="confirm">{{ __('Confirmed') }}</option>
                                         <option {{ @$ds == "picked_up" ? "selected" : "" }} value="picked_up">{{ __('Picked Up') }}</option>
                                         <option {{ @$ds == "on_the_way" ? "selected" : "" }} value="on_the_way">{{ __('On The Way') }}</option>
+                                        <option {{ @$ds == "postponed" ? "selected" : "" }} value="postponed">{{ __('Postponed') }}</option>
                                         <option {{ @$ds == "Canceled" ? "selected" : "" }} value="canceled">{{__('Canceled')}}</option>
                                         <option {{ @$ds == "delivered" ? "selected" : "" }} value="delivered">{{__('Delivered')}}</option>
                                     </select>
@@ -92,9 +82,6 @@
                                 <tr>
                                     <th>#</th>
                                     <th>{{ __('Order Code') }}</th>
-                                    @if(settingHelper('seller_system') == 1)
-                                        <th>{{ __('Seller') }}</th>
-                                    @endif
                                     <th>{{ __('Customer') }}</th>
                                     <th>{{ __('Total Product') }}</th>
                                     <th>{{ __('Total Price') }}</th>
@@ -111,18 +98,6 @@
                                     <tr id="row_{{ $value->id }}" class="table-data-row">
                                         <td> {{ $orders->firstItem() + $key  }} </td>
                                         <td> {{ $value->code }} </td>
-                                        @if(settingHelper('seller_system') == 1)
-                                            <td>
-                                                @if($value->seller_id != 1)
-                                                    @if(isset($value->orderDetails[0]->product->sellerProfile))
-                                                        <a target="{{ isAppMode() ? '_parent' : '_blank'}}"
-                                                           href="{{ isAppMode() ? '#' : route('frontend.shop', $value->orderDetails[0]->product->sellerProfile->slug) }}"> {{ $value->orderDetails[0]->product->sellerProfile->shop_name }}</a>
-                                                    @endif
-                                                @else
-                                                    <div class="badge badge-warning">{{__('Admin Orders')}}</div>
-                                                @endif
-                                            </td>
-                                        @endif
                                         <td>
                                             <div class="ml-1">
                                                 <a href="javascript:void(0)" class="modal-menu"
@@ -149,6 +124,8 @@
                                                 <div class="badge badge-info">{{__('Picked Up')}}</div>
                                             @elseif($value->delivery_status == 'on_the_way')
                                                 <div class="badge badge-secondary">{{__('On The Way')}}</div>
+                                            @elseif($value->delivery_status == 'postponed')
+                                                <div class="badge badge-danger">{{__('Postponed')}}</div>
                                             @endif
                                         </td>
                                         <td>

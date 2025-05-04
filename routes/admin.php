@@ -6,7 +6,6 @@
   |--------------------------------------------------------------------------
  */
 
-use App\Http\Controllers\Admin\Addons\ShippingClassController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\FontController;
 use App\Http\Controllers\Admin\RoleController;
@@ -16,7 +15,6 @@ use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\CommonController;
-use App\Http\Controllers\Admin\SellerController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\WalletController;
 use App\Http\Controllers\Admin\ServiceController;
@@ -29,7 +27,6 @@ use App\Http\Controllers\Admin\Setup\VatTaxController;
 use App\Http\Controllers\Admin\Product\BrandController;
 use App\Http\Controllers\Admin\Product\ColorController;
 use App\Http\Controllers\Admin\Report\ReportController;
-use App\Http\Controllers\Admin\SellerPayoutsController;
 use App\Http\Controllers\Admin\Setup\CurrencyController;
 use App\Http\Controllers\Admin\Order\PickupHubController;
 use App\Http\Controllers\Admin\Product\ProductController;
@@ -55,6 +52,10 @@ use App\Http\Controllers\Admin\StoreFront\StoreFrontController;
 use App\Http\Controllers\Admin\Payment\PaymentGatewayController;
 use App\Http\Controllers\Admin\Setup\AdminPanelSettingController;
 use App\Http\Controllers\Admin\Support\SupportDepartmentController;
+use App\Http\Controllers\Admin\Warehouse\WarehouseController;
+use App\Http\Controllers\Admin\Warehouse\WarehouseProductController;
+use App\Http\Controllers\Admin\Warehouse\WarehouseTransferController;
+use App\Http\Controllers\Admin\StockMovementController;
 
 Route::get('change-currency/{id}', [GeneralSettingsController::class, 'currencyChange'])->name('admin.change.currency');
 Route::get('change-lang/{id}', [GeneralSettingsController::class, 'langChange'])->name('admin.change.lang');
@@ -106,8 +107,6 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 Route::get('product-restore/{id}', [ProductController::class, 'restore'])->name('product.restore')->middleware('PermissionCheck:product_restore|wholesale_product_restore');
 
                 Route::get('admin-products/{status?}', [ProductController::class, 'adminProducts'])->name('admin.products')->middleware('PermissionCheck:product_read');
-                Route::get('seller-products/{status?}', [ProductController::class, 'sellerProducts'])->name('admin.seller.products')->middleware('PermissionCheck:product_read');
-
                 //digital product
                 Route::get('digital-product/{status?}', [ProductController::class, 'digitalProducts'])->name('digital.products')->middleware('PermissionCheck:product_read');
                 Route::get('create-digital-product', [ProductController::class, 'createDigitalProduct'])->name('digital.product.create')->middleware('PermissionCheck:product_create');
@@ -172,13 +171,14 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 Route::get('create-customer', [UserController::class, 'create'])->name('customer.create')->middleware('PermissionCheck:customer_create');
                 Route::post('customer-store', [UserController::class, 'store'])->name('customer.store')->middleware('PermissionCheck:customer_create');
                 Route::get('edit-customer/{id}', [UserController::class, 'edit'])->name('customer.edit')->middleware('PermissionCheck:customer_update');
-                Route::get('user-ban/{id}', [UserController::class, 'ban'])->name('user.ban')->middleware('PermissionCheck:seller_ban|customer_ban|staff_ban');
+                Route::get('user-ban/{id}', [UserController::class, 'ban'])->name('user.ban')->middleware('PermissionCheck:customer_ban|staff_ban');
                 Route::put('update-customer', [UserController::class, 'update'])->name('customer.update')->middleware('PermissionCheck:customer_update');
                 Route::put('customer-status-change', [CommonController::class, 'statusChange'])->name('admin.customer.status.change')->middleware('PermissionCheck:customer_update');
                 Route::delete('delete/customer/{id}', [CommonController::class, 'delete'])->middleware('PermissionCheck:customer_delete');
                 Route::get('user-by-ajax', [UserController::class, 'getUserByAjax'])->name('user.by.ajax');
                 Route::get('all-user-by-ajax', [UserController::class, 'getAllTypeByAjax'])->name('all.user.by.ajax');
                 Route::get('customer/email-verify/{id}', [UserController::class, 'emailVerify'])->name('customer.email.verify')->middleware('PermissionCheck:customer_update');
+                Route::get('customer/license-verify/{id}', [UserController::class, 'licenseVerify'])->name('customer.license.verify')->middleware('PermissionCheck:customer_update');
 
                 //staff
                 Route::get('staffs', [StaffController::class, 'index'])->name('staffs')->middleware('PermissionCheck:staff_read');
@@ -192,28 +192,6 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
 
                 Route::post('collect-balance', [StaffController::class, 'balanceCollectFromStaff'])->name('collect.form.staff');
 
-                //sellers
-                Route::get('sellers', [SellerController::class, 'index'])->name('sellers')->middleware('PermissionCheck:seller_read');
-                Route::get('create-seller', [SellerController::class, 'create'])->name('admin.seller.create')->middleware('PermissionCheck:seller_create');
-                Route::post('seller-store', [SellerController::class, 'store'])->name('admin.seller.store')->middleware('PermissionCheck:seller_create');
-                Route::get('edit-seller/{id}', [SellerController::class, 'edit'])->name('admin.seller.edit')->middleware('PermissionCheck:seller_update');
-                Route::put('update-seller', [SellerController::class, 'update'])->name('admin.seller.update')->middleware('PermissionCheck:seller_update');
-                Route::put('seller-status-change', [CommonController::class, 'statusChange'])->name('admin.seller.status.change')->middleware('PermissionCheck:seller_update');
-                Route::get('seller-verify/{id}/{user_id}', [SellerController::class, 'verify'])->name('admin.seller.verify')->middleware('PermissionCheck:seller_verify');
-                Route::delete('delete/seller/{id}', [CommonController::class, 'delete'])->middleware('PermissionCheck:seller_delete');
-                Route::get('seller/email-verify/{user_id}', [UserController::class, 'emailVerify'])->name('admin.seller.email.verify')->middleware('PermissionCheck:seller_update');
-
-
-                //seller payouts
-                Route::get('seller-payouts/{status?}', [SellerPayoutsController::class, 'index'])->name('admin.seller.payouts')->middleware('PermissionCheck:seller_payout_read');
-                Route::get('seller-payouts-request', [SellerPayoutsController::class, 'payoutRequest'])->name('admin.seller.payout.request')->middleware('PermissionCheck:seller_payout_read');
-                //Route::get('seller-payouts-processed', [SellerPayoutsController::class, 'payoutProcessed'])->name('admin.seller.payout.processed')->middleware('PermissionCheck:payout_read');
-                Route::get('seller-settings', [SellerPayoutsController::class, 'sellerSetting'])->name('admin.seller.settings')->middleware('PermissionCheck:seller_commission_read');
-                Route::get('seller-payouts-accept/{id}', [SellerPayoutsController::class, 'payoutRequestAccept'])->name('payout.accept')->middleware('PermissionCheck:seller_payout_accept');
-                Route::get('seller-payouts-reject/{id}', [SellerPayoutsController::class, 'payoutRequestReject'])->name('payout.reject')->middleware('PermissionCheck:seller_payout_reject');
-                Route::post('seller-payouts-processed', [SellerPayoutsController::class, 'payoutRequestProcessed'])->name('payout.processed')->middleware('PermissionCheck:seller_payout_accept');
-                Route::put('seller-commission', [SellerPayoutsController::class, 'sellerCommission'])->name('admin.seller.commission')->middleware('PermissionCheck:seller_commission_update');
-                Route::get('seller-by-ajax', [SellerController::class, 'sellerByAjax'])->name('admin.seller.by.ajax');
                 //language
                 Route::get('languages', [LanguageController::class, 'index'])->name('language')->middleware('PermissionCheck:language_read');
                 Route::get('language-create', [LanguageController::class, 'create'])->name('admin.language.create')->middleware('PermissionCheck:language_create');
@@ -416,8 +394,6 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 Route::put('campaign-featured-change', [CampaignController::class, 'featuredChange'])->name('campaign.featured.change')->middleware('PermissionCheck:campaign_update');
                 Route::put('campaign-flash-sale-change', [CampaignController::class, 'flashSaleChange'])->name('campaign.flash.sale.change')->middleware('PermissionCheck:campaign_update');
                 Route::get('campaign-product/requests/{id}', [CampaignController::class, 'campaignProductRequest'])->name('campaign.product.requests')->middleware('PermissionCheck:campaign_product_update');
-                Route::get('campaign-product/requests-status', [CampaignController::class, 'campaignProductRequestStatus'])->name('campaign.product.request.status')->middleware('PermissionCheck:campaign_product_update');
-                Route::get('campaign/requests', [CampaignController::class, 'campaignRequests'])->name('campaign.requests')->middleware('PermissionCheck:campaign_product_read');
 
 
                 Route::get('coupons', [CouponController::class, 'index'])->name('coupons')->middleware('PermissionCheck:coupon_read');
@@ -467,6 +443,10 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 Route::delete('delete/contact_us/{id}', [CommonController::class, 'delete'])->name('contact.us.delete');
                 Route::put('contact-us-replay/{id}', [SupportController::class, 'contactUsReplay'])->name('contact.us.replay');
 
+                Route::get('complaints', [SupportController::class, 'complaints'])->name('complaints');
+                Route::delete('delete/complaints/{id}', [CommonController::class, 'delete'])->name('complaints.delete');
+                Route::put('complaint-replay/{id}', [SupportController::class, 'ComplaintReplay'])->name('complaints.replay');
+
 
                 //support department
                 Route::get('support-department', [SupportDepartmentController::class, 'index'])->name('support.department')->middleware('PermissionCheck:support_department_read');
@@ -479,11 +459,9 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 //Report Route
                 Route::group(['prefix' => 'report'], function () {
                     Route::get('product-sale', [ReportController::class, 'adminProducts'])->name('admin.product.sale')->middleware('PermissionCheck:admin_product_sale_read');
-                    Route::get('seller-product-sale', [ReportController::class, 'sellerProducts'])->name('admin.seller.product.sale')->middleware('PermissionCheck:seller_product_sale_read');
                     Route::get('stock-product', [ReportController::class, 'stockProduct'])->name('stock.product.report')->middleware('PermissionCheck:product_stock_read');
                     Route::get('product-wishlist', [ReportController::class, 'productWishlists'])->name('product.wishlist')->middleware('PermissionCheck:product_wishlist_read');
                     Route::get('user-searches', [ReportController::class, 'userSearches'])->name('user.searches')->middleware('PermissionCheck:user_searches_read');
-                    Route::get('commission-history', [ReportController::class, 'commissionHistory'])->name('commission.history')->middleware('PermissionCheck:commission_history_read');
                     Route::get('wallet-recharge-history', [ReportController::class, 'walletRecharge'])->name('wallet.recharge.history')->middleware('PermissionCheck:wallet_recharge_history_read');
                 });
 
@@ -506,7 +484,6 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 //order
                 Route::group(['prefix' => 'orders'], function () {
                     Route::get('/', [OrderController::class, 'index'])->name('orders')->middleware('PermissionCheck:order_read');
-                    Route::get('seller', [OrderController::class, 'sellerOrders'])->name('admin.seller.orders')->middleware('PermissionCheck:order_read');
                     Route::get('admin', [OrderController::class, 'adminOrder'])->name('admin.orders')->middleware('PermissionCheck:order_read');
                     Route::get('pickup-hub', [OrderController::class, 'pickupHubOrder'])->name('pickup.hub.orders')->middleware('PermissionCheck:order_read');
                     Route::get('invoice/download/{id}', [OrderController::class, 'invoiceDownload'])->name('order.invoice.download')->middleware('PermissionCheck:order_invoice');
@@ -515,7 +492,10 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                     Route::post('delivery/status-change', [OrderController::class, 'deliveryStatusChange'])->name('order.delivery.status.change')->middleware('PermissionCheck:order_update');
                     Route::post('payment/status-change', [OrderController::class, 'paymentStatusChange'])->name('order.payment.status.change')->middleware('PermissionCheck:order_update');
                     Route::post('approve-offline-payment', [OrderController::class, 'approveOfflinePayment'])->name('order.approve.offline.payment')->middleware('PermissionCheck:order_approve_offline_payment');
+                    Route::get('edit/{id}', [OrderController::class, 'edit'])->name('order.edit')->middleware('PermissionCheck:order_update');
+                    Route::put('update/{id}', [OrderController::class, 'update'])->name('order.update')->middleware('PermissionCheck:order_update');               
                 });
+                Route::post('order/assign/warehouse', [OrderController::class, 'assignWarehouse'])->name('order.assign.warehouse');
                 Route::delete('delete/orders/{id}', [CommonController::class, 'delete'])->name('orders.delete')->middleware('PermissionCheck:order_delete');
 
                 //pickup hub
@@ -591,18 +571,56 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 //customer import
                 Route::get('import-customers',[UserController::class, 'customerImport'])->name('admin.customer.import')->middleware('PermissionCheck:customer_create');
                 Route::post('import-customers',[UserController::class, 'importCustomer'])->name('admin.customer.import.post')->middleware('PermissionCheck:customer_create');
-                //seller import
-                Route::get('import-sellers',[SellerController::class, 'sellerImport'])->name('admin.seller.import')->middleware('PermissionCheck:seller_create');
-                Route::post('import-sellers',[SellerController::class, 'importSeller'])->name('admin.seller.import.post')->middleware('PermissionCheck:seller_create');
+
                 Route::get('import-cities',[ShippingController::class, 'importCity'])->name('import.city');
 
-                //reclamation 
-                Route::get('claims', '\App\Http\Controllers\Admin\ClaimController@index')->name('admin.claim.index');
-                Route::get('claims/{id}', '\App\Http\Controllers\Admin\ClaimController@show')->name('admin.claim.show');
-                Route::post('claims/{id}/update', '\App\Http\Controllers\Admin\ClaimController@update')->name('admin.claim.update');
+                // Warehouse routes
+                Route::get('warehouses', [WarehouseController::class, 'index'])->name('warehouse.index')->middleware('PermissionCheck:warehouse_read');
+                Route::post('warehouse-store', [WarehouseController::class, 'store'])->name('warehouse.store')->middleware('PermissionCheck:warehouse_create');
+                Route::put('warehouse-status-change', [WarehouseController::class, 'statusChange'])->name('warehouse.status.change')->middleware('PermissionCheck:warehouse_update');
+                Route::get('warehouse-edit/{id}', [WarehouseController::class, 'edit'])->name('warehouse.edit')->middleware('PermissionCheck:warehouse_update');
+                Route::put('warehouse-update', [WarehouseController::class, 'update'])->name('warehouse.update')->middleware('PermissionCheck:warehouse_update');
+                Route::delete('delete/warehouses/{id}', [CommonController::class, 'delete'])->name('warehouse.delete')->middleware('PermissionCheck:warehouse_destroy');
+                Route::get('warehouses/{warehouse}/current-quantity', [WarehouseController::class, 'getCurrentQuantity'])->name('warehouse.current.quantity');
                 
+            // Warehouse Products Routes
+            Route::prefix('warehouses')->name('warehouse.')->group(function () {
+                Route::get('/', [WarehouseController::class, 'index'])->name('index');
+                Route::post('/', [WarehouseController::class, 'store'])->name('store');
+                Route::put('status-change', [WarehouseController::class, 'statusChange'])->name('status.change');
+                Route::get('edit/{id}', [WarehouseController::class, 'edit'])->name('edit');
+                Route::put('update', [WarehouseController::class, 'update'])->name('update');
+                Route::delete('delete/{id}', [CommonController::class, 'delete'])->name('delete');
                 
+                // Products in warehouse routes
+                Route::get('get-products', [WarehouseProductController::class, 'getProducts'])->name('products.get');
+                
+                Route::prefix('{warehouse}/products')->name('products.')->group(function () {
+                    Route::get('/', [WarehouseProductController::class, 'index'])->name('index');
+                    Route::get('/create', [WarehouseProductController::class, 'create'])->name('create');
+                    Route::post('/', [WarehouseProductController::class, 'store'])->name('store');
+                    Route::put('/{id}', [WarehouseProductController::class, 'update'])->name('update');
+                    Route::delete('/{id}', [WarehouseProductController::class, 'destroy'])->name('destroy');
+                    Route::get('products/{product}/stocks', [WarehouseProductController::class, 'getStocks'])->name('products.stocks');
+                    Route::get('products/{product}/warehouse-stocks', [WarehouseProductController::class, 'getWarehouseStocks'])->name('products.warehouse-stocks');
+                });
             });
+
+            // Warehouse Transfers Routes
+            Route::prefix('transfers')->name('transfers.')->group(function () {
+                Route::get('/', [WarehouseTransferController::class, 'index'])->name('index');
+                Route::get('/create', [WarehouseTransferController::class, 'create'])->name('create');
+                Route::get('/edit/{id}', [WarehouseTransferController::class, 'edit'])->name('edit');
+                Route::post('/', [WarehouseTransferController::class, 'store'])->name('store');
+                Route::put('/{transfer}/update', [WarehouseTransferController::class, 'update'])->name('update');
+                Route::post('/{transfer}/approve', [WarehouseTransferController::class, 'approve'])->name('approve');
+                Route::post('/{transfer}/reject', [WarehouseTransferController::class, 'reject'])->name('reject');
+
+            });
+
+            Route::get('stock-movements', [StockMovementController::class, 'index'])->name('stock-movements.index');
+            Route::get('stock-movements/details', [StockMovementController::class, 'getDetails'])->name('admin.stock-movements.details');
+        });
         });
     });
 });

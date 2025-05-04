@@ -40,7 +40,6 @@ class RouteServiceProvider extends ServiceProvider
         $this->routes(function () {
             $this->mapApiRoutes();
             $this->mapDeliveryHeroApiRoutes();
-            $this->mapSellerApiRoutes();
             $this->mapWebRoutes();
             $this->mapInstallerRoutes();
             $this->mapAdminRoutes();
@@ -49,20 +48,8 @@ class RouteServiceProvider extends ServiceProvider
             $this->mapDeliveryHeroRoutes();
             $this->mapWholeSaleProductRoutes();
             $this->mapRewardRoutes();
-            $this->mapSellerRoutes();
-            $this->mapOfflinePaymentRoutes();
-            $this->mapPosSystemRoutes();
             $this->mapChatSystemRoutes();
-            $this->mapVideoShoppingRoutes();
-            $this->mapSellerSubscriptionRoutes();
             $this->mapIshophetRoutes();
-            $this->mapAffiliateRoutes();
-            $this->mapSellerChatSystemRoutes();
-//            $this->mapAIWriterRoutes();
-            $this->mapRamdhaniRoutes();
-//            $this->mapHitpayPaymentGatewayRoutes();
-//            $this->mapErsApi();
-//            $this->mapPluginRoutes();
         });
     }
 
@@ -94,13 +81,6 @@ class RouteServiceProvider extends ServiceProvider
             ->group(base_path('routes/delivery-hero-api.php'));
     }
 
-    protected function mapSellerApiRoutes()
-    {
-        Route::prefix('api')
-            ->middleware('api')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/seller-api.php'));
-    }
 
     protected function mapWebRoutes()
     {
@@ -147,48 +127,19 @@ class RouteServiceProvider extends ServiceProvider
             ->namespace($this->namespace)
             ->group(base_path('routes/reward.php'));
     }
-    protected function mapSellerRoutes()
-    {
-        Route::middleware('web')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/seller.php'));
-    }
-    protected function mapOfflinePaymentRoutes()
-    {
-        Route::middleware('web')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/offline-payment.php'));
-    }
-    protected function mapPosSystemRoutes()
-    {
-        Route::middleware('web')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/pos-system.php'));
-    }
+
     protected function mapChatSystemRoutes()
     {
         Route::middleware('web')
             ->namespace($this->namespace)
             ->group(base_path('routes/chat-messenger.php'));
     }
-    protected function mapVideoShoppingRoutes()
-    {
-        Route::middleware('web')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/video-shopping.php'));
-    }
+    
     protected function mapInstallerRoutes()
     {
         Route::middleware('web')
             ->namespace($this->namespace)
             ->group(base_path('routes/install.php'));
-    }
-
-    protected function mapSellerSubscriptionRoutes()
-    {
-        Route::middleware('web')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/seller-subscription.php'));
     }
 
     protected function mapIshophetRoutes()
@@ -198,46 +149,6 @@ class RouteServiceProvider extends ServiceProvider
             ->group(base_path('routes/isophet.php'));
     }
 
-    protected function mapAffiliateRoutes()
-    {
-        Route::middleware('web')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/affiliate.php'));
-    }
-    protected function mapSellerChatSystemRoutes()
-    {
-        Route::middleware('web')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/chat_system.php'));
-    }
-
-    protected function mapAIWriterRoutes()
-    {
-        Route::middleware('web')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/ai_writer.php'));
-    }
-    protected function mapRamdhaniRoutes()
-    {
-        Route::middleware('web')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/ramdhani.php'));
-    }
-
-    protected function mapHitpayPaymentGatewayRoutes()
-    {
-        Route::middleware('web')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/hitpay_payment_gateway.php'));
-    }
-
-    protected function mapErsApi()
-    {
-        Route::prefix('api')
-            ->middleware('api')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/ers-api.php'));
-    }
 
     protected function mapPluginRoutes()
     {

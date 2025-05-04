@@ -243,6 +243,7 @@
               <i class="fa-brands fa-google"></i> {{ lang.google }}
             </a>
           </div>
+<<<<<<< HEAD
         </div>
       </form>
     </div>
@@ -262,6 +263,104 @@
         </div>
       </div>
     </div>
+=======
+          <div class="form-content" v-if="social_login_active">
+            <loading_button :class_name="'social_loading'"></loading_button>
+          </div>
+          <div class="form-content" v-else>
+            <h1>{{ lang.sign_in }}</h1>
+            <p>{{ lang.sign_continue_shopping }}</p>
+            <form class="ragister-form" name="ragister-form" @submit.prevent="login">
+              <div class="form-group" v-if="optionTo=='phone'">
+                <span class="mdi mdi-name mdi-email-outline"></span>
+                <input type="email" v-model="form.email" class="form-control mb-1"
+                       :class="{ 'error_border' : errors.email }"
+                       :placeholder="lang.email">
+              </div>
+              <span class="validation_error" v-if="errors.email">{{ errors.email[0] }}</span>
+
+              <div v-if="optionTo=='email'">
+                <telePhone @phone_no="getNumber" :phone_error="errors.phone ? errors.phone[0] : null"></telePhone>
+
+              </div>
+              <span class="validation_error" v-if="errors.phone">{{ errors.phone[0] }}</span>
+
+              <div class="form-group mb-3 text-end" v-if="addons.includes('otp_system') && !otp_field">
+                <a href="javaScript:void(0)" class="btn sign-in-option" @click="loginOptions(optionTo)">{{
+                    optionTo == 'email' ? lang.use_email_instead : lang.use_phone_instead
+                  }}</a>
+              </div>
+              <div class="form-group mt-4" v-if="otp_field">
+                <span class="mdi mdi-name mdi-lock-outline"></span>
+                <input type="text" v-model="phoneForm.otp" class="form-control"
+                       :placeholder="lang.enter_your_otp">
+              </div>
+              <div class="form-group" :class="{ 'mt-4' : !addons.includes('otp_system') }" v-if="optionTo=='phone'">
+                <span class="mdi mdi-name mdi-lock-outline"></span>
+                <input type="password" v-model="form.password" class="form-control"
+                       :class="{ 'error_border' : errors.password }"
+                       :placeholder="lang.Password">
+              </div>
+              <span class="validation_error" v-if="errors.password">{{ errors.password[0] }}</span>
+
+              <div class="middle-content d-flex" v-if="optionTo == 'phone'">
+                <div class="form-group remember">
+                  <input type="checkbox" name="remember" v-model="form.remember" value="1"
+                         id="remember">
+                  <label for="remember">{{ lang.remember_me }}</label>
+                </div>
+                <router-link :to="{name:'reset.password'}">
+                  <a href="javaScript:void(0)">{{ lang.forgot_your_password }}</a>
+                </router-link>
+              </div>
+              <div v-if="settings.is_recaptcha_activated == 1" class="g-recaptcha mb-2"
+                   :class="optionTo == 'email' ? 'd-none': ''" data-callback="myCallback"
+                   :data-sitekey="settings.recaptcha_Site_key"></div>
+
+              <loading_button v-if="loading" :class_name="'btn'"></loading_button>
+              <button type="submit" v-else class="btn">{{ buttonText }}</button>
+
+              <div v-if="settings.demo_mode && !loading" class="d-flex justify-content-between mb-3">
+                <button type="button" href="javascript:void(0)" @click="copyLoginInfo('admin@spagreen.net')"
+                        class="btn copy_btn">Admin
+                </button>
+                <button type="button" href="javascript:void(0)" @click="copyLoginInfo('customer@spagreen.net')"
+                        class="btn copy_btn">Customer
+                </button>
+                <button type="button" href="javascript:void(0)" @click="copyLoginInfo('staff@spagreen.net')"
+                        class="btn copy_btn">Staff
+                </button>
+              </div>
+
+              <p>{{ lang.don_have_an_account }}
+                <router-link :to="{ name : 'register' }">{{ lang.sign_up }}</router-link>
+              </p>
+              <div class="continue-with"
+                   v-if="settings.is_facebook_login_activated == 1 || settings.is_google_login_activated == 1 || settings.is_twitter_login_activated == 1">
+                <p>{{ lang.or_continue_with }}</p>
+              </div>
+              <ul class="global-list">
+                <li v-if="settings.is_facebook_login_activated == 1"><a class="facebook"
+                                                                        href="javascript:void(0)"
+                                                                        @click="loginWithSocial('fb')"><span
+                    class="mdi mdi-name mdi-facebook"></span>{{ lang.facebook }}</a></li>
+                <li v-if="settings.is_twitter_login_activated == 1"><a class="twitter"
+                                                                       href="javascript:void(0)"
+                                                                       @click="loginWithSocial('twitter')"><span
+                    class="mdi mdi-name mdi-twitter"></span>{{ lang.twitter }}</a></li>
+                <li v-if="settings.is_google_login_activated == 1"><a class="google"
+                                                                      href="javascript:void(0)"
+                                                                      @click="loginWithSocial('google')"><span
+                    class="mdi mdi-name mdi-google"></span>{{ lang.google }}</a></li>
+              </ul>
+            </form>
+          </div>
+
+        </div><!-- /.account-content -->
+      </div><!-- /.container -->
+    </section><!-- /.ragister-account -->
+
+>>>>>>> temp2
   </div>
 </template>
 
@@ -448,11 +547,32 @@ export default {
       this.$router.push({ name: 'dashboard' });
     },
 
+<<<<<<< HEAD
     handleRegistrationError(error) {
       if (error.response && error.response.status == 422) {
         this.errors = error.response.data.errors;
       }
     },
+=======
+          if (this.optionTo == 'email' && !this.otp_field && direct_login != 'direct_login' && !this.settings.disable_otp) {
+            this.otp_field = true;
+            this.buttonText = this.lang.sign_in;
+          } else {
+            if (this.loginRedirect) {
+              this.$router.push({name: this.loginRedirect});
+            } else {
+              let user = response.data.user;
+              if (user.user_type == 'customer') {
+                this.$router.push({name: 'dashboard'});
+                /*this.$store.dispatch("activeCurrency", response.data.active_currency);
+                this.$store.dispatch("activeLanguage", response.data.active_language);
+                this.langKeywords();*/
+              } else if (user.user_type == 'admin' || user.user_type == 'staff') {
+                this.loading = true;
+                document.location.href = this.getUrl('admin/dashboard');
+              }
+            }
+>>>>>>> temp2
 
     async registerByPhone() {
       this.loading = true;

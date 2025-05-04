@@ -6,7 +6,7 @@ use App\Utility\AppSettingUtility;
 use Carbon\Carbon;
 
 trait MetaGeneratorTrait {
-    public function generateMeta($product,$blog,$category,$brand,$seller): array
+    public function generateMeta($product,$blog,$category,$brand): array
     {
 
         $lang = languageCheck();
@@ -136,7 +136,7 @@ trait MetaGeneratorTrait {
                 ];
             }
         }
-        elseif (request()->route()->getName() == 'category-by-slug' || request()->route()->getName() == 'brand-by-slug' ||  request()->route()->getName() == 'seller-by-slug' || request()->route()->getName() == 'blog-details'){
+        elseif (request()->route()->getName() == 'category-by-slug' || request()->route()->getName() == 'brand-by-slug' || request()->route()->getName() == 'blog-details'){
             $slug = request()->route()->parameter('slug');
             if(request()->route()->getName() == 'category-by-slug'){
                 $details = $category->category($slug);
@@ -145,9 +145,6 @@ trait MetaGeneratorTrait {
             }if(request()->route()->getName() == 'brand-by-slug'){
                 $details = $brand->brand($slug);
                 $type = 'Brand Details';
-            }if(request()->route()->getName() == 'seller-by-slug'){
-                $details = $seller->sellerBySlug($slug);
-                $type = 'Seller Details';
             }
 
             if ($details)

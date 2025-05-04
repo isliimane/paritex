@@ -98,28 +98,6 @@
                                                     </div>
                                                     <p class="title">{{ __("Today's Deal") }}</p>
                                                 </div>
-                                                @if(addon_is_activated('ramdhani'))
-                                                    <div class="card builder add-home-content" data-type="gift_idea"
-                                                         data-area="home-content">
-                                                        <div class="card-overlay">
-                                                            <a href="#"><i class="eicon-plus"></i></a>
-                                                        </div>
-                                                        <div class="icon">
-                                                            <i class="eicon-clock-o"></i>
-                                                        </div>
-                                                        <p class="title">{{ __("Gift Idea") }}</p>
-                                                    </div>
-                                                    <div class="card builder add-home-content" data-type="business_idea"
-                                                         data-area="home-content">
-                                                        <div class="card-overlay">
-                                                            <a href="#"><i class="eicon-plus"></i></a>
-                                                        </div>
-                                                        <div class="icon">
-                                                            <i class="eicon-clock-o"></i>
-                                                        </div>
-                                                        <p class="title">{{ __("Business Idea") }}</p>
-                                                    </div>
-                                                @endif
                                                 <div class="card builder add-home-content" data-type="flash_deal" data-area="home-content">
                                                     <div class="card-overlay">
                                                         <a href="#"><i class="eicon-plus"></i></a>
@@ -139,17 +117,6 @@
                                                     </div>
                                                     <p class="title">{{ __("Product Category") }}</p>
                                                 </div>
-                                                @if(addon_is_activated('video_shopping'))
-                                                    <div class="card builder add-home-content" data-type="video_shopping" data-area="home-content">
-                                                        <div class="card-overlay">
-                                                            <a href="#"><i class="eicon-plus"></i></a>
-                                                        </div>
-                                                        <div class="icon">
-                                                            <i class="eicon-play"></i>
-                                                        </div>
-                                                        <p class="title">{{ __("Video Shopping") }}</p>
-                                                    </div>
-                                                @endif
                                                 <div class="card builder add-home-content" data-type="best_selling_products" data-area="home-content">
                                                     <div class="card-overlay">
                                                         <a href="#"><i class="eicon-plus"></i></a>
@@ -208,47 +175,6 @@
                                                     </div>
                                                     <p class="title">{{ __("Popular Brands") }}</p>
                                                 </div>
-                                                @if(settingHelper('seller_system') == 1)
-                                                    <div class="card builder add-home-content" data-type="top_sellers" data-area="home-content">
-                                                        <div class="card-overlay">
-                                                            <a href="#"><i class="eicon-plus"></i></a>
-                                                        </div>
-                                                        <div class="icon">
-                                                            <i class="eicon-cart"></i>
-                                                        </div>
-                                                        <p class="title">{{ __("Top Shops") }}</p>
-                                                    </div>
-
-                                                    <div class="card builder add-home-content" data-type="featured_sellers" data-area="home-content">
-                                                        <div class="card-overlay">
-                                                            <a href="#"><i class="eicon-plus"></i></a>
-                                                        </div>
-                                                        <div class="icon">
-                                                            <i class="eicon-cart"></i>
-                                                        </div>
-                                                        <p class="title">{{ __("Featured Shops") }}</p>
-                                                    </div>
-
-                                                    <div class="card builder add-home-content" data-type="best_sellers" data-area="home-content">
-                                                        <div class="card-overlay">
-                                                            <a href="#"><i class="eicon-plus"></i></a>
-                                                        </div>
-                                                        <div class="icon">
-                                                            <i class="eicon-cart"></i>
-                                                        </div>
-                                                        <p class="title">{{ __("Best Shops") }}</p>
-                                                    </div>
-
-                                                    <div class="card builder add-home-content" data-type="express_sellers" data-area="home-content">
-                                                        <div class="card-overlay">
-                                                            <a href="#"><i class="eicon-plus"></i></a>
-                                                        </div>
-                                                        <div class="icon">
-                                                            <i class="eicon-cart"></i>
-                                                        </div>
-                                                        <p class="title">{{ __("Express Shops") }}</p>
-                                                    </div>
-                                                @endif
                                             </div>
                                         </div>
                                     </div>

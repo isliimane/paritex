@@ -207,10 +207,8 @@ class PageRepository implements PageInterface
                     unset($request[$banner]);
                 elseif ($content == 'campaign' || $content == 'popular_category' || $content == 'top_category' ||
                     $content == 'best_selling_products' || $content == 'popular_brands' ||
-                    $content == 'top_sellers' || $content == 'best_sellers' || $content == 'todays_deal' || $content == 'flash_deal' || $content == 'latest_news'
-                    || $content == 'featured_sellers' || $content == 'express_sellers' || $content == 'latest_product' || $content == 'video_shopping' || $content == 'custom_products'):
-                    $home_page_contents[$key][$content] = $request->$requested_content;
-                elseif (($content == 'gift_idea' || $content == 'business_idea') && addon_is_activated('ramdhani')):
+                    $content == 'todays_deal' || $content == 'flash_deal' || $content == 'latest_news' ||
+                    $content == 'latest_product' || $content == 'custom_products'):
                     $home_page_contents[$key][$content] = $request->$requested_content;
                 endif;
                 unset($request[$requested_content]);
@@ -237,6 +235,10 @@ class PageRepository implements PageInterface
     public function contactPage()
     {
         return Page::where('id',7)->where('status',1)->first();
+    }
+    public function complaintPage()
+    {
+        return Page::where('id',8)->where('status',1)->first();
     }
 
     public function pageBySlug($slug)
@@ -286,10 +288,6 @@ class PageRepository implements PageInterface
                         {
                             $banner_action_id = 'blog_id_' . $content_number;
                         }
-                        if ($url == 'seller')
-                        {
-                            $banner_action_id = 'sl_' . $content_number;
-                        }
                         if ($url == 'url')
                         {
                             $banner_action_id = 'slider_url' . $content_number;
@@ -336,10 +334,8 @@ class PageRepository implements PageInterface
                     unset($request[$banner]);
                 elseif ($content == 'campaign' || $content == 'popular_category' || $content == 'top_category' ||
                     $content == 'best_selling_products' || $content == 'popular_brands' ||
-                    $content == 'top_sellers' || $content == 'best_sellers' || $content == 'todays_deal' || $content == 'flash_deal' || $content == 'latest_news'
-                    || $content == 'featured_sellers' || $content == 'express_sellers' || $content == 'latest_product' || $content == 'video_shopping' || $content == 'custom_products'):
-                    $home_page_contents[$key][$content] = $request->$requested_content;
-                elseif (($content == 'gift_idea' || $content == 'business_idea') && addon_is_activated('ramdhani')):
+                    $content == 'todays_deal' || $content == 'flash_deal' || $content == 'latest_news'
+                    || $content == 'latest_product' || $content == 'custom_products'):
                     $home_page_contents[$key][$content] = $request->$requested_content;
                 endif;
                 unset($request[$requested_content]);

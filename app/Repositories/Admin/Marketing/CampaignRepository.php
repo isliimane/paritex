@@ -125,7 +125,7 @@ class CampaignRepository implements CampaignInterface
                 endif;
                 $campaignProduct->campaign_id   = $campaign->id;
                 $campaignProduct->product_id    = $value;
-                $campaignProduct->user_id       = Sentinel::getUser()->user_type == 'seller' ? Sentinel::getUser()->id : 1;
+                $campaignProduct->user_id       = 1;
                 $campaignProduct->status        = 'accepted';
                 $campaignProduct->discount_type = $request['discount_type_'.$value];
                 $campaignProduct->discount      = $request['discount_type_'.$value] == 'percentage' ? $request['discount_'.$value] : priceFormatUpdate($request['discount_'.$value],settingHelper('default_currency'));
@@ -199,7 +199,7 @@ class CampaignRepository implements CampaignInterface
                     CampaignProduct::where('product_id', $value)->delete();
                     $campaignProduct->campaign_id   = $campaign->id;
                     $campaignProduct->product_id    = $value;
-                    $campaignProduct->user_id       = Sentinel::getUser()->user_type == 'seller' ? Sentinel::getUser()->id : 1;
+                    $campaignProduct->user_id       = 1;
                     $campaignProduct->status        = 'accepted';
                     $campaignProduct->discount_type = $request['discount_type_'.$value];
                     $campaignProduct->discount      = $request['discount_type_'.$value] == 'percentage' ? $request['discount_'.$value] : priceFormatUpdate($request['discount_'.$value],settingHelper('default_currency'));
@@ -285,43 +285,13 @@ class CampaignRepository implements CampaignInterface
 
             $campaignProduct->campaign_id       = $request->campaign_id;
             $campaignProduct->product_id        = $request->product_id;
-            $campaignProduct->user_id           = Sentinel::getUser()->user_type == 'seller' ? Sentinel::getUser()->id : 1;
+            $campaignProduct->user_id           =  1;
             $campaignProduct->status            = 'accepted';
             $campaignProduct->discount_type     = $request->discount_type;
             $campaignProduct->discount      = $request->discount_type == 'percentage' ? $request->discount : priceFormatUpdate($request->discount,settingHelper('default_currency'));
             $this->updateDiscount($campaignProduct,'update');
             $campaignProduct->save();
           
-            return true;
-    }
-
-    public function campaignProductRequests($id, $limit){
-        return CampaignProduct::with('campaign','user')
-                                ->when(Sentinel::getUser()->user_type == 'seller', function ($q){
-                                    $q->where('user_id', Sentinel::getUser()->id);
-                                })
-                                ->when(Sentinel::getUser()->user_type != 'seller', function ($q){
-                                    $q->where('user_id', '!=', 1);
-                                })
-                                ->where('campaign_id', $id)
-                                ->latest()->paginate($limit);
-    }
-
-    public function campaignProductRequestStatus($request){
-            $campaignProduct    = CampaignProduct::findOrFail($request->id);
-            if($request->status == 'accepted'):
-                $campaignProduct->status = 'accepted';
-                $campaignProduct->save();
-
-                CampaignProduct::where('product_id', $campaignProduct->product_id)->where('id', '!=', $campaignProduct->id)->delete();
-
-                $this->updateDiscount($campaignProduct, 'update');
-
-            elseif($request->status == 'rejected' || $request->status == 'pending'):
-                $campaignProduct->status = $request->status;
-                $campaignProduct->save();
-                $this->updateDiscount($campaignProduct);
-            endif;
             return true;
     }
 
@@ -347,26 +317,6 @@ class CampaignRepository implements CampaignInterface
         } catch (\Exception $e){
             return false;
         }
-    }
-
-    public function allCampaignProductRequests($limit){
-        return CampaignProduct::with('campaign')->where('status','pending')->paginate($limit);
-    }
-
-    public function storeRequest($request)
-    {
-        foreach ($request->product_id as $key => $product_id):
-            $campaign_product = new CampaignProduct();
-            $campaign_product->campaign_id       = $request->campaign_id;
-            $campaign_product->product_id        = $product_id;
-            $campaign_product->user_id           = Sentinel::getUser()->id;
-            $campaign_product->status            = 'pending';
-            $campaign_product->discount_type     = $request['discount_type_'.$product_id];
-            $campaign_product->discount      = $request['discount_type_'.$product_id] == 'percentage' ? $request['discount_'.$product_id] : priceFormatUpdate($request['discount_'.$product_id],settingHelper('default_currency'));
-
-            $campaign_product->save();
-        endforeach;
-        return true;
     }
 
     public function campaignByIds($ids)
@@ -426,12 +376,5 @@ class CampaignRepository implements CampaignInterface
         }
 
         return true;
-    }
-
-    public function sellerCampaignProducts($id,$user_id)
-    {
-        return CampaignProduct::with('product')->whereHas('campaign', function ($q) use ($id){
-            $q->where('campaign_id', $id);
-        })->whereHas('product')->where('user_id', $user_id)->paginate(get_pagination('api_paginate'));
     }
 }

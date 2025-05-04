@@ -20,8 +20,6 @@ class IsAdminMiddleware
         if (Sentinel::check()):
             if (Sentinel::getUser()->user_type == 'admin' || Sentinel::getUser()->user_type == 'staff'):
                 return $next($request);
-            elseif(Sentinel::getUser()->user_type == 'seller'):
-                return redirect()->route('home');
             else:
                 return redirect()->route('home');
             endif;

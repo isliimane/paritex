@@ -34,17 +34,6 @@
                             <h4>{{ __('All Refunds Request') }}</h4>
                             <div class="card-header-form">
                                 <form class="form-inline" id="sorting">
-                                    <div class="form-group">
-                                        <label for="slr">{{ __('Seller') }}</label>
-                                        <select class="seller-by-ajax form-control select2 sorting" name="slr" id="slr">
-                                            <option value="">{{ __('Filter By Seller') }}</option>
-                                            @if(isset($slr))
-                                                <option selected value="{{ @$slr }}">
-                                                    {{ @$selected_seller->shop_name }}
-                                                </option>
-                                            @endif
-                                        </select>
-                                    </div>
                                     <div class="input-group">
                                         <input type="text" class="form-control" name="q" value="{{ @$q }}"
                                                placeholder="{{ __('Search') }}">
@@ -65,7 +54,6 @@
                                         <th>{{ __('Order Code') }}</th>
                                         <th>{{ __('Product') }}</th>
                                         <th>{{ __('Shop Name') }}</th>
-                                        <th>{{ __('Seller Approval') }}</th>
                                         <th>{{ __('Admin Approval') }}</th>
                                         <th>{{ __('Refund Status') }}</th>
                                         <th>{{ __('Options') }}</th>
@@ -87,10 +75,7 @@
                                                 </td>
                                             @endif
                                             <td>
-                                                @if($refund->seller_id == 1) {{__('admin')}} @elseif($refund->seller != null) {{$refund->seller->sellerProfile->shop_name}} @endif
-                                            </td>
-                                            <td class=" {{$refund->seller_approval == 'pending' ? 'text-info' : ($refund->seller_approval == 'approved' ? 'text-success' : 'text-danger')}}">
-                                                {{ ucfirst($refund->seller_approval)}}
+                                                {{__('admin')}} 
                                             </td>
                                             <td class=" {{$refund->admin_approval == 'pending' ? 'text-warning' : ($refund->admin_approval == 'approved' ? 'text-success' : 'text-danger')}}">
                                                 {{ ucfirst($refund->admin_approval)}}
@@ -107,7 +92,7 @@
                                                    data-target="#common-modal">
                                                     <i class="bx bx-show"></i>
                                                 </a>
-                                                @if($refund->admin_approval == 'approved' && $refund->seller_approval == 'approved' && $refund->status == 'pending')
+                                                @if($refund->admin_approval == 'approved' && $refund->status == 'pending')
                                                     <a href="javascript:void(0)"
                                                        class="btn btn-outline-info btn-circle" data-toggle="modal"
                                                        title="" data-target="#exampleModal"

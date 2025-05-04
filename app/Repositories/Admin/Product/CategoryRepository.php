@@ -189,7 +189,6 @@ class CategoryRepository implements CategoryInterface
         else:
             $this->catLang->update($request);
         endif;
-        $this->insertRanges($request->ranges, $category);
         return true;
     }
 
@@ -311,28 +310,5 @@ class CategoryRepository implements CategoryInterface
     {
         return Category::where('status',1)
             ->select('id','parent_id','icon','logo','slug','banner')->latest()->paginate($limit);
-    }
-
-    public function insertRanges($ranges, $category): bool
-    {
-        if (addon_is_activated('ramdhani')) {
-            $rows = [];
-            $now = now();
-            if ($ranges && count($ranges) > 0) {
-                $category->ranges()->delete();
-                foreach ($ranges as $range) {
-                    $rows[] = [
-                        'category_id'   => $category->id,
-                        'min_price'     => priceFormatUpdate($range['min_price'],settingHelper('default_currency')),
-                        'max_price'     => priceFormatUpdate($range['max_price'],settingHelper('default_currency')),
-                        'multiplier'    => $range['multiplier'],
-                        'created_at'    => $now,
-                        'updated_at'    => $now,
-                    ];
-                }
-                CategoryRange::insert($rows);
-            }
-        }
-        return true;
     }
 }

@@ -34,12 +34,16 @@
 							<tr>
 								<td>{{ lang.price }}</td>
 								<td v-for="(product, index) in products" :key="'price' + index">
-									<span class="price"
-										><del v-if="product.special_discount_check > 0">{{ priceFormat(product.price) }}</del>
+									<span class="price" v-if="isLicenseVerified">
+										<del v-if="product.special_discount_check > 0">{{ priceFormat(product.price) }}</del>
 										<span v-if="product.special_discount_check > 0">
 											{{ priceFormat(product.discount_percentage) }}
 										</span>
 										<span v-else>{{ priceFormat(product.price) }}</span>
+									</span>
+									<span v-else class="text-danger">
+										--
+										<!-- {{ lang.verify_license_to_see_price }} -->
 									</span>
 								</td>
 							</tr>
@@ -113,6 +117,9 @@ export default {
 		shimmer() {
 			return this.$store.state.module.shimmer;
 		},
+		isLicenseVerified() {
+          return (this.authUser && this.authUser.user_type === 'admin') || (this.authUser && this.authUser.user_type === 'customer' && this.authUser.license_verified);
+    	}
 	},
 	methods: {
 		compareList() {
@@ -141,6 +148,10 @@ export default {
 				}
 			});
 		},
+		
+		redirectToProfile() {
+			toastr.error(this.lang.verify_license_to_continue, this.lang.Error + ' !!');
+		}
 	},
 };
 </script>

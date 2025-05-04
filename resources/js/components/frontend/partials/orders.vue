@@ -41,7 +41,8 @@
                                 (orderDetails.delivery_status == 'canceled' ? lang.Canceled :
                                     ((orderDetails.delivery_status == 'confirmed') || (orderDetails.delivery_status == 'confirm') ? lang.Confirmed :
                                         (orderDetails.delivery_status == 'picked_up' ? lang.picked_up :
-                                            (orderDetails.delivery_status == 'on_the_way' ? lang.on_the_way : "")))))
+                                            (orderDetails.delivery_status == 'on_the_way' ? lang.on_the_way :
+                                                (orderDetails.delivery_status == 'postponed' ? lang.postponed : ""))))))
                       }}
                     </span>
           </div>

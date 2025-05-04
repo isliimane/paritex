@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\SiteResource;
 
-use App\Http\Resources\Api\Seller\ProductStockResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -34,7 +33,6 @@ class ProductResource extends JsonResource
             'user_wishlist'                         => (bool)$this->userWishlist,
             'is_catalog'                            => (bool)$this->is_catalog,
             'is_classified'                         => (bool)$this->is_classified,
-            'stock'                                 => ProductStockResource::collection($this->stock),
         ];
     }
 }

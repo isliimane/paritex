@@ -33,10 +33,7 @@ class ReportsRepository implements ReportsInterface
             })
             ->when($request->c != null, function ($query) use ($request) {
                 $query->where('category_id', $request->c);
-            })
-            ->when(Sentinel::getUser()->user_type == 'seller', function ($query) {
-                $query->where('user_id', Sentinel::getUser()->id);
-            })->CheckSellerSystem()
+            })->CheckSeller()
             ->paginate($limit);
     }
 
@@ -50,23 +47,10 @@ class ReportsRepository implements ReportsInterface
             $end_date = Carbon::createFromFormat('m-d-Y g:ia', $dates[1]);
         endif;
 
-        $product = Product::with('category')->CheckSellerSystem()
+        $product = Product::with('category')->CheckSeller()
             ->when($for != null, function ($query) use ($for, $request) {
                 $query->when($for == 'for_admin', function ($q) {
                     $q->where('user_id', 1);
-                });
-                $query->when($for == 'for_seller', function ($sellerQ) use ($request) {
-                    $sellerQ->where('user_id', '!=', 1);
-                    $sellerQ->when($request->sl != null, function ($qu) use ($request) {
-                        $qu->whereHas('sellerProfile', function ($query) use ($request) {
-                            $query->where('id', $request->sl);
-                        });
-                    });
-                });
-            })
-            ->when(Sentinel::getUser()->user_type != null, function ($query) use ($request) {
-                $query->when(Sentinel::getUser()->user_type == 'seller', function ($sellerQ) use ($request) {
-                    $sellerQ->where('user_id', Sentinel::getUser()->id);
                 });
             })
             ->when($request->c != null, function ($query) use ($request) {
@@ -85,29 +69,6 @@ class ReportsRepository implements ReportsInterface
         return $product;
     }
 
-    public function commissionHistory($request, $limit)
-    {
-        $start_date     = null;
-        $end_date       = null;
-
-        if ($request->dt != null):
-            $dates      = explode(" - ", $request->dt);
-            $start_date = Carbon::createFromFormat('m-d-Y g:ia', $dates[0]);
-            $end_date   = Carbon::createFromFormat('m-d-Y g:ia', $dates[1]);
-        endif;
-
-        $commissions = CommissionHistory::when($request->s != null, function ($query) use ($request) {
-            $query->where('seller_id', $request->s);
-        })->when($request->dt != null, function ($query) use ($start_date, $end_date) {
-            $query->whereDate('created_at', '>=', $start_date)
-                ->whereDate('created_at', '<=', $end_date);
-        })->when(Sentinel::getUser()->user_type == 'seller', function ($query) use ($request) {
-            $query->where('seller_id', Sentinel::getUser()->id);
-        })->paginate($limit);
-
-        return $commissions;
-    }
-
     public function wishlist($request, $limit)
     {
         $wishlist = Wishlist::when($request->c != null, function ($query) use ($request) {
@@ -118,12 +79,6 @@ class ReportsRepository implements ReportsInterface
             ->when($request->q != null, function ($query) use ($request) {
                 $query->whereHas('product.productLanguages', function ($q) use ($request) {
                     $q->where('name', 'like', '%' . $request->q . '%');
-                });
-            })
-            ->when(Sentinel::getUser()->user_type == 'seller', function ($query) use ($request) {
-                $query->whereHas('product.user', function ($q) use ($request) {
-                    $q->where('id', Sentinel::getUser()->id);
-
                 });
             })
             ->select(

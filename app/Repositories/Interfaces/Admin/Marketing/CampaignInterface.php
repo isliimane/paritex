@@ -26,13 +26,6 @@ interface CampaignInterface
 
     public function campaignProductStore($request);
 
-    public function campaignProductRequests($id, $limit);
-
-    public function allCampaignProductRequests($limit);
-
-    //for sellers
-    public function storeRequest($request);
-
     public function campaignByIds($ids);
 
     public function campaigns($limit);
@@ -42,6 +35,4 @@ interface CampaignInterface
     public function removeProduct($data);
 
     public function storeProducts($data);
-
-    public function sellerCampaignProducts($id,$user_id);
 }

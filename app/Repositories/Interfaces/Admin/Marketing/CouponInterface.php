@@ -18,7 +18,5 @@ interface CouponInterface
 
     public function couponPage();
 
-    public function sellerCoupons($id);
-
     public function deleteCoupon($request);
 }

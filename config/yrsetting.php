@@ -32,7 +32,6 @@ return [
         'refund_protection_sub_title',
         'header_menu',
         'footer_menu',
-        'affiliate_terms_condition',
     ],
     'setting_image' => [
         'favicon',
@@ -60,18 +59,13 @@ return [
         'forgot_password_banner',
         'top_bar_banner',
         'user_dashboard_banner',
-        'seller_sing_up_banner',
         'product_details_site_banner',
         'category_default_banner',
         'featured_category_banner',
         'invoice_based_shipping_fee',
-        'affiliate_program_banner',
-        'affiliate_sing_up_banner',
-        'mobile_seller_agreement',
         'mobile_customer_agreement',
         'mobile_privacy_agreement',
         'mobile_payment_agreement',
-        'seller_agreement',
         'customer_agreement',
         'privacy_agreement',
         'payment_agreement'
@@ -125,20 +119,6 @@ return [
         'sslcommerz_id',
         'sslcommerz_password'
     ],
-    'is_paytm_activated' => [
-        'merchant_id',
-        'merchant_key',
-        'merchant_website',
-        'channel',
-        'industry_type',
-    ],
-    'is_paytm_sandbox_mode_activated' => [
-        'merchant_id',
-        'merchant_key',
-        'merchant_website',
-        'channel',
-        'industry_type',
-    ],
     'is_jazz_cash_activated' => [
         'jazz_cash_merchant_id',
         'jazz_cash_password',
@@ -186,32 +166,6 @@ return [
         'amrapay_store_id',
         'amarpay_signature_key'
     ],
-    'is_bkash_activated' => [
-        'bkash_app_key',
-        'bkash_app_secret',
-        'bkash_username',
-        'bkash_password'
-    ],
-    'is_bkash_sandbox_mode_activated' => [
-        'bkash_app_key',
-        'bkash_app_secret',
-        'bkash_username',
-        'bkash_password'
-    ],
-    'is_nagad_activated' => [
-        'nagad_mode',
-        'nagad_merchant_id',
-        'nagad_merchant_no',
-        'nagad_public_key',
-        'nagad_private_key'
-    ],
-    'is_nagad_sandbox_mode_activated' => [
-        'nagad_mode',
-        'nagad_merchant_id',
-        'nagad_merchant_no',
-        'nagad_public_key',
-        'nagad_private_key'
-    ],
     'is_iyzico_activated' => [
         'iyzico_api_key',
         'iyzico_secret_key'
@@ -220,38 +174,8 @@ return [
         'iyzico_api_key',
         'iyzico_secret_key'
     ],
-    'is_kkiapay_activated' => [
-        'kkiapay_public_api_key',
-        'kkiapay_private_api_key',
-        'kkiapay_secret'
-    ],
-    'is_kkiapay_sandbox_enabled' => [
-        'kkiapay_public_api_key',
-        'kkiapay_private_api_key',
-        'kkiapay_secret'
-    ],
-    'is_hitpay_activated' => [
-        'hitpay_api_key'
-    ],
-    'is_hitpay_sandbox_mode_activated' => [
-        'hitpay_api_key'
-    ],
-    'is_mpesa_activated' => [
-        'mpesa_public_key',
-        'mpesa_api_key'
-    ],
-    'is_mpesa_sandbox_mode_activated' => [
-        'mpesa_public_key',
-        'mpesa_api_key'
-    ],
     'is_skrill_activated' => [
         'skrill_merchant_email'
-    ],
-    'is_dpo_activated' => [
-        'dpo_company_token',
-    ],
-    'is_dpo_sandbox_mode_activated' => [
-        'dpo_company_token',
     ],
     'is_facebook_pixel_activated' => [
         'facebook_pixel_id',

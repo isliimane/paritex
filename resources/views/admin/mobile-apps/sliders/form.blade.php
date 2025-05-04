@@ -44,9 +44,6 @@
                                             <option value="product" {{ isset($edit) ?($edit->action_type == 'product' ? 'selected' : '') : ''}}>{{__('Product')}}</option>
                                             <option value="category" {{ isset($edit) ?($edit->action_type == 'category' ? 'selected' : '') : ''}}>{{__('Category')}}</option>
                                             <option value="brand" {{ isset($edit) ?($edit->action_type == 'brand' ? 'selected' : '') : ''}}>{{__('Brand')}}</option>
-                                            @if(settingHelper('seller_system') == 1)
-                                                <option value="seller" {{ isset($edit) ?($edit->action_type == 'seller' ? 'selected' : '') : ''}}>{{__('Seller')}}</option>
-                                            @endif
                                             <option value="blog" {{ isset($edit) ?($edit->action_type == 'blog' ? 'selected' : '') : ''}}>{{__('Blog')}}</option>
                                             <option value="url" {{ isset($edit) ?($edit->action_type == 'url' ? 'selected' : '') : ''}}>{{__('URL')}}</option>
                                         </select>
@@ -135,26 +132,6 @@
                                             </div>
                                         @endif
                                     </div>
-                                </div>
-                                <div class="sellerDiv" style="{{ old('action_type') ? (old('action_type') == 'seller' ? '' : 'display:none')
-                                                        : (isset($edit) ? ($edit->action_type == 'seller' ? '': 'display:none') : 'display:none')}}">
-                                    @if(settingHelper('seller_system') == 1)
-                                        <div class="form-group">
-                                            <label for="brand">{{ __('Action To') }}</label>
-                                            <select class="seller-by-ajax form-control select2" name="sl" id="seller_id"
-                                                    aria-hidden="true">
-                                                @if(isset($edit) && $edit->action_type == 'seller')
-                                                    @php
-                                                        $seller = \App\Models\SellerProfile::find($edit->link);
-                                                    @endphp
-                                                    @if($seller)
-                                                        <option value="{{ $seller->id }}"
-                                                                selected>{{ $seller->shop_name }}</option>
-                                                    @endif
-                                                @endif
-                                            </select>
-                                        </div>
-                                    @endif
                                 </div>
                                 <div class="urlDiv" style="{{ old('action_type') ? (old('action_type') == 'url' ? '' : 'display:none')
                                                         : (isset($edit) ? ($edit->action_type == 'url' ? '': 'display:none') : 'display:none')}}">

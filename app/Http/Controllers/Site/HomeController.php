@@ -19,7 +19,6 @@ use App\Repositories\Interfaces\Admin\Page\PageInterface;
 use App\Repositories\Interfaces\Admin\Product\BrandInterface;
 use App\Repositories\Interfaces\Admin\Product\CategoryInterface;
 use App\Repositories\Interfaces\Admin\Product\ProductInterface;
-use App\Repositories\Interfaces\Admin\SellerProfileInterface;
 use App\Repositories\Interfaces\Admin\Service\ServiceInterface;
 use App\Repositories\Interfaces\Admin\Slider\BannerInterface;
 use App\Repositories\Interfaces\Admin\Slider\SliderInterface;
@@ -42,7 +41,7 @@ class HomeController extends Controller
     use HomePage, MetaGeneratorTrait, ResetPasswordTrait, ImageTrait, ApiReturnFormatTrait;
 
     public function index(LanguageInterface $language, CurrencyInterface $currency, WishlistInterface $wishlist, CartInterface $cart, CategoryInterface $category, SliderInterface $slider, BannerInterface $banner,
-                          ServiceInterface  $service, ProductInterface $product, SellerProfileInterface $seller, BlogInterface $blog, BrandInterface $brand, AddonInterface $addon, PageInterface $page, $email = null, $resetCode = null)
+                          ServiceInterface  $service, ProductInterface $product, BlogInterface $blog, BrandInterface $brand, AddonInterface $addon, PageInterface $page, $email = null, $resetCode = null)
     {
 ///Si l'application est en mode application et que l'utilisateur est connecté, il est redirigé vers son tableau de bord.
         if (isAppMode()) {
@@ -56,19 +55,13 @@ class HomeController extends Controller
             Toastr::error(__('login_first'), __('Error'));
             return redirect('login');
         }
-///Vérification du mode "vendeur"
         try {
-            if (request()->route()->getName() == 'seller.register'):
-                if (settingHelper('seller_system') != 1):
-                    return redirect('/');
-                endif;
-            endif;
 ///Gestion de la réinitialisation du mot de passe
             if (request()->route()->parameter('email')) {
                 $this->resetPassword($email, $resetCode);
             }
 
-            $meta = $this->generateMeta($product, $blog, $category, $brand, $seller);
+            $meta = $this->generateMeta($product, $blog, $category, $brand);
 
             if (array_key_exists('url_exception', $meta) && $meta['url_exception'] == 1) {
                 return redirect('page-not-found');
@@ -156,13 +149,12 @@ class HomeController extends Controller
         $social_links = settingData(['facebook_link', 'twitter_link', 'instagram_link', 'youtube_link', 'linkedin_link']);
         $footer_data = settingData(['footer_contact_phone', 'footer_contact_email', 'footer_contact_address']);
         $currency_setting = settingData(['decimal_separator', 'currency_symbol_format']);
-        $header_data = settingData(['default_language', 'system_name', 'default_currency', 'header_contact_phone', 'header_contact_email', 'language_switcher', 'currency_switcher', 'seller_system', 'topbar_play_store_link', 'topbar_app_store_link', 'header_contact_number']);
+        $header_data = settingData(['default_language', 'system_name', 'default_currency', 'header_contact_phone', 'header_contact_email', 'language_switcher', 'currency_switcher', 'topbar_play_store_link', 'topbar_app_store_link', 'header_contact_number']);
         $store_links = settingData(['play_store_link', 'apple_store_link']);
         $other_data = settingData(['is_google_login_activated', 'is_facebook_login_activated', 'is_twitter_login_activated']);
         $recaptcha = settingData(['is_recaptcha_activated', 'recaptcha_Site_key']);
-        $modules = settingData(['seller_system', 'color', 'pickup_point', 'wallet_system', 'coupon_system', 'pay_later_system']);
+        $modules = settingData(['color', 'pickup_point', 'wallet_system', 'coupon_system', 'pay_later_system']);
         $agreements = [
-            'seller_agreement' => PageGdprResource::collection($page->pageByLink(settingHelper('seller_agreement') && is_array(settingHelper('seller_agreement')) ? settingHelper('seller_agreement') : [])),
             'customer_agreement' => PageGdprResource::collection($page->pageByLink(settingHelper('customer_agreement') && is_array(settingHelper('customer_agreement')) ? settingHelper('customer_agreement') : [])),
             'privacy_agreement' => PageGdprResource::collection($page->pageByLink(settingHelper('privacy_agreement') && is_array(settingHelper('privacy_agreement')) ? settingHelper('privacy_agreement') : [])),
             'refund_policy_agreement' => settingHelper('refund_policy_agreement'),
@@ -195,8 +187,6 @@ class HomeController extends Controller
             $is_mollie_activated = 0;
         endif;
 
-        $ramdhani = addon_is_activated('ramdhani') && (settingHelper('shipping_fee_type') == 'area_base' || settingHelper('shipping_fee_type') == 'product_base') ? 'area_base' : settingHelper('shipping_fee_type');
-
         $settings = [
             'light_logo' => settingHelper('light_logo') != [] && @is_file_exists(settingHelper('light_logo')['image_138x52']) ? get_media(@settingHelper('light_logo')['image_138x52'], @settingHelper('light_logo')['storage']) : static_asset('images/default/logo.png'),
             'dark_logo' => settingHelper('dark_logo') != [] && @is_file_exists(settingHelper('dark_logo')['image_138x52']) ? get_media(@settingHelper('dark_logo')['image_138x52'], @settingHelper('dark_logo')['storage']) : static_asset('images/default/dark-logo.png'),
@@ -213,11 +203,8 @@ class HomeController extends Controller
             'login_banner' => @getFileLink('320x520', settingHelper('login_banner')['images']),
             'top_bar_banner' => settingHelper('top_bar_banner') != null && @is_file_exists(settingHelper('top_bar_banner')['images']['original_image'], settingHelper('top_bar_banner')['images']['storage']) ? @get_media(settingHelper('top_bar_banner')['images']['original_image'], settingHelper('top_bar_banner')['images']['storage']) : '',
             'sign_up_banner' => @getFileLink('320x520', settingHelper('sing_up_banner')['images']),
-            'affiliate_sing_up_banner' => @getFileLink('320x520', settingHelper('affiliate_sing_up_banner')['images']),
-            'seller_sing_up_banner' => @getFileLink('320x852', settingHelper('seller_sing_up_banner')['images']),
             'forgot_password_banner' => @getFileLink('320x520', settingHelper('forgot_password_banner')['images']),
             'user_dashboard_banner' => @getFileLink('940x110', settingHelper('user_dashboard_banner')['images']),
-            'affiliate_program_banner' => @getFileLink('1920x412', settingHelper('affiliate_program_banner')['images']),
             'product_details_site_banner' => @get_media(@settingHelper('product_details_site_banner')['images']['image_263x263'], @settingHelper('product_details_site_banner')['images']['storage']),
             'category_default_banner' => @getFileLink('835x200', settingHelper('category_default_banner')['images']),
             'visa_pay_banner' => settingHelper('visa_pay_banner') == 1,
@@ -230,14 +217,13 @@ class HomeController extends Controller
             'after_pay_banner' => settingHelper('after_pay_banner') == 1,
             'amazon_pay_banner' => settingHelper('amazon_pay_banner') == 1,
             'is_recaptcha_activated' => settingHelper('is_recaptcha_activated'),
-            'shipping_fee_type' => $ramdhani,
+            'shipping_fee_type' => settingHelper('shipping_fee_type'),
             'header_theme' => settingHelper('header_theme'),
             'full_width_menu_background' => settingHelper('full_width_menu_background'),
             'is_paypal_activated' => settingHelper('is_paypal_activated'),
             'is_stripe_activated' => settingHelper('is_stripe_activated'),
             'is_razorpay_activated' => settingHelper('is_razorpay_activated'),
             'is_sslcommerz_activated' => settingHelper('is_sslcommerz_activated'),
-            'is_paytm_activated' => settingHelper('is_paytm_activated'),
             'is_jazz_cash_activated' => settingHelper('is_jazz_cash_activated'),
             'is_paystack_activated' => $is_paystack_activated,
             'is_flutterwave_activated' => $is_flutterwave_activated,
@@ -256,7 +242,7 @@ class HomeController extends Controller
             'razor_key' => settingHelper('razorpay_key'),
             'paypal_key' => settingHelper('paypal_client_id'),
             'current_version' => settingHelper('current_version'),
-            'shipping_cost' => $ramdhani,
+            'shipping_cost' => settingHelper('shipping_fee_type'),
             'system_name' => settingHelper('system_name'),
             'default_country' => settingHelper('default_country') ? (int)settingHelper('default_country') : 19,
             'menu_background_color' => settingHelper('menu_background_color'),
@@ -278,19 +264,11 @@ class HomeController extends Controller
             'google_pay_gateway' => settingHelper('google_pay_gateway') ?: 'example',
             'google_pay_gateway_merchant_id' => settingHelper('google_pay_gateway_merchant_id') ?: 'exampleGatewayMerchantId',
             'is_amarpay_activated' => (bool)settingHelper('is_amarpay_activated'),
-            'is_bkash_activated' => (bool)settingHelper('is_bkash_activated'),
-            'is_nagad_activated' => (bool)settingHelper('is_nagad_activated'),
             'is_skrill_activated' => (bool)settingHelper('is_skrill_activated'),
             'is_iyzico_activated' => (bool)settingHelper('is_iyzico_activated'),
-            'is_hitpay_activated' => (bool)settingHelper('is_hitpay_activated'),
-            'is_kkiapay_activated' => (bool)settingHelper('is_kkiapay_activated'),
-            'is_kkiapay_sandboxed' => (bool)settingHelper('is_kkiapay_sandbox_enabled'),
-            'kkiapay_public_key' => settingHelper('kkiapay_public_api_key'),
             'no_of_decimals' => (int)settingHelper('no_of_decimals'),
             'disable_otp' => (bool)settingHelper('disable_otp_verification'),
             'disable_guest' => (bool)settingHelper('disable_guest_checkout'),
-            'is_dpo_activated' => settingHelper('dpo_company_token') && settingHelper('is_dpo_activated') == 1,
-            'is_mpesa_activated' => settingHelper('is_mpesa_activated') == 1,
             'active_color' => settingHelper('menu_active_color') ?: '#000000',
         ];
         return array_merge($settings, $other_data, $store_links, $header_data, $menu, $footer_data, $social_links, $stripe, $currency_setting, $popup_modal, $recaptcha, $modules, $agreements, $map);
