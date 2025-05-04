@@ -8,8 +8,6 @@ window.axios = require('axios');
 
 Vue.use(VueAxios, axios)
 
-Vue.component('pos_system', require('./components/admin/pos').default);
-
 import Vue2Filters from 'vue2-filters';
 
 Vue.use(Vue2Filters);

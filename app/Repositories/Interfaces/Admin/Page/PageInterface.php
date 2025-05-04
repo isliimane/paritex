@@ -23,6 +23,8 @@ interface PageInterface
     public function updateMobileHomeContent($request);
 
     public function contactPage();
+    
+    public function complaintPage();
 
     public function pageBySlug($slug);
 

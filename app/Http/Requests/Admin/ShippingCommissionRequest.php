@@ -26,7 +26,7 @@ class ShippingCommissionRequest extends FormRequest
         return [
             'shipping_fee_type' => 'required',
             'shipping_fee_flat_rate' => 'required_if:shipping_fee_type,flat_rate|min:0',
-            'shipping_fee_admin_product' => 'required_if:shipping_fee_type,seller_base|min:0'
+            'shipping_fee_admin_product' => 'required_if:shipping_fee_type|min:0'
         ];
     }
 }

@@ -34,11 +34,6 @@ class LoginController extends Controller
         return redirect()->route('home');
     }
 
-    public function sellerLogin()
-    {
-        return view('admin.auth.login');
-    }
-
     public function adminLogin()
     {
         return view('admin.auth.login');
@@ -86,35 +81,6 @@ class LoginController extends Controller
                 return response()->json([
                     'error' => __('You Are Banned From The Admin')
                 ]);
-            endif;
-
-            if ($user->user_type == 'seller'):
-                if (empty($user->sellerProfile->verified_at)):
-                    if (request()->ajax())
-                    {
-                        return response()->json([
-                            'error' => __('Registration is successful, Wait for the Approval')
-                        ]);
-                    }
-                    else{
-                        Toastr::error(__('Please Verify Your Mail First'));
-                        return back()->withInput();
-                    }
-
-                endif;
-
-                if (settingHelper('seller_system') != 1):
-                    if (request()->ajax())
-                    {
-                        return response()->json([
-                            'error' => __('You Are Not Allowed to Login')
-                        ]);
-                    }
-                    else {
-                        Toastr::error(__('You Are Not Allowed to Login'));
-                        return back()->withInput();
-                    }
-                endif;
             endif;
 
             if ($request->has('otp') && settingHelper('disable_otp_verification') != 1):
@@ -222,8 +188,6 @@ class LoginController extends Controller
         try {
             if(authUser()->user_type == 'admin' || authUser()->user_type == 'staff'):
                 $redirect_to = 'admin.login.form';
-            elseif(authUser()->user_type == 'seller'):
-                $redirect_to = 'seller.login.form';
             else:
                 $redirect_to = 'login';
             endif;
@@ -254,33 +218,11 @@ class LoginController extends Controller
         }
     }
 
-    public function loginByUser($id)
-    {
-        try {
-            $user = Sentinel::findById($id);
-            try {
-                Sentinel::authenticate($user);
-                Toastr::success(__('Successfully Login'));
-                return redirect()->route('seller.dashboard')->with('success', __('Login As successfully'));
-
-            } catch (NotActivatedException $e) {
-                Toastr::error(__('Account is not verified.Please verify account first.'));
-                return redirect()->back();
-            } catch (ThrottlingException $e) {
-                Toastr::error(__('Account is banned'));
-                return redirect()->back();
-            }
-        } catch (\Exception $e) {
-            Toastr::error(__($e->getMessage()));
-            return back();
-        }
-    }
     public function activation($email, $activationCode)
     {
         $user       = User::whereEmail($email)->first();
         if (Activation::complete($user, $activationCode)) :
             $this->sendmail($user->email, 'Verify Email', $user, 'email.auth.activate-account-email','');
-//            sendMail($user, '', 'verify_email_success', '');
             Toastr::success(__('Your account is active now.'));
             return redirect()->route('login');
         else:
@@ -399,13 +341,7 @@ class LoginController extends Controller
                 Toastr::error(__('User not found'));
                 return back()->withInput();
             endif;
-            if($request->request_path == "seller/login" && $user->user_type != 'seller'){
-                Toastr::error(__('You are not allowed to login here'));
-                return back()->withInput();
-            }if($request->request_path == "admin/login" && $user->user_type == 'seller'){
-                Toastr::error(__('You are not allowed to login here'));
-                return back()->withInput();
-            }if($request->request_path == "admin/login" && $user->user_type == 'customer'){
+            if($request->request_path == "admin/login" && $user->user_type == 'customer'){
                 Toastr::error(__('You are not allowed to login here'));
                 return back()->withInput();
             }
@@ -413,19 +349,8 @@ class LoginController extends Controller
                 Toastr::error(__('You Are not Activated Yet'));
             endif;
 
-            if ($user->user_type == 'seller' && empty($user->sellerProfile->verified_at))
-            {
-                Toastr::error(__('Please Verify Your Mail First'));
-                return back()->withInput();
-            }
-
             if ($user->is_user_banned == 1):
                 Toastr::error(__('You Are Banned From The Admin'));
-                return back()->withInput();
-            endif;
-
-            if ($user->user_type == 'seller' && settingHelper('seller_system') != 1):
-                Toastr::error(__('You Are Not Allowed to Login'));
                 return back()->withInput();
             endif;
 
@@ -470,7 +395,8 @@ class LoginController extends Controller
             if ($user->user_type == 'admin' || $user->user_type == 'staff'):
                 return redirect()->route('dashboard');
             else:
-                return redirect()->route('seller.dashboard');
+                Toastr::error(__('You are not allowed to login here'));
+                return back()->withInput();
             endif;
         } catch (\Exception $e){
             Toastr::error($e->getMessage());

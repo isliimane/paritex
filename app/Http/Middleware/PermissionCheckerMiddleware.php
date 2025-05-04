@@ -19,15 +19,9 @@ class PermissionCheckerMiddleware
     {
         if (Sentinel::check()):
                 foreach (explode('|', $permissions) as $permission):
-                    if (Sentinel::getUser()->user_type == 'seller'):
-                        if (settingHelper($permission)):
-                            return $next($request);
-                        endif;
-                    else:
                         if (in_array( $permission , Sentinel::getUser()->permissions)):
                             return $next($request);
                         endif;
-                    endif;
                 endforeach;
             return abort(403);
         else:

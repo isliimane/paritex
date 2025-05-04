@@ -30,17 +30,6 @@
                                 <table class="table col-sm-xs-12 col-md-9">
                                     <tbody>
                                     <tr id="">
-                                        <td>{{ __('Allow seller to add product') }}</td>
-                                        <td width="300">
-                                            <label class="custom-switch mt-2">
-                                                <input type="checkbox" name="seller_can_create_wholesale"
-                                                       value="setting-status-change/{{ 'seller_can_create_wholesale' }}" class="custom-switch-input status-change"
-                                                    {{ settingHelper('seller_can_create_wholesale') == 1 ? 'checked' : ''}} />
-                                                <span class="custom-switch-indicator"></span>
-                                            </label>
-                                        </td>
-                                    </tr>
-                                    <tr id="">
                                         <td>{{ __('Show price variations table on product detail') }}</td>
                                         <td width="300">
                                             <label class="custom-switch mt-2">

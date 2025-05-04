@@ -63,6 +63,16 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
+                                                <label for="license_no">{{lang.license_no}}</label>
+                                                <input id="license_no" type="text" v-model="form.license_no" class="form-control"
+                                                    :class="{ 'error_border' : errors.license_no }"
+                                                    :placeholder="lang.license_no" disabled/>
+                                            </div>
+                                            <span class="validation_error" v-if="errors.license_no">{{ errors.license_no[0] }}</span>                                            
+                                        
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
                                                 <label for="profile_image">{{lang.profile_image}}</label>
                                                 <div class="input-group">
                                                     <div class="custom-file d-flex">
@@ -167,6 +177,7 @@ export default {
                 phone: '',
                 gender: '',
                 date_of_birth: '',
+                license_no: '',
             },
             socials: {
                 facebook: "",

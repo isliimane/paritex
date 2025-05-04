@@ -14,13 +14,13 @@
 <div class="card-footer text-left">
     <ul class="nav nav-pills flex-column">
         <li class="nav-item">
-            <a class="nav-link @yield('profile')" href="{{ Sentinel::getUser()->user_type == 'seller' ? route('seller.profile') : route('admin.profile') }}"><i class="bx bx-user"></i> {{ __('Profile') }}</a>
+            <a class="nav-link @yield('profile')" href="{{ route('admin.profile') }}"><i class="bx bx-user"></i> {{ __('Profile') }}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link @yield('login-activity')" href="{{ Sentinel::getUser()->user_type == 'seller' ? route('seller.login.activity') : route('admin.login.activity') }}"><i class='bx bx-file'></i> {{ __('Login Activities') }}</a>
+            <a class="nav-link @yield('login-activity')" href="{{ route('admin.login.activity') }}"><i class='bx bx-file'></i> {{ __('Login Activities') }}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link @yield('password-change')" href="{{ Sentinel::getUser()->user_type == 'seller' ? route('seller.password.change') : route('admin.password.change') }}"><i class='bx bxs-key'></i> {{ __('Change Password') }}</a>
+            <a class="nav-link @yield('password-change')" href="{{ route('admin.password.change') }}"><i class='bx bxs-key'></i> {{ __('Change Password') }}</a>
         </li>
         <li class="nav-item">
             <a href="javascript:void(0);" onclick="logout_user_devices('/logout-other-devices', '')" class="nav-link" id="setting-tab"><i class='bx bx-log-out'></i> {{ __('Logout From Other Devices') }}</a>

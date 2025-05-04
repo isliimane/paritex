@@ -1,7 +1,7 @@
 @php
     $refund = App\Models\Refund::find($otherLinks[0]);
 @endphp
-<form method="post" action="{{\Sentinel::getUser()->user_type == 'seller' ? route('seller.reject.refund') : route('reject.refund') }}">
+<form method="post" action="{{route('reject.refund') }}">
     @csrf
     @method('put')
     <div class="modal-body modal-padding-bottom">

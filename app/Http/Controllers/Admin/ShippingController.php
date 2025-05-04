@@ -8,7 +8,6 @@ use App\Http\Requests\Admin\Shipping\StateRequest;
 use App\Http\Requests\Admin\ShippingCommissionRequest;
 use App\Models\City;
 use App\Models\State;
-use App\Repositories\Admin\Addon\ShippingClassRepository;
 use App\Repositories\Interfaces\Admin\SettingInterface;
 use App\Repositories\Interfaces\Admin\ShippingInterface;
 use Brian2694\Toastr\Facades\Toastr;

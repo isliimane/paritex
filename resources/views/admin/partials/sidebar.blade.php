@@ -4,86 +4,39 @@
 
 <div class="main-sidebar">
 <style>
-/* Style pour la sidebar complète */
 .main-sidebar {
-  background: linear-gradient(135deg,rgb(77, 103, 181) 0%,rgb(250, 248, 248) 100%) !important;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  background: #fff !important;
 }
-
-/* Style pour le logo et le nom court */
-.sidebar-brand, .sidebar-brand-sm a {
-  color: #000000 !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  padding: 15px 0;
-}
-
-/* Style des éléments du menu */
 .sidebar-menu .nav-link {
   color: #000000 !important;
-  padding: 12px 15px;
-  margin: 5px 0;
-  border-radius: 4px;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
-
 /* Style des icônes - Version bleue */
 .sidebar-menu i.bx {
-  font-size: 1.2rem;
-  color:rgb(50, 13, 236) !important; /* Bleu clair */
-  margin-right: 10px;
-  vertical-align: middle;
-  transition: color 0.3s ease;
+  color:#000 !important; /* Bleu clair */
 }
-
-/* Alternative bleu plus foncé */
-/* .sidebar-menu i.bx {
-  color: #2980b9 !important; 
-} */
-
 /* Effet au survol */
 .sidebar-menu .nav-link:hover {
   background-color: rgba(0, 0, 0, 0.05) !important;
   transform: translateX(5px);
 }
 
-.sidebar-menu .nav-link:hover i.bx {
+.sidebar-menu .nav-link:hover i.bx, .sidebar-menu .nav-link.active i.bx {
   color: #2c3e50 !important; /* Bleu foncé au survol */
 }
-
-/* Style des éléments actifs */
 .sidebar-menu .nav-link.active {
-  background-color: rgba(0, 0, 0, 0.1) !important;
-  font-weight: bold;
-  color: #000000 !important;
+  background-color: rgba(0, 0, 0, 0.05) !important;
 }
-
-.sidebar-menu .nav-link.active i.bx {
-  color: #1a5276 !important; /* Bleu plus soutenu pour l'état actif */
-}
-
-/* Style des sous-menus */
 .sidebar-menu .dropdown-menu {
-  background-color:180deg,rgb(37, 82, 215) 0%,rgb(250, 248, 248) 100%t;
-  border: 1px solid #e0e0e0 !important;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    border: 0;
 }
-
-.sidebar-menu .dropdown-menu a {
+.sidebar-menu .dropdown-menu li{
+    border: 0;
+}
+.sidebar-menu .dropdown-menu .nav-link {
+  padding-top: 22px;
+  padding-bottom: 22px;
   color: #000000 !important;
-}
-
-.sidebar-menu .dropdown-menu i.bx {
-  color:rgb(15, 33, 227) !important; /* Même bleu que les icônes principales */
-}
-
-/* Animation douce pour l'ouverture de la sidebar */
-.aside {
-  transition: all 0.3s ease-out;
-}
-
-/* Ombre portée pour le contenu */
-#sidebar-wrapper {
-  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Séparateur entre les éléments du menu */
@@ -98,10 +51,10 @@
 
 </style>
     <aside id="sidebar-wrapper">
-        <div class="sidebar-brand sidebar-brand-sm">
+        <div class="sidebar-brand sidebar-brand-sm py-3">
             <a href="{{ route('dashboard') }}">{{ settingHelper('system_short_name') != '' ? settingHelper('system_short_name',app()->getLocale()) :  "Paritex" }}</a>
         </div>
-        <div class="sidebar-brand">
+        <div class="sidebar-brand py-3">
             <a href="{{ route('dashboard') }}">
                 <img
                         src="{{($logo != [] && is_file_exists($logo['image_100x38'])) ? static_asset($logo['image_100x38']) : static_asset('images/default/logo3.png') }}"
@@ -115,6 +68,7 @@
                     <span>{{ __('Dashboard') }}</span></a>
             </li>
             
+<<<<<<< HEAD
           <!-- reclamation  -->
           @if(hasPermission('claim_read'))
     <li class="@yield('claim')">
@@ -141,6 +95,8 @@
         </a>
     </li>
 @endif
+=======
+>>>>>>> temp2
             @if(hasPermission('order_read') || hasPermission('pickup_hub_read'))
                 <li class="nav-item dropdown @yield('order_active')">
                     <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
@@ -151,14 +107,6 @@
                         @if(hasPermission('order_read'))
                             <li class="@yield('orders')"><a class="nav-link"
                                                             href="{{ route('orders') }}">{{ __('All Orders') }}</a></li>
-                            @if(settingHelper('seller_system') == 1)
-                                <li class="@yield('admins')"><a class="nav-link"
-                                                                href="{{ route('admin.orders') }}">{{ __('Admin Orders') }}</a>
-                                </li>
-                                <li class="@yield('seller-orders')"><a class="nav-link"
-                                                                       href="{{ route('admin.seller.orders')}}">{{ __('Seller Orders') }}</a>
-                                </li>
-                            @endif
                             <li class="@yield('pickup-hub-order')"><a class="nav-link"
                                                                       href="{{ route('pickup.hub.orders') }}">{{ __('Pickup Hub Orders') }}</a>
                             </li>
@@ -221,17 +169,9 @@
                             <li class="@yield('product')"><a class="nav-link"
                                                              href="{{ route('products') }}">{{ __('All Product') }}</a>
                             </li>
-                            @if(settingHelper('seller_system') == 1)
-                                <!-- <li class="@yield('admin-product')"><a class="nav-link"
-                                                                       href="{{ route('admin.products') }}">{{ __('Admin Products') }}</a>
-                                </li> -->
-                                <!-- <li class="@yield('seller-product')"><a class="nav-link"
-                                                                        href="{{ route('admin.seller.products') }}">{{ __('Seller Products') }}</a>
-                                </li>
-                            @endif
                             <li class="@yield('digital-product')"><a class="nav-link"
                                                                      href="{{ route('digital.products') }}">{{ __('Digital Products') }}</a>
-                            </li> -->
+                            </li>
                             <li class="@yield('catalog-product')"><a class="nav-link"
                                                                      href="{{ route('catalog.products') }}">{{ __('Catalog Products') }}</a>
                             </li>
@@ -340,73 +280,6 @@
                 @endif
             @endif
 
-            @if(settingHelper('seller_system') == 1)
-                @if(hasPermission('seller_read') || hasPermission('payout_read') || hasPermission('seller_commission_read') || hasPermission('seller_payout_read'))
-                    <li class="nav-item dropdown @yield('sellers_active')">
-                        <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
-                            <i class='bx bx-store-alt'></i>
-                            <span>{{ __('Sellers') }}</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            @if(hasPermission('seller_read'))
-                                <li class="@yield('sellers')"><a class="nav-link"
-                                                                 href="{{ route('sellers') }}">{{ __('All Seller') }}</a>
-                                </li>
-                            @endif
-                            @if(hasPermission('seller_payout_read'))
-                                <li class="@yield('payouts_active')"><a class="nav-link"
-                                                                        href="{{ route('admin.seller.payouts') }}">{{ __('Payouts') }}</a>
-                                </li>
-                                <li class="@yield('payout_requests_active')"><a class="nav-link"
-                                                                                href="{{ route('admin.seller.payout.request') }}">{{ __('Payout Requests') }}</a>
-                            @endif
-                            @if(hasPermission('seller_commission_read'))
-                                <li class="@yield('seller_settings_active')"><a class="nav-link"
-                                                                                href="{{ route('admin.seller.settings') }}">{{ __('Seller Settings') }}</a>
-                                </li>
-                            @endif
-                            @if(hasPermission('seller_create'))
-                                <li class="@yield('seller_import')"><a class="nav-link"
-                                                                       href="{{ route('admin.seller.import') }}">{{ __('Import Sellers') }}</a>
-                                </li>
-                            @endif
-                        </ul>
-                    </li>
-                @endif
-                @if(addon_is_activated('seller_subscription') && (hasPermission('package_read') || hasPermission('subscription_setting_read')))
-                    <li class="nav-item dropdown @yield('package_active')">
-                        <a href="javascript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
-                            <i class='bx bx-package {{ config('app.demo_mode') ? 'beep' : ''}}'></i>
-                            <span>{{ __('seller_package') }}</span>
-                            @if(config('app.demo_mode'))
-                                <p class="badge badge-addon">{{ __('Addon') }}</p>
-                            @endif
-                        </a>
-                        <ul class="dropdown-menu">
-                            @if(hasPermission('subscription_setting_read'))
-                                <li class="@yield('subscription_settings_active')"><a class="nav-link"
-                                                                                      href="{{ route('subscription.setting') }}">{{ __('subscription_setting') }}</a>
-                                </li>
-                            @endif
-                            @if(hasPermission('package_read'))
-                                <li class="@yield('packages')"><a class="nav-link"
-                                                                  href="{{ route('seller_packages.index') }}">{{ __('Packages') }}</a>
-                                </li>
-                            @endif
-                            @if(hasPermission('online_payment_read'))
-                                <li class="@yield('online_subscriptions')"><a class="nav-link"
-                                                                              href="{{ route('seller.online.purchase.history') }}">{{ __('online_purchase_history') }}</a>
-                                </li>
-                            @endif
-                            @if(addon_is_activated('offline_payment') && hasPermission('offline_payment_read'))
-                                <li class="@yield('offline_subscriptions')"><a class="nav-link"
-                                                                               href="{{ route('seller.offline.purchase.history') }}">{{ __('offline_purchase_history') }}</a>
-                                </li>
-                            @endif
-                        </ul>
-                    </li>
-                @endif
-            @endif
             @if(hasPermission('delivery_hero_read') || hasPermission('delivery_hero_create') || hasPermission('delivery_hero_commission_history') || hasPermission('delivery_hero_deposit_history') || hasPermission('delivery_hero_collection_history') || hasPermission('delivery_hero_cancel_request') || hasPermission('delivery_hero_configuration_read'))
                 <li class="nav-item dropdown @yield('delivery_hero_active')">
                     <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown"><i
@@ -459,7 +332,7 @@
                     </a>
                 </li>
             @endif
-            @if(hasPermission('admin_product_sale_read') || hasPermission('seller_product_sale_read') || hasPermission('product_stock_read') || hasPermission('product_wishlist_read') || hasPermission('user_searches_read') || hasPermission('commission_history_read') || hasPermission('wallet_recharge_history_read'))
+            @if(hasPermission('admin_product_sale_read') || hasPermission('product_stock_read') || hasPermission('product_wishlist_read') || hasPermission('user_searches_read') || hasPermission('commission_history_read') || hasPermission('wallet_recharge_history_read'))
                 <li class="nav-item dropdown @yield('report')">
                     <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
                         <i class="bx bxs-report"></i>
@@ -470,20 +343,6 @@
                             <li class="@yield('admin_report_active')"><a class="nav-link"
                                                                          href="{{ route('admin.product.sale') }}">{{ __('Admin Product Sale') }}</a>
                             </li>
-                        @endif
-                        @if(settingHelper('seller_system') == 1)
-                            @if(hasPermission('seller_product_sale_read'))
-                                <li class="@yield('seller_report_active')"><a class="nav-link"
-                                                                              href="{{ route('admin.seller.product.sale') }}">{{ __('Seller Product Sale') }}</a>
-                                </li>
-                            @endif
-                        @endif
-                        @if(settingHelper('seller_system') == 1)
-                            @if(hasPermission('commission_history_read'))
-                                <li class="@yield('commission_history')"><a class="nav-link"
-                                                                            href="{{ route('commission.history') }}">{{ __('Commission History') }}</a>
-                                </li>
-                            @endif
                         @endif
                         @if(hasPermission('wallet_recharge_history_read'))
                             <li class="@yield('wallet_recharge_history')"><a class="nav-link"
@@ -561,13 +420,6 @@
                                                               href="{{ route('campaign') }}">{{ __('Campaigns') }}</a>
                             </li>
                         @endif
-                        @if(settingHelper('seller_system') == 1)
-                            @if(hasPermission('campaign_product_read'))
-                                <li class="@yield('campaign_request')"><a class="nav-link"
-                                                                          href="{{ route('campaign.requests') }}">{{ __('Campaign Requests') }}</a>
-                                </li>
-                            @endif
-                        @endif
                         @if(addon_is_activated('otp_system') == 1)
                             @if(hasPermission('bulk_sms_read'))
                                 <li class="@yield('bulk_sms')"><a class="nav-link"
@@ -612,7 +464,7 @@
                     </ul>
                 </li>
             @endif
-            @if(settingHelper('seller_system') == 1)
+            <!-- @if(settingHelper('seller_system') == 1) -->
                 @if(hasPermission('support_read') || hasPermission('support_department_read'))
                     <li class="nav-item dropdown @yield('support_active')">
                         <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
@@ -635,10 +487,15 @@
                                                                     href="{{route('contact.us')}}">{{ __('Contact Messages') }}</a>
                                 </li>
                             @endif
+                            @if(hasPermission('support_department_read'))
+                                <li class="@yield('Complaints')"><a class="nav-link"
+                                                                    href="{{route('complaints')}}">{{ __('Complaints') }}</a>
+                                </li>
+                            @endif
                         </ul>
                     </li>
                 @endif
-            @endif
+            <!-- @endif -->
             @if(addon_is_activated('offline_payment'))
                 @if (hasPermission('offline_payment_read') || hasPermission('wallet_recharge_read'))
                     <li class="nav-item dropdown @yield('offline_payment')">
@@ -762,13 +619,6 @@
                                 <li class="@yield('video_shopping')"><a class="nav-link"
                                                                         href="{{ route('admin.video.shopping') }}">{{ __('Video Shopping') }}</a>
                                 </li>
-                            @endif
-                            @if(settingHelper('seller_system') == 1)
-                                @if(hasPermission('video_shopping_update'))
-                                    <li class="@yield('video_shopping_config')"><a class="nav-link"
-                                                                                   href="{{ route('admin.video.shopping.config') }}">{{ __('Video Shopping Config') }}</a>
-                                    </li>
-                                @endif
                             @endif
                         </ul>
                     </li>
@@ -1086,6 +936,31 @@
                         </a>
                     </li> -->
                 @endif
+            @endif
+            @if(hasPermission('warehouse_read'))
+                <li class="nav-item dropdown @yield('warehouse_active')">
+                    <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
+                        <i class="bx bx-store"></i>
+                        <span>{{ __('Warehouses') }}</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        @if(hasPermission('warehouse_read'))
+                            <li class="@yield('warehouse')"><a class="nav-link"
+                                                               href="{{ route('warehouse.index') }}">{{ __('All Warehouses') }}</a>
+                            </li>
+                        @endif
+                        @if(hasPermission('warehouse_transfer_read'))
+                            <li class="@yield('warehouse_transfers')"><a class="nav-link"
+                                                               href="{{ route('transfers.index') }}">{{ __('Transfers') }}</a>
+                            </li>
+                        @endif
+                        @if(hasPermission('stock_movement_read'))
+                            <li class="@yield('stock_movements')"><a class="nav-link"
+                                                               href="{{ route('stock-movements.index') }}">{{ __('Stock Movements') }}</a>
+                            </li>
+                        @endif
+                    </ul>
+                </li>
             @endif
         </ul>
     </aside>

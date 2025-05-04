@@ -154,6 +154,17 @@
                                                                     class='bx bx-check-circle'></i>{{ __('Verify Account') }}
                                                             </a>
                                                         @endif
+                                                        @if($user->license_verified == 0)
+                                                            <a href="{{ route('customer.license.verify', $user->id) }}"
+                                                               class="dropdown-item has-icon"><i
+                                                                    class='bx bx-check-circle'></i>{{ __('Verify License') }}
+                                                            </a>
+                                                        @else
+                                                            <a href="{{ route('customer.license.verify', $user->id) }}"
+                                                               class="dropdown-item has-icon"><i
+                                                                    class='bx bx-x-circle'></i>{{ __('Unverify License') }}
+                                                            </a>
+                                                        @endif
                                                     @endif
                                                 </div>
                                             </td>

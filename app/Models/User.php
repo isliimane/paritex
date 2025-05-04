@@ -26,6 +26,7 @@ class User extends EloquentUser implements JWTSubject, ContractAuthenticatable
         'firebase_auth_id',
         'currency_code',
         'country_id',
+        'license_no',
         'lang_code',
         'is_password_set',
         'gender',
@@ -33,7 +34,8 @@ class User extends EloquentUser implements JWTSubject, ContractAuthenticatable
         'referral_code',
         'referred_by_user',
         'balance',
-        'ai_review_option'
+        'ai_review_option',
+        'license_verified'
     ];
     protected $hidden = [
         'password',
@@ -69,16 +71,6 @@ class User extends EloquentUser implements JWTSubject, ContractAuthenticatable
     public function role()
     {
         return $this->belongsTo(Role::class);
-    }
-
-    public function payout()
-    {
-        return $this->hasMany(SellerPayout::class);
-    }
-
-    public function sellerProfile()
-    {
-        return $this->hasOne(SellerProfile::class);
     }
 
     public function addresses()
@@ -192,11 +184,6 @@ class User extends EloquentUser implements JWTSubject, ContractAuthenticatable
         return $amount;
     }
 
-    public function sellers()
-    {
-        return $this->belongsToMany(SellerProfile::class)->withTimestamps();
-    }
-
     public function wishlists()
     {
         return $this->hasMany(Wishlist::class);
@@ -210,11 +197,6 @@ class User extends EloquentUser implements JWTSubject, ContractAuthenticatable
     public function country()
     {
         return $this->belongsTo(Country::class);
-    }
-
-    public function subscription(): \Illuminate\Database\Eloquent\Relations\HasOne
-    {
-        return $this->hasOne(SellerSubscription::class)->whereHas('package')->latest();
     }
 
     public function getActiveSubscriptionAttribute()

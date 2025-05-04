@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class DeliveryHero extends Model
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     protected $casts = [
         'driving_licence_image'     => 'array',
@@ -36,5 +37,16 @@ class DeliveryHero extends Model
     }
     public function heroAccount(){
         return $this->hasMany(DeliveryHeroAccount::class);
+    }
+    
+    /**
+     * Route notifications for the FCM channel.
+     *
+     * @param  \Illuminate\Notifications\Notification  $notification
+     * @return string
+     */
+    public function routeNotificationForFcm($notification)
+    {
+        return $this->fcm_token;
     }
 }

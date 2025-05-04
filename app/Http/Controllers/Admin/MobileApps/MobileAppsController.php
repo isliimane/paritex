@@ -140,7 +140,6 @@ class MobileAppsController extends Controller
                 'languages' => $this->languages->all()->orderBy('id', 'asc')->get(),
                 'lang'      => $request->lang == '' ? app()->getLocale() : $request->lang,
                 'pages'     => $page->allPages(),
-                'seller_gdpr'   => settingHelper('mobile_seller_agreement') ? : [],
                 'customer_gdpr' => settingHelper('mobile_customer_agreement') ? : [],
                 'privacy_gdpr'  => settingHelper('mobile_privacy_agreement') ? : [],
                 'payment_gdpr'  => settingHelper('mobile_payment_agreement') ? : []

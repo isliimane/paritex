@@ -21,11 +21,6 @@
         <priority>0.9</priority>
     </url>
     <url>
-        <loc> {{ url('') . '/sellers' }}</loc>
-        <changefreq>daily</changefreq>
-        <priority>0.9</priority>
-    </url>
-    <url>
         <loc> {{ url('') . '/blogs' }}</loc>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>

@@ -65,12 +65,6 @@ interface ProductInterface
 
     public function newProducts($user_id);
 
-    public function sellerBestSelling($user_id);
-
-    public function sellerOfferEnding($user_id);
-
-    public function sellerProducts($user_id);
-
     public function priceRange();
 
     public function searchProduct($key);

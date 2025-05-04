@@ -95,9 +95,6 @@
                                                                         <option value="product" {{ arrayCheck('action_type',$banner_contetns) && arrayCheck($key,$banner_contetns['action_type']) && $banner_contetns['action_type'][$key] == 'product' ? 'selected' : '' }}>{{__('Product')}}</option>
                                                                         <option value="category" {{ arrayCheck('action_type',$banner_contetns) && arrayCheck($key,$banner_contetns['action_type']) && $banner_contetns['action_type'][$key] == 'category' ? 'selected' : '' }}>{{__('Category')}}</option>
                                                                         <option value="brand" {{ arrayCheck('action_type',$banner_contetns) && arrayCheck($key,$banner_contetns['action_type']) && $banner_contetns['action_type'][$key] == 'brand' ? 'selected' : '' }}>{{__('Brand')}}</option>
-                                                                        @if(settingHelper('seller_system') == 1 && Route::currentRouteName() != 'seller.mobile.home.page')
-                                                                            <option value="seller" {{ arrayCheck('action_type',$banner_contetns) && arrayCheck($key,$banner_contetns['action_type']) && $banner_contetns['action_type'][$key] == 'seller' ? 'selected' : '' }}>{{__('Seller')}}</option>
-                                                                        @endif
                                                                         <option value="blog" {{ arrayCheck('action_type',$banner_contetns) && arrayCheck($key,$banner_contetns['action_type']) && $banner_contetns['action_type'][$key] == 'blog' ? 'selected' : '' }}>{{__('Blog')}}</option>
                                                                         {{--                                                                        <option value="url" {{ isset($banner_contetns['action_type'][$key]) && $banner_contetns['action_type'][$key] == 'url' ? 'selected' : '' }}>{{__('URL')}}</option>--}}
                                                                     </select>
@@ -191,28 +188,6 @@
                                                                     @endif
                                                                 </div>
                                                             </div>
-                                                            @if(settingHelper('seller_system') == 1)
-                                                                <div class="sellerDiv" id="seller_{{ $content_count }}"
-                                                                     style="{{
-                                                                            arrayCheck('action_type',$banner_contetns) && arrayCheck($key,$banner_contetns['action_type']) && $banner_contetns['action_type'][$key] == 'seller' ? '' : 'display:none' }}">
-                                                                    <div class="form-group">
-                                                                        <label>{{ __('Action To') }}</label>
-                                                                        <select class="seller-by-ajax_{{ $content_count }} form-control select2"
-                                                                                name="sl_{{ $content_count }}[{{ $key }}]"
-                                                                                aria-hidden="true">
-                                                                            @if(arrayCheck('action_to',$banner_contetns) && arrayCheck($key,$banner_contetns['action_to'][$key]))
-                                                                                @php
-                                                                                    $seller = \App\Models\SellerProfile::find($banner_contetns['action_to'][$key][$key]);
-                                                                                @endphp
-                                                                                @if($seller)
-                                                                                    <option value="{{ $seller->id }}"
-                                                                                            selected>{{ $seller->shop_name }}</option>
-                                                                                @endif
-                                                                            @endif
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            @endif
                                                         </div>
                                                     </div>
                                                 @else
@@ -302,9 +277,6 @@
                                                     <option value="product">{{__('Product')}}</option>
                                                     <option value="category">{{__('Category')}}</option>
                                                     <option value="brand">{{__('Brand')}}</option>
-                                                    @if(settingHelper('seller_system') == 1 && Route::currentRouteName() != 'seller.mobile.home.page' && Route::currentRouteName() != 'seller.get.shop.content')
-                                                        <option value="seller">{{__('Seller')}}</option>
-                                                    @endif
                                                     <option value="blog">{{__('Blog')}}</option>
                                                 </select>
                                             </div>
@@ -371,20 +343,6 @@
                                                 @endif
                                             </div>
                                         </div>
-
-                                        @if(settingHelper('seller_system') == 1)
-                                            <div class="sellerDiv" id="seller_{{ $content_count }}" style="{{ old('action_type') ? (old('action_type') == 'seller' ? '' : 'display:none')
-                                                            : (isset($edit) ? ($edit->action_type == 'seller' ? '': 'display:none') : 'display:none')}}">
-                                                <div class="form-group">
-                                                    <label>{{ __('Action To') }}</label>
-                                                    <select class="seller-by-ajax_{{ $for_content }} form-control select2"
-                                                            name="sl_{{ $for_content }}[]"
-                                                            aria-hidden="true">
-                                                        <option selected value=""> {{ __('seller') }} </option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        @endif
                                     </div>
                                 </div>
                             @else
@@ -508,40 +466,6 @@
             <input type="hidden" name="content_numbers[]" value="{{ $content_count }}">
             <input type="hidden" name="contents[]" class="section_name" value="todays_deal">
             <input type="hidden" name="todays_deal_{{ $content_count }}" value="{{ $content_count }}">
-        </div>
-    </div>
-@elseif($type == 'gift_idea' && addon_is_activated('ramdhani'))
-    <div class="drag-brop-menu content-{{ $content_count }}">
-        <div class="menu-item card" data-id="{{  $content_count }}">
-            <div class="card-header d-flex justify-content-between border-0">
-                <a href="javaScript:void(0)" class="d-flex"><i class="bx bx-menu move"></i>
-                    <h4>{{ __("Gift Idea") }}</h4>
-                </a>
-
-                <button type="button" onclick="$(this).parent().parent().remove()"
-                        class="btn remove-menu-row">
-                    <i class="bx bx-trash"></i></button>
-            </div>
-            <input type="hidden" name="content_numbers[]" value="{{ $content_count }}">
-            <input type="hidden" name="contents[]" class="section_name" value="gift_idea">
-            <input type="hidden" name="gift_idea_{{ $content_count }}" value="{{ $content_count }}">
-        </div>
-    </div>
-@elseif($type == 'business_idea' && addon_is_activated('ramdhani'))
-    <div class="drag-brop-menu content-{{ $content_count }}">
-        <div class="menu-item card" data-id="{{  $content_count }}">
-            <div class="card-header d-flex justify-content-between border-0">
-                <a href="javaScript:void(0)" class="d-flex"><i class="bx bx-menu move"></i>
-                    <h4>{{ __("Business Idea") }}</h4>
-                </a>
-
-                <button type="button" onclick="$(this).parent().parent().remove()"
-                        class="btn remove-menu-row">
-                    <i class="bx bx-trash"></i></button>
-            </div>
-            <input type="hidden" name="content_numbers[]" value="{{ $content_count }}">
-            <input type="hidden" name="contents[]" class="section_name" value="business_idea">
-            <input type="hidden" name="business_idea_{{ $content_count }}" value="{{ $content_count }}">
         </div>
     </div>
 @elseif($type == 'latest_product')
@@ -824,118 +748,6 @@
             <input type="hidden" name="popular_brands_{{ $content_count }}[]" value="{{ $content_count }}">
         </div>
     </div>
-@elseif($type == 'top_sellers')
-    @if(settingHelper('seller_system') == 1)
-        <div class="drag-brop-menu content-{{ $content_count }}">
-            <div class="menu-item card" data-id="{{  $content_count }}">
-                <div class="card-header d-flex justify-content-between border-0">
-                    <a href="javaScript:void(0)" class="d-flex"><i class="bx bx-menu move"></i>
-                        <h4>{{ __("Top Shops") }}</h4>
-                    </a>
-
-                    <button type="button" onclick="$(this).parent().parent().remove()"
-                            class="btn remove-menu-row">
-                        <i class="bx bx-trash"></i></button>
-                </div>
-                <input type="hidden" name="content_numbers[]" value="{{ $content_count }}">
-                <input type="hidden" name="contents[]" class="section_name"
-                       value="top_sellers">
-                <input type="hidden" name="top_sellers_{{ $content_count }}[]" value="{{ $content_count }}">
-            </div>
-        </div>
-    @endif
-@elseif($type == 'featured_sellers')
-    @if(settingHelper('seller_system') == 1)
-        <div class="drag-brop-menu content-{{ $content_count }}">
-            <div class="menu-item card" data-id="{{  $content_count }}">
-                <div class="card-header d-flex justify-content-between">
-                    <a href="javaScript:void(0)" class="d-flex"><i class="bx bx-menu move"></i>
-                        <h4>{{ __('Featured Shops') }}</h4>
-                    </a>
-
-                    <button type="button" onclick="$(this).parent().parent().remove()"
-                            class="btn remove-menu-row">
-                        <i class="bx bx-trash"></i></button>
-                </div>
-                <div class="card-body campaign-{{ $content_count }}">
-                    <input type="hidden" name="content_numbers[]" value="{{ $content_count }}">
-                    <input type="hidden" name="contents[]" class="section_name"
-                           value="featured_sellers">
-                    <div class="limit-2-custom-message">
-                        <select class="select2" style="width: 100%;" name="featured_sellers_{{ $content_count }}[]"
-                                multiple required>
-                            @php
-                                $sellers = \App\Models\User::with('sellerProfile')->whereHas('sellerProfile',function ($query){
-                                    $query->Available();
-                                })->where('user_type', 'seller')->get();
-                            @endphp
-                            @foreach($sellers as $seller)
-                                <option value="{{ $seller->id }}" {{ @$contents ? (in_array($seller->id, $contents['featured_sellers']) ? 'selected' : '') : '' }}>
-                                    {{ @$seller->sellerProfile->shop_name.' ('.$seller->first_name.' '.$seller->last_name.')' }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
-@elseif($type == 'express_sellers')
-    @if(settingHelper('seller_system') == 1)
-        <div class="drag-brop-menu content-{{ $content_count }}">
-            <div class="menu-item card" data-id="{{  $content_count }}">
-                <div class="card-header d-flex justify-content-between">
-                    <a href="javaScript:void(0)" class="d-flex"><i class="bx bx-menu move"></i>
-                        <h4>{{ __('Express Shops') }}</h4>
-                    </a>
-
-                    <button type="button" onclick="$(this).parent().parent().remove()"
-                            class="btn remove-menu-row">
-                        <i class="bx bx-trash"></i></button>
-                </div>
-                <div class="card-body campaign-{{ $content_count }}">
-                    <input type="hidden" name="content_numbers[]" value="{{ $content_count }}">
-                    <input type="hidden" name="contents[]" class="section_name"
-                           value="express_sellers">
-                    <div class="limit-4-custom-message">
-                        <select class="select2" style="width: 100%;" name="express_sellers_{{ $content_count }}[]"
-                                multiple required>
-                            @php
-                                $sellers = \App\Models\User::with('sellerProfile')->whereHas('sellerProfile',function ($query){
-                                    $query->Available();
-                                })->where('user_type', 'seller')->get();
-                            @endphp
-                            @foreach($sellers as $seller)
-                                <option value="{{ $seller->id }}" {{ @$contents ? (in_array($seller->id, $contents['express_sellers']) ? 'selected' : '') : '' }}>
-                                    {{ @$seller->sellerProfile->shop_name.' ('.$seller->first_name.' '.$seller->last_name.')' }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
-@elseif($type == 'best_sellers')
-    @if(settingHelper('seller_system') == 1)
-        <div class="drag-brop-menu content-{{ $content_count }}">
-            <div class="menu-item card" data-id="{{  $content_count }}">
-                <div class="card-header d-flex justify-content-between border-0">
-                    <a href="javaScript:void(0)" class="d-flex"><i class="bx bx-menu move"></i>
-                        <h4>{{ __("Best Shops") }}</h4>
-                    </a>
-
-                    <button type="button" onclick="$(this).parent().parent().remove()"
-                            class="btn remove-menu-row">
-                        <i class="bx bx-trash"></i></button>
-                </div>
-                <input type="hidden" name="content_numbers[]" value="{{ $content_count }}">
-                <input type="hidden" name="contents[]" class="section_name"
-                       value="best_sellers">
-                <input type="hidden" name="best_sellers_{{ $content_count }}[]" value="{{ $content_count }}">
-            </div>
-        </div>
-    @endif
 @elseif($type == 'download_section')
     <div class="drag-brop-menu content-{{ $content_count }}">
         <div class="menu-item card" data-id="{{  $content_count }}">
@@ -1034,27 +846,6 @@
             </div>
         </div>
     </div>
-@elseif($type == 'video_shopping')
-    @if(addon_is_activated('video_shopping'))
-        <div class="drag-brop-menu content-{{ $content_count }}">
-            <div class="menu-item card" data-id="{{  $content_count }}">
-                <div class="card-header d-flex justify-content-between border-0">
-                    <a href="javaScript:void(0)" class="d-flex"><i class="bx bx-menu move"></i>
-                        <h4>{{ __("Video Shopping") }}</h4>
-                    </a>
-
-                    <button type="button" onclick="$(this).parent().parent().remove()"
-                            class="btn remove-menu-row">
-                        <i class="bx bx-trash"></i></button>
-                </div>
-                <input type="hidden" name="content_numbers[]" value="{{ $content_count }}">
-                <input type="hidden" name="contents[]" class="section_name"
-                       value="video_shopping">
-                <input type="hidden" name="video_shopping_{{ $content_count }}[]" value="{{ $content_count }}">
-            </div>
-        </div>
-    @endif
-
 @elseif($type == 'custom_products')
     <div class="drag-brop-menu content-{{ $content_count }}">
         <div class="menu-item card" data-id="{{  $content_count }}">

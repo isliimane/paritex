@@ -13,7 +13,6 @@ use App\Models\PickupHub;
 use App\Models\Subscriber;
 use App\Models\TicketReplay;
 use App\Models\RewardDetails;
-use App\Models\SellerProfile;
 use Database\Seeders\Admin\BlogSeeder;
 use Database\Seeders\Product\ProductLanguageSeeder;
 use Database\Seeders\Product\ProductSeeder;
@@ -72,7 +71,6 @@ class DatabaseSeeder extends Seeder
 //        $this->call(ServiceSeeder::class);
 //        $this->call(ServiceLanuageSeeder::class);
 //        $this->call(CampaignSeeder::class);
-//        $this->call(SellerSeed::class);
 //        $this->call(ProductSeeder::class);
 //        $this->call(ProductLanguageSeeder::class);
 //        $this->call(BlogSeeder::class);
@@ -85,12 +83,6 @@ class DatabaseSeeder extends Seeder
 
 //        $users = \App\Models\User::factory(30)->create();
 //        foreach ($users as $user) {
-//            if($user->user_type == 'seller'){
-//                SellerProfile::factory(1)->create(['user_id' => $user->id])->first();
-//                $support = Support::factory(5)->create(['user_id' => $user->id])->first();
-//                TicketReplay::factory(10)->create(['support_id' => $support->id]);
-//
-//            }
 //            if($user->user_type == 'customer'){
 //
 //                $product = Product::latest()->first();

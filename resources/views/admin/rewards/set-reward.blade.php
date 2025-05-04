@@ -34,7 +34,6 @@
                                     <tr>
                                         <th>{{__('#')}}</th>
                                         <th>{{__('Name')}}</th>
-                                        <th>{{__('Seller')}}</th>
                                         <th>{{__('Price')}}</th>
                                         <th>{{__('Point')}}</th>
                                         @if(hasPermission('reward_setting_update'))
@@ -47,15 +46,6 @@
                                         <td>{{$products->firstItem() + $key }}</td>
                                         <td>
                                             <a href="{{ isAppMode() ? '#' : route('product-details',$product->slug) }}">{{ $product->getTranslation('name', \App::getLocale()) }}</a>
-                                        </td>
-                                        <td>
-                                            @if($product->user_id == 1)
-                                                {{__('Admin Product')}}
-                                            @elseif($product->sellerProfile != null)
-{{--                                                <a target="{{ isAppMode() ? '_parent' : '_blank' }}"--}}
-{{--                                                   href="{{ isAppMode() ? '#' : route('frontend.shop', @$user->sellerProfile->slug) }}">{{ @$user->sellerProfile->shop_name }}--}}
-{{--                                                </a>--}}
-                                            @endif
                                         </td>
                                         <td>{{get_price($product->price,user_curr())}}</td>
                                         <td>{{$product->reward}}</td>
@@ -119,39 +109,6 @@
                                     <label class="custom-control-label" for="sub_category">{{ __('Apply for sub category also ?') }}</label>
                                 </div>
 
-                                <div class="form-group text-right">
-                                    <button type="submit" class="btn btn-outline-primary" tabindex="4">
-                                        {{ __('Save') }}
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header input-title">
-                            <h4>{{__('Set Rewards By Seller')}}</h4>
-                        </div>
-                        <div class="card-body card-body-paddding">
-                            <form method="POST" action="{{route('set.reward.by')}}">
-                                @csrf
-                                <div class="form-group">
-                                    <select class="seller-by-ajax form-control select2 sorting" name="seller_id" id="seller_id" required>
-                                        <option value="">{{ __('Select Seller') }}</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="reward">{{__('Reward')}}</label>
-                                    <input type="number" class="form-control" name="reward" id="reward"
-                                        value="{{old('reward')}}"
-                                        placeholder="{{__('Reward')}}" tabindex="1"
-                                        required>
-                                    <input type="hidden" name="type" value="seller">
-                                @if ($errors->has('reward'))
-                                        <div class="invalid-feedback">
-                                            <p>{{ $errors->first('reward') }}</p>
-                                        </div>
-                                    @endif
-                                </div>
                                 <div class="form-group text-right">
                                     <button type="submit" class="btn btn-outline-primary" tabindex="4">
                                         {{ __('Save') }}

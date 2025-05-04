@@ -65,7 +65,7 @@ class ProductFactory extends Factory
             'cash_on_delivery'                      => rand(0,1),
             'rating'                                => $this->faker->randomFloat($nbMaxDecimals = 10, $min = 0, $max = 10),
             'viewed'                                => rand(0,10000),
-            'shipping_type'                         => $this->faker->randomElement(["Product Base","Flat Rate","Seller Base","Area Base"]),
+            'shipping_type'                         => $this->faker->randomElement(["Product Base","Flat Rate","Area Base"]),
             'shipping_fee'                          => rand(0,500),
             'shipping_fee_depend_on_quantity'       => rand(0,1),
             'estimated_shipping_days'               => rand(0,50),

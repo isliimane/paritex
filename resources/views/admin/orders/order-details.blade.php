@@ -36,11 +36,30 @@
                                     </div>
                                 </form>
                             @endif
+
+                            <!-- Add Warehouse Selection -->
+                            <form action="{{ route('order.assign.warehouse') }}" method="POST" class="mr-2"
+                            id="onChangeFormSubmit3">
+                                @csrf
+                                <input type="hidden" name="id" value="{{ $order->id }}">
+                                <div class="form-group">
+                                    <select class="form-control selectric onChangeFormSubmit3" name="warehouse_id" 
+                                            {{ $order->delivery_status == 'delivered' || $order->delivery_status == 'canceled' ? 'disabled' : '' }}>
+                                        <option value="">{{ __('Select Warehouse') }}</option>
+                                        @foreach($warehouses as $warehouse)
+                                            <option value="{{ $warehouse->id }}" 
+                                                    {{ $order->warehouse_id == $warehouse->id ? 'selected' : '' }}>
+                                                {{ $warehouse->getTranslation('name', \App::getLocale()) }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </form>
+
                             @if($order->payment_type != 'offline_method')
                                 <form action="{{ route('order.payment.status.change') }}" method="POST"
                                       id="onChangeFormSubmit2">
                                     @csrf
-
                                     <input type="hidden" name="id" value="{{ $order->id }}">
                                     <div class="form-group">
                                         <select
@@ -91,6 +110,8 @@
                                                 {{ $order->delivery_status == "picked_up" ? "selected" : "" }} value="picked_up">{{ __('Picked Up') }}</option>
                                         <option
                                                 {{ $order->delivery_status == "on_the_way" ? "selected" : "" }} value="on_the_way">{{ __('On The Way') }}</option>
+                                        <option
+                                                {{ $order->delivery_status == "postponed" ? "selected" : "" }} value="postponed">{{ __('Postponed') }}</option>
                                         @if($order->delivery_status != 'delivered')
                                             <option
                                                     {{ $order->delivery_status == "canceled" ? "selected" : "" }} value="canceled">{{__('Canceled')}}</option>
@@ -171,10 +192,6 @@
                                     <address>
                                         <strong>{{__('Order Date')}}:</strong><br>
                                         {{ \Carbon\Carbon::parse($order->date)->format('d F, Y h:i:s A') }}<br><br>
-                                        @if(addon_is_activated('ramdhani'))
-                                            <strong>{{__('delivery_date')}}:</strong><br>
-                                            {{ \Carbon\Carbon::parse($order->delivery_date)->format('d F, Y') }}<br><br>
-                                        @endif
                                     </address>
                                 </div>
                             </div>
@@ -342,7 +359,6 @@
                                             @endphp
                                         </tr>
                                         @if(($order->tax_method && $order->tax_method['vat_tax_type'] == 'product_base') || ($order->tax_method && $order->tax_method['vat_tax_type'] == 'order_base' && $order->tax_method['tax_type'] == 'before_tax') || (!$order->tax_method || !$order->tax_method['vat_tax_type']))
-                                            @if(!addon_is_activated('ramdhani') || (addon_is_activated('ramdhani') && $order->total_tax > 0))
                                                 <tr>
                                                     <td class="invoice-detail-name">(+) {{ __('Tax') }}:</td>
                                                     <td class="invoice-detail-value">{{ get_price($total_tax,user_curr()) }}</td>
@@ -350,7 +366,6 @@
                                                         $total_payable += $total_tax;
                                                     @endphp
                                                 </tr>
-                                            @endif
                                         @endif
                                         <tr>
                                             <td class="invoice-detail-name">(+) {{ __('Shipping Cost') }}:</td>
@@ -418,6 +433,8 @@
                                                 bg-success shadow-success
 @elseif($history->event == 'order_on_the_way_event')
                                                 bg-warning shadow-warning
+@elseif($history->event == 'order_postponed_event')
+                                                bg-danger shadow-danger
 @else
                                                 bg-primary shadow-primary
 @endif">
@@ -428,10 +445,14 @@
                                                             <i class="bx bx-x"></i>
                                                         @elseif($history->event == 'order_on_the_way_event')
                                                             <i class="bx bxs-truck"></i>
+                                                        @elseif($history->event == 'order_postponed_event')
+                                                            <i class="bx bx-time"></i>
                                                         @elseif($history->event == 'order_canceled_event')
                                                             <i class="bx bx-x"></i>
                                                         @elseif($history->event == 'order_delivered_event')
                                                             <i class="bx bx-check"></i>
+                                                        @elseif($history->event == 'warehouse_assigned')
+                                                            <i class="bx bx-store"></i>
                                                         @else
                                                             <i class="bx bx-check"></i>
                                                         @endif
@@ -443,7 +464,11 @@
                                             </span>
                                                         </div>
                                                         <p>{{ __($history->event) }}</p>
-                                                        @if(($history->event == 'delivery_hero_assigned' || $history->event == 'order_delivered_event' || $history->event == 'delivered_man_changed') && $history->deliveryHero)
+                                                        @if($history->event == 'warehouse_assigned')
+                                                            <p>
+                                                                {{ __('Warehouse').': '.$order->warehouse->getTranslation('name', \App::getLocale()) }}
+                                                            </p>
+                                                        @elseif(($history->event == 'delivery_hero_assigned' || $history->event == 'order_delivered_event' || $history->event == 'delivered_man_changed') && $history->deliveryHero)
                                                             <p>
                                                                 {{ __('Delivery Man').': '.$history->deliveryHero->user->first_name.' '.$history->deliveryHero->last_name }}
                                                             </p>

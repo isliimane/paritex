@@ -59,15 +59,6 @@
 
                                     <div class="section-title mb-4">{{ __('Terms & Conditions') }}</div>
                                     <div class="form-group">
-                                        <label for="name">{{ __('Seller Registration') }}</label>
-                                        <select class="form-control selectric" name="seller_agreement[]" multiple>
-                                            <option value="">{{ __('Select Page') }}</option>
-                                            @foreach($pages as $page)
-                                                <option value="{{ $page->link }}" {{ in_array($page->link,$seller_gdpr) ? 'selected' : '' }}>{{ $page->getTranslation('title',app()->getLocale()) }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
                                         <label for="name">{{ __('Customer Registration') }}</label>
                                         <select class="form-control selectric" name="customer_agreement[]" multiple>
                                             <option value="">{{ __('Select Page') }}</option>

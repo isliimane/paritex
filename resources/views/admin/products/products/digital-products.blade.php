@@ -45,9 +45,7 @@
             </div>
             @php
                 $all =  DB::table('products')->where('is_deleted',0)->where('is_digital',1)
-                                        ->when(settingHelper('seller_system') != 1, function ($q) {
-                                            $q->where('user_id',1);
-                                        })->get();
+                                        ->where('user_id',1)->get();
                 $total          = $all->count();
                 $published      = $all->where('status','published')->where('is_approved', 1)->count();
                 $unpublished    = $all->where('status','unpublished')->where('is_approved', 1)->count();
@@ -103,15 +101,6 @@
                             <h4>{{ __('Products') }}</h4>
                             <div class="card-header-form">
                                 <form class="form-inline">
-                                    @if(settingHelper('seller_system') == 1)
-                                        <div class="form-group">
-                                            <select class="seller-by-ajax form-control select2" name="sl" id ="seller_id"  aria-hidden="true" >
-                                                @if(isset($sl))
-                                                    <option selected value="{{ $selected_seller->id }}"> {{ $selected_seller->shop_name }} </option>
-                                                @endif
-                                            </select>
-                                        </div>
-                                    @endif
                                     <div class="form-group">
                                         @php
                                             $position = '';
@@ -172,9 +161,6 @@
                                     <tr>
                                         <th>{{ __('#') }}</th>
                                         <th>{{ __('Title') }}</th>
-                                        @if(settingHelper('seller_system') == 1)
-                                            <th>{{ __('Seller') }}</th>
-                                        @endif
                                         <th>{{ __('Detail') }}</th>
                                         <th>{{ __('Current Stock') }}</th>
                                         <th>{{ __('Published') }}</th>
@@ -214,17 +200,6 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            @if(settingHelper('seller_system') == 1)
-                                                <td>
-                                                    @if($product->user_id != 1)
-                                                        @if(isset($product->sellerProfile))
-                                                            {{ $product->sellerProfile->shop_name }}
-                                                        @endif
-                                                    @else
-                                                        <div class="badge badge-warning">{{__('Admin Product')}}</div>
-                                                    @endif
-                                                </td>
-                                            @endif
                                             <td>
                                                 <span>{{ __('Price').': '.get_price($product->price,user_curr()) }} / {{ $product->getTranslation('unit', \App::getLocale()) }}</span><br>
                                                 <span>{{ __('Total Sale').': '.$product->total_sale }}</span><br>

@@ -43,18 +43,10 @@ class AddOnResource extends JsonResource
         }
 
 
-        elseif ($this->addon_identifier == 'video_shopping')
-        {
-            $addons['data'] = [
-                'seller_video_shopping' => (bool)settingHelper('seller_video_shopping'),
-            ];
-        }
-
         elseif ($this->addon_identifier == 'wholesale')
         {
             $addons['data'] = [
-                'seller_can_create_product' => (bool)settingHelper('seller_can_create_wholesale'),
-                'show_price_table' => (bool)settingHelper('wholesale_price_variations_show'),
+                'show_price_table' => (bool)settingHelper('wholesale_price_variations_show')
             ];
         }
         elseif ($this->addon_identifier == 'ers_system')

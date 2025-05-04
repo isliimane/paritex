@@ -8,12 +8,11 @@ use App\Http\Resources\SiteResource\CampaignResource;
 use App\Http\Resources\SiteResource\ProductResource;
 use App\Http\Resources\SiteResource\ShopResource;
 use App\Http\Resources\SiteResource\TopCategoryResource;
-use App\Http\Resources\SiteResource\TopSellerResource;
 use App\Http\Resources\SiteResource\VideoResource;
 
 trait HomePage
 {
-    public function parseSettingsData($media, $category, $seller, $brand, $campaign,$shopping,$page): ?array
+    public function parseSettingsData($media, $category, $brand, $campaign,$page): ?array
     {
         $skip = 0;
 
@@ -140,33 +139,6 @@ trait HomePage
                             $results = $this->keyDefine('latest_products', $key, $latest_products, $results);
                             $keys[] = 'latest_products';
                         }
-                        if (addon_is_activated('ramdhani'))
-                        {
-                            if ($set_key == 'business_idea') {
-                                $component_names[]=$set_key;
-                                if (in_array('business_idea', $keys)) {
-                                    $position = array_search('business_idea', array_values($keys));
-                                    $latest_products = $results['business_idea-' . $position];
-                                } else {
-                                    $latest_products = ProductResource::collection($this->product->businessProducts());
-                                }
-
-                                $results = $this->keyDefine('business_idea', $key, $latest_products, $results);
-                                $keys[] = 'business_idea';
-                            }
-                            if ($set_key == 'gift_idea') {
-                                $component_names[]=$set_key;
-                                if (in_array('gift_idea', $keys)) {
-                                    $position = array_search('gift_idea', array_values($keys));
-                                    $latest_products = $results['gift_idea-' . $position];
-                                } else {
-                                    $latest_products = ProductResource::collection($this->product->giftProducts());
-                                }
-
-                                $results = $this->keyDefine('gift_idea', $key, $latest_products, $results);
-                                $keys[] = 'gift_idea';
-                            }
-                        }
                         if ($set_key == 'category_section') {
                             $component_names[]=$set_key;
 
@@ -216,42 +188,6 @@ trait HomePage
                             $results = $this->keyDefine('blog', $key, $blogs, $results);
                             $keys[] = 'blog';
                         }
-                        if ($set_key == 'top_sellers' && settingHelper('seller_system') == 1) {
-                            $component_names[]=$set_key;
-                            if (in_array('sellers', $keys)) {
-                                $position = array_search('sellers', array_values($keys));
-                                $sellers = $results['sellers-' . $position];
-                            } else {
-                                $sellers = TopSellerResource::collection($seller->homePageSellers());
-                            }
-
-                            $results = $this->keyDefine('sellers', $key, $sellers, $results);
-                            $keys[] = 'sellers';
-                        }
-                        if ($set_key == 'best_sellers' && settingHelper('seller_system') == 1) {
-                            $component_names[]=$set_key;
-                            if (in_array('best_sellers', $keys)) {
-                                $position = array_search('best_sellers', array_values($keys));
-                                $best_sellers = $results['best_sellers-' . $position];
-                            } else {
-                                $best_sellers = ShopResource::collection($seller->homePageBestSellers());
-                            }
-
-                            $results = $this->keyDefine('best_sellers', $key, $best_sellers, $results);
-                            $keys[] = 'best_sellers';
-                        }
-                        if ($set_key == 'featured_sellers' && settingHelper('seller_system') == 1) {
-                            $component_names[]=$set_key;
-                            $featured_sellers = ShopResource::collection($seller->homePageFeaturedSellers($item));
-                            $results = $this->keyDefine('featured_sellers', $key, $featured_sellers, $results);
-                            $keys[] = 'featured_sellers';
-                        }
-                        if ($set_key == 'express_sellers' && settingHelper('seller_system') == 1) {
-                            $component_names[]=$set_key;
-                            $express_sellers = ShopResource::collection($seller->homePageExpressSellers($item));
-                            $results = $this->keyDefine('express_sellers', $key, $express_sellers, $results);
-                            $keys[] = 'express_sellers';
-                        }
                         if ($set_key == 'popular_brands') {
                             $component_names[]=$set_key;
                             if (in_array('brands', $keys)) {
@@ -280,18 +216,6 @@ trait HomePage
                             $results = $this->keyDefine('download_section', $key, $download_section, $results);
                             $keys[] = 'download_section';
                         }
-                        if ($set_key == 'video_shopping' && addon_is_activated('video_shopping')) {
-                            $component_names[]=$set_key;
-                            if (in_array('video_shopping', $keys)) {
-                                $position = array_search('video_shopping', array_values($keys));
-                                $videos = $results['video_shopping-' . $position];
-                            } else {
-                                $videos = VideoResource::collection($shopping->all()->active()->SellerCheck()->take(4)->get());
-                            }
-
-                            $results = $this->keyDefine('video_shopping', $key, $videos, $results);
-                            $keys[] = 'video_shopping';
-                        }
                     }
                 }
             }
@@ -301,116 +225,6 @@ trait HomePage
             'components'        => $results,
             'component_names'   => $component_names,
         ];
-    }
-
-    public function parseShopData($shop, $media, $product)
-    {
-        $settings = $shop->shop_page_contents;
-        $results = $keys = [];
-
-        if ($settings && settingHelper('seller_system') == 1) {
-            foreach ($settings as $key => $setting) {
-                foreach ($setting as $set_key => $item) {
-                    if ($set_key == 'banner') {
-                        $banners = [];
-                        $total = count($item['thumbnail']);
-                        switch ($total):
-                            case(4):
-                                $image_0 = $media->get($item['thumbnail'][0]);
-                                $image_1 = $media->get($item['thumbnail'][1]);
-                                $image_2 = $media->get($item['thumbnail'][2]);
-                                $image_3 = $media->get($item['thumbnail'][3]);
-                                $thumb = [
-                                    @is_file_exists($image_0->image_variants['image_300x170'], $image_0->image_variants['storage']) ? @get_media($image_0->image_variants['image_300x170'], $image_0->image_variants['storage']) . '_0' : static_asset('images/default/default-image-300x170.png') . '_0' => $item['url'][0],
-                                    @is_file_exists($image_1->image_variants['image_300x170'], $image_1->image_variants['storage']) ? @get_media($image_1->image_variants['image_300x170'], $image_1->image_variants['storage']) . '_1' : static_asset('images/default/default-image-300x170.png') . '_1' => $item['url'][1],
-                                    @is_file_exists($image_2->image_variants['image_300x170'], $image_2->image_variants['storage']) ? @get_media($image_2->image_variants['image_300x170'], $image_2->image_variants['storage']) . '_2' : static_asset('images/default/default-image-300x170.png') . '_2' => $item['url'][2],
-                                    @is_file_exists($image_3->image_variants['image_300x170'], $image_3->image_variants['storage']) ? @get_media($image_3->image_variants['image_300x170'], $image_3->image_variants['storage']) . '_3' : static_asset('images/default/default-image-300x170.png') . '_3' => $item['url'][3],
-                                ];
-                                array_push($banners, $thumb);
-                                break;
-                            case(3):
-                                $image_0 = $media->get($item['thumbnail'][0]);
-                                $image_1 = $media->get($item['thumbnail'][1]);
-                                $image_2 = $media->get($item['thumbnail'][2]);
-                                $thumb = [
-                                    @is_file_exists($image_0->image_variants['image_400x235'], $image_0->image_variants['storage']) ? @get_media($image_0->image_variants['image_400x235'], $image_0->image_variants['storage']) . '_0' : static_asset('images/default/default-image-400x235.png') . '_0' => $item['url'][0],
-                                    @is_file_exists($image_1->image_variants['image_400x235'], $image_1->image_variants['storage']) ? @get_media($image_1->image_variants['image_400x235'], $image_1->image_variants['storage']) . '_1' : static_asset('images/default/default-image-400x235.png') . '_1' => $item['url'][1],
-                                    @is_file_exists($image_2->image_variants['image_400x235'], $image_2->image_variants['storage']) ? @get_media($image_2->image_variants['image_400x235'], $image_2->image_variants['storage']) . '_2' : static_asset('images/default/default-image-400x235.png') . '_2' => $item['url'][2],
-                                ];
-                                array_push($banners, $thumb);
-                                break;
-                            case(2):
-                                $image_0 = $media->get($item['thumbnail'][0]);
-                                $image_1 = $media->get($item['thumbnail'][1]);
-                                $thumb = [
-                                    @is_file_exists($image_0->image_variants['image_620x320'], $image_0->image_variants['storage']) ? @get_media($image_0->image_variants['image_620x320'], $image_0->image_variants['storage']) . '_0' : static_asset('images/default/default-image-620x320.png') . '_0' => $item['url'][0],
-                                    @is_file_exists($image_1->image_variants['image_620x320'], $image_1->image_variants['storage']) ? @get_media($image_1->image_variants['image_620x320'], $image_1->image_variants['storage']) . '_1' : static_asset('images/default/default-image-620x320.png') . '_1' => $item['url'][1],
-                                ];
-                                array_push($banners, $thumb);
-                                break;
-                            case(1):
-                                $image_0 = $media->get($item['thumbnail'][0]);
-                                $thumb = [
-                                    @is_file_exists($image_0->image_variants['image_1260x452'], $image_0->image_variants['storage']) ? @get_media($image_0->image_variants['image_1260x452'], $image_0->image_variants['storage']) . '_0' : static_asset('images/default/default-image-1280x420.png') . '_0' => $item['url'][0],
-                                ];
-                                array_push($banners, $thumb);
-                                break;
-                        endswitch;
-                        $results = $this->keyDefine('banners', $key, $banners, $results);
-                        $keys[] = 'banners';
-                    }
-                    if ($set_key == 'featured_products') {
-                        $featured_products = ProductResource::collection($product->featuredProducts($item));
-                        $results = $this->keyDefine('featured_products', $key, $featured_products, $results);
-                        $keys[] = 'featured_products';
-                    }
-                    if ($set_key == 'new_arrival') {
-                        if (in_array('new_arrival', $keys)) {
-                            $position = array_search('new_arrival', array_values($keys));
-                            $new_products = $results['new_arrival-' . $position];
-                        } else {
-                            $new_products = ProductResource::collection($product->newProducts($shop->user_id, 4));
-                        }
-                        $results = $this->keyDefine('new_arrival', $key, $new_products, $results);
-                        $keys[] = 'new_arrival';
-                    }
-                    if ($set_key == 'best_selling_products') {
-                        if (in_array('best_selling_products', $keys)) {
-                            $position = array_search('best_selling_products', array_values($keys));
-                            $best_selling_products = $results['best_selling_products-' . $position];
-                        } else {
-                            $best_selling_products = ProductResource::collection($product->sellerBestSelling($shop->user_id, 12));
-                        }
-
-                        $results = $this->keyDefine('best_selling_products', $key, $best_selling_products, $results);
-                        $keys[] = 'best_selling_products';
-                    }
-                    if ($set_key == 'offer_ending_soon') {
-                        if (in_array('offer_ending_soon', $keys)) {
-                            $position = array_search('offer_ending_soon', array_values($keys));
-                            $offer_ending_soon_products = $results['offer_ending_soon-' . $position];
-                        } else {
-                            $offer_ending_soon_products = ProductResource::collection($product->sellerOfferEnding($shop->user_id, 12));
-                        }
-
-                        $results = $this->keyDefine('offer_ending_soon', $key, $offer_ending_soon_products, $results);
-                        $keys[] = 'offer_ending_soon';
-                    }
-                    if ($set_key == 'best_rated_products') {
-                        if (in_array('best_rated_products', $keys)) {
-                            $position = array_search('best_rated_products', array_values($keys));
-                            $best_rated_products_products = $results['best_rated_products-' . $position];
-                        } else {
-                            $best_rated_products_products = ProductResource::collection($product->sellerOfferEnding($shop->user_id, 12));
-                        }
-
-                        $results = $this->keyDefine('best_rated_products', $key, $best_rated_products_products, $results);
-                        $keys[] = 'best_rated_products';
-                    }
-                }
-            }
-        }
-        return $results;
     }
 
     protected function keyDefine($key, $index, $data, $results)

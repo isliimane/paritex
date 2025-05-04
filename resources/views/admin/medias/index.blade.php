@@ -103,7 +103,7 @@
                                                 </div>
                                                 <div class="center bottom-fixing">
                                                     <div class="d-flex center">
-                                                        @if (hasPermission('media_delete') || Sentinel::getUser()->user_type == 'seller')
+                                                        @if (hasPermission('media_delete'))
                                                             <a href="javascript:void(0)"
                                                                onclick="delete_media('delete/media/', {{ $media->id }})"
                                                                class="dropdown-item btn btn-outline-danger btn-circle">
@@ -113,7 +113,7 @@
                                                         <a href="javascript:void(0)"
                                                            data-text="{{ __('Copied to Clipboard') }}"
                                                            data-url="{{ get_media($media->original_file, $media->storage) }}"
-                                                           class="dropdown-item {{ (hasPermission('media_delete') || Sentinel::getUser()->user_type == 'seller') ? 'ml-2' : '' }} copy-to-clipboard btn btn-outline-info btn-circle">
+                                                           class="dropdown-item {{ (hasPermission('media_delete') ? 'ml-2' : '' }} copy-to-clipboard btn btn-outline-info btn-circle">
                                                             <i class='bx bx-copy'></i>
                                                         </a>
                                                     </div>

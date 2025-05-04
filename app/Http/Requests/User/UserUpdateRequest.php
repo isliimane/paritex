@@ -31,6 +31,7 @@ class UserUpdateRequest extends FormRequest
             'phone'      => 'required|min:4|max:20|unique:users,phone,'.\Request()->id,
             'password'   => 'nullable|min:6|max:32',
             'image'      => 'max:5120',
+            'license_no' => 'required|unique:users,license_no,'.\Request()->id,
         ];
     }
 }

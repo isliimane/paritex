@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Repositories\Interfaces\Admin\Support\SupportDepartmentInterface;
 use App\Repositories\Interfaces\Admin\Support\SupportInterface;
 use App\Repositories\Interfaces\Site\ContactUsInterface;
+use App\Repositories\Interfaces\Site\ComplaintInterface;
 use App\Repositories\Interfaces\UserInterface;
 use Brian2694\Toastr\Facades\Toastr;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
@@ -98,6 +99,13 @@ class SupportController extends Controller
         return view('admin.support.contact-us',compact('contacts'));
     }
 
+    public function complaints(ComplaintInterface $complaint)
+    {
+        $paginate = 16;
+        $complaints = $complaint->paginate($paginate);
+        return view('admin.support.complaint',compact('complaints'));
+    }
+
     public function contactUsReplay(Request $request,ContactUsInterface $contact)
     {
         DB::beginTransaction();
@@ -109,6 +117,20 @@ class SupportController extends Controller
              DB::rollBack();
              Toastr::error($e->getMessage());
             return redirect()->back();
+        }
     }
+
+    public function complaintReplay(Request $request,ComplaintInterface $complaint)
+    {
+        DB::beginTransaction();
+        try {
+            $complaint->reply($request->all());
+            DB::commit();
+            return redirect()->back( )->with('success',__('Reply Sent Successfully'));
+        } catch (\Exception $e) {
+             DB::rollBack();
+             Toastr::error($e->getMessage());
+            return redirect()->back();
+        }
     }
 }

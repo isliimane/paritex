@@ -2,7 +2,7 @@
 @php
     $contact = App\Models\ContactUs::find($otherLinks[0]);
 @endphp
-<form action="{{Sentinel::getUser()->user_type == 'seller' ? route('seller.contact.us.replay',$contact->id) : route('contact.us.replay',$contact->id)}}" method="post">
+<form action="{{route('contact.us.replay',$contact->id)}}" method="post">
     @csrf
     @method('put')
     <div class="modal-body modal-padding-bottom modal-body-overflow-unset">

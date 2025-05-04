@@ -9,7 +9,7 @@ class Checkout extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id','seller_id','trx_id','coupon_id','coupon_discount','status'];
+    protected $fillable = ['user_id','trx_id','coupon_id','coupon_discount','status'];
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
@@ -19,10 +19,5 @@ class Checkout extends Model
     public function coupon(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Coupon::class);
-    }
-
-    public function seller(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(SellerProfile::class,'seller_id','id');
     }
 }

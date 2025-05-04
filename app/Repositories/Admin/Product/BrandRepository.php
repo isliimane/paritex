@@ -133,14 +133,6 @@ class BrandRepository implements BrandInterface
     //for api
     public function shopBrand()
     {
-        if (addon_is_activated('ramdhani'))
-        {
-            return Brand::active()
-                ->join('brand_languages', 'brands.id', '=', 'brand_languages.brand_id')
-                ->orderBy('brand_languages.title', 'asc')
-                ->select('brands.*') // Select the columns you need from the 'brands' table
-                ->get();
-        }
         return Brand::active()->latest()->paginate(10);
     }
 

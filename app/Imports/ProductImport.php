@@ -23,11 +23,7 @@ class ProductImport implements ToCollection, WithHeadingRow, WithChunkReading, S
 
     public function collection(Collection $rows)
     {
-        if (Sentinel::getUser()->user_type == 'seller'):
-            $user_id = authId();
-        else:
-            $user_id = 1;
-        endif;
+        $user_id = 1;
         foreach ($rows as $row):
             $product = Product::create([
                             'user_id'               => $user_id,

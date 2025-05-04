@@ -4,7 +4,6 @@ namespace App\Repositories\Admin;
 
 use App\Models\Cart;
 use App\Models\Checkout;
-use App\Models\ClassCity;
 use App\Models\CommissionHistory;
 use App\Models\DeliveryHistory;
 use App\Models\Order;
@@ -13,7 +12,6 @@ use App\Models\PaymentHistory;
 use App\Models\Product;
 use App\Models\ProductCity;
 use App\Models\ProductStock;
-use App\Models\SellerProfile;
 use App\Repositories\Admin\Addon\WalletRepository;
 use App\Repositories\Interfaces\Admin\LanguageInterface;
 use App\Repositories\Interfaces\Admin\OrderInterface;
@@ -26,7 +24,15 @@ use App\Traits\SendNotification;
 use Carbon\Carbon;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Support\Facades\DB;
+use App\Models\Country;
+use App\Models\State;
+use App\Models\City;
 use PDF;
+use App\Services\StockMovementService;
+use Illuminate\Http\Request;
+use App\Models\Warehouse;
+use App\Models\WarehouseProduct;
+use App\Notifications\DeliveryHeroAssigned;
 
 class OrderRepository implements OrderInterface
 {
@@ -77,10 +83,6 @@ class OrderRepository implements OrderInterface
                 $query->whereDate('orders.created_at', '>=', $start_date)
                     ->whereDate('orders.created_at', '<=', $end_date);
             })
-            ->when($request->sl != null, function ($query) use ($request) {
-                $seller = sellerProfile::find($request->sl);
-                $query->where('orders.seller_id', $seller->user_id);
-            })
             ->when($request->q != null, function ($query) use ($request) {
                 $query->where('code', 'like', '%' . $request->q . '%');
                 $query->orwhereHas('user', function ($q) use ($request) {
@@ -89,10 +91,7 @@ class OrderRepository implements OrderInterface
                     $q->orWhere(DB::raw("CONCAT(`first_name`, ' ', `last_name`)"), 'LIKE', "%" . $request->q . "%");
                     $q->orwhere('phone', 'like', '%' . $request->q . '%');
                 });
-            })
-            /*->when(settingHelper('seller_system') != 1, function ($q) {
-                $q->where('seller_id',1);
-            })*/;
+            });
 
         $sorting = $request->s;
         switch ($sorting) {
@@ -121,70 +120,7 @@ class OrderRepository implements OrderInterface
         return $orders->paginate($limit);
     }
 
-    public function sellerOrder($request, $limit)
-    {
-        $start_date = null;
-        $end_date = null;
-        if ($request->dt != null):
-            $dates = explode(" - ", $request->dt);
-            $start_date = Carbon::createFromFormat('m-d-Y g:ia', $dates[0]);
-            $end_date = Carbon::createFromFormat('m-d-Y g:ia', $dates[1]);
-        endif;
-        $orders = Order::withCount('orderDetails')
-            ->where('seller_id', '!=', 1)
-            ->with(['orderDetails.product.sellerProfile'])
-            ->when($request->ds != null, function ($query) use ($request) {
-                $query->where('delivery_status', $request->ds);
-            })
-            ->when($request->dt != null, function ($query) use ($start_date, $end_date) {
-                $query->whereDate('orders.created_at', '>=', $start_date)
-                    ->whereDate('orders.created_at', '<=', $end_date);
-            })
-            ->when($request->q != null, function ($query) use ($request) {
-                $query->where(function ($query) use ($request) {
-                    $query->whereHas('user', function ($q) use ($request) {
-                        $q->where('first_name', 'like', '%' . $request->q . '%');
-                        $q->orwhere('last_name', 'like', '%' . $request->q . '%');
-                        $q->orWhere(DB::raw("CONCAT(`first_name`, ' ', `last_name`)"), 'LIKE', "%" . $request->q . "%");
-                        $q->orwhere('phone', 'like', '%' . $request->q . '%');
-                    });
-                });
-                $query->orWhere(function ($query) use ($request) {
-                    $query->where('code', 'like', '%' . $request->q . '%');
-                });
-            })
-            ->when($request->sl != null, function ($query) use ($request) {
-                $seller = SellerProfile::find($request->sl);
-                $query->where('orders.seller_id', $seller->user_id);
-            })->where('status', 1);
-
-        $sorting = $request->s;
-        switch ($sorting) {
-            case 'latest_on_top':
-                $orders->orderByDesc('id');
-                break;
-            case 'oldest_on_top':
-                $orders->orderBy('id');
-                break;
-            case 'price_high':
-                $orders->orderByDesc('total_amount');
-                break;
-            case 'price_low':
-                $orders->orderBy('total_amount');
-                break;
-            case 'total_product_high':
-                $orders->orderByDesc('order_details_count');
-                break;
-            case 'total_product_low':
-                $orders->orderBy('order_details_count');
-                break;
-            default:
-                $orders->orderBy('id', 'desc');
-                break;
-        }
-        return $orders->paginate($limit);
-
-    }
+    
 
     public function adminOrder($request, $limit)
     {
@@ -261,17 +197,10 @@ class OrderRepository implements OrderInterface
                 $query->whereDate('orders.created_at', '>=', $start_date)
                     ->whereDate('orders.created_at', '<=', $end_date);
             })
-            ->when($request->sl != null, function ($query) use ($request) {
-                $seller = sellerProfile::find($request->sl);
-                $query->where('seller_id', $seller->user_id);
-            })
             ->when($request->q != null, function ($query) use ($request) {
                 $query->where('code', 'like', '%' . $request->q . '%');
             })
-            ->when(settingHelper('seller_system') != 1, function ($q) {
-                $q->where('seller_id',1);
-            })
-            ->where('status', 1);
+            ->where('seller_id',1)->where('status', 1);
 
         $sorting = $request->s;
         switch ($sorting) {
@@ -298,11 +227,6 @@ class OrderRepository implements OrderInterface
                 break;
         }
         return $orders->paginate($limit);
-    }
-
-    public function sellerProfile($id)
-    {
-        return SellerProfile::find($id);
     }
 
     public function invoiceDownload($id)
@@ -344,6 +268,9 @@ class OrderRepository implements OrderInterface
         $delivery_history->delivery_hero_id = $request->delivery_hero;
 
         $delivery_history->save();
+        if(isset($order->deliveryHero)){
+            $order->deliveryHero->notify(new DeliveryHeroAssigned($order->id));
+        }
         return true;
     }
 
@@ -366,7 +293,7 @@ class OrderRepository implements OrderInterface
                 endif;
 
                 if ($previous_status == 'canceled'):
-                    if (!$this->adjustQuantity($order, true)):
+                    if (!$this->adjustQuantity($order, true,'order')):
                         DB::rollback();
                         return 'product_not_available';
                     endif;
@@ -379,7 +306,6 @@ class OrderRepository implements OrderInterface
             if (settingHelper('disable_email_confirmation') != 1)
             {
                 $this->SendNotification(Sentinel::findById($order->user_id),__("Your order (:code) status is updated",['code'=>$order->code]),'success',"get-invoice/{$order->code}", __('Your order (:code) status is updated is :delivery_status now.', ['code'=>$order->code,'delivery_status'=>$request->delivery_status]));
-    //            sendMail($order->user, $order, 'order_status_update', '',);
                 if ($order->user->email)
                 {
                     $this->SendMail($order->user->email, 'Order Status Updated', $order, 'email.order-status-update',url('/'). '/get-invoice/' .$order->code);
@@ -445,9 +371,7 @@ class OrderRepository implements OrderInterface
     public function orderByCode($orderCode)
     {
         return Order::with('orderDetails.product','orderDetails.refund','user')
-            ->when(settingHelper('seller_system') != 1, function ($q) {
-                $q->where('seller_id',1);
-            })->where('code', $orderCode)->first();
+            ->where('seller_id',1)->where('code', $orderCode)->first();
     }
 
     public function orders($take)
@@ -457,28 +381,11 @@ class OrderRepository implements OrderInterface
                 ->whereHas('order', function ($query) {
                     $query->where('user_id', authId());
                         $query->where('is_deleted', 0);
-                        /*$query->when(settingHelper('seller_system') != 1, function ($q) {
-                            $q->where('seller_id',1);
-                        });*/
+                        
                         $query->where(function ($q){
                             $q->where('status', 1)->orWhere('payment_type',0);
                         });
                 })->groupBy('order_id')->latest()->paginate($take);
-        } else {
-            return [];
-        }
-    }
-    public function userOrders()
-    {
-        if (authUser()) {
-            $orders = Order::with('orderDetails.product')->where('user_id',authId())->where('is_deleted',0)->get();
-           
-            \Log::info($orders[0]);
-            return $orders;
-            // return OrderDetail::with('product:id,thumbnail,slug,product_file_id', 'order')
-            //     ->whereHas('order', function ($query) {
-                  
-            //     })->groupBy('order_id')->latest()->get();
         } else {
             return [];
         }
@@ -493,9 +400,7 @@ class OrderRepository implements OrderInterface
                     $query->where('payment_status','paid');
                     $query->where('is_deleted', 0);
                     $query->where('status', 1);
-                    $query->when(settingHelper('seller_system') != 1, function ($q) {
-                        $q->where('seller_id',1);
-                    });
+                    $query->where('seller_id',1);
                 })->whereHas('product', function($q){
                     $q->where('product_file_id','!=',null);
                     $q->where('is_digital',1);
@@ -527,9 +432,7 @@ class OrderRepository implements OrderInterface
                     $query->where(function ($q){
                         $q->where('status', 1)->orWhere('payment_type',0);
                     });
-                    $query->when(settingHelper('seller_system') != 1, function ($q) {
-                        $q->where('seller_id',1);
-                    });
+                    $query->where('seller_id',1);
                 })->groupBy('order_id')->latest()->paginate($item);
         } else {
             return [];
@@ -604,12 +507,6 @@ class OrderRepository implements OrderInterface
                     $city = $shipping_repo->getCity($city_id);
                     $shipping_cost += $city ? $city->cost : 0;
                 }
-                elseif (addon_is_activated('ramdhani') && settingHelper('shipping_fee_type') == 'product_base')
-                {
-                    $city_id = $data['shipping_address']['address_ids']['city_id'];
-                    $class_ids = Product::whereIn('id',$carts->pluck('product_id')->toArray())->pluck('shipping_class_id')->toArray();
-                    $shipping_cost = ClassCity::whereIn('shipping_class_id',$class_ids)->where('city_id',$city_id)->sum('cost');
-                }
 
                 $total_tax += $cart_group['tax'];
                 $retail_total_tax += $cart_group['retail_tax'];
@@ -653,15 +550,6 @@ class OrderRepository implements OrderInterface
                     'is_coupon_system_active'   => settingHelper('coupon_system'),
                     'tax_method'                => $tax,
                 ];
-                if (addon_is_activated('ramdhani')) {
-                    $order_data['delivery_date']            = arrayCheck('delivery_date', $data) ? Carbon::parse($data['delivery_date']) : null;
-                    $order_data['retail_sub_total']         = $retail_sub_total;
-                    $order_data['retail_discount']          = $retail_total_discount;
-                    $order_data['retail_coupon_discount']   = $coupon_discount;
-                    $order_data['retail_total_tax']         = $retail_total_tax;
-                    $order_data['retail_total_amount']      = $retail_total_amount;
-                    $order_data['retail_total_payable']     = $retail_total_payable;
-                }
 
                 $order = Order::create($order_data);
 
@@ -708,12 +596,6 @@ class OrderRepository implements OrderInterface
                         'quantity'          => $item->quantity,
                         'is_refundable'     => $item->product->is_refundable,
                     ];
-                    if (addon_is_activated('ramdhani')) {
-                        $order_detail_data['retail_price']        = max($item->retail_price, 0);
-                        $order_detail_data['retail_discount']     = max($item->retail_discount, 0);
-                        $order_detail_data['retail_tax']          = max($item->retail_tax, 0);
-                    }
-
                     OrderDetail::create($order_detail_data);
                 }
             }
@@ -728,15 +610,11 @@ class OrderRepository implements OrderInterface
 
     public function takePaymentOrder($trx_id)
     {
-        return Order::where('trx_id', $trx_id)
-                ->when(settingHelper('seller_system') != 1, function ($q) {
-                    $q->where('seller_id',1);
-                })
-                ->where('status', 0)->get();
+        return Order::where('trx_id', $trx_id)->where('seller_id',1)->where('status', 0)->get();
     }
 
 
-    public function completeOrder($data, $user,$offline)
+    public function completeOrder($data, $user)
     {
         $payment_details = $carts = [];
 
@@ -798,31 +676,9 @@ class OrderRepository implements OrderInterface
                 }
             }
 
-            if ($data['payment_type'] == 'bKash')
-            {
-                if (!isset($payment_details['statusCode']) || $payment_details['statusCode'] != '0000')
-                {
-                    return __('transaction_cant_be_completed');
-                }
-            }
-
-            if ($data['payment_type'] == 'hitpay')
-            {
-                if ( isset($request['status']) != 'completed' ){
-                    return __('transaction_cant_be_completed');
-                }
-            }
-
             if ($data['payment_type'] == 'paystack')
             {
                 if ($payment_details['status'] != 'success')
-                {
-                    return __('transaction_cant_be_completed');
-                }
-            }
-            if ($data['payment_type'] == 'kkiapay')
-            {
-                if (!arrayCheck('status',$payment_details) || $payment_details['status'] != 'SUCCESS')
                 {
                     return __('transaction_cant_be_completed');
                 }
@@ -852,14 +708,6 @@ class OrderRepository implements OrderInterface
 
                 $data['image']['storage']   = $storage;
                 $data['image']['image']     = 'images/orders/' . $fileName;
-            }
-
-            if ($data['payment_type'] == 'offline_method')
-            {
-                $offline_payment            = $offline->get($data['id']);
-                $payment_details['name']    = $offline_payment->name;
-                $payment_details['image']   = $offline_payment->image;
-                $payment_details['type']    = $offline_payment->type;
             }
 
 
@@ -900,9 +748,6 @@ class OrderRepository implements OrderInterface
                 $order->save();
                 $this->paymentHistoryEvent('order_payment_'.$order->payment_status.'_event', $order->id, 'With_'.$data['payment_type']);
                 $url = "orders/view/{$order->id}";
-                if($order->seller_id != 1):
-                    $this->SendNotification(Sentinel::findById($order->seller_id),__('New order is created.'),'success',$url,__('See it in Details'));
-                endif;
                 $this->SendNotification(Sentinel::findById(1),__('New order is created.'),'success',$url,__('See it in Details'));
                 if($order->pickup_hub_id):
                     $this->SendNotification(Sentinel::findById($order->pickupHub->user_id),__('New order is created.'),'success',$url,__('See it in Details'));
@@ -918,7 +763,6 @@ class OrderRepository implements OrderInterface
 
             }
             session()->put('trx_id',$data['trx_id']);
-            session()->forget('bkash_token');
             session()->forget('is_buy_now');
         }
 
@@ -950,9 +794,7 @@ class OrderRepository implements OrderInterface
     public function invoiceByTrx($trx_id)
     {
         return Order::with('orderDetails.product')
-            ->when(settingHelper('seller_system') != 1, function ($q) {
-                $q->where('seller_id',1);
-            })->where('trx_id', $trx_id)->get();
+            ->where('seller_id',1)->where('trx_id', $trx_id)->get();
     }
 
     //frontend api completed
@@ -976,7 +818,7 @@ class OrderRepository implements OrderInterface
             $order->save();
         endif;
 //        $this->manageProductStock($order);
-        $this->adjustQuantity($order, false);
+        $this->adjustQuantity($order, false,'cancel');
 
         $this->deliveryEvent('order_canceled_event', $order->id, $order->delivery_hero_id, $remarks,$user_id);
         return $order;
@@ -986,55 +828,142 @@ class OrderRepository implements OrderInterface
     public function orderByCodes($orderCode)
     {
         return Order::with('orderDetails.product:id,thumbnail')
-            ->when(settingHelper('seller_system') != 1, function ($q) {
-                $q->where('seller_id',1);
-            })->where('code', $orderCode)->get();
+            ->where('seller_id',1)->where('code', $orderCode)->get();
     }
 
-    public function adjustQuantity($order, $remove_quantity = false)
+    public function adjustQuantity($order, $remove_quantity = false,$reason = 'manual')
     {
         foreach ($order->orderDetails as $key => $orderDetail) :
-            return $this->updateQuantity($orderDetail, $remove_quantity);
+            return $this->updateQuantity($orderDetail, $remove_quantity,$reason);
         endforeach;
 
         return true;
     }
 
-    public function updateQuantity($orderDetail, $remove_quantity = false)
+    public function updateQuantity($orderDetail, $remove_quantity = false,$reason = '')
     {
         $product = $this->product->get($orderDetail->product_id);
-        if ($product != null):
-            if ($remove_quantity):
-                if ($orderDetail->quantity <= $product->current_stock):
+        if ($product != null) {
+            if ($remove_quantity) {
+                if ($orderDetail->quantity <= $product->current_stock) {
                     $product->current_stock -= $orderDetail->quantity;
-                else:
+                } else {
                     return false;
-                endif;
-            else:
+                }
+            } else {
                 $product->current_stock += $orderDetail->quantity;
-            endif;
+            }
 
             $product_stock = ProductStock::where('product_id', $orderDetail->product_id)
                 ->where('name', $orderDetail->variation)
                 ->first();
-            if ($product_stock != null) :
-                if ($remove_quantity):
-                    if ($orderDetail->quantity <= $product_stock->current_stock):
+            if ($product_stock != null) {
+                if ($remove_quantity) {
+                    if ($orderDetail->quantity <= $product_stock->current_stock) {
                         $product_stock->current_stock -= $orderDetail->quantity;
-                    else:
+                    } else {
                         return false;
-                    endif;
-                else:
+                    }
+                } else {
                     $product_stock->current_stock += $orderDetail->quantity;
-                endif;
+                }
+                
+                $warehouseStock = WarehouseProduct::where('id', $orderDetail->order->warehouse_id)
+                    ->where('product_id', $orderDetail->product_id)
+                    ->where('product_stock_id', $product_stock->id)
+                    ->first();
+                if($warehouseStock != null) {
+                    if ($remove_quantity) {
+                        if($orderDetail->quantity <= $warehouseStock->quantity) {
+                            $warehouseStock->quantity -= $orderDetail->quantity;
+                            // Record stock movement for removal
+                        if ($orderDetail->order && $orderDetail->order->warehouse_id) {
+                                StockMovementService::recordMovement(
+                                    $orderDetail->order->warehouse_id,
+                                    $orderDetail->product_id,
+                                    $orderDetail->quantity,
+                                    'out',
+                                    $reason,
+                                    $orderDetail->order->id,
+                                    $product_stock->id
+                                    );
+                            }
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        $warehouseStock->quantity += $orderDetail->quantity;
+                        // Record stock movement for addition
+                    if ($orderDetail->order && $orderDetail->order->warehouse_id) {
+                            StockMovementService::recordMovement(
+                                $orderDetail->order->warehouse_id,
+                                $orderDetail->product_id,
+                                $orderDetail->quantity,
+                                'in',
+                                $reason,
+                                $orderDetail->order->id,
+                                $product_stock->id  
+                                );
+                    }
+                }
+                    $warehouseStock->save();
+                }
                 $product_stock->save();
-            endif;
+            }
             $product->save();
-        endif;
+        }
 
         return true;
     }
 
+    public function updateWarehouseStock($orderDetail, $remove_quantity = false)
+    {
+        $product_stock = ProductStock::where('product_id', $orderDetail->product_id)
+                ->where('name', $orderDetail->variation)
+                ->first();
+        if($product_stock != null) {
+            $warehouseStock = WarehouseProduct::where('id', $orderDetail->order->warehouse_id)
+                ->where('product_id', $orderDetail->product_id)
+                ->where('product_stock_id', $product_stock->id)
+                ->first();
+            if($warehouseStock != null){
+                if ($remove_quantity){
+                    if($orderDetail->quantity <= $warehouseStock->quantity){
+                        $warehouseStock->quantity -= $orderDetail->quantity;
+                        if ($orderDetail->order && $orderDetail->order->warehouse_id) {
+                                StockMovementService::recordMovement(
+                                    $orderDetail->order->warehouse_id,
+                                    $orderDetail->product_id,
+                                    $orderDetail->quantity,
+                                    'out',
+                                    'order',
+                                    $orderDetail->order->id,
+                                    $product_stock->id
+                                    );
+                        }
+                    }
+                    else{
+                        return false;
+                    }
+                }
+                else{
+                    $warehouseStock->quantity += $orderDetail->quantity;
+                    if ($orderDetail->order && $orderDetail->order->warehouse_id) {
+                        StockMovementService::recordMovement(
+                            $orderDetail->order->warehouse_id,
+                            $orderDetail->product_id,
+                            $orderDetail->quantity,
+                            'in',
+                            'order',
+                            $orderDetail->order->id,
+                            $product_stock->id
+                            );
+                    }
+                }
+                $warehouseStock->save();
+            }
+        }
+    }
     public function saleUpdate($orderDetail, $remove_sale = false)
     {
         $product = $this->product->get($orderDetail->product_id);
@@ -1058,9 +987,7 @@ class OrderRepository implements OrderInterface
     {
         return Order::whereHas('orderDetails.product',function ($query){
                 $query->where('cash_on_delivery',0);
-            })->when(settingHelper('seller_system') != 1, function ($q) {
-                $q->where('seller_id',1);
-            })->where('trx_id', $trx_id)->exists();
+            })->where('seller_id',1)->where('trx_id', $trx_id)->exists();
     }
 
     public function checkCodByCode($code)
@@ -1068,60 +995,171 @@ class OrderRepository implements OrderInterface
         return Order::whereHas('orderDetails.product',function ($query)
         {
             $query->where('cash_on_delivery',0);
-        })->when(settingHelper('seller_system') != 1, function ($q) {
-            $q->where('seller_id',1);
-        })->where('code', $code)->exists();
+        })->where('seller_id',1)->where('code', $code)->exists();
     }
 
     public function allOrder($take,$user)
     {
-        return Order::where('user_id',$user->id)->when(settingHelper('seller_system') != 1, function ($q) {
-            $q->where('seller_id',1);
-        })->where('is_deleted', 0)->where(function ($query){
+        return Order::where('user_id',$user->id)->where('seller_id',1)->where('is_deleted', 0)->where(function ($query){
             $query->where('status', 1)->orWhere('payment_type',0);
         })->latest()->paginate($take);
     }
 
-    public function apiSellerOrder($user,$data): \Illuminate\Contracts\Pagination\LengthAwarePaginator
+
+    public function updateOrder(Request $request, $id)
     {
-        return OrderDetail::with('order.user','product')->whereHas('product')->whereHas('order',function ($q) use ($user,$data){
-            $q->where('seller_id',$user->id)->where('status',1)
-                ->when($data['status'] == 'pending', function ($q){
-                $q->where('delivery_status','pending');
-            })->when($data['status'] == 'delivered', function ($q){
-                $q->where('delivery_status','delivered');
-            })->when($data['status'] == 'cancelled', function ($q){
-                $q->where('delivery_status','canceled');
-            })->when(arrayCheck('start_time',$data) && arrayCheck('end_time',$data),function ($query) use ($data){
-                    $query->whereBetween('date',[$data['start_time'],$data['end_time']]);
-                });
-        })->latest()->paginate($data['paginate']);
+        DB::beginTransaction();
+        try {
+            $order = $this->get($id);
+            if (!$order) {
+                throw new \Exception(__('Order not found'));
+            }
+            if($order->payment_status == 'paid'){
+                throw new \Exception(__('Paid order can not be edited'));
+            }
+            $shipping_country = $this->shipping->getCountry($request['shipping_country_id']);
+            $billing_country = $this->shipping->getCountry($request['billing_country_id']);
+            $shipping_state   = $this->shipping->getState($request['shipping_state_id']);
+            $billing_state   = $this->shipping->getState($request['billing_state_id']);
+            $shipping_city    = $this->shipping->getCity($request['shipping_city_id']);
+            $billing_city    = $this->shipping->getCity($request['billing_city_id']);
+            // Handle billing address
+            if ($request->has('billing_address')) {
+                $billingAddress = [
+                    'name' => $request->billing_address['name'] ?? null,
+                    'email' => $request->billing_address['email'] ?? null,
+                    'phone_no' => $request->billing_address['phone_no'] ?? null,
+                    'address' => $request->billing_address['address'] ?? null,
+                    'city' => $billing_city->name ?? null,
+                    'state' => $billing_state->name ?? null,
+                    'country' => $billing_country->name ?? null,
+                    'postal_code' => $request->billing_address['postal_code'] ?? null,
+                    'address_ids' => [
+                        'country_id'    => $request['billing_country_id'],
+                        'state_id'      => $request['billing_state_id'],
+                        'city_id'       => $request['billing_city_id'],
+                    ] ?? null,
+                    'longitude' => $billing_city->longitude ?? null,
+                    'latitude' => $billing_city->latitude ?? null,
+                ];
+                $order->billing_address = $billingAddress;
+            }
+
+            // Handle shipping address
+            if ($request->has('shipping_address')) {
+                $shippingAddress = [
+                    'name' => $request->shipping_address['name'] ?? null,
+                    'email' => $request->shipping_address['email'] ?? null,
+                    'phone_no' => $request->shipping_address['phone_no'] ?? null,
+                    'address' => $request->shipping_address['address'] ?? null,
+                    'city' => $shipping_city->name ?? null,
+                    'state' => $shipping_state->name ?? null,
+                    'country' => $shipping_country->name ?? null,
+                    'postal_code' => $request->shipping_address['postal_code'] ?? null,
+                    'address_ids' => [
+                        'country_id'    => $request['shipping_country_id'],
+                        'state_id'      => $request['shipping_state_id'],
+                        'city_id'       => $request['shipping_city_id'],
+                    ] ?? null,
+                    'longitude' => $shipping_city->longitude ?? null,
+                    'latitude' => $shipping_city->latitude ?? null,
+                ];
+                $order->shipping_address = $shippingAddress;
+            }
+
+            // Update other order information
+            // $order->delivery_status = $request->delivery_status ?? $order->delivery_status;
+            // $order->payment_status = $request->payment_status ?? $order->payment_status;
+            // $order->payment_type = $request->payment_type ?? $order->payment_type;
+            $order->shipping_cost = $request->shipping_cost ?? $order->shipping_cost;
+            $order->total_payable = $request->total_payable ?? $order->total_payable;
+            $order->delivery_hero_id = $request->delivery_hero_id ?? $order->delivery_hero_id;
+            $order->pickup_hub_id = $request->pickup_hub_id ?? $order->pickup_hub_id;
+            $order->warehouse_id = $request->warehouse_id ?? $order->warehouse_id;
+
+            // Handle order details updates
+            if ($request->has('order_details')) {
+                foreach ($request->order_details as $detail) {
+                    $orderDetail = $this->getDetail($detail['id']);
+                    if ($orderDetail) {
+                        // Adjust product stock if quantity changes
+                        if ($detail['quantity'] != $orderDetail->quantity) {
+                            $this->updateQuantity($orderDetail, true,'order_stock_update'); // Remove old quantity
+                            $orderDetail->quantity = $detail['quantity'];
+                            $this->updateQuantity($orderDetail, false,'order_stock_update'); // Add new quantity
+                        }
+
+                        // Update other details
+                        $orderDetail->price = $detail['price'];
+                        $orderDetail->tax = $detail['tax'];
+                        $orderDetail->discount = $detail['discount'];
+                        $orderDetail->save();
+                    }
+                }
+            }
+
+            // Handle payment status changes
+            // if ($request->has('payment_status') && $request->payment_status != $order->payment_status) {
+            //     if ($request->payment_status == 'paid') {
+            //         $this->wallet->managePlacedOrder($order, $request->all());
+            //     } elseif ($request->payment_status == 'refunded_to_wallet') {
+            //         $this->wallet->manageCanceledOrder($order);
+            //     }
+            //     $this->paymentHistoryEvent('order_payment_'.$request->payment_status.'_event', $order->id, 'Status_Changed');
+            // }
+
+            // Handle delivery status changes
+            // if ($request->has('delivery_status') && $request->delivery_status != $order->delivery_status) {
+            //     if ($request->delivery_status == 'delivered') {
+            //         $this->wallet->manageDeliveredOrder($order);
+            //         foreach ($order->orderDetails as $orderDetail) {
+            //             $this->saleUpdate($orderDetail);
+            //         }
+            //     }
+            //     $this->deliveryEvent('order_'.$request->delivery_status.'_event', $order->id, $order->delivery_hero_id);
+            // }
+
+            // Recalculate order totals
+            $this->recalculateOrderTotals($order);
+
+            // Save order
+            $order->save();
+
+            // Send notifications
+            if (settingHelper('disable_email_confirmation') != 1) {
+                $this->SendNotification(
+                    Sentinel::findById($order->user_id),
+                    __("Your order (:code) has been updated", ['code' => $order->code]),
+                    'success',
+                    "get-invoice/{$order->code}",
+                    __('Your order (:code) has been updated.', ['code' => $order->code])
+                );
+            }
+
+            DB::commit();
+            return $order;
+        } catch (\Exception $e) {
+            DB::rollback();
+            dd($e);
+            throw $e;
+            
+        }
     }
 
-    public function userCommission($request)
+    private function recalculateOrderTotals($order)
     {
-        $date_diff = Carbon::parse($request['end_time'])->diffInDays(Carbon::parse($request['start_time']));
-        $date_diff = $date_diff + 1;
+        $sub_total = $total_tax = $total_discount = 0;
 
-        return CommissionHistory::when('seller_id',function ($query) use ($request)
-        {
-            $query->where('seller_id',$request['seller_id']);
-        })->whereHas('order',function ($query){
-            $query->where('payment_status','paid')->whereNotIn('delivery_status',['canceled','pending']);
-        })->when(arrayCheck('start_time',$request) && arrayCheck('end_time',$request),function ($query) use ($request){
-            $query->whereBetween('created_at',[$request['start_time'],$request['end_time']]);
-        })->when($date_diff == 1,function ($query) use ($request){
-            $query->selectRaw('SUM(seller_earning) as amount, hour(created_at) as label')
-                ->groupBy(DB::raw('hour(created_at)'));
-        })->when($date_diff > 1 && $date_diff <= 31,function ($query) use ($request){
-            $query->selectRaw('SUM(seller_earning) as amount, DATE(created_at) as label')
-                ->groupBy(DB::raw('DATE(created_at)'));
-        })->when($date_diff > 31 && $date_diff <= 366,function ($query) use ($request){
-            $query->selectRaw('SUM(seller_earning) as amount, MONTHNAME(created_at) as label')
-                ->groupBy(DB::raw('MONTHNAME(created_at)'));
-        })->when($date_diff > 366,function ($query) use ($request){
-            $query->selectRaw('SUM(seller_earning) as amount, YEAR(created_at) as label')
-                ->groupBy(DB::raw('YEAR(created_at)'));
-        })->orderBy('label','asc')->get();
+        foreach ($order->orderDetails as $detail) {
+            $sub_total += ($detail->price * $detail->quantity);
+            $total_tax += $detail->tax;
+            $total_discount += $detail->discount;
+        }
+
+        $order->sub_total = $sub_total;
+        $order->total_tax = $total_tax;
+        $order->discount = $total_discount;
+        $order->total_amount = $sub_total + $total_tax - $total_discount;
+        $order->total_payable = $order->total_amount + $order->shipping_cost;
     }
 }

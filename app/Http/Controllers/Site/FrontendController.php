@@ -7,12 +7,12 @@ use App\Http\Resources\SiteResource\BrandPaginateResource;
 use App\Http\Resources\SiteResource\CampaignPaginateResource;
 use App\Http\Resources\SiteResource\CategoryResource;
 use App\Http\Resources\SiteResource\ContactResource;
+use App\Http\Resources\SiteResource\ComplaintResource;
 use App\Http\Resources\SiteResource\ProductPaginateResource;
 use App\Http\Resources\SiteResource\ShopPaginateResource;
 use App\Http\Resources\SiteResource\VideoPaginateResource;
 use App\Http\Resources\SiteResource\WishlistResource;
 use App\Repositories\Admin\Page\PageRepository;
-use App\Repositories\Interfaces\Admin\Addon\VideoShoppingInterface;
 use App\Repositories\Interfaces\Admin\Blog\BlogInterface;
 use App\Repositories\Interfaces\Admin\CurrencyInterface;
 use App\Repositories\Interfaces\Admin\LanguageInterface;
@@ -23,10 +23,10 @@ use App\Repositories\Interfaces\Admin\OrderInterface;
 use App\Repositories\Interfaces\Admin\Product\BrandInterface;
 use App\Repositories\Interfaces\Admin\Product\CategoryInterface;
 use App\Repositories\Interfaces\Admin\Product\ProductInterface;
-use App\Repositories\Interfaces\Admin\SellerInterface;
 use App\Repositories\Interfaces\Site\AddressInterface;
 use App\Repositories\Interfaces\Site\CartInterface;
 use App\Repositories\Interfaces\Site\ContactUsInterface;
+use App\Repositories\Interfaces\Site\ComplaintInterface;
 use App\Repositories\Interfaces\Site\ReviewInterface;
 use App\Repositories\Interfaces\Site\WishlistInterface;
 use App\Traits\HomePage;
@@ -48,11 +48,11 @@ class FrontendController extends Controller
         $this->blog = $blog;
     }
 
-    public function home(MediaInterface $media, CategoryInterface $category, SellerInterface $seller,ProductInterface $product, BrandInterface $brand, CampaignInterface $campaign,VideoShoppingInterface $shopping,Request $request): \Illuminate\Http\JsonResponse
+    public function home(MediaInterface $media, CategoryInterface $category,ProductInterface $product, BrandInterface $brand, CampaignInterface $campaign,Request $request): \Illuminate\Http\JsonResponse
     {
         try {
 
-            $data           = $this->parseSettingsData($media, $category, $seller, $brand, $campaign,$shopping,$request->page,$product);
+            $data           = $this->parseSettingsData($media, $category, $brand, $campaign,$request->page,$product);
 
             return response()->json([
                 'components'        => $data['components'],
@@ -80,6 +80,22 @@ class FrontendController extends Controller
             ]);
         }
     }
+
+    public function complaintPage(PageRepository $pageRepository): \Illuminate\Http\JsonResponse
+    {
+
+        try {
+            $data = [
+                'complaint'       =>new ComplaintResource($pageRepository->complaintPage()),
+            ];
+            return response()->json($data);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
 
     public function page(Request $request,PageRepository $pageRepository): \Illuminate\Http\JsonResponse
     {
@@ -225,20 +241,6 @@ class FrontendController extends Controller
         }
     }
 
-    public function sellers(SellerInterface $seller,Request $request): \Illuminate\Http\JsonResponse
-    {
-        try {
-            $data = [
-                'sellers' => settingHelper('seller_system') == 1 ? new ShopPaginateResource($seller->allSeller($request->all())) : []
-            ];
-            return response()->json($data);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage()
-            ]);
-        }
-    }
-
     public function contactUs(ContactUsInterface $contactUs, Request $request): \Illuminate\Http\JsonResponse
     {
         $request->validate([
@@ -260,11 +262,47 @@ class FrontendController extends Controller
         }
     }
 
+    public function createComplaint(ComplaintInterface $complaint, Request $request): \Illuminate\Http\JsonResponse
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'subject' => 'required',
+            'message' => 'required',
+        ]);
+        try {
+            $data = [
+                'complaint' => $complaint->storeComplaint($request),
+                'success' => __('Message Sent Successfully'),
+            ];
+            return response()->json($data);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
     public function reply(ContactUsInterface $contactUs, Request $request): \Illuminate\Http\JsonResponse
     {
         try {
             $data = [
                 'reply' => $contactUs->reply($request),
+                'success' => __('Reply Sent Successfully'),
+            ];
+            return response()->json($data);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function complaintReply(ComplaintInterface $complaint, Request $request): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $data = [
+                'reply' => $complaint->reply($request),
                 'success' => __('Reply Sent Successfully'),
             ];
             return response()->json($data);
@@ -420,30 +458,4 @@ class FrontendController extends Controller
         }
     }
 
-    public function videoShopping(VideoShoppingInterface $shopping): \Illuminate\Http\JsonResponse
-    {
-        try {
-            $data = [
-                'videos' => new VideoPaginateResource($shopping->all()->active()->SellerCheck()->paginate(12)),
-            ];
-            return response()->json($data);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage()
-            ]);
-        }
-    }
-    public function videoShoppingDetails(VideoShoppingInterface $shopping,$slug): \Illuminate\Http\JsonResponse
-    {
-        try {
-            $data = [
-                'video' => $shopping->shopBySlug($slug),
-            ];
-            return response()->json($data);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage()
-            ]);
-        }
-    }
 }

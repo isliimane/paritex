@@ -147,17 +147,6 @@
                           </label>
                         </div>
                       </li>
-                      <li v-if="settings.is_paytm_activated == 1 && checkCurrency('INR')">
-                        <div class="input-checkbox">
-                          <input type="radio" id="paytm" value="paytm" @change="razorPayRemove"
-                                 v-model="payment_form.payment_type" name="radio">
-                          <label for="paytm">
-                            <img :src="getUrl('public/images/payment-method/paytm.svg')" :alt="payment_form.payment_type"
-                                 class="img-fluid">
-                            {{ lang.pay_with_paytm }}
-                          </label>
-                        </div>
-                      </li>
                       <li v-if="settings.is_razorpay_activated == 1 && checkCurrency('INR')">
                         <div class="input-checkbox">
                           <input type="radio" id="razor_pay" value="razor_pay"
@@ -229,16 +218,7 @@
                                  width="90" class="img-fluid">{{ lang.pay_with_mercadopago }}</label>
                         </div>
                       </li>
-                      <li v-if="settings.is_bkash_activated &&  checkCurrency('BDT')">
-                        <div class="input-checkbox">
-                          <input type="radio" id="bkash" @change="razorPayRemove" value="bkash"
-                                 v-model="payment_form.payment_type" name="radio">
-                          <label for="bkash">
-                            <img :src="getUrl('public/images/payment-method/bKash.svg')"
-                                 :alt="payment_form.payment_type"
-                                 width="90" class="img-fluid">{{ lang.pay_with_bkash }}</label>
-                        </div>
-                      </li>
+                     
                       <li v-if="settings.is_google_pay_activated">
                         <div class="input-checkbox">
                           <input type="radio" id="google_pay" @change="razorPayRemove" value="google_pay"
@@ -247,16 +227,6 @@
                             <img :src="getUrl('public/images/payment-method/google_pay.svg')"
                                  :alt="payment_form.payment_type"
                                  width="90" class="img-fluid">{{ lang.pay_with_google_pay }}</label>
-                        </div>
-                      </li>
-                      <li v-if="settings.is_nagad_activated && checkCurrency('BDT')">
-                        <div class="input-checkbox">
-                          <input type="radio" id="nagad" @change="razorPayRemove" value="nagad"
-                                 v-model="payment_form.payment_type" name="radio">
-                          <label for="nagad">
-                            <img :src="getUrl('public/images/payment-method/nagad.svg')"
-                                 :alt="payment_form.payment_type"
-                                 width="90" class="img-fluid">{{ lang.pay_with_nagad }}</label>
                         </div>
                       </li>
                       <li v-if="settings.is_amarpay_activated && checkCurrency('BDT')">
@@ -289,16 +259,6 @@
                                  width="90" class="img-fluid">{{ lang.pay_with_iyzico }}</label>
                         </div>
                       </li>
-                      <li v-if="settings.is_hitpay_activated && addons.includes('hitpay_payment_gateway')">
-                        <div class="input-checkbox">
-                          <input type="radio" id="hitpay" @change="razorPayRemove" value="hitpay"
-                                 v-model="payment_form.payment_type" name="radio">
-                          <label for="hitpay">
-                            <img :src="getUrl('public/images/payment-method/hitpay.svg')"
-                                 :alt="payment_form.payment_type"
-                                 width="90" class="img-fluid">{{ lang.pay_with_hitpay }}</label>
-                        </div>
-                      </li>
                       <li v-if="settings.is_mid_trans_activated && checkCurrency('IDR')">
                         <div class="input-checkbox">
                           <input type="radio" id="mid_trans" @change="razorPayRemove" value="mid_trans"
@@ -315,16 +275,6 @@
                           <label for="telr">
                             <img :src="getUrl('public/images/payment-method/telr.svg')" :alt="payment_form.payment_type"
                                  width="90" class="img-fluid">{{ lang.pay_with_telr }}</label>
-                        </div>
-                      </li>
-                      <li v-if="settings.is_kkiapay_activated">
-                        <div class="input-checkbox">
-                          <input type="radio" id="kkiapay" @change="razorPayRemove" value="kkiapay"
-                                 v-model="payment_form.payment_type" name="radio">
-                          <label for="kkiapay">
-                            <img :src="getUrl('public/images/payment-method/kkiapay.svg')"
-                                 alt="kkiapay"
-                                 width="90" class="img-fluid">{{ lang.pay_with_kkiapay }}</label>
                         </div>
                       </li>
                       <li v-if="addons.includes('offline_payment')" v-for="(offline,index) in offline_methods"
@@ -361,9 +311,6 @@
                     <a :href="getUrl('get/ssl-response?amount='+ form.total+'&type=wallet')" class="btn btn-primary w-100"
                        v-if="payment_form.payment_type == 'ssl_commerze' ">{{ lang.pay_now }}</a>
 
-                    <a :href="getUrl('user/payment/paytmRedirect?amount='+ form.total+'&type=wallet')" class="btn btn-primary w-100"
-                       v-if="payment_form.payment_type == 'paytm' ">{{ lang.pay_now }}</a>
-
                     <a href="javascript:void(0)" class="btn btn-primary w-100" data-bs-toggle="modal"
                        data-bs-target="#offline"
                        v-if="offline_method.name">{{ lang.pay_now }}</a>
@@ -381,15 +328,6 @@
                     <a :href="getUrl('mercadopago/redirect/wallet?amount='+form.total)"
                        class="btn btn-primary w-100"
                        v-if="payment_form.payment_type == 'mercadopago'">
-                      {{ lang.pay_now }}</a>
-                    <a :href="getUrl('bkash/redirect?amount='+form.total+'&type=wallet')"
-                       class="btn btn-primary w-100"
-                       v-if="payment_form.payment_type == 'bkash'">
-                      {{ lang.pay_now }}</a>
-
-                    <a :href="getUrl('nagad/redirect/wallet?amount='+form.total)"
-                       class="btn btn-primary w-100"
-                       v-if="payment_form.payment_type == 'nagad'">
                       {{ lang.pay_now }}</a>
 
                     <a :href="getUrl('amarpay/redirect?amount='+form.total+'&type=wallet&payment_type=amarpay')"
@@ -409,19 +347,11 @@
                        class="btn btn-primary w-100"
                        v-if="payment_form.payment_type == 'iyzico'">
                       {{ lang.pay_now }}</a>
-                    <a :href="getUrl('hitpay/redirect/wallet?amount='+form.total)"
-                      class="btn btn-primary w-100"
-                      v-if="payment_form.payment_type == 'hitpay'">
-                     {{ lang.pay_now }}</a>
-
+                   
                     <a :href="getUrl('telr/redirect/wallet?amount='+form.total)"
                        class="btn btn-primary w-100" v-if="payment_form.payment_type == 'telr'"> {{ lang.pay_now }}</a>
 
                     <midtrans v-if="payment_form.payment_type == 'mid_trans'" :mid_token="mid_trans_token" :amount="form.total" :type="wallet_recharge"></midtrans>
-                    <kkiapay v-if="settings.is_kkiapay_activated && settings.kkiapay_public_key && payment_form.payment_type == 'kkiapay' && xof"
-                             :trx_id="trx_id" :code="code" :amount="form.total" :payment_type="payment_form.payment_type" :xof="xof" :type="'wallet'"></kkiapay>
-
-
                     <form name="jsform" :action="jazz_url" method="get">
                       <input v-for="(value,name) in jazz_data" :key="name" type="hidden" :name="name"
                              :value="value">
@@ -520,7 +450,6 @@ import paystack from "../../payment_partials/paystack";
 import Flutter_wave from "../../payment_partials/flutter_wave";
 import google_pay from "../../payment_partials/google_pay";
 import midtrans from "../../payment_partials/midtrans";
-import kkiapay from "../../payment_partials/kkiapay";
 import paypal from "../../payment_partials/paypal.vue";
 
 
@@ -529,7 +458,7 @@ export default {
   name: "wallet",
   components: {
     paypal,
-    user_sidebar, shimmer, paystack, Flutter_wave,google_pay,midtrans,kkiapay
+    user_sidebar, shimmer, paystack, Flutter_wave,google_pay,midtrans
   },
   data() {
     return {

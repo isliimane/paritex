@@ -38,6 +38,8 @@ class UserController extends Controller
                 'email'             => nullCheck($user->email),
                 'phone'             => nullCheck($user->phone),
                 'image'             => $user->profile_image,
+                'fcm_token'             => $user->deliveryHero->fcm_token,
+                'status'             => $user->deliveryHero->status,
             ];
             return $this->responseWithSuccess(__('Data Retrieved Successfully'), $data, 200);
         } catch (\Exception $e) {
@@ -166,4 +168,71 @@ class UserController extends Controller
             return $this->responseWithError($e->getMessage(), [], null);
         }
     }
+    
+    public function updateFcmToken(Request $request, UserInterface $userInterface): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $user = null;
+            if ($request->token) {
+                try {
+                    if (!$user = JWTAuth::parseToken()->authenticate()) {
+                        return $this->responseWithError(__('unauthorized_user'), [], 401);
+                    }
+                } catch (\Exception $e) {
+                    return $this->responseWithError(__('unauthorized_user'), [], 401);
+                }
+            }
+    
+            $validator = Validator::make($request->all(), [
+                'fcm_token' => 'required|string',
+            ]);
+    
+    
+            if ($validator->fails()) {
+                return $this->responseWithError(__('Required field missing'), $validator->errors(), 422);
+                
+            }
+    
+            $user->deliveryHero->fcm_token = $request->fcm_token;
+            $user->deliveryHero->save();
+            return $this->responseWithSuccess(__('FCM Token updated successfully'), [], 200);
+    
+        } catch (\Exception $e) {
+            return $this->responseWithError($e->getMessage(), [], null);
+        }
+    }
+    
+    public function updateAvailability(Request $request, UserInterface $userInterface): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $user = null;
+            if ($request->token) {
+                try {
+                    if (!$user = JWTAuth::parseToken()->authenticate()) {
+                        return $this->responseWithError(__('unauthorized_user'), [], 401);
+                    }
+                } catch (\Exception $e) {
+                    return $this->responseWithError(__('unauthorized_user'), [], 401);
+                }
+            }
+    
+            $validator = Validator::make($request->all(), [
+                'status' => 'required',
+            ]);
+    
+            if ($validator->fails()) {
+                return $this->responseWithError(__('Required field missing'), $validator->errors(), 422);
+            }
+    
+            $user->deliveryHero->status = $request->status;
+            $user->deliveryHero->save();
+    
+            return $this->responseWithSuccess(__('status updated successfully'), [], 200);
+    
+        } catch (\Exception $e) {
+            return $this->responseWithError($e->getMessage(), [], null);
+        }
+    }
+
+
 }

@@ -60,9 +60,9 @@ class ProductStoreRequest extends FormRequest
             $rules['sku'] = 'required_without:has_variant|unique:product_stocks,sku';
         }
 
-        if (addon_is_activated('ramdhani') && !in_array(1,[$request->is_classified,$request->is_catalog,$request->is_digital]))
+        if (!in_array(1,[$request->is_classified,$request->is_catalog,$request->is_digital]))
         {
-            $rules['shipping_class_id'] = authUser()->user_type == "seller" ? 'nullable' : 'required';
+            $rules['shipping_class_id'] = 'required';
             $rules['shipping_fee']      = 'nullable';
             $rules['shipping_type']     = 'nullable';
         }

@@ -32,20 +32,12 @@ class PaymentGatewayRequest extends FormRequest
             'sslcommerz_id'              => 'required_if:payment_method,sslcommerz',
             'sslcommerz_password'        => 'required_if:payment_method,sslcommerz',
 
-            'merchant_id'                => 'required_if:payment_method,paytm',
-            'merchant_key'               => 'required_if:payment_method,paytm',
-            'merchant_website'           => 'required_if:payment_method,paytm',
-            'channel'                    => 'required_if:payment_method,paytm',
-            'industry_type'              => 'required_if:payment_method,paytm',
-
             'jazz_cash_merchant_id'      => 'required_if:payment_method,JazzCash',
             'jazz_cash_password'         => 'required_if:payment_method,JazzCash',
             'jazz_cash_integrity_salt'   => 'required_if:payment_method,JazzCash',
 
             'razorpay_key'               => 'required_if:payment_method,razorpay',
             'razorpay_secret'            =>  'required_if:payment_method,razorpay',
-
-            'dpo_company_token'          => 'required_if:payment_method,dpo',
         ];
     }
 }

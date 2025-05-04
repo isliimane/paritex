@@ -56,6 +56,7 @@ i.mdi { /* Material Design Icons */
     <link rel="stylesheet" href="{{ static_asset('admin/css/custom.css') }}?version={{ settingHelper('current_version') }}">
     @if ($locale_language->text_direction == 'rtl')
         <link rel="stylesheet" href="{{ static_asset('admin/css/rtl.css') }}">
+        <link rel="stylesheet" href="{{ static_asset('admin/css/yassine-rtl.css') }}">
     @endif
 
     <!-- Favicon -->
@@ -93,7 +94,7 @@ i.mdi { /* Material Design Icons */
     <meta name="msapplication-TileImage"
         content="{{ ($icon && $icon != [] && @is_file_exists($icon['image_144x144_url'])) ? static_asset($icon['image_144x144_url']) : static_asset('images/ico/favicon-144x144.png') }}">
     <meta name="theme-color" content="#ffffff">
-    <meta name="get-me" content="{{ Sentinel::getUser()->user_type == 'seller' ? 'seller' : 'admin'}}" />
+    <meta name="get-me" content="admin" />
     <!-- End Favicon -->
     @yield('style')
     @stack('style')

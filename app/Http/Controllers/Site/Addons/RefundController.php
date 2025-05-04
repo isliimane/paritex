@@ -38,12 +38,12 @@ class RefundController extends Controller
                             DB::commit();
                             $response = [
                                 'success'        => __('Request send successfully, wait for the approval'),
-                                'order_detail'   => OrderDetail::with('product:id,thumbnail','refund')->find($order_detail->id),
+                                'order_detail'   => OrderDetail::with('product:id,thumbnail,price','refund')->find($order_detail->id),
                             ];
                         else:
                             $response = [
                                 'error'         => __('Product is not refundable'),
-                                'order_detail'  => OrderDetail::with('product:id,thumbnail','refund')->find($order_detail->id),
+                                'order_detail'  => OrderDetail::with('product:id,thumbnail,price','refund')->find($order_detail->id),
                             ];
                         endif;
                     else:
@@ -54,7 +54,7 @@ class RefundController extends Controller
                 else:
                     $response = [
                         'error'         => __('Refund request already exists'),
-                        'order_detail'  => OrderDetail::with('product:id,thumbnail','refund')->find($order_detail->id),
+                        'order_detail'  => OrderDetail::with('product:id,thumbnail,price','refund')->find($order_detail->id),
                     ];
                 endif;
             else:
@@ -62,6 +62,7 @@ class RefundController extends Controller
                     'error' => __('Order not found')
                 ];
             endif;
+            \Log::info(response()->json($response));
             return response()->json($response);
         } catch (\Exception $e){
             DB::rollBack();

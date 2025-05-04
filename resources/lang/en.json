@@ -2474,6 +2474,7 @@
     "Top Brands": "Top Brands",
     "Top Sellers": "Top Sellers",
     "on_the_way": "On the Way",
+    "postponed": "Postponed",
     "picked_up": "Picked Up",
     "refunded_to_wallet": "Refunded to wallet",
     "agreement": "I Agree to The",
@@ -2503,6 +2504,7 @@
     "order_pending_event": "Order Pending Event",
     "order_picked_up_event": "Order Picked up Event",
     "order_on_the_way_event": "Order on the way Event",
+    "order_postponed_event": "Order Postponed Event",
     "order_canceled_event": "Order Canceled Event",
     "your_wallet_balance": "Your Wallet Balance",
     "cash_on_delivery": "Cash on Delivery",
@@ -2919,12 +2921,13 @@
     "Public Key": "Public Key",
     "API Key": "API Key",
     "pay_with_mpesa": "Pay with M-pesa",
-        "Claims": "Réclamations",
-        "Claim updated successfully": "Réclamation mise à jour avec succès",
-        "Pending": "En attente",
-        "In Progress": "En cours",
-        "Resolved": "Résolue",
-        "Rejected": "Rejetée"
-
-    
+    "verify_license": "Verify License",
+    "verify_license_to_see_price": "Verify License to see price",
+    "verify_license_to_continue": "Verify License to continue",
+    "verify_license_to_make_purchase": "Verify License to make purchase",
+    "verify_license_to_add_to_wishlist": "Verify License to add to wishlist",
+    "verify_license_to_add_to_cart": "Verify License to add to cart",
+    "verify_license_to_buy_now": "Verify License to buy now",
+    "Complaints": "Complaints",
+    "make_complaint": "Make a complaint"
 }

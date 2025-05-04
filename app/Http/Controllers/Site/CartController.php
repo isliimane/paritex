@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\Admin\Addon\ShippingClassRepository;
 use App\Repositories\Interfaces\Admin\Marketing\CouponInterface;
 use App\Repositories\Interfaces\Admin\Product\ProductInterface;
 use App\Repositories\Interfaces\Site\CartInterface;

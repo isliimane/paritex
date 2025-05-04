@@ -38,7 +38,7 @@
         </tr>
         </tbody>
     </table>
-    @if (hasPermission('media_download') || Sentinel::getUser()->user_type == 'seller')
+    @if (hasPermission('media_download'))
         <div class="d-flex center">
             <a href="{{ get_media($media->original_file, $media->storage) }}" target="_blank" download="{{ $media->name }}.{{ $media->extension }}" class="dropdown-item btn btn-outline-secondary btn-circle">
                 <i class='bx bx-download'></i> {{ __('Download') }}
@@ -46,7 +46,7 @@
             <a href="javascript:void(0)"  data-text="{{ __('Copied to Clipboard') }}" data-url="{{ get_media($media->original_file, $media->storage) }}" class="dropdown-item mx-2 copy-url btn btn-outline-info btn-circle">
                 <i class='bx bx-copy'></i> {{ __('Copy Link') }}
             </a>
-            @if (hasPermission('media_delete') || Sentinel::getUser()->user_type == 'seller')
+            @if (hasPermission('media_delete'))
                 <a href="javascript:void(0)" onclick="delete_media('delete/media/', {{ $media->id }})" class="dropdown-item btn btn-outline-danger btn-circle">
                     <i class='bx bx-trash'></i> {{ __('Delete') }}
                 </a>

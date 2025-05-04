@@ -3,6 +3,7 @@ export default {
         blogs: {},
         blogsDetails: {},
         contact_page: {},
+        complaint_page: {},
         all_campaigns: {},
         productByCategory : {},
         shop_categories : {},
@@ -21,6 +22,9 @@ export default {
         },
         getContactPage(state) {
             return state.contact_page;
+        },
+        getComplaintPage(state) {
+            return state.complaint_page;
         },
         getAllCampaign(state) {
             return state.all_campaigns;
@@ -66,6 +70,12 @@ export default {
                 context.commit("getContactPage", response.data.contact);
             })
         },
+        complaintPage(context) {
+            let url = this.state.url + '/home/complaint-page';
+            axios.get(url).then((response) => {
+                context.commit("getComplaintPage", response.data.complaint);
+            })
+        },
         allCampaign(context,page) {
             let url = this.state.url + '/home/campaign-lists?page='+page;
             axios.get(url).then((response) => {
@@ -104,6 +114,9 @@ export default {
         },
         getContactPage(state, data) {
             return state.contact_page = data;
+        },
+        getComplaintPage(state, data) {
+            return state.complaint_page = data;
         },
         getAllCampaign(state, data) {
             return state.all_campaigns = data;

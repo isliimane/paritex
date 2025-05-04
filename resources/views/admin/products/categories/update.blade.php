@@ -120,70 +120,6 @@
                                         </div>
                                     @endif
                                 </div>
-                                @if(addon_is_activated('ramdhani'))
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <h6>{{ __('Price Calculator') }}</h6>
-                                        </div>
-                                        <div class="col-md-6 text-right">
-                                            <a href="javascript:void(0)" class="btn btn-outline-primary ml-2"
-                                               id="add-item">{{ __('Add More') }}</a>
-                                        </div>
-                                    </div>
-                                    <table class="table table-bordered price_calculator_table">
-                                        <thead>
-                                        <tr>
-                                            <th>{{ __('Minimum Price') }}</th>
-                                            <th>{{ __('Maximum Price') }}</th>
-                                            <th>{{ __('Price Multiplier') }}</th>
-                                            <th>{{ __('Action') }}</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        @if(count($ranges) > 0)
-                                            @foreach($ranges as $key=> $range)
-                                                <tr>
-                                                    <td>
-                                                        <input type="number"
-                                                               class="form-control mb-2 mr-sm-2 min_price"
-                                                               data-id="{{ $key }}"
-                                                               name="ranges[{{ $key }}][min_price]"
-                                                               value="{{ priceFormatUpdate($range['min_price'],settingHelper('default_currency'),'*') }}" readonly
-                                                               min="0" required
-                                                               placeholder="{{__('Minimum Price')}}">
-                                                    </td>
-                                                    <td>
-                                                        <input type="number" step="any"
-                                                               class="form-control mb-2 mr-sm-2 max_price"
-                                                               data-id="{{ $key }}"
-                                                               name="ranges[{{ $key }}][max_price]"
-                                                               value="{{ priceFormatUpdate($range['max_price'],settingHelper('default_currency'),'*') }}" min="0" required
-                                                               placeholder="{{__('Maximum Price')}}">
-                                                    </td>
-                                                    <td>
-                                                        <input type="number"
-                                                               class="form-control mb-2 mr-sm-2"
-                                                               id="link" name="ranges[{{ $key }}][multiplier]"
-                                                               value="{{ $range->multiplier }}" required
-                                                               min="0" step="any"
-                                                               placeholder="{{__('Price Multiplier')}}">
-                                                    </td>
-                                                    @if($key > 0)
-                                                        <td>
-                                                            <button type="button"
-                                                                    class="btn btn-icon btn-sm btn-danger remove-row"><i
-                                                                        class="bx bx-trash"></i></button>
-                                                        </td>
-                                                    @endif
-
-                                                </tr>
-                                            @endforeach
-                                        @else
-                                            @include('admin.products.categories.ranges')
-                                        @endif
-                                        </tbody>
-                                    </table>
-                                @endif
                                 <div class="form-group">
                                     <label for="barcode">{{ __('Icon') }}</label>
                                     <div class="input-group category-icon-selector">
@@ -346,15 +282,6 @@
             </div>
         </div>
     </section>
-    @if(addon_is_activated('ramdhani'))
-        <div class="modal">
-            <table>
-                <tbody>
-                @include('admin.products.categories.ranges')
-                </tbody>
-            </table>
-        </div>
-    @endif
     @include('admin.common.selector-modal')
 @endsection
 
@@ -435,34 +362,6 @@
                 var val = $(this).val();
                 $('#uip-icon-container i').addClass(val).text('');
             });
-            @if(addon_is_activated('ramdhani'))
-            $(document).on('click', '#add-item', function () {
-                let selector = $('.price_calculator_table tbody tr:last-child .max_price');
-                var html = $('.modal table tbody').html();
-                $('.price_calculator_table tbody').append(html);
-                let last_row = $('.price_calculator_table tbody tr:last-child');
-                $.each(last_row.find('input'), function (index, value) {
-                    let name = $(value).attr('name');
-                    let length = parseInt($('.price_calculator_table tbody tr').length) - 1;
-                    let new_name = name.replace('[0]', '[' + length + ']');
-                    $(value).attr('name', new_name);
-                });
-                minPriceCalculator(selector);
-            });
-            $(document).on('click', '.remove-row', function () {
-                $(this).closest('tr').remove();
-            });
-            $(document).on('focusout', '.max_price', function () {
-                let val = $(this).val();
-                let min_val = parseFloat($(this).closest('tr').find('.min_price').val());
-
-                if (val < min_val) {
-                    toastr.warning('Maximum price must be greater than minimum price');
-                    $(this).val(min_val);
-                }
-                minPriceCalculator(this);
-            });
-            @endif
         }());
 
         function minPriceCalculator(selector) {

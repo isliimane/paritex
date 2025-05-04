@@ -15,6 +15,12 @@ export default {
             context.commit("getContactPage", response.data.contact);
         })
     },
+    complaintPage(context) {
+        let url = context.state.url + '/home/complaint-page';
+        axios.get(url).then((response) => {
+            context.commit("getComplaintPage", response.data.complaint);
+        })
+    },
     othersPage(context,slug) {
         let url = context.state.url + '/home/others-page/' + slug;
         let requestData = {
@@ -204,26 +210,8 @@ export default {
                     slug : response.data.slug,
                     page : response.data.page
                 };
-                context.commit("setSellerProducts", response_data);
-                context.commit("getSellerPage", page_data);
             }
         });
     },
-    FollowedSellers(context,page_no)
-    {
-        if(!page_no){
-            page_no = 1;
-        }
-        let url = context.state.url + '/user/followed-sellers?page='+ page_no;
-        axios.get(url).then((response) => {
-            let length = response.data.sellers.data;
-            if (length == 0)
-            {
-                context.commit("setFollowedSellers", [{id:0}]);
-            }
-            else{
-                context.commit("setFollowedSellers", response.data.sellers.data);
-            }
-        });
-    },
+  
 }

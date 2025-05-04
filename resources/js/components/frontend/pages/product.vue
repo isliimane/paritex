@@ -5,19 +5,24 @@
 				<div class="sg-product" :class="{ 'style-1': type == 'flash' }">
 					<a :href="getUrl('product/' + product.slug)" @click.prevent="routerNavigator('product.details', product.slug)">
 						<div class="product-thumb">
+							<!-- v-if="isLicenseVerified" add this if we want to hide the discount when unverified -->
 							<span class="base" v-if="product.special_discount_check > 0">{{ product.special_discount_type == "flat" ? priceFormat(product.special_discount_check) + " " + lang.off : product.special_discount_check + "% " + lang.off }} </span>
 							<span v-if="product.current_stock == 0 && !product.is_classified" class="base stock_badge">{{ lang.out_of_stock }}</span>
 							<span class="base reword-badge" v-if="addons.includes('reward') && product.reward > 0">{{ lang.reward_point }}: {{ product.reward }}</span>
-							<img :src="product.image_190x230" :alt="product.product_name" class="img-fluid" loading="lazy" style="object-fit: cover;width: 197px;height: 200px"/>
+							<img :src="product.image_190x230" :alt="product.product_name" class="img-fluid" loading="lazy" style="object-fit: contain;width: 100%;height: 200px"/>
 						</div>
 					</a>
 					<div class="product-info">
-						<span class="price"><del v-if="product.special_discount_check > 0">{{ priceFormat(product.price) }}</del>
+						<div class="price" v-if="isLicenseVerified">
+							<del v-if="product.special_discount_check > 0">{{ priceFormat(product.price) }}</del>
 							<span v-if="product.special_discount_check > 0">
 								{{ priceFormat(product.discount_percentage) }}
 							</span>
 							<span v-else>{{ priceFormat(product.price) }}</span>
-						</span>
+						</div>
+						<!-- <div class="price text-danger" v-else>
+							{{ lang.verify_license_to_see_price }}
+						</div> -->
 						<h1 class="product-name text-ellipse-one" :title="product.product_name">
 							<a :href="getUrl('product/' + product.slug)" @click.prevent="routerNavigator('product.details', product.slug)">
 								{{ product.product_name }}
@@ -25,14 +30,14 @@
 						</h1>
 						<div class="sg-rating" v-if="!addons.includes('ishopet')">
 							<star-rating v-model:rating="product.rating" :read-only="true" :star-size="12" :round-start-rating="false"></star-rating>
-							<span class="reviews" v-if="product.reviews_count > 0">({{ product.reviews_count }} {{ lang.reviews }})</span>
+							<span class="reviews" v-if="product.reviews_count > 0">({{ product.reviews_count }})</span>
 						</div>
 						<div class="icons">
 							<ul class="global-list">
 								<li v-if="product.minimum_order_quantity <= product.current_stock && !product.is_catalog && !product.is_classified" >
 									<a href="javaScript:void(0)" @click="cartBtn(product, index)"><span class="mdi mdi-name mdi-shopping-outline"></span></a>
 								</li>
-								<div v-if="authUser">
+								<div v-if="authUser" style="margin-right: 15px;">
 									<li v-if="$store.getters.isThisWishlisted(product.id)">
 										<a href="javaScript:void(0)" @click="removeWishlist(product.id)"><span class="mdi mdi-name mdi-heart"></span></a>
 									</li>
@@ -131,6 +136,9 @@ export default {
 				return [];
 			}
 		},
+		isLicenseVerified() {
+          return (this.authUser && this.authUser.user_type === 'admin') || (this.authUser && this.authUser.user_type === 'customer' && this.authUser.license_verified);
+    }
 	},
 
 	methods: {
@@ -253,6 +261,9 @@ export default {
 				}
 			});
 		},
+		redirectToProfile() {
+			toastr.error(this.lang.verify_license_to_continue, this.lang.Error + ' !!');
+		}
 	},
 };
 </script>
