@@ -34,7 +34,7 @@
                             </div>
                         </div>
                     </div>
-                    <product :products="productList" :grid_class="'grid-6'"></product>
+                    <product :products="productList" :grid_class="'grid-4'"></product>
                     <div class="text-center show-more" v-if="products.next_page_url && !loading">
                         <a href="javaScript:void(0)" @click="loadMoreData()" class="btn btn-primary">{{ lang.show_more }}</a>
                     </div>

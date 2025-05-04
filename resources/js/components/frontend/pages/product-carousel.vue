@@ -25,9 +25,9 @@
               </span>
               <span v-else>{{ priceFormat(product.price) }}</span>
             </div>
-            <div class="price text-danger" v-else>
+            <!-- <div class="price text-danger" v-else>
               {{ lang.verify_license_to_see_price }}
-            </div>
+            </div> -->
               <h1 class="product-name text-ellipse-one" :title="product.product_name ">
                 <a :href="'product/'+product.slug"
                    @click.prevent="routerNavigator('product.details',product.slug)">
@@ -103,8 +103,8 @@ export default {
         infinite: true,
         speed: 500,
         touchThreshold: 5,
-        slidesToShow: 6,
-        slidesToScroll: 6,
+        slidesToShow: 5,
+        slidesToScroll: 1,
         initialSlide: 0,
         arrows: true,
         autoplay: true,

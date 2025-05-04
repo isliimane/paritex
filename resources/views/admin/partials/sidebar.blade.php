@@ -4,86 +4,39 @@
 
 <div class="main-sidebar">
 <style>
-/* Style pour la sidebar complète */
 .main-sidebar {
-  background: linear-gradient(135deg,rgb(77, 103, 181) 0%,rgb(250, 248, 248) 100%) !important;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  background: #fff !important;
 }
-
-/* Style pour le logo et le nom court */
-.sidebar-brand, .sidebar-brand-sm a {
-  color: #000000 !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  padding: 15px 0;
-}
-
-/* Style des éléments du menu */
 .sidebar-menu .nav-link {
   color: #000000 !important;
-  padding: 12px 15px;
-  margin: 5px 0;
-  border-radius: 4px;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
-
 /* Style des icônes - Version bleue */
 .sidebar-menu i.bx {
-  font-size: 1.2rem;
-  color:rgb(50, 13, 236) !important; /* Bleu clair */
-  margin-right: 10px;
-  vertical-align: middle;
-  transition: color 0.3s ease;
+  color:#000 !important; /* Bleu clair */
 }
-
-/* Alternative bleu plus foncé */
-/* .sidebar-menu i.bx {
-  color: #2980b9 !important; 
-} */
-
 /* Effet au survol */
 .sidebar-menu .nav-link:hover {
   background-color: rgba(0, 0, 0, 0.05) !important;
   transform: translateX(5px);
 }
 
-.sidebar-menu .nav-link:hover i.bx {
+.sidebar-menu .nav-link:hover i.bx, .sidebar-menu .nav-link.active i.bx {
   color: #2c3e50 !important; /* Bleu foncé au survol */
 }
-
-/* Style des éléments actifs */
 .sidebar-menu .nav-link.active {
-  background-color: rgba(0, 0, 0, 0.1) !important;
-  font-weight: bold;
-  color: #000000 !important;
+  background-color: rgba(0, 0, 0, 0.05) !important;
 }
-
-.sidebar-menu .nav-link.active i.bx {
-  color: #1a5276 !important; /* Bleu plus soutenu pour l'état actif */
-}
-
-/* Style des sous-menus */
 .sidebar-menu .dropdown-menu {
-  background-color:180deg,rgb(37, 82, 215) 0%,rgb(250, 248, 248) 100%t;
-  border: 1px solid #e0e0e0 !important;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    border: 0;
 }
-
-.sidebar-menu .dropdown-menu a {
+.sidebar-menu .dropdown-menu li{
+    border: 0;
+}
+.sidebar-menu .dropdown-menu .nav-link {
+  padding-top: 22px;
+  padding-bottom: 22px;
   color: #000000 !important;
-}
-
-.sidebar-menu .dropdown-menu i.bx {
-  color:rgb(15, 33, 227) !important; /* Même bleu que les icônes principales */
-}
-
-/* Animation douce pour l'ouverture de la sidebar */
-.aside {
-  transition: all 0.3s ease-out;
-}
-
-/* Ombre portée pour le contenu */
-#sidebar-wrapper {
-  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Séparateur entre les éléments du menu */
@@ -98,10 +51,10 @@
 
 </style>
     <aside id="sidebar-wrapper">
-        <div class="sidebar-brand sidebar-brand-sm">
+        <div class="sidebar-brand sidebar-brand-sm py-3">
             <a href="{{ route('dashboard') }}">{{ settingHelper('system_short_name') != '' ? settingHelper('system_short_name',app()->getLocale()) :  "Paritex" }}</a>
         </div>
-        <div class="sidebar-brand">
+        <div class="sidebar-brand py-3">
             <a href="{{ route('dashboard') }}">
                 <img
                         src="{{($logo != [] && is_file_exists($logo['image_100x38'])) ? static_asset($logo['image_100x38']) : static_asset('images/default/logo3.png') }}"

@@ -60,9 +60,9 @@
                                                 }}</span>
                                                 <span v-else>{{ priceFormat(product.price) }}</span>
                                             </span>
-                                            <span v-else class="text-danger">
+                                            <!-- <span v-else class="text-danger">
                                                 {{ lang.verify_license_to_see_price }}
-                                            </span>
+                                            </span> -->
                                         </td>
                                         <td>
                                             <div class="add-to-cart">
