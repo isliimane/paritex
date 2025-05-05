@@ -176,32 +176,6 @@ class FrontendController extends Controller
             ]);
         }
     }
-    public function giftIdea(Request $request): \Illuminate\Http\JsonResponse
-    {
-        try {
-            $data = [
-                'products' => new ProductPaginateResource($this->product->giftIdea($request->paginate))
-            ];
-            return response()->json($data);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage()
-            ]);
-        }
-    }
-    public function businessIdea(Request $request): \Illuminate\Http\JsonResponse
-    {
-        try {
-            $data = [
-                'products' => new ProductPaginateResource($this->product->businessIdea($request->paginate))
-            ];
-            return response()->json($data);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage()
-            ]);
-        }
-    }
 
     public function cartPage(CartInterface $cart): \Illuminate\Http\JsonResponse
     {
