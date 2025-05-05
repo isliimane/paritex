@@ -96,7 +96,7 @@ class MigrationCartalystSentinel extends Migration
             $table->text('permissions')->nullable();
             $table->string('first_name',50)->nullable();
             $table->string('last_name',50)->nullable();
-            $table->enum('user_type', ['admin','staff','seller','customer','delivery_hero'])->default('customer');
+            $table->enum('user_type', ['admin','staff','customer','delivery_hero'])->default('customer');
             $table->string('gender')->default('male')->nullable();
             $table->date('date_of_birth')->nullable();
             $table->tinyInteger('status')->default(1)->comment('0 inactive, 1 active');

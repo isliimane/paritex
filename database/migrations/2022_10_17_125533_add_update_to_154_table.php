@@ -41,17 +41,6 @@ class AddUpdateTo154Table extends Migration
             ]);
 
         }
-
-        $permission = Permission::where('attribute','seller')->first();
-        $value = $permission->keywords;
-        if ($permission)
-        {
-            $value['login'] = 'seller_as_login';
-
-            $permission->update([
-                'keywords' => $value
-            ]);
-        }
     }
 
     public function down()

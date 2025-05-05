@@ -177,6 +177,7 @@ Route::middleware(['XSS', 'isInstalled'])->group(function () {
     Route::get('sidebar/categories', [HomeController::class, 'sidebarCategories']);
     Route::get('home/contact-page', [FrontendController::class, 'contactPage'])->name('home.contact');
     Route::get('home/complaint-page', [FrontendController::class, 'complaintPage'])->name('home.complaint');
+    Route::get('home/departments', [FrontendController::class, 'departments'])->name('home.departments');
     Route::get('home/others-page/{slug}', [FrontendController::class, 'page'])->name('page');
     Route::get('home/campaign-lists', [FrontendController::class, 'campaigns'])->name('campaign.list');
     Route::get('home/campaign-products', [ProductController::class, 'campaignProducts'])->name('front.campaign.products');

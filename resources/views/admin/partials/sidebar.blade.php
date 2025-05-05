@@ -90,39 +90,6 @@
                     </ul>
                 </li>
             @endif
-            @if(addon_is_activated('pos_system') && (hasPermission('pos_order') || hasPermission('pos_config_update')))
-                <li class="nav-item dropdown @yield('pos_services_active')">
-                    <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
-                        <i class="bx bx-printer {{ config('app.demo_mode') ? 'beep' : ''}}"></i>
-                        <span>{{ __('pos_system') }}</span>
-                        @if(config('app.demo_mode'))
-                            <p class="badge badge-addon">{{ __('Addon') }}</p>
-                        @endif
-                    </a>
-                    <ul class="dropdown-menu">
-                        @if(hasPermission('pos_order'))
-                            <li><a class="nav-link" href="{{ route('admin.pos.system') }}">{{ __('POS') }}</a>
-                            </li>
-                        @endif
-                        @if(hasPermission('pos_config_update'))
-                            <li class="@yield('pos_services')"><a class="nav-link"
-                                                                  href="{{ route('admin.pos.config') }}">{{ __('POS Configuration') }}</a>
-                            </li>
-                        @endif
-                    </ul>
-                </li>
-            @endif
-            @if(addon_is_activated('ai_writer') && hasPermission('ai_writer_setting'))
-                <li class="@yield('ai_writer')"><a class="nav-link" href="{{ route('ai-writer.config') }}"><i
-                                class="bx bx-pencil {{ config('app.demo_mode') ? 'beep' : ''}}"></i>
-                        <span>{{ __('ai_writer') }}</span>
-                        @if(config('app.demo_mode'))
-                            <p class="badge badge-addon">{{ __('Addon') }}</p>
-                        @endif
-                    </a>
-                </li>
-            @endif
-
 
             @if(hasPermission('product_read') || hasPermission('color_read') || hasPermission('attribute_set_read') || hasPermission('brand_read') || hasPermission('category_read') || hasPermission('attribute_value_read'))
                 <li class="nav-item dropdown @yield('product_active')">
@@ -391,13 +358,6 @@
                                                               href="{{ route('campaign') }}">{{ __('Campaigns') }}</a>
                             </li>
                         @endif
-                        @if(addon_is_activated('otp_system') == 1)
-                            @if(hasPermission('bulk_sms_read'))
-                                <li class="@yield('bulk_sms')"><a class="nav-link"
-                                                                  href="{{ route('bulk.sms') }}">{{ __('Bulk SMS') }}</a>
-                                </li>
-                            @endif
-                        @endif
                         @if(hasPermission('subscriber_read'))
                             <li class="@yield('subscriber')"><a class="nav-link"
                                                                 href="{{ route('subscribers') }}">{{ __('Subscriber') }}</a>
@@ -435,7 +395,6 @@
                     </ul>
                 </li>
             @endif
-            <!-- @if(settingHelper('seller_system') == 1) -->
                 @if(hasPermission('support_read') || hasPermission('support_department_read'))
                     <li class="nav-item dropdown @yield('support_active')">
                         <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
@@ -466,32 +425,6 @@
                         </ul>
                     </li>
                 @endif
-            <!-- @endif -->
-            @if(addon_is_activated('offline_payment'))
-                @if (hasPermission('offline_payment_read') || hasPermission('wallet_recharge_read'))
-                    <li class="nav-item dropdown @yield('offline_payment')">
-                        <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
-                            <i class="bx bx-credit-card-front {{ config('app.demo_mode') ? 'beep' : ''}}"></i>
-                            <span>{{ __('Offline Payment') }}</span>
-                            @if(config('app.demo_mode'))
-                                <p class="badge badge-addon">{{ __('Addon') }}</p>
-                            @endif
-                        </a>
-                        <ul class="dropdown-menu">
-                            @if (hasPermission('offline_payment_read'))
-                                <li class="@yield('offline_payment_methods')"><a class="nav-link"
-                                                                                 href="{{ route('offline.payment.methods') }}">{{ __('Payment Methods') }}</a>
-                                </li>
-                            @endif
-                            @if (hasPermission('wallet_recharge_read'))
-                                <li class="@yield('offline_wallet_recharge')"><a class="nav-link"
-                                                                                 href="{{ route('offline.wallet.recharge.history') }}">{{ __('Wallet Recharge') }}</a>
-                                </li>
-                            @endif
-                        </ul>
-                    </li>
-                @endif
-            @endif
             @if(addon_is_activated('reward'))
                 @if(hasPermission('reward_configuration_read') || hasPermission('reward_setting_read') || hasPermission('user_reward_read'))
                     <li class="nav-item dropdown @yield('reward_system')">
@@ -522,50 +455,6 @@
                     </li>
                 @endif
             @endif
-            @if(addon_is_activated('affiliate'))
-                <li class="nav-item dropdown @yield('affiliate')">
-                    <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
-                        <i class="bx bx-collection {{ config('app.demo_mode') ? 'beep' : ''}}"></i>
-                        <span>{{__('Affiliate Marketing')}}</span>
-                        @if(config('app.demo_mode'))
-                            <p class="badge badge-addon">{{ __('Addon') }}</p>
-                        @endif
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li class="@yield('affiliate_configure_active')"><a class="nav-link"
-                                                                            href="{{route('affiliate.configuration')}}">{{ __('Affiliate Configuration') }}</a>
-                        </li>
-                        <li class="@yield('affiliate_program_active')"><a class="nav-link"
-                                                                          href="{{route('affiliate.program')}}">{{ __('Affiliate Program') }}</a>
-                        </li>
-                    </ul>
-                </li>
-            @endif
-            @if(addon_is_activated('otp_system'))
-                @if(hasPermission('otp_setting_read') || hasPermission('sms_template_read'))
-                    <li class="nav-item dropdown @yield('otp_setting_menu')">
-                        <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
-                            <i class="bx bx-comment {{ config('app.demo_mode') ? 'beep' : ''}}"></i>
-                            <span>{{ __('OTP System') }}</span>
-                            @if(config('app.demo_mode'))
-                                <p class="badge badge-addon">{{ __('Addon') }}</p>
-                            @endif
-                        </a>
-                        <ul class="dropdown-menu">
-                            @if(hasPermission('otp_setting_read'))
-                                <li class="@yield('otp_setting')"><a class="nav-link"
-                                                                     href="{{ route('otp-settings') }}">{{ __('OTP Setting') }}</a>
-                                </li>
-                            @endif
-                            @if(hasPermission('sms_template_read'))
-                                <li class="@yield('sms_templates')"><a class="nav-link"
-                                                                       href="{{ route('sms-templates') }}">{{ __('SMS Templates') }}</a>
-                                </li>
-                            @endif
-                        </ul>
-                    </li>
-                @endif
-            @endif
 
             @if(hasPermission('chat_messenger_read') && !isAppMode())
                 <li class="@yield('chat-messenger')"><a class="nav-link" href="{{ route('chat.messenger') }}"><i
@@ -575,26 +464,6 @@
                 </li>
             @endif
 
-            @if(addon_is_activated('video_shopping'))
-                @if(hasPermission('video_shopping_read'))
-                    <li class="nav-item dropdown @yield('video_shopping_menu')">
-                        <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
-                            <i class="bx bx-video {{ config('app.demo_mode') ? 'beep' : ''}}"></i>
-                            <span>{{__('Video Shopping') }}</span>
-                            @if(config('app.demo_mode'))
-                                <p class="badge badge-addon">{{ __('Addon') }}</p>
-                            @endif
-                        </a>
-                        <ul class="dropdown-menu">
-                            @if(hasPermission('video_shopping_read'))
-                                <li class="@yield('video_shopping')"><a class="nav-link"
-                                                                        href="{{ route('admin.video.shopping') }}">{{ __('Video Shopping') }}</a>
-                                </li>
-                            @endif
-                        </ul>
-                    </li>
-                @endif
-            @endif
             @if(hasPermission('payment_gateway_read'))
                 <li class="@yield('payment-gateway')"><a class="nav-link" href="{{ route('payment.gateway') }}"><i
                                 class="bx bx-dollar" aria-hidden="true"></i>
@@ -882,16 +751,6 @@
                     </li>
                 @endif
             @endif
-            {{-- @if(hasPermission('addon_read'))
-                @if(settingHelper('current_version') != '1.0.0')
-                <li class="@yield('plugins')">
-                    <a class="nav-link" href="{{ route('admin.plugin.index') }}">
-                        <i class='bx bx-plug'></i>
-                        <span>{{ __('Installed Plugins') }}</span>
-                    </a>
-                </li>
-                @endif
-            @endif --}}
             @if(hasPermission('addon_read'))
                 @if(settingHelper('current_version') != '1.0.0')
                     <li class="@yield('updater')">

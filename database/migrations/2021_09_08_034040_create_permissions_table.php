@@ -142,22 +142,6 @@ class CreatePermissionsTable extends Migration
                 ])
             ],
             [
-                'attribute' => 'seller',
-                'created_at' => $now,
-                'updated_at' => $now,
-                "keywords" => json_encode([
-                    'read' => "seller_read",
-                    'create' => "seller_create",
-                    'update' => "seller_update",
-                    'verify' => "seller_verify",
-                    'ban' => "seller_ban",
-                    'seller_payout_read' => "seller_payout_read",
-                    'seller_payout_reject' => "seller_payout_reject",
-                    'seller_payout_accept' => "seller_payout_accept",
-                    'login' => "seller_as_login"
-                ])
-            ],
-            [
                 'attribute' => 'delivery_hero',
                 'created_at' => $now,
                 'updated_at' => $now,

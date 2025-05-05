@@ -10,11 +10,13 @@ use App\Traits\SlugTrait;
 use Illuminate\Support\Facades\DB;
 use Sentinel;
 
+use App\Traits\SendMailTrait;
 
 class SupportRepository implements SupportInterface
 {
     use SlugTrait;
     use ImageTrait;
+    use SendMailTrait;
 
     public function all()
     {
@@ -90,10 +92,11 @@ class SupportRepository implements SupportInterface
 
     public function ticketReplayStore($request)
     {
+        $support = null;
         if($request->status){
-            $status = Support::where('id',$request->support_id)->first();
-            $status->status = $request->status;
-            $status->save();
+            $support = Support::where('id',$request->support_id)->first();
+            $support->status = $request->status;
+            $support->save();
         }
         $replay = new TicketReplay();
         $replay->ticket_id           = $request->ticket_id;
@@ -101,7 +104,6 @@ class SupportRepository implements SupportInterface
         $replay->type                = $request->type;
         $replay->file_id             = $request->file;
         $replay->support_id          = $request->support_id;
-
         if(!blank($request->file)){
         $array_file = explode(',', $request->file);
         $all_files= [];
@@ -111,8 +113,12 @@ class SupportRepository implements SupportInterface
         }
         $replay->file     = $all_files;
         }
-
         $replay->save();
+        if(isset($support)){
+            $data['subject'] = $support->subject . ' Reply';
+            $data['message'] = $replay->replay;
+            $this->sendmail($support->user->email, 'Complaint', $data, 'email.auth.email-template','');
+        }
         return true;
     }
 
@@ -152,9 +158,14 @@ class SupportRepository implements SupportInterface
             $replay->save();
 
             if(!blank($request->status)){
-                $user              = Support::where('ticket_id',$request->ticket_id)->first();
-                $user->status      = $request->status;
-                $user->save();
+                $support              = Support::where('ticket_id',$request->ticket_id)->first();
+                $support->status      = $request->status;
+                $support->save();
+
+                $data['subject'] = $support->subject . ' Reply';
+                $data['message'] = $replay->replay;
+                $this->sendmail($support->user->email, 'Complaint', $data, 'email.auth.email-template','');
+           
             }
             DB::commit();
             return true;

@@ -33,6 +33,8 @@ use App\Traits\HomePage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 
+use App\Repositories\Admin\Support\SupportDepartmentRepository;
+
 class FrontendController extends Controller
 {
     use HomePage;
@@ -95,6 +97,22 @@ class FrontendController extends Controller
             ]);
         }
     }
+    public function departments(SupportDepartmentRepository $departmentRepository): \Illuminate\Http\JsonResponse
+        {
+            try {
+                $departments = $departmentRepository->all()->with('supportDepartmentLanguages')->get();
+                
+                return response()->json([
+                    'success' => true,
+                    'data' => $departments
+                ]);
+            } catch (\Exception $e) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ], 500);
+            }
+        }
 
 
     public function page(Request $request,PageRepository $pageRepository): \Illuminate\Http\JsonResponse
@@ -269,6 +287,9 @@ class FrontendController extends Controller
             'email' => 'required',
             'subject' => 'required',
             'message' => 'required',
+            'support_department_id' => "required", // Added for department dropdown
+            'priority'=> "required"
+
         ]);
         try {
             $data = [

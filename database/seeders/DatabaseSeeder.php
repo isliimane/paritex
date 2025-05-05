@@ -113,7 +113,6 @@ class DatabaseSeeder extends Seeder
 
 //        Search::factory(5)->create();
 
-//        CommissionHistory::factory(10)->create();
 
         //addon
 //        $this->call(OtpSmsTemplateSeeder::class);
