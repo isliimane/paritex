@@ -117,7 +117,9 @@ class SupportRepository implements SupportInterface
         if(isset($support)){
             $data['subject'] = $support->subject . ' Reply';
             $data['message'] = $replay->replay;
-            $this->sendmail($support->user->email, 'Complaint', $data, 'email.auth.email-template','');
+            $data['file'] = $replay->file;
+
+            $this->sendmail($support->user->email, 'Complaint', $data, 'email.claim-response-template','');
         }
         return true;
     }
@@ -164,7 +166,7 @@ class SupportRepository implements SupportInterface
 
                 $data['subject'] = $support->subject . ' Reply';
                 $data['message'] = $replay->replay;
-                $this->sendmail($support->user->email, 'Complaint', $data, 'email.auth.email-template','');
+                $this->sendmail($support->user->email, 'Complaint', $data, 'email.claim-response-template','');
            
             }
             DB::commit();

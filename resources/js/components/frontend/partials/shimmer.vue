@@ -11,6 +11,7 @@ export default {
         return {
             style : {
                 height : this.height+'px',
+                opacity: 0.6
             },
         }
     },

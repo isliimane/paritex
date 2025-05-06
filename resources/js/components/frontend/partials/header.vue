@@ -173,7 +173,7 @@
                           {{ product.product_name }}
                         </div>
                         <div class="overflow-hidden price">
-                          <h4>
+                          <h4 v-if="isLicenseVerified">
 														<span class="price"
                             ><del v-if="product.special_discount_check > 0">{{ priceFormat(product.price) }}</del>
 															<span v-if="product.special_discount_check > 0">
@@ -415,7 +415,8 @@
 
         <ul @click.stop class="global-list">
           <li class="nav-item" v-for="(menu, i) in headerMenu" :key="'menu' + i"
-              :class="{ 'sg-dropdown': Object.keys(menu).length > 2 }" @click="$store.commit('setSmHomeMenu', false)">
+              :class="{ 'sg-dropdown': Object.keys(menu).length > 2 }"
+              @click="Object.keys(menu).length <= 2 ? $store.commit('setSmHomeMenu', false) : null">
             <a v-if="urlCheck(menu.url)" :href="menu.url">{{ menu.label }}<span v-if="Object.keys(menu).length > 2"
                                                                                 class="icon mdi mdi-name mdi-chevron-down"></span></a>
             <router-link v-else :to="menu.url" :class="{ active: menu.url == $route.fullPath }"> {{ menu.label }}<span

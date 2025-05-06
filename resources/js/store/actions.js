@@ -124,7 +124,7 @@ export default {
             context.commit("getShopAttributes",data);
             context.commit("getShopBrands", response.data.brands);
             context.commit("getShopColors", response.data.colors);
-            context.commit("getShop", response.data.shop);
+            // context.commit("getShop", response.data.shop);
             context.commit("setPriceRange", response.data.price_range);
             context.commit('getFilterLoaded', true);
         });

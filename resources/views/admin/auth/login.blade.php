@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{ static_asset('admin/css/yoori.css') }}">
     <link rel="stylesheet" href="{{ static_asset('admin/css/style.css') }}">
     <link rel="stylesheet" href="{{ static_asset('admin/css/custom.css') }}">
+    <!-- <link rel="stylesheet" href="{{ static_asset('admin/css/formulair.css') }}"> -->
 
     @php
         $icon = settingHelper('favicon');

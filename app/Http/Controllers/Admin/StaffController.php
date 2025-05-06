@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\PasswordChangeRequest;
 use App\Http\Requests\User\ProfieRequest;
-use App\Http\Requests\User\UserStoreRequest;
-use App\Http\Requests\User\UserUpdateRequest;
+use App\Http\Requests\User\StaffStoreRequest;
+use App\Http\Requests\User\StaffUpdateRequest;
 use App\Repositories\Interfaces\Admin\Order\PickupHubInterface;
 use App\Repositories\Interfaces\Admin\StaffInterface;
 use Illuminate\Support\Facades\Hash;
@@ -42,7 +42,7 @@ class StaffController extends Controller
         return view('admin.staffs.form', compact('roles', 'permissions','hubs'));
     }
 
-    public function store(UserStoreRequest $request): \Illuminate\Http\RedirectResponse
+    public function store(StaffStoreRequest $request): \Illuminate\Http\RedirectResponse
     {
         if (config('app.demo_mode')):
             Toastr::info(__('This function is disabled in demo server.'));
@@ -80,7 +80,7 @@ class StaffController extends Controller
         endif;
     }
 
-    public function update(UserUpdateRequest $request)
+    public function update(StaffUpdateRequest $request)
     {
         if (config('app.demo_mode')):
             Toastr::info(__('This function is disabled in demo server.'));

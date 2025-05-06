@@ -7,29 +7,31 @@
       </div>
       <div class="contact-content">
         <div class="row">
-          <div class="col-md-8 offset-md-2 shadow p-5 rounded-5">
-            <div class="title b-0">
+          <div class="col-md-12">
+            <div class="title">
               <h1>{{ lang.make_complaint }}</h1>
             </div>
             <form @submit.prevent="submit">
-              <div class="form-group">
-                <label>{{ lang.name }}</label>
-                <input type="text" v-model="form.name" class="form-control"
-                       :class="{ 'error_border' : errors.name }" :placeholder="lang.name">
-              </div>
-              <span class="validation_error"
-                    v-if="errors.name">{{ errors.name[0] }}</span>
-              <div class="form-group">
-                <label>{{ lang.email }}</label>
-                <input type="email" v-model="form.email" class="form-control"
-                       :class="{ 'error_border' : errors.email }" :placeholder="lang.email">
-              </div>
-              <span class="validation_error"
-                    v-if="errors.email">{{ errors.email[0] }}</span>
-              
-              <!-- Department Dropdown -->
                <div class="row">
-                <div class="col-md-6">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                      <label>{{ lang.name }}</label>
+                      <input type="text" v-model="form.name" class="form-control"
+                            :class="{ 'error_border' : errors.name }" :placeholder="lang.name">
+                    </div>
+                    <span class="validation_error"
+                          v-if="errors.name">{{ errors.name[0] }}</span>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>{{ lang.email }}</label>
+                    <input type="email" v-model="form.email" class="form-control"
+                          :class="{ 'error_border' : errors.email }" :placeholder="lang.email">
+                  </div>
+                  <span class="validation_error"
+                        v-if="errors.email">{{ errors.email[0] }}</span>
+                </div>
+                <div class="col-sm-6">
                   <div class="form-group">
                     <label>{{ lang.department || 'Department' }}</label>
                     <select v-model="form.support_department_id" class="form-control"
@@ -43,8 +45,7 @@
                   <span class="validation_error"
                       v-if="errors.support_department_id">{{ errors.support_department_id[0] }}</span>
                 </div>
-                <div class="col-md-6">
-                     <!-- Priority Dropdown -->
+                <div class="col-sm-6">
                   <div class="form-group">
                     <label>{{ lang.priority || 'Priority' }}</label>
                     <select v-model="form.priority" class="form-control"

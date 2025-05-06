@@ -189,6 +189,7 @@ class UserController extends Controller
             $data = [
                 'indian_currency'   => $currency->currencyByCode('INR'),
                 'jazz_data'         => [],
+                'offline_methods'   => [],
                 'jazz_url'          => config('jazz_cash.TRANSACTION_POST_URL'),
                 'xof'               => $currency->currencyByCode('XOF'),
             ];

@@ -2,10 +2,37 @@
 	<footer class="footer-section">
 		<div class="footer-top">
 			<div class="container">
-				<div class="footer-logo">
-					<router-link :to="{ name: 'home' }"><img loading="lazy" :src="settings.footer_logo" alt="preloader" class="img-fluid" width="138"/> </router-link>
-				</div>
+				
 				<div class="row">
+					<div class="col-sm-12 col-md-12 col-lg-3">
+						<div class="footer-widget">
+							<!-- <h3>{{ lang.about }}</h3> -->
+							<div class="footer-logo">
+								<router-link :to="{ name: 'home' }"><img loading="lazy" :src="settings.footer_logo" alt="preloader" class="img-fluid" width="138"/> </router-link>
+							</div>
+							<div v-html="settings.about_description"></div>
+							<div class="social" v-if="settings.show_social_links && settings.show_social_links == 1">
+								<ul class="global-list">
+									<li v-if="settings.facebook_link">
+										<a target="_blank" :href="settings.facebook_link"><span class="mdi mdi-name mdi-facebook"></span></a>
+									</li>
+									<li v-if="settings.twitter_link">
+										<a target="_blank" :href="settings.twitter_link"><span class="mdi mdi-name mdi-twitter"></span></a>
+									</li>
+									<li v-if="settings.linkedin_link">
+										<a target="_blank" :href="settings.linkedin_link"><span class="mdi mdi-linkedin"></span></a>
+									</li>
+									<li v-if="settings.instagram_link">
+										<a target="_blank" :href="settings.instagram_link"><span class="mdi mdi-instagram"></span></a>
+									</li>
+									<li v-if="settings.youtube_link">
+										<a target="_blank" :href="settings.youtube_link"><span class="mdi mdi-youtube"></span></a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					
 					<div class="col-sm-6 col-md-6 col-lg-3">
 						<div class="footer-widget widget-border">
 							<h3>{{ lang.my_account }}</h3>
@@ -84,36 +111,12 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-sm-12 col-md-12 col-lg-3">
-						<div class="footer-widget">
-							<h3>{{ lang.about }}</h3>
-							<div v-html="settings.about_description"></div>
-							<div class="social" v-if="settings.show_social_links && settings.show_social_links == 1">
-								<ul class="global-list">
-									<li v-if="settings.facebook_link">
-										<a target="_blank" :href="settings.facebook_link"><span class="mdi mdi-name mdi-facebook"></span></a>
-									</li>
-									<li v-if="settings.twitter_link">
-										<a target="_blank" :href="settings.twitter_link"><span class="mdi mdi-name mdi-twitter"></span></a>
-									</li>
-									<li v-if="settings.linkedin_link">
-										<a target="_blank" :href="settings.linkedin_link"><span class="mdi mdi-linkedin"></span></a>
-									</li>
-									<li v-if="settings.instagram_link">
-										<a target="_blank" :href="settings.instagram_link"><span class="mdi mdi-instagram"></span></a>
-									</li>
-									<li v-if="settings.youtube_link">
-										<a target="_blank" :href="settings.youtube_link"><span class="mdi mdi-youtube"></span></a>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
+					
 				</div><!-- /.row -->
 			</div><!-- /.container -->
 		</div><!-- /.footer-top -->
 
-		<div class="footer-social">
+		<!-- <div class="footer-social">
 			<div class="container">
 				<ul class="global-list">
 					<li v-for="(menu, i) in footerMenu" :key="i">
@@ -122,7 +125,7 @@
 					</li>
 				</ul>
 			</div>
-		</div>
+		</div> -->
 
 		<div class="footer-bottom">
 			<div class="container">
@@ -132,12 +135,12 @@
 					</div>
 					<div class="payment-card">
 						<ul class="global-list">
-							<li v-if="settings.visa_pay_banner"><img :src="getUrl('public/images/payment-method/visa.svg')" alt="visa_pay_banner" class="img-fluid footer-payment-icon" /></li>
-							<li v-if="settings.master_card_pay_banner"><img :src="getUrl('public/images/payment-method/master-card.svg')" alt="master_card_pay_banner" class="img-fluid footer-payment-icon" /></li>
-							<li v-if="settings.american_express_pay_banner"><img :src="getUrl('public/images/payment-method/american-express.svg')" alt="american_express_pay_banner" class="img-fluid footer-payment-icon" /> </li>
-							<li v-if="settings.paypal_payment_banner"><img :src="getUrl('public/images/payment-method/paypal.svg')" alt="paypal_payment_banner" class="img-fluid footer-payment-icon" /></li>
-							<li v-if="settings.apple_pay_banner"><img :src="getUrl('public/images/payment-method/apple-pay.svg')" alt="apple_pay_banner" class="img-fluid footer-payment-icon" /></li>
-							<li v-if="settings.amazon_pay_banner"><img :src="getUrl('public/images/payment-method/amazon-pay.svg')" alt="amazon_pay_banner" class="img-fluid footer-payment-icon" /></li>
+							<li ><img :src="getUrl('public/images/payment-method/visa.svg')" alt="visa_pay_banner" class="img-fluid footer-payment-icon" /></li>
+							<li ><img :src="getUrl('public/images/payment-method/master-card.svg')" alt="master_card_pay_banner" class="img-fluid footer-payment-icon" /></li>
+							<li ><img :src="getUrl('public/images/payment-method/american-express.svg')" alt="american_express_pay_banner" class="img-fluid footer-payment-icon" /> </li>
+							<li ><img :src="getUrl('public/images/payment-method/paypal.svg')" alt="paypal_payment_banner" class="img-fluid footer-payment-icon" /></li>
+							<li ><img :src="getUrl('public/images/payment-method/apple-pay.svg')" alt="apple_pay_banner" class="img-fluid footer-payment-icon" /></li>
+							<li ><img :src="getUrl('public/images/payment-method/amazon-pay.svg')" alt="amazon_pay_banner" class="img-fluid footer-payment-icon" /></li>
 							<li v-if="settings.after_pay_banner"><img :src="getUrl('public/images/payment-method/after-pay.svg')" alt="after_pay_banner" class="img-fluid footer-payment-icon" /></li>
 							<li v-if="settings.payment_method_banner" class="full-payment-img"><img :src="settings.payment_method_banner" alt="payment_method_banner" class="img-fluid footer-payment-icon" /></li>
 						</ul>

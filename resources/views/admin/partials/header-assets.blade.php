@@ -49,6 +49,8 @@ i.mdi { /* Material Design Icons */
     <link rel="stylesheet" href="{{ static_asset('admin/css/bootstrap-colorpicker.min.css') }}">
     <link rel="stylesheet" href="{{ static_asset('admin/css/yoori.css') }}">
     <link rel="stylesheet" href="{{ static_asset('fonts/inter/css.css') }}">
+    <!-- <link rel="stylesheet" href="{{ static_asset('admin/css/formulair.css') }}"> -->
+
     <!-- Custom CSS -->
     @if (request()->is('admin/pos'))
         <link rel="stylesheet" href="{{static_asset('frontend/css/vue-toastr-2.min.css')}}">

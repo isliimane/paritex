@@ -591,11 +591,7 @@
                                             <label for="short_description"
                                                    class="form-control-label">{{ __('Short Description') }}</label>
                                             <div>
-                                                @include('admin.ai_writer.ai_btn',[
-                                                    'name' => 'ai_short_description',
-                                                    'length' => '200',
-                                                    'topic' => 'ai_content_name',
-                                                                      ])
+                                              
                                                 <textarea type="text" class="form-control ai_short_description"
                                                           name="short_description"
                                                           id="short_description">{{ old('short_description') ? old('short_description') :'' }}</textarea>
@@ -611,12 +607,7 @@
                                             <label for="description"
                                                    class="form-control-label">{{ __('Long Description') }}</label>
                                             <div>
-                                                @include('admin.ai_writer.ai_btn',[
-                                                    'name' => 'ai_description',
-                                                    'length' => '259',
-                                                    'topic' => 'ai_content_name',
-                                                    'long_description' => 1
-                                                                      ])
+                                              
                                                 <textarea type="text" class="summernote ai_description"
                                                           name="description"
                                                           id="description">{{ old('description') ? old('description') :'' }}</textarea>

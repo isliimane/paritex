@@ -298,4 +298,17 @@ export default {
     setCampaignStore(state, data) {
         return state.campaign_store.push(data);
     },
+
+    getShopCategories(state, data) {
+        return state.shop_categories = data;
+    },
+    getShopBrands(state, data) {
+        return state.shop_brands = data;
+    },
+    getShopColors(state, data) {
+        return state.shop_colors = data;
+    },
+    getShopAttributes(state, data) {
+        return state.shop_attributes.push({ slug : data.slug,attributes : data.attributes })
+    },
 }

@@ -5,7 +5,7 @@
 				<div class="sg-product slider_div" :class="{ 'style-1': type == 'flash' }">
 					<a :href="'product/' + product.slug" @click.prevent="routerNavigator('product.details', product.slug)">
             <div class="product-thumb">
-                            <span class="base" v-if="product.special_discount_check > 0">{{
+                            <span class="base" v-if="isLicenseVerified && product.special_discount_check > 0">{{
                                 product.special_discount_type == 'flat' ? priceFormat(product.special_discount_check) + ' '+lang.off : product.special_discount_check + '% '+lang.off
                               }} </span>
               <span v-if="product.current_stock == 0 && !product.is_classified" class="base stock_badge">{{

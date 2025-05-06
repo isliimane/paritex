@@ -325,6 +325,8 @@ class OrderController extends Controller
                     'orders'            => $returned_orders,
                     'coupons'           => count($carts) > 0 && settingHelper('coupon_system') == 1 ? $this->cart->appliedCoupons(['trx_id' => $carts->first()->trx_id]) : [],
                     'indian_currency'   => $currency->currencyByCode('INR'),
+                    'offline_methods'   => [],
+
                     'jazz_data'         => $this->jazzCashPayment(),
                     'check_cod'         => $check_code ?? true,
                     'xof'               => $currency->currencyByCode('XOF'),
