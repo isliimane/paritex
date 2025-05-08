@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Site;
 use App\Http\Controllers\Controller;
 use App\Library\SslCommerz\SslCommerzNotification;
 use App\Models\Country;
-use App\Repositories\Admin\Addon\PackageRepository;
 use App\Repositories\Admin\CurrencyRepository;
 use App\Repositories\Interfaces\Admin\Addon\WalletInterface;
 use App\Repositories\Interfaces\Admin\OrderInterface;
@@ -106,9 +105,7 @@ class PaymentController extends Controller
 
     public function cancelUrl($request)
     {
-        if ($request->package_id) {
-            $url = route('packages.purchase', $request->package_id);
-        } else if ($request->type == 'wallet' || $request->payment_mode == 'wallet_recharge') {
+        if ($request->type == 'wallet' || $request->payment_mode == 'wallet_recharge') {
             $url = url("my-wallet");
         } else {
             if ($request->payment_mode == 'api') {
@@ -163,10 +160,6 @@ class PaymentController extends Controller
                 } else {
                     $amount = $orders->sum('total_payable');
                 }
-            } elseif (arrayCheck('package_id', $data)) {
-                $repo = new PackageRepository();
-                $package = $repo->find($data['package_id']);
-                $amount = $package->price;
             }
         }
         return $amount;
@@ -182,7 +175,7 @@ class PaymentController extends Controller
             $active_currency = $this->activeCurrencyCheck();
             $amount = $this->findAmount($data, $orders);
             $url = $this->successUrl($request, $this->findUser($data), $this->findAmount($data, $orders, $active_currency));
-            if (($request->type != 'wallet' && count($orders) == 0) && !$request->package_id) {
+            if (($request->type != 'wallet' && count($orders) == 0)) {
                 return back()->with(['error' => __('Oops.....Something Went Wrong')]);
             }
             $us = ['card']; //'alipay',  'us_bank_account', 'klarna'
@@ -260,7 +253,7 @@ class PaymentController extends Controller
             $url = $this->successUrl($request, authUser());
             $amount = $this->findAmount($data);
 
-            if (count($orders) == 0 && !arrayCheck('package_id', $data)) {
+            if (count($orders) == 0) {
                 Toastr::error(__('Oops.....Something Went Wrong'), __('Error'));
                 return back()->with(['error' => __('Oops.....Something Went Wrong')]);
             }

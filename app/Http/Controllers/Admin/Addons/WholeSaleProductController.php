@@ -57,12 +57,14 @@ class WholeSaleProductController extends Controller
     }
     public function create(Request $request){
 
-        $categories                 = $this->categories->allCategory()->where('parent_id', null)->where('status',1);
-        $brands                     = $this->brands->all()->where('status',1)->get();
+        // $categories                 = $this->categories->allCategory()->where('parent_id', null)->where('status',1);
+        // $brands                     = $this->brands->all()->where('status',1)->get();
+        $category      = $this->categories->get(old('category'));
+        $brand        = $this->brands->get(old('brand'));
         $colors                     = $this->colors->all()->where('lang', 'en')->get();
         $attributes                 = $this->attributes->all()->where('lang', 'en')->get();
         $r                          = $request->r != ''? $request->r : $request->server('HTTP_REFERER');
-        return view('admin.wholesale-product.form',compact('categories','brands','colors','attributes','r'));
+        return view('admin.wholesale-product.form',compact('category','brand','colors','attributes','r'));
     }
 
     public function store(ProductStoreRequest $request)
@@ -81,18 +83,24 @@ class WholeSaleProductController extends Controller
     }
     public function edit($id, Request $request){
         try {
+            $product = $this->products->get($id);
             $languages  = $this->languages->all()->orderBy('id', 'asc')->get();
 
             $lang       = $request->lang != '' ? $request->lang : \App::getLocale();
-            if ($this->products->get($id) && $product_language = $this->products->getByLang($id, $lang)):
-                $categories     = $this->categories->allCategory()->where('parent_id', null)->where('status',1);
-                $brands         = $this->brands->all()->where('status',1)->get();
+            if ($product && $product_language = $this->products->getByLang($id, $lang)):
+
+                // $categories     = $this->categories->allCategory()->where('parent_id', null)->where('status',1);
+                // $brands         = $this->brands->all()->where('status',1)->get();
+
+                $category     = $this->categories->get(old('category', @$product->category_id));
+                $brand        = $this->brands->get(old('brand', @$product->brand_id));
+
                 $colors         = $this->colors->all()->where('lang', 'en')->get();
                 $attributes     = $this->attributes->all()->where('lang', 'en')->get();
                 $wholesalePrices     = $this->wholesale_products->wholesalePrices($id);
                 $r              = $request->r != ''? $request->r : $request->server('HTTP_REFERER');
 
-                return view('admin.wholesale-product.edit',compact('languages', 'lang','product_language','categories','brands','attributes','colors','r','wholesalePrices'));
+                return view('admin.wholesale-product.edit',compact('languages', 'lang','product_language','category','brand','attributes','colors','r','wholesalePrices'));
             else:
                 Toastr::error(__('Not found'));
                 return back();
@@ -123,8 +131,13 @@ class WholeSaleProductController extends Controller
 
             $lang       = $request->lang != '' ? $request->lang : \App::getLocale();
             if ($this->products->get($id) && $product_language = $this->products->getByLang($id, $lang)):
-                $categories         = $this->categories->allCategory()->where('parent_id', null)->where('status',1);
-                $brands             = $this->brands->all()->where('status',1)->get();
+                // $categories         = $this->categories->allCategory()->where('parent_id', null)->where('status',1);
+                // $brands             = $this->brands->all()->where('status',1)->get();
+
+                $category     = $this->categories->get(old('category', @$product_language->product->category_id));
+                $brand        = $this->brands->get(old('brand', @$product_language->product->brand_id));
+
+
                 $colors             = $this->colors->all()->where('lang', 'en')->get();
                 $attributes         = $this->attributes->all()->where('lang', 'en')->get();
                 $wholesalePrices    = $this->wholesale_products->wholesalePrices($id);
@@ -136,7 +149,7 @@ class WholeSaleProductController extends Controller
                         'languages',
                         'lang',
                         'product_language',
-                        'categories','brands',
+                        'category','brand',
                         'attributes',
                         'colors',
                         'r',

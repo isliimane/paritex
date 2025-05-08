@@ -32,7 +32,6 @@ class CreatePermissionsTable extends Migration
                     'update' => "order_update",
                     'view' => "order_view",
                     'invoice' => "order_invoice",
-                    'approve_offline_payment' => "order_approve_offline_payment"
                 ])
             ],
             [
@@ -177,7 +176,6 @@ class CreatePermissionsTable extends Migration
                 'updated_at' => $now,
                 "keywords" => json_encode([
                     'admin_product_sale' => "admin_product_sale_read",
-                    'seller_product_sale' => "seller_product_sale_read",
                     'product_stock' => "product_stock_read",
                     'product_wishlist' => "product_wishlist_read",
                     'user_searches' => "user_searches_read",
@@ -196,19 +194,6 @@ class CreatePermissionsTable extends Migration
                     'reject' => "refund_reject",
                     'refund_setting_read' => "refund_setting_read",
                     'refund_setting_update' => "refund_setting_update"
-                ])
-            ],
-            [
-                'attribute' => 'bulk_sms',
-                'created_at' => $now,
-                'updated_at' => $now,
-                "keywords" => json_encode([
-                    'read' => "bulk_sms_read",
-                    'send_sms' => "send_bulk_sms",
-                    'otp_setting_read' => "otp_setting_read",
-                    'otp_setting_update' => "otp_setting_update",
-                    'sms_template_read' => "sms_template_read",
-                    'sms_template_update' => "sms_template_update"
                 ])
             ],
             [
@@ -298,19 +283,6 @@ class CreatePermissionsTable extends Migration
                     'create' => "support_department_create",
                     'update' => "support_department_update",
                     'delete' => "support_department_delete"
-                ])
-            ],
-            [
-                'attribute' => 'offline_payment',
-                'created_at' => $now,
-                'updated_at' => $now,
-                "keywords" => json_encode([
-                    'read' => "offline_payment_read",
-                    'create' => "offline_payment_create",
-                    'update' => "offline_payment_update",
-                    'delete' => "offline_payment_delete",
-                    'wallet_recharge_read' => "wallet_recharge_read",
-                    'wallet_recharge_update' => "wallet_recharge_update"
                 ])
             ],
             [
@@ -488,39 +460,6 @@ class CreatePermissionsTable extends Migration
                 ])
             ],
             [
-                'attribute' => 'mobile_apps',
-                'created_at' => $now,
-                'updated_at' => $now,
-                "keywords" => json_encode([
-                    'setting_update' => "api_setting_update",
-                    'android_setting' => "android_setting_update",
-                    'ios_setting' => "ios_setting_update",
-                    'app_config' => "app_config_update",
-                    'ads_config' => "ads_config_update",
-                    'download_link' => "download_link_update"
-                ])
-            ],
-            [
-                'attribute' => 'mobile_app_intro',
-                'created_at' => $now,
-                'updated_at' => $now,
-                "keywords" => json_encode([
-                    'read'  => "mobile_app_intro_read",
-                    'create' => "mobile_app_intro_create",
-                    'update' => "mobile_app_intro_update",
-                    'delete' => "mobile_app_intro_delete"
-                ])
-            ],
-            [
-                'attribute' => 'pos_system',
-                'created_at' => $now,
-                'updated_at' => $now,
-                "keywords" => json_encode([
-                    'read'  => "pos_order",
-                    'update' => "pos_config_update"
-                ])
-            ],
-            [
                 'attribute' => 'api_key',
                 'created_at' => $now,
                 'updated_at' => $now,
@@ -548,47 +487,7 @@ class CreatePermissionsTable extends Migration
                     'create'  => "city_import_create",
                 ])
             ],
-            [
-                'attribute' => 'firebase',
-                'created_at' => $now,
-                'updated_at' => $now,
-                "keywords" => json_encode([
-                    'read'  => "firebase_read",
-                    'update' => "firebase_update"
-                ])
-            ],
-            [
-                'attribute' => 'addon',
-                'created_at' => $now,
-                'updated_at' => $now,
-                "keywords" => json_encode([
-                    'read'  => "addon_read",
-                    'update' => "addon_update"
-                ])
-            ],
-            [
-                'attribute' => 'font',
-                'created_at' => $now,
-                'updated_at' => $now,
-                "keywords" => json_encode([
-                    'update' => "font_update"
-                ])
-            ],
-            [
-                'attribute' => 'package',
-                'created_at' => $now,
-                'updated_at' => $now,
-                "keywords" => json_encode([
-                    'read' => "package_read",
-                    'create' => 'package_create',
-                    'update' => 'package_update',
-                    'destroy' => 'package_destroy',
-                    'status' => 'package_status_change',
-                    'settings' => 'subscription_setting_read',
-                    'online_payment' => 'online_payment_read',
-                    'offline_payment' => 'offline_payment_read'
-                ])
-            ]
+          
         ];
         \App\Models\Permission::insert($permissions);
     }

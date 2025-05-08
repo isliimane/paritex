@@ -242,3 +242,12 @@ a.dropdown-item:focus, a.dropdown-item:active, a.dropdown-item.active{
 #galleryModal .nav-pills .nav-item .nav-link.active{
   background-color: rgb(var(--primary-color-rgb) / 0.16) !important;
 }
+.customer-chat-clr{
+  background-color: #fff;
+}
+.admin-chat-clr{
+  background-color: rgb(var(--primary-color-rgb) / 0.16);
+}
+.admin-chat-clr a{
+  color: #333;
+}

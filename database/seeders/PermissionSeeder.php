@@ -17,7 +17,6 @@ class PermissionSeeder extends Seeder
                 'view'                      => 'order_view',
                 'invoice'                   => 'order_invoice',
 //                'delete'                    => 'order_delete' ,
-                'approve_offline_payment'   => 'order_approve_offline_payment'
             ],
             'pickup_hub'            => [
                 'read'                      => 'pickup_hub_read',
@@ -93,7 +92,6 @@ class PermissionSeeder extends Seeder
                 'wallet_recharge_history'   =>'wallet_recharge_history_read'
             ],
             'refund'                => ['read' => 'refund_read','approve' => 'refund_approve', 'process' => 'refund_process', 'reject' => 'refund_reject','refund_setting_read'=> 'refund_setting_read','refund_setting_update' => 'refund_setting_update'],
-            'bulk_sms'              => ['read' => 'bulk_sms_read', 'send_sms' => 'send_bulk_sms','otp_setting_read'=> 'otp_setting_read','otp_setting_update'=> 'otp_setting_update','sms_template_read'=> 'sms_template_read','sms_template_update'=> 'sms_template_update'],
             'campaign'              => ['read' => 'campaign_read','create'  => 'campaign_create', 'update'=> 'campaign_update', 'delete'=>'campaign_delete','campaign_request_read'=> 'campaign_request_read','campaign_request_approved'=> 'campaign_request_approved'],
             'campaign_product'      => ['read' => 'campaign_product_read','create'=> 'campaign_product_create','update'=> 'campaign_product_update','delete' => 'campaign_product_delete'],
             'subscriber'            => ['read' => 'subscriber_read','delete'=> 'subscriber_delete' ],
@@ -102,7 +100,6 @@ class PermissionSeeder extends Seeder
             'blog_category'         => ['read' => 'blog_category_read', 'create' => 'blog_category_create', 'update'   => 'blog_category_update', 'delete'   => 'blog_category_delete'],
             'support'               => ['read' => 'support_read','create'        => 'support_create','update'          => 'support_update', 'delete'         => 'support_delete'],
             'support_department'    => ['read' => 'support_department_read', 'create' => 'support_department_create', 'update' => 'support_department_update','delete' => 'support_department_delete'],
-            'offline_payment'       => ['read' => 'offline_payment_read','create'=> 'offline_payment_create','update' => 'offline_payment_update','delete'=> 'offline_payment_delete','wallet_recharge_read' => 'wallet_recharge_read','wallet_recharge_update'=> 'wallet_recharge_update'],
             'reward_configuration'  => ['read' => 'reward_configuration_read','update' => 'reward_configuration_update','reward_setting_read' => 'reward_setting_read','reward_setting_create'=> 'reward_setting_create','reward_setting_update'=> 'reward_setting_update'],
             'payment_gateway'       => ['read' => 'payment_gateway_read','update' => 'payment_gateway_update'],
             'shipping_configuration'=> ['read' => 'shipping_configuration_read', 'update' => 'shipping_configuration_update'],
@@ -199,10 +196,6 @@ class PermissionSeeder extends Seeder
                 'create'                => 'video_shopping_create',
                 'update'                => 'video_shopping_update',
                 'delete'                => 'video_shopping_delete'
-            ],
-            'pos_system'        => [
-                'read'                  => 'pos_order',
-                'update'                => 'pos_config_update',
             ],
             'warehouse'        => [
                 'read'                  => 'warehouse_read',

@@ -178,7 +178,7 @@
                                                     <i class="bx bx-download"></i>
                                                 </a>
                                             @endif
-                                            @if(hasPermission('order_approve_offline_payment') && ($value->offline_method_id != '' || $value->offline_method_id != null) && $value->payment_type == 'offline_method' && $value->payment_status != 'paid')
+                                            @if(hasPermission('order_update') && ($value->offline_method_id != '' || $value->offline_method_id != null) && $value->payment_type == 'offline_method' && $value->payment_status != 'paid')
                                                 <a href="javascript:void(0)"
                                                    onclick="approve_payment('{{route('order.approve.offline.payment')}}', {{ $value->id }})"
                                                    class="btn btn-outline-success btn-circle"

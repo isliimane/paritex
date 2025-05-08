@@ -134,11 +134,9 @@
                                                 <div class="form-group">
                                                     <label for="category">{{ __('Category') }} *</label>
                                                     <select class="form-control filter-categories-by-ajax" name="category" id="category">
-                                                        {{--
                                                         @if($category)
                                                             <option value="{{ $category->id }}">{{ $category->getTranslation('title', App::getLocale()) }}</option>
                                                         @endif
-                                                        --}}
                                                     </select>
 
                                                     @if ($errors->has('category'))
@@ -160,11 +158,9 @@
                                                                value="{{ $product_language->product_id }}">
                                                     @endif
                                                     <select class="form-control brand-by-ajax" name="brand" id="brand">
-                                                        {{--
                                                         @if($brand)
                                                             <option value="{{ $brand->id }}">{{ $brand->getTranslation('title', App::getLocale()) }}</option>
                                                         @endif
-                                                        --}}
                                                     </select>
 
                                                     @if ($errors->has('brand'))

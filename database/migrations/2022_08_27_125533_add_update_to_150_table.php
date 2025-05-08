@@ -23,39 +23,7 @@ class AddUpdateTo150Table extends Migration
 
         $permissions = $user->permissions;
 
-        if (!in_array(['firebase_read'], $permissions) && !in_array(['firebase_update'], $permissions)) {
-            $permissions[] = "firebase_read";
-            $permissions[] = "firebase_update";
-            $user->permissions = $permissions;
-            $user->save();
-        }
 
-        $permission = Permission::where('attribute', 'firebase_read')->first();
-
-        if (!$permission) {
-            $value = [
-                'read' => 'firebase_read',
-            ];
-
-            Permission::create([
-                'attribute' => "firebase",
-                'keywords' => $value,
-            ]);
-
-        }
-        $permission = Permission::where('attribute', 'firebase_update')->first();
-
-        if (!$permission) {
-            $value = [
-                'update' => 'firebase_update',
-            ];
-
-            Permission::create([
-                'attribute' => "firebase",
-                'keywords' => $value,
-            ]);
-
-        }
         Schema::create('payment_method', function (Blueprint $table) {
             $table->id();
             $table->string('trx_id');

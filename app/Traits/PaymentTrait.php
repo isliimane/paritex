@@ -2,7 +2,6 @@
 
 namespace App\Traits;
 
-use App\Repositories\Admin\Addon\PackageRepository;
 use App\Repositories\Admin\CurrencyRepository;
 use App\Utility\AppSettingUtility;
 use Brian2694\Toastr\Facades\Toastr;

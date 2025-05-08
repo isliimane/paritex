@@ -44,17 +44,6 @@
                     {{lang.make_complaint}}
                 </router-link>
               </li>
-              <li v-if="settings.topbar_play_store_link == 1">
-                <a :href="settings.play_store_link" target="_blank"
-                ><span class="mdi mdi-name mdi-google-play"></span> <small>{{ lang.play_store }}</small></a
-                >
-              </li>
-              <li v-if="settings.topbar_app_store_link == 1">
-                <a :href="settings.apple_store_link" target="_blank"
-                ><span class="mdi mdi-name mdi-apple"></span> <small>{{ lang.app_store }}</small></a
-                >
-              </li>
-              
             </ul>
           </div>
           <div class="right-content new-list">

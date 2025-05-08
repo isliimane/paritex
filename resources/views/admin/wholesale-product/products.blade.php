@@ -15,10 +15,10 @@
                 <div class="d-block">
                     <h2 class="section-title">{{ __('Wholesale Products') }}</h2>
                     <p class="section-lead">
-                        {{ __('You have total') . ' ' . $products->total() . ' ' . __('product_s') }}
+                        {{ __('You have total') . ' ' . $products->total() . ' ' . __('products') }}
                     </p>
                 </div>
-                @if(hasPermission('wholesale_product_create'))
+                @if(hasPermission('product_create'))
                     <div class="buttons add-button">
                         <a href="{{ route('wholesale.product.create') }}" class="btn btn-icon icon-left btn-outline-primary">
                             <i class='bx bx-plus'></i>{{ __('Add new Product') }}
@@ -151,7 +151,7 @@
                                         <th>{{ __('Published') }}</th>
                                         <th>{{ __("Today's Deal") }}</th>
                                         <th>{{ __('Featured') }}</th>
-                                        @if(hasPermission('wholesale_product_update') || hasPermission('wholesale_product_delete') || hasPermission('wholesale_product_restore') || hasPermission('wholesale_product_clone'))
+                                        @if(hasPermission('product_update') || hasPermission('product_delete') || hasPermission('product_restore') || hasPermission('product_clone'))
                                             <th>{{ __('Option') }}</th>
                                         @endif
                                     </tr>
@@ -189,53 +189,53 @@
                                                             class="ml-1 badge badge-pill badge-warning">{{ __('Pending') }}</div>
                                                     </div>
                                                 @else
-                                                    <label class="custom-switch mt-2 {{ (hasPermission('wholesale_product_update') && $product->status != 'trash') ? '' : 'cursor-not-allowed' }}">
+                                                    <label class="custom-switch mt-2 {{ (hasPermission('product_update') && $product->status != 'trash') ? '' : 'cursor-not-allowed' }}">
                                                         <input type="checkbox"
-                                                               @if(hasPermission('wholesale_product_update') && $product->status != 'trash') value="product-status-change/{{$product->id}}/status" @endif
+                                                               @if(hasPermission('product_update') && $product->status != 'trash') value="product-status-change/{{$product->id}}/status" @endif
                                                                {{ $product->status == 'published' ? 'checked' : '' }} name="custom-switch-checkbox"
-                                                               {{ (hasPermission('wholesale_product_update') && $product->status != 'trash') ? '' : 'disabled' }}
-                                                               class="{{ (hasPermission('wholesale_product_update') && $product->status != 'trash') ? 'product-status-change' : '' }} custom-switch-input">
+                                                               {{ (hasPermission('product_update') && $product->status != 'trash') ? '' : 'disabled' }}
+                                                               class="{{ (hasPermission('product_update') && $product->status != 'trash') ? 'product-status-change' : '' }} custom-switch-input">
                                                         <span class="custom-switch-indicator"></span>
                                                     </label>
                                                 @endif
                                             </td>
                                             <td>
-                                                <label class="custom-switch mt-2 {{ (hasPermission('wholesale_product_update') && $product->status != 'trash') ? '' : 'cursor-not-allowed' }}">
+                                                <label class="custom-switch mt-2 {{ (hasPermission('product_update') && $product->status != 'trash') ? '' : 'cursor-not-allowed' }}">
                                                     <input type="checkbox"
-                                                           @if(hasPermission('wholesale_product_update') && $product->status != 'trash') value="product-status-change/{{$product->id}}/todays_deal" @endif
+                                                           @if(hasPermission('product_update') && $product->status != 'trash') value="product-status-change/{{$product->id}}/todays_deal" @endif
                                                            {{ $product->todays_deal == 1 ? 'checked' : '' }} name="custom-switch-checkbox"
-                                                           {{ (hasPermission('wholesale_product_update') && $product->status != 'trash') ? '' : 'disabled' }}
-                                                           class="{{ (hasPermission('wholesale_product_update') && $product->status != 'trash') ? 'product-status-change' : '' }} custom-switch-input">
+                                                           {{ (hasPermission('product_update') && $product->status != 'trash') ? '' : 'disabled' }}
+                                                           class="{{ (hasPermission('product_update') && $product->status != 'trash') ? 'product-status-change' : '' }} custom-switch-input">
                                                     <span class="custom-switch-indicator"></span>
                                                 </label>
                                             </td>
                                             <td>
-                                                <label class="custom-switch mt-2 {{ (hasPermission('wholesale_product_update') && $product->status != 'trash') ? '' : 'cursor-not-allowed' }}">
+                                                <label class="custom-switch mt-2 {{ (hasPermission('product_update') && $product->status != 'trash') ? '' : 'cursor-not-allowed' }}">
                                                     <input type="checkbox"
-                                                          @if(hasPermission('wholesale_product_update') && $product->status != 'trash') value="product-status-change/{{$product->id}}/is_featured" @endif
+                                                          @if(hasPermission('product_update') && $product->status != 'trash') value="product-status-change/{{$product->id}}/is_featured" @endif
                                                            {{ $product->is_featured == 1 ? 'checked' : '' }} name="custom-switch-checkbox"
-                                                           {{ (hasPermission('wholesale_product_update') && $product->status != 'trash') ? '' : 'disabled' }}
-                                                           class="{{ (hasPermission('wholesale_product_update') && $product->status != 'trash') ? 'product-status-change' : '' }} custom-switch-input">
+                                                           {{ (hasPermission('product_update') && $product->status != 'trash') ? '' : 'disabled' }}
+                                                           class="{{ (hasPermission('product_update') && $product->status != 'trash') ? 'product-status-change' : '' }} custom-switch-input">
                                                     <span class="custom-switch-indicator"></span>
                                                 </label>
                                             </td>
                                             <td>
                                                 @if($product->status != 'trash')
-                                                    @if (hasPermission('wholesale_product_update'))
+                                                    @if (hasPermission('date'))
                                                         <a href="{{ route('wholesale.product.edit', $product->id) }}"
                                                            class="btn btn-outline-secondary btn-circle"
                                                            data-toggle="tooltip" title=""
                                                            data-original-title="{{ __('Edit') }}"><i
                                                                 class="bx bx-edit"></i></a>
                                                     @endif
-                                                    @if(hasPermission('wholesale_product_clone'))
+                                                    @if(hasPermission('product_clone'))
                                                         <a href="{{ route('wholesale.product.clone', $product->id) }}" class="btn btn-outline-primary btn-circle"
                                                            data-toggle="tooltip"
                                                            title="" data-original-title="{{__('Clone')}}"><i
                                                                 class='bx bx-copy'></i>
                                                         </a>
                                                     @endif
-                                                    @if(hasPermission('wholesale_product_delete'))
+                                                    @if(hasPermission('product_delete'))
                                                         <a href="#"
                                                             onclick="delete_row('delete/products/', {{ $product->id }})"
                                                             class="btn btn-outline-danger btn-circle"
@@ -252,7 +252,7 @@
                                                     <div class="dropdown-menu">
                                                         <a href="{{ route('product-details',$product->slug) }}" class="dropdown-item has-icon"><i
                                                                 class='bx bx-show'></i>{{ __('Show') }}</a>
-                                                        @if(hasPermission('wholesale_product_update'))
+                                                        @if(hasPermission('product_update'))
                                                             @if($product->is_approved == 1)
                                                                 <a href="{{ route('product.status.change', ['status'=>'pending','id'=>$product->id]) }}"
                                                                    class="dropdown-item has-icon"><i
@@ -272,7 +272,7 @@
                                                         @endif
                                                     </div>
                                                 @else
-                                                    @if(hasPermission('wholesale_product_restore'))
+                                                    @if(hasPermission('product_restore'))
                                                         <a href="{{ route('product.restore', $product->id) }}"
                                                            class="btn btn-outline-primary btn-circle"
                                                            data-toggle="tooltip" title=""

@@ -4,10 +4,8 @@
             <ul class="nav nav-pills flex-column">
                 <li class="nav-item"><a href="{{ route('apis.settings') }}"
                                             class="nav-link @yield('apis_settings')">{{ __('APIs Setting') }}</a></li>
-                @if(hasPermission('mobile_app_intro_read'))
                     <li class="nav-item"><a href="{{ route('app.intro.settings') }}"
                                             class="nav-link @yield('app_intro_settings')">{{ __('App Intro') }}</a></li>
-                @endif
                 @if(hasPermission('android_setting_update'))
                     <li class="nav-item"><a href="{{ route('android.settings') }}"
                                             class="nav-link @yield('android_settings')">{{ __('Android Setting') }}</a>

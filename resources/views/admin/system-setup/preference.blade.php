@@ -171,17 +171,6 @@
                                                 </label>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td>{{ __('disable_guest_checkout') }}</td>
-                                            <td width="300">
-                                                <label class="custom-switch mt-2">
-                                                    <input type="checkbox" name="custom-switch-checkbox"
-                                                           value="setting-status-change/disable_guest_checkout"
-                                                           class="custom-switch-input status-change" {{ settingHelper('disable_guest_checkout') == 1 ? 'checked' : ''}} />
-                                                    <span class="custom-switch-indicator"></span>
-                                                </label>
-                                            </td>
-                                        </tr>
 
                                         <tr>
                                             <th colspan="2">{{ __('Color activation') }}</th>

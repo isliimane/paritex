@@ -52,8 +52,8 @@
                     </a>
                     <ul class="dropdown-menu">
 
-                        @if(hasPermission('wholesale_product_read') && addon_is_activated('wholesale'))
-                            @if(hasPermission('wholesale_product_create'))
+                        @if(hasPermission('product_read'))
+                            @if(hasPermission('product_create'))
                                 <li class="@yield('wholesale_product_create')">
                                     <a class="nav-link"
                                     href="{{ route('wholesale.product.create') }}">{{ __('Add New Product') }}</a>
@@ -278,7 +278,7 @@
                 @endif
             @endif
 
-            @if(hasPermission('campaign_read') ||  hasPermission('bulk_sms_read') || hasPermission('subscriber_read') || hasPermission('coupon_read') || hasPermission('campaign_request_read') || hasPermission('otp_setting_read') || hasPermission('sms_template_read'))
+            @if(hasPermission('campaign_read') || hasPermission('subscriber_read') || hasPermission('coupon_read') || hasPermission('campaign_request_read') || hasPermission('otp_setting_read') || hasPermission('sms_template_read'))
                 <li class="nav-item dropdown @yield('marketing_active')">
                     <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
                         <i class="bx bx-paper-plane"></i>
@@ -437,11 +437,11 @@
                     <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown"><i
                                 class="bx bx-cog"></i><span>{{ __('Store Front') }}</span></a>
                     <ul class="dropdown-menu @yield('store-front')">
-                        @if(hasPermission('theme_option_update'))
+                        <!-- @if(hasPermission('theme_option_update'))
                             <li class="@yield('theme-options')"><a class="nav-link"
                                                                    href="{{ route('get.theme.options') }}"> {{ __('Theme Options') }}</a>
                             </li>
-                        @endif
+                        @endif -->
                         @if(hasPermission('header_content_update'))
                             <li class="@yield('header_content')"><a class="nav-link"
                                                                     href="{{ route('header') }}">{{ __('Header Content') }}</a>
@@ -468,7 +468,7 @@
                                                                    href="{{ route('website.popup') }}">{{ __('Website Popup') }}</a>
                             </li>
                         @endif
-                        @if(hasPermission('custom_css_update'))
+                        <!-- @if(hasPermission('custom_css_update'))
                             <li class="@yield('custom-css')"><a class="nav-link"
                                                                 href="{{ route('custom.css') }}">{{ __('Custom CSS') }}</a>
                             </li>
@@ -477,7 +477,7 @@
                             <li class="@yield('custom-js')"><a class="nav-link"
                                                                href="{{ route('custom.js') }}">{{ __('Custom JS') }}</a>
                             </li>
-                        @endif
+                        @endif -->
 
                         @if(hasPermission('gdpr_update'))
                             <li class="@yield('gdpr')"><a class="nav-link"
@@ -590,11 +590,9 @@
                                                                           href="{{ route('miscellaneous') }}">{{ __('Misc') }}</a>
                             </li>
                         @endif
-                        @if(hasPermission('font_update'))
                             <li class="@yield('pdf_font')"><a class="nav-link"
                                                               href="{{ route('admin.get.fonts') }}">{{ __('Pdf Font') }}</a>
                             </li>
-                        @endif
                     </ul>
                 </li>
             @endif
@@ -661,9 +659,7 @@
                     </ul>
                 </li>
             @endif
-            @if(hasPermission('addon_read'))
-                @if(settingHelper('current_version') != '1.0.0')
-                    <li class="nav-item dropdown @yield('addon_utility')">
+                    <!-- <li class="nav-item dropdown @yield('addon_utility')">
                         <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown"><i
                                     class="bx bx-extension"
                                     aria-hidden="true"></i><span>{{ __('Addons') }}</span></a>
@@ -675,25 +671,19 @@
                                                                      href="{{ route('admin.available.addons') }}">{{ __('Available Addons') }}</a>
                             </li>
                         </ul>
-                    </li>
-                @endif
-            @endif
-            @if(hasPermission('addon_read'))
-                @if(settingHelper('current_version') != '1.0.0')
-                    <li class="@yield('updater')">
+                    </li> -->
+                    <!-- <li class="@yield('updater')">
                         <a class="nav-link" href="{{ route('admin.system.update.form') }}">
                             <i class="bx bx-wrench"></i>
                             <span>{{ __('System Update') }}</span>
                         </a>
-                    </li>
+                    </li> -->
                     <!-- <li class="@yield('server-info')">
                         <a class="nav-link" href="{{ route('admin.server.info') }}">
                             <i class="bx bx-server"></i>
                             <span>{{ __('Server Info') }}</span>
                         </a>
                     </li> -->
-                @endif
-            @endif
             @if(hasPermission('warehouse_read'))
                 <li class="nav-item dropdown @yield('warehouse_active')">
                     <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">

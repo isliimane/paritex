@@ -19,28 +19,13 @@ class AddUpdateTo154Table extends Migration
 
         $permissions = $user->permissions;
 
-        if (!in_array(['font_update'],$permissions) && !in_array(['seller_as_login'],$permissions))
+        if (!in_array(['seller_as_login'],$permissions))
         {
-            $permissions[] = "font_update";
             $permissions[] = "seller_as_login";
             $user->permissions = $permissions;
             $user->save();
         }
 
-        $permission = Permission::where('attribute','font_update')->first();
-
-        if (!$permission)
-        {
-            $value = [
-                'update'    => 'font_update',
-            ];
-
-            Permission::create([
-                'attribute' => "font",
-                'keywords' => $value,
-            ]);
-
-        }
     }
 
     public function down()

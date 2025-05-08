@@ -95,17 +95,6 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
-                                        <div class="form-group">
-                                            <label for="purchase_code">{{ __('Purchase Code') }} *</label>
-                                            <input type="text" id="purchase_code" name="purchase_code"
-                                                   value="{{ old('purchase_code') ? old('purchase_code') : (!config('app.demo_mode') ? settingHelper('purchase_code') : '') }}"
-                                                   class="form-control" required>
-                                            @if ($errors->has('purchase_code'))
-                                                <div class="invalid-feedback">
-                                                    <p>{{ $errors->first('purchase_code') }}</p>
-                                                </div>
-                                            @endif
-                                        </div>
                                         @php
                                             $timezone = '';
                                             $default_timezone = \App\Utility\AppSettingUtility::settings()->where('title','default_time_zone')->first();

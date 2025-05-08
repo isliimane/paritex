@@ -22,9 +22,9 @@
                         </div>
                         <div class="col-md-10 middle card-body card-body-paddding">
                             <div class="form-group">
-                                <label class="custom-switch mt-2 {{ hasPermission('font_update') ? '' : 'cursor-not-allowed' }}">
+                                <label class="custom-switch mt-2">
                                     <input type="checkbox" name="custom-switch-checkbox" value="font-status-change/{{@$font->id}}"
-                                           {{ @$font->status == 1 ? 'checked' : '' }} {{  hasPermission('font_update') ? '' : 'disabled' }} class="{{  hasPermission('font_update') ? 'status-change' : '' }} custom-switch-input">
+                                           {{ @$font->status == 1 ? 'checked' : '' }} class="status-change" custom-switch-input">
                                     <span class="custom-switch-indicator"></span>
                                     <span class="custom-switch-description">{{ __('Activate') }}</span>
 
