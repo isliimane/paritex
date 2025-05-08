@@ -95,7 +95,6 @@ Route::middleware(['XSS', 'isInstalled'])->group(function () {
             Route::get('profile-orders', [OrderController::class, 'profileOrder'])->name('user.profile');
             Route::get('order-list', [OrderController::class, 'orderList'])->name('user.order.list');
             
-            Route::get('digital-product-order-list', [OrderController::class, 'digitalProductOrders'])->name('user.digital.product.orders');
             Route::get('remove-order/{id}', [OrderController::class, 'removeOrder'])->name('remove.order');
             Route::get('cancel-order/{id}', [OrderController::class, 'cancelOrder'])->name('cancel.order');
             Route::post('product-review-store', [ProductController::class, 'storeReview'])->name('review.store');
@@ -274,7 +273,6 @@ Route::middleware(['XSS', 'isInstalled'])->group(function () {
     Route::get('set-default-language/{lang}', [LanguageController::class, 'setDefaultLanguage'])->name('set.default.language');
     //    Route::get('user/complete-recharge', [WalletController::Class, 'walletStore']);
     Route::match(['get', 'post'], 'user/complete-recharge', [WalletController::class, 'walletStore'])->name('wallet.complete.recharge');
-    Route::get('file-download/{product_file}', [HomeController::class, 'fileDownload'])->name('file.download')->middleware('signed');
     Route::get('change-exchange-rate/{code}', [HomeController::class, 'changeCurrencyRate'])->name('change.currency.rate');
     //
     //Report Route

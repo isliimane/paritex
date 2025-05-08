@@ -80,10 +80,6 @@
                 <a href="javascript:void(0)"
                    @click="download(orderDetails.order_id, orderDetails.code)">{{ lang.download }}</a>
               </li>
-              <li v-if="orderDetails.product_file_id && orderDetails.payment_status == 'paid'">
-                <a v-for="(url,index) in orderUrls" :key="index" v-if="index == orderDetails.id"
-                   :href="url">{{ lang.download_file }}</a>
-              </li>
               <li v-if="orderDetails.delivery_status == 'delivered' || orderDetails.delivery_status == 'canceled'">
                 <a href="javascript:void(0)" @click="removeOrder(orderDetails.order_id,i)">{{ lang.delete }}</a>
               </li>
@@ -113,9 +109,6 @@ export default {
   mounted() {
   },
   computed: {
-    orderUrls() {
-      return this.$store.getters.getOrderUrl
-    }
   },
   methods: {
     removeOrder(order_id, i) {

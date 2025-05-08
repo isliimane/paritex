@@ -73,51 +73,6 @@ class OrderController extends Controller
         }
     }
 
-    public function digitalProductOrders(Request $request, OrderInterface $order): \Illuminate\Http\JsonResponse
-    {
-        try {
-            cache()->forget('order_urls');
-            $urls = cache('order_urls');
-            $data = [];
-
-            if (!$urls) {
-                $order_details = $order->digitalProductOrders(10);
-
-                foreach ($order_details as $key => $order_detail) {
-                    $url = \Illuminate\Support\Facades\URL::temporarySignedRoute('file.download', now()->addMinutes(60), [
-                        'u' => authId(),
-                        'od' => $order_detail->id,
-                        'product_file' => $order_detail->product->product_file_id,
-                        'response' => 'yes',
-                        'token' => $request->token,
-                    ]);
-                    $data[$key] = [
-                        'id' => $order_detail->id,
-                        'url' => $url,
-                        'product_name' => $order_detail->product->product_name,
-                        'date' => Carbon::parse($order_detail->created_at)->format('d M Y'),
-                        'total' => ($order_detail->price + $order_detail->tax + $order_detail->shipping_cost['total_cost']) - ($order_detail->discount + $order_detail->coupon_discount['discount']),
-                    ];
-                }
-
-                cache(['order_urls' => $data], now()->addMinutes(60));
-                $urls = cache('order_urls');
-            }
-
-            $next_page_url = !($request->page * 10 > $order_details->total());
-            $data = [
-                'download_urls' => $urls,
-                'next_page_url' => $next_page_url,
-            ];
-            return response()->json($data);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage()
-            ]);
-        }
-    }
-
     public function removeOrder(OrderInterface $orderList, $id): \Illuminate\Http\JsonResponse
     {
         try {

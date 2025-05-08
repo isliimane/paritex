@@ -69,38 +69,6 @@ class ProductController extends Controller
             return back();
         }
     }
-    public function digitalProducts(Request $request, $status = null){
-        try {
-            $products           = $this->products->paginate($request, $status ,get_pagination('pagination'),'digital');
-            $selected_category  = isset($request->c) ? $this->categories->get($request->c) : null;
-            return view('admin.products.products.digital-products', compact('status','products','selected_category'));
-        } catch (\Exception $e) {
-            Toastr::error($e->getMessage());
-            return back();
-        }
-    }
-    public function catalogProducts(Request $request, $status = null){
-        try {
-            $products       = $this->products->paginate($request, $status ,\Config::get('yrsetting.paginate'),'catalog');
-
-            $selected_category  = isset($request->c) ? $this->categories->get($request->c) : null;
-            return view('admin.products.products.catalog-products', compact('status','products','selected_category'));
-        } catch (\Exception $e) {
-            Toastr::error($e->getMessage());
-            return back();
-        }
-    }
-
-    public function classifiedProducts(Request $request, $status = null){
-        try {
-            $products           = $this->products->paginate($request, $status ,\Config::get('yrsetting.paginate'),'classified');
-            $selected_category  = isset($request->c) ? $this->categories->get($request->c) : null;
-            return view('admin.products.products.classified-products', compact('status','products','selected_category'));
-        } catch (\Exception $e) {
-            Toastr::error($e->getMessage());
-            return back();
-        }
-    }
 
     public function create(Request $request)
     {
@@ -118,49 +86,6 @@ class ProductController extends Controller
             Toastr::error($e->getMessage());
             return back();
         }
-    }
-    public function createDigitalProduct(Request $request)
-    {
-        $data = [
-            'category'      => $this->categories->get(old('category')),
-            'brand'         => $this->brands->get(old('brand')),
-            'colors'            => $this->colors->all()->where('lang', 'en')->get(),
-            'attributes'        => $this->attributes->all()->where('lang', 'en')->get(),
-            'campaigns'         => \App\Models\Campaign::where('status', 1)->where('end_date','>',Carbon::now()->format('Y-m-d'))->get(),
-            'r'                 => $request->r != ''? $request->r : $request->server('HTTP_REFERER'),
-            'shipping_classes'  => [],
-            'is_digital'        => 1
-        ];
-
-        return view('admin.products.products.form',$data);
-    }
-    public function createCatalogProduct(Request $request)
-    {
-        $data = [
-            'category'      => $this->categories->get(old('category')),
-            'brand'         => $this->brands->get(old('brand')),
-            'colors'        => $this->colors->all()->where('lang', 'en')->get(),
-            'attributes'    => $this->attributes->all()->where('lang', 'en')->get(),
-            'campaigns'     => \App\Models\Campaign::where('status', 1)->where('end_date','>',Carbon::now()->format('Y-m-d'))->get(),
-            'r'             => $request->r != ''? $request->r : $request->server('HTTP_REFERER'),
-            'is_catalog'    => 1
-        ];
-
-        return view('admin.products.products.form',$data);
-    }
-    public function createClassifiedProduct(Request $request)
-    {
-        $data = [
-            'category'      => $this->categories->get(old('category')),
-            'brand'         => $this->brands->get(old('brand')),
-            'colors'        => $this->colors->all()->where('lang', 'en')->get(),
-            'attributes'    => $this->attributes->all()->where('lang', 'en')->get(),
-            'campaigns'     => \App\Models\Campaign::where('status', 1)->where('end_date','>',Carbon::now()->format('Y-m-d'))->get(),
-            'r'             => $request->r != ''? $request->r : $request->server('HTTP_REFERER'),
-            'is_classified' => 1
-        ];
-
-        return view('admin.products.products.form',$data);
     }
 
     public function edit($id, Request $request)
@@ -285,7 +210,7 @@ class ProductController extends Controller
 
             if (!$request->has_variant && $product->stock()->first()) {
                 $sku_validator = Validator::make($request->all(), [
-                    'sku' => 'required_without_all:has_variant,is_classified|unique:product_stocks,sku,' . $product->stock()->first()->id,
+                    'sku' => 'required_without_all:has_variant|unique:product_stocks,sku,' . $product->stock()->first()->id,
                 ]);
 
                 if ($sku_validator->fails()) {

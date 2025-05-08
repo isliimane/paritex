@@ -8,7 +8,7 @@
                             <span class="base" v-if="isLicenseVerified && product.special_discount_check > 0">{{
                                 product.special_discount_type == 'flat' ? priceFormat(product.special_discount_check) + ' '+lang.off : product.special_discount_check + '% '+lang.off
                               }} </span>
-                <span v-if="product.current_stock == 0 && !product.is_classified" class="base stock_badge">{{
+                <span v-if="product.current_stock == 0" class="base stock_badge">{{
                     lang.out_of_stock
                   }}</span>
                 <span class="base reword-badge" v-if="addons.includes('reward') && product.reward > 0">{{
@@ -40,9 +40,11 @@
               </div>
               <div class="icons">
                 <ul class="global-list">
-                  <li v-if="product.minimum_order_quantity <= product.current_stock && !product.is_catalog && !product.is_classified"><a
+                  <li v-if="product.minimum_order_quantity <= product.current_stock">
+                    <a
                       href="javaScript:void(0)" @click="cartBtn(product,index)"><span
-                      class="mdi mdi-name mdi-shopping-outline"></span></a>
+                      class="mdi mdi-name mdi-shopping-outline"></span>
+                    </a>
                   </li>
                   <div v-if="authUser">
                     <li v-if="$store.getters.isThisWishlisted(product.id)"><a href="javaScript:void(0)"

@@ -27,19 +27,6 @@
                                 aria-haspopup="true" aria-expanded="false">
                             <i class='bx bx-dots-horizontal'></i>
                         </button>
-                        <div class="dropdown-menu" x-placement="bottom-start"
-                             style="position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
-                            <a class="dropdown-item has-icon" href="{{ route('digital.product.create') }}"><i
-                                    class='bx bx-plus'></i> {{__("Add Digital Product")}}</a>
-                            <a class="dropdown-item has-icon" href="{{ route('catalog.product.create') }}"><i
-                                    class='bx bx-plus'></i> {{__("Add Catalog Product")}}</a>
-                            <a class="dropdown-item has-icon" href="{{ route('classified.product.create') }}"><i
-                                    class='bx bx-plus'></i>{{__("Add Classified Product")}}</a>
-                            @if(addon_is_activated('wholesale') == true)
-                                <a class="dropdown-item has-icon" href="{{ route('wholesale.product.create') }}"><i
-                                        class='bx bx-plus'></i>{{__("Add Wholesale Product")}}</a>
-                            @endif
-                        </div>
                     </div>
                 @endif
             </div>
@@ -165,7 +152,6 @@
                                         <th>{{ __('Detail') }}</th>
                                         <th>{{ __('Current Stock') }}</th>
                                         <th>{{ __('Published') }}</th>
-                                        <th>{{ __('Catalog') }}</th>
                                         <th>{{ __("Today's Deal") }}</th>
                                         <th>{{ __('Featured') }}</th>
                                         @if(hasPermission('product_update') || hasPermission('product_delete') || hasPermission('product_restore') || hasPermission('product_clone'))
@@ -229,16 +215,6 @@
                                                         <span class="custom-switch-indicator"></span>
                                                     </label>
                                                 @endif
-                                            </td>
-                                            <td>
-                                                <label class="custom-switch mt-2 {{ (hasPermission('product_update') && $product->status != 'trash') ? '' : 'cursor-not-allowed' }}">
-                                                    <input type="checkbox"
-                                                           @if(hasPermission('product_update') && $product->status != 'trash') value="product-status-change/{{$product->id}}/is_catalog" @endif
-                                                           {{ $product->is_catalog == 1 ? 'checked' : '' }} name="custom-switch-checkbox"
-                                                           {{ (hasPermission('product_update') && $product->status != 'trash') ? '' : 'disabled' }}
-                                                           class="{{ (hasPermission('product_update') && $product->status != 'trash') ? 'product-status-change' : '' }} custom-switch-input">
-                                                    <span class="custom-switch-indicator"></span>
-                                                </label>
                                             </td>
                                             <td>
                                                 <label class="custom-switch mt-2 {{ (hasPermission('product_update') && $product->status != 'trash') ? '' : 'cursor-not-allowed' }}">

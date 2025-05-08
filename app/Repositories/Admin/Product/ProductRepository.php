@@ -108,15 +108,6 @@ class ProductRepository implements ProductInterface
                 $q->when($product_for == 'admin', function ($for) {
                     $for->where('user_id', 1);
                 });
-                $q->when($product_for == 'digital', function ($for) {
-                    $for->where('is_digital', 1);
-                });
-                $q->when($product_for == 'catalog', function ($for) {
-                    $for->where('is_catalog', 1);
-                });
-                $q->when($product_for == 'classified', function ($for) {
-                    $for->where('is_classified', 1);
-                });
                 $q->when($product_for == 'wholesale', function ($for) {
                     $for->where('is_wholesale', 1);
                 });
@@ -306,31 +297,10 @@ class ProductRepository implements ProductInterface
         if ($request->has('is_refundable')):
             $product->is_refundable         = 1;
         endif;
-        if ($request->has('is_catalog')):
-            $product->is_catalog            = 1;
-        endif;
         if ($request->has('is_featured')):
             $product->is_featured           = 1;
         endif;
-        //digital product will not get delivered
-        if ($request->has('is_digital')):
-            $product->is_digital             = 1;
-            $product->minimum_order_quantity = 1;
-            if ($request->product_file):
-                $file = $this->getFile($request->product_file);
-                if ($file):
-                    $product->product_file = $file;
-                    $product->product_file_id = $request->product_file;
-                else:
-                    $product->product_file = [];
-                endif;
-            else:
-                $product->product_file = [];
-            endif;
-        else:
-            $product->estimated_shipping_days = $request->estimated_shipping_days != '' ? $request->estimated_shipping_days : 0;
-        endif;
-
+        $product->estimated_shipping_days = $request->estimated_shipping_days != '' ? $request->estimated_shipping_days : 0;
         if ($request->has('todays_deal')):
             $product->todays_deal = $request->todays_deal;
         endif;
@@ -347,17 +317,6 @@ class ProductRepository implements ProductInterface
             if ($request->has('shipping_fee_depend_on_quantity')):
                 $product->shipping_fee_depend_on_quantity = $request->shipping_fee_depend_on_quantity;
             endif;
-        endif;
-
-        if ($request->has('is_classified')):
-            $product->is_classified = 1;
-
-            $contact_details['contact_name']    = $request->contact_name;
-            $contact_details['phone_no']        = $request->phone_no;
-            $contact_details['email']           = $request->email;
-            $contact_details['address']         = $request->address;
-            $contact_details['others']          = $request->others;
-            $product->contact_info              = $contact_details;
         endif;
 
         $product->save();
@@ -569,36 +528,12 @@ class ProductRepository implements ProductInterface
         else:
             $product->is_refundable = 0;
         endif;
-        if ($request->has('is_catalog')):
-            $product->is_catalog = 1;
-            $product->external_link = $request->external_link;
-        else:
-            $product->is_catalog = 0;
-        endif;
         if ($request->has('is_featured')):
             $product->is_featured = 1;
         else:
             $product->is_featured = 0;
         endif;
-        //digital product will not get delivered
-        if ($request->has('is_digital')):
-            $product->is_digital = 1;
-            $product->minimum_order_quantity = 1;
-            if ($request->product_file):
-                $file = $this->getFile($request->product_file);
-                if ($file):
-                    $product->product_file = $file;
-                    $product->product_file_id = $request->product_file;
-                else:
-                    $product->product_file = [];
-                endif;
-            else:
-                $product->product_file = [];
-            endif;
-        else:
-            $product->is_digital = 0;
             $product->estimated_shipping_days = $request->estimated_shipping_days != '' ? $request->estimated_shipping_days : 0;
-        endif;
 
         if ($request->has('todays_deal')):
             $product->todays_deal = $request->todays_deal;
@@ -619,17 +554,7 @@ class ProductRepository implements ProductInterface
                 $product->shipping_fee_depend_on_quantity = $request->shipping_fee_depend_on_quantity;
             endif;
         endif;
-        if ($request->has('is_classified')):
-            $product->is_classified = 1;
-
-            $contact_details['contact_name'] = $request->contact_name;
-            $contact_details['phone_no'] = $request->phone_no;
-            $contact_details['email'] = $request->email;
-            $contact_details['address'] = $request->address;
-            $contact_details['others'] = $request->others;
-
-            $product->contact_info = $contact_details;
-        endif;
+        
         $product->save();
 
         $request['product_id'] = $product->id;

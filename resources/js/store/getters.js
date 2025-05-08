@@ -151,9 +151,6 @@ export default {
     getRewards(state) {
         return state.rewards;
     },
-    getOrderUrl(state) {
-        return state.order_urls;
-    },
     getInvoices(state) {
         return state.invoices;
     },

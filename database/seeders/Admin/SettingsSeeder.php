@@ -27,7 +27,6 @@ class SettingsSeeder extends Seeder
         //Preference Setting
         Setting::create(['title' => 'https',                                   'value' => 0,                                           'lang' => 'en']);
         Setting::create(['title' => 'maintenance_mode',                        'value' => 0,                                           'lang' => 'en']);
-        Setting::create(['title' => 'classified_product',                      'value' => 1,                                           'lang' => 'en']);
         Setting::create(['title' => 'wallet_system',                           'value' => 1,                                           'lang' => 'en']);
         Setting::create(['title' => 'coupon_system',                           'value' => 1,                                           'lang' => 'en']);
         Setting::create(['title' => 'pickup_point',                            'value' => 1,                                           'lang' => 'en']);

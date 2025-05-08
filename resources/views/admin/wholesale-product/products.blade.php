@@ -149,7 +149,6 @@
                                         <th>{{ __('Detail') }}</th>
                                         <th>{{ __('Current Stock') }}</th>
                                         <th>{{ __('Published') }}</th>
-{{--                                        <th>{{ __('Catalog') }}</th>--}}
                                         <th>{{ __("Today's Deal") }}</th>
                                         <th>{{ __('Featured') }}</th>
                                         @if(hasPermission('wholesale_product_update') || hasPermission('wholesale_product_delete') || hasPermission('wholesale_product_restore') || hasPermission('wholesale_product_clone'))

@@ -71,7 +71,6 @@ const getDefaultState = () => {
         brand_page : [],
         addons : [],
         wallet_recharges : [],
-        order_urls : [],
         invoices : '',
         shop_follwer:[],
         login_redirect:'',

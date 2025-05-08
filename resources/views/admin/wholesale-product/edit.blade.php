@@ -59,13 +59,13 @@
                                aria-selected="false">{{ __('Description & Specification') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link bar {{ has_key(['shipping_type','shipping_fee','shipping_fee_depend_on_quantity','cash_on_delivery','is_digital','estimated_shipping_days','product_file'],$errors) ? 'error' : '' }} }}"
+                            <a class="nav-link bar {{ has_key(['shipping_type','shipping_fee','shipping_fee_depend_on_quantity','cash_on_delivery','estimated_shipping_days'],$errors) ? 'error' : '' }} }}"
                                id="shipping-tab" data-toggle="tab" href="#shipping" role="tab"
                                aria-controls="profile"
                                aria-selected="false">{{ __('Shipping Info') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link bar {{ has_key(['campaign','campaign_discount','campaign_discount_type','is_refundable','is_featured','todays_deal','external_link'],$errors) ? 'error' : '' }}"
+                            <a class="nav-link bar {{ has_key(['campaign','campaign_discount','campaign_discount_type','is_refundable','is_featured','todays_deal'],$errors) ? 'error' : '' }}"
                                id="others-tab" data-toggle="tab" href="#others"
                                role="tab" aria-controls="contact"
                                aria-selected="false">{{ __('Others') }}</a>
@@ -113,11 +113,6 @@
                                     <div class="card-header extra-padding">
                                         <h4>{{ __('Product Information') }}</h4>
                                     </div>
-                                    @if($product_language->product->is_catalog == 1)
-                                        <div class="invalid-feedback text-info pl-4">
-                                            {{ __("N.B: It can't be added to cart only details will be shown.") }}
-                                        </div>
-                                    @endif
                                     <div class="card-body">
                                         <div class="form-group">
                                             <label for="name">{{ __('Product Name') }} *</label>

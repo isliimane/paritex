@@ -30,7 +30,6 @@ class CreateSettingsTable extends Migration
 (6, 'en', 'favicon', NULL, '$now', '$now'),
 (7, 'en', 'https', '0', '$now', '$now'),
 (8, 'en', 'maintenance_mode', '0', '$now', '$now'),
-(10, 'en', 'classified_product', '1', '$now', '$now'),
 (11, 'en', 'seller_product_auto_approve', '0', '$now', '$now'),
 (12, 'en', 'wallet_system', '1', '$now', '$now'),
 (13, 'en', 'coupon_system', '1', '$now', '$now'),

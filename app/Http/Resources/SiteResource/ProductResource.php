@@ -31,8 +31,6 @@ class ProductResource extends JsonResource
             'todays_deal'                           => (int)$this->todays_deal,
             'has_variant'                           => (bool)$this->has_variant,
             'user_wishlist'                         => (bool)$this->userWishlist,
-            'is_catalog'                            => (bool)$this->is_catalog,
-            'is_classified'                         => (bool)$this->is_classified,
         ];
     }
 }

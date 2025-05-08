@@ -107,16 +107,8 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 Route::get('product-restore/{id}', [ProductController::class, 'restore'])->name('product.restore')->middleware('PermissionCheck:product_restore|wholesale_product_restore');
 
                 Route::get('admin-products/{status?}', [ProductController::class, 'adminProducts'])->name('admin.products')->middleware('PermissionCheck:product_read');
-                //digital product
-                Route::get('digital-product/{status?}', [ProductController::class, 'digitalProducts'])->name('digital.products')->middleware('PermissionCheck:product_read');
-                Route::get('create-digital-product', [ProductController::class, 'createDigitalProduct'])->name('digital.product.create')->middleware('PermissionCheck:product_create');
-                Route::get('catalog-product/{status?}', [ProductController::class, 'catalogProducts'])->name('catalog.products')->middleware('PermissionCheck:product_read');
-                Route::get('create-catalog-product', [ProductController::class, 'createCatalogProduct'])->name('catalog.product.create')->middleware('PermissionCheck:product_create');
                 Route::get('product-status/change/{status}/{id}', [ProductController::class, 'productStatusChange'])->name('product.status.change')->middleware('PermissionCheck:product_update');
 
-                //classified product
-                Route::get('classified-product/{status?}', [ProductController::class, 'classifiedProducts'])->name('classified.products')->middleware('PermissionCheck:product_read');
-                Route::get('create-classified-product', [ProductController::class, 'createClassifiedProduct'])->name('classified.product.create')->middleware('PermissionCheck:product_create');
                 Route::get('product-reviews', [ProductController::class, 'reviews'])->name('admin.product.reviews')->middleware('PermissionCheck:product_create');
                 Route::get('product-replies/{id}', [ProductController::class, 'replies'])->name('admin.product.replies')->middleware('PermissionCheck:product_create');
                 Route::put('review-status-change', [ProductController::class, 'reviewStatusChange'])->name('admin.review.status.change');

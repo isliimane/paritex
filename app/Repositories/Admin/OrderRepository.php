@@ -376,7 +376,7 @@ class OrderRepository implements OrderInterface
     public function orders($take)
     {
         if (authUser()) {
-            return OrderDetail::with('product:id,thumbnail,slug,product_file_id', 'order')
+            return OrderDetail::with('product:id,thumbnail,slug', 'order')
                 ->whereHas('order', function ($query) {
                     $query->where('user_id', authId());
                         $query->where('is_deleted', 0);
@@ -389,41 +389,13 @@ class OrderRepository implements OrderInterface
             return [];
         }
     }
-    public function digitalProductOrders($limit,$token=null)
-    {
-        $user_id = authUser() ? authId() : $token;
-        if ($user_id) {
-            return OrderDetail::with('product:id,thumbnail,slug,product_file_id', 'order')
-                ->whereHas('order', function ($query) use ($user_id){
-                    $query->where('user_id', $user_id);
-                    $query->where('payment_status','paid');
-                    $query->where('is_deleted', 0);
-                    $query->where('status', 1);
-                    $query->where('seller_id',1);
-                })->whereHas('product', function($q){
-                    $q->where('product_file_id','!=',null);
-                    $q->where('is_digital',1);
-                })
-                ->where( function($qu){
-                    $qu->whereHas('refund', function($q){
-                        $q->where('status','!=','approved');
-                        $q->Where('status','!=','processed');
-                    });
-                    $qu->orWhereDoesntHave('refund');
-                })
-                ->latest()
-                ->paginate($limit);
-        } else {
-            return [];
-        }
-    }
 
     public function productOrderList($item,$user)
     {
         if ($user) {
             return OrderDetail::with(['product' => function($q) use($user){
                 $q->withTrashed();
-                $q->select('id','thumbnail','slug','product_file_id');
+                $q->select('id','thumbnail','slug');
             },'order'])
                 ->whereHas('order', function ($query) use($user){
                     $query->where('user_id', $user->id);

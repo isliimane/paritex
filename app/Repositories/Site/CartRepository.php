@@ -34,7 +34,7 @@ class CartRepository implements CartInterface
     {
         if (authUser()) {
             $carts = Cart::with('product.stock:id,product_id,image,name,sku,current_stock',
-                'product:slug,shipping_fee,user_id,price,id,thumbnail,minimum_order_quantity,is_refundable,current_stock,shipping_fee_depend_on_quantity,special_discount,special_discount_start,special_discount_end,special_discount_type,is_digital')
+                'product:slug,shipping_fee,user_id,price,id,thumbnail,minimum_order_quantity,is_refundable,current_stock,shipping_fee_depend_on_quantity,special_discount,special_discount_start,special_discount_end,special_discount_type')
                 ->where('user_id', authId())->get();
         } else {
             Cart::where('created_at','<',Carbon::now()->subDays(2))->delete();
@@ -43,7 +43,7 @@ class CartRepository implements CartInterface
                 session()->put('walk_in_id',Str::random(21));
             }
             $carts = Cart::with('product.stock:id,product_id,image,name,sku,current_stock',
-                'product:slug,user_id,price,shipping_fee,id,thumbnail,minimum_order_quantity,is_refundable,current_stock,shipping_fee_depend_on_quantity,special_discount,special_discount_start,special_discount_end,special_discount_type,is_digital')
+                'product:slug,user_id,price,shipping_fee,id,thumbnail,minimum_order_quantity,is_refundable,current_stock,shipping_fee_depend_on_quantity,special_discount,special_discount_start,special_discount_end,special_discount_type')
                 ->where('user_id', getWalkInCustomer()->id)->where('trx_id',session()->get('walk_in_id'))->get();
         }
         return $carts;
@@ -272,7 +272,6 @@ class CartRepository implements CartInterface
                                 'discount'              => $discount,
                                 'tax'                   => $tax,
                                 'shipping_cost'         => $shipping_cost,
-                                'is_digital'            => $product->is_digital,
                             ];
                         }
                     }
@@ -300,7 +299,6 @@ class CartRepository implements CartInterface
                     'discount'              => $discount,
                     'tax'                   => $tax,
                     'shipping_cost'         => $shipping_cost,
-                    'is_digital'            => $product->is_digital,
                 ];
             }
         } else {
@@ -326,7 +324,6 @@ class CartRepository implements CartInterface
                 'discount'              => $discount,
                 'tax'                   => $tax,
                 'shipping_cost'         => $shipping_cost,
-                'is_digital'            => $product->is_digital,
             ];
         }
 
@@ -747,7 +744,7 @@ class CartRepository implements CartInterface
         if ($user)
         {
             $carts = Cart::with('product.stock:id,product_id,image,name,sku,current_stock',
-                'product:slug,user_id,price,id,thumbnail,minimum_order_quantity,is_refundable,current_stock,shipping_fee_depend_on_quantity,special_discount,special_discount_start,special_discount_end,special_discount_type,is_digital')
+                'product:slug,user_id,price,id,thumbnail,minimum_order_quantity,is_refundable,current_stock,shipping_fee_depend_on_quantity,special_discount,special_discount_start,special_discount_end,special_discount_type')
                 ->where('user_id', $user->id)->latest()->get();
         }
         else{
@@ -762,7 +759,7 @@ class CartRepository implements CartInterface
             Cart::where('created_at','<',Carbon::now()->subDays(2))->delete();
 
             $carts = Cart::with('product.stock:id,product_id,image,name,sku,current_stock',
-                'product:slug,user_id,price,id,thumbnail,minimum_order_quantity,is_refundable,current_stock,shipping_fee_depend_on_quantity,special_discount,special_discount_start,special_discount_end,special_discount_type,is_digital')
+                'product:slug,user_id,price,id,thumbnail,minimum_order_quantity,is_refundable,current_stock,shipping_fee_depend_on_quantity,special_discount,special_discount_start,special_discount_end,special_discount_type')
                 ->where('user_id', getWalkInCustomer()->id)->where('trx_id',$trx_id)->latest()->get();
         }
 

@@ -7,7 +7,7 @@
 						<div class="product-thumb">
 							<!-- v-if="isLicenseVerified" add this if we want to hide the discount when unverified -->
 							<span class="base" v-if="isLicenseVerified && product.special_discount_check > 0">{{ product.special_discount_type == "flat" ? priceFormat(product.special_discount_check) + " " + lang.off : product.special_discount_check + "% " + lang.off }} </span>
-							<span v-if="product.current_stock == 0 && !product.is_classified" class="base stock_badge">{{ lang.out_of_stock }}</span>
+							<span v-if="product.current_stock == 0" class="base stock_badge">{{ lang.out_of_stock }}</span>
 							<span class="base reword-badge" v-if="addons.includes('reward') && product.reward > 0">{{ lang.reward_point }}: {{ product.reward }}</span>
 							<img :src="product.image_190x230" :alt="product.product_name" class="img-fluid" loading="lazy" style="object-fit: contain;width: 100%;height: 200px"/>
 						</div>
@@ -34,7 +34,7 @@
 						</div>
 						<div class="icons">
 							<ul class="global-list">
-								<li v-if="product.minimum_order_quantity <= product.current_stock && !product.is_catalog && !product.is_classified" >
+								<li v-if="product.minimum_order_quantity <= product.current_stock" >
 									<a href="javaScript:void(0)" @click="cartBtn(product, index)"><span class="mdi mdi-name mdi-shopping-outline"></span></a>
 								</li>
 								<div v-if="authUser" style="margin-right: 15px;">

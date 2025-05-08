@@ -232,9 +232,6 @@ export default {
         }
         return state.rewards;
     },
-    getOrderUrl(state, data) {
-        return state.order_urls = data;
-    },
     getInvoices(state, data) {
         return state.invoices = data;
     },
