@@ -3,53 +3,6 @@
 @endphp
 
 <div class="main-sidebar">
-<style>
-.main-sidebar {
-  background: #fff !important;
-}
-.sidebar-menu .nav-link {
-  color: #000000 !important;
-  transition: all 0.2s ease;
-}
-/* Style des icônes - Version bleue */
-.sidebar-menu i.bx {
-  color:#000 !important; /* Bleu clair */
-}
-/* Effet au survol */
-.sidebar-menu .nav-link:hover {
-  background-color: rgba(0, 0, 0, 0.05) !important;
-  transform: translateX(5px);
-}
-
-.sidebar-menu .nav-link:hover i.bx, .sidebar-menu .nav-link.active i.bx {
-  color: #2c3e50 !important; /* Bleu foncé au survol */
-}
-.sidebar-menu .nav-link.active {
-  background-color: rgba(0, 0, 0, 0.05) !important;
-}
-.sidebar-menu .dropdown-menu {
-    border: 0;
-}
-.sidebar-menu .dropdown-menu li{
-    border: 0;
-}
-.sidebar-menu .dropdown-menu .nav-link {
-  padding-top: 22px;
-  padding-bottom: 22px;
-  color: #000000 !important;
-}
-
-/* Séparateur entre les éléments du menu */
-.sidebar-menu li {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.sidebar-menu li:last-child {
-  border-bottom: none;
-}
-
-
-</style>
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand sidebar-brand-sm py-3">
             <a href="{{ route('dashboard') }}">{{ settingHelper('system_short_name') != '' ? settingHelper('system_short_name',app()->getLocale()) :  "Paritex" }}</a>
@@ -98,24 +51,34 @@
                         <span>{{ __('Products') }}</span>
                     </a>
                     <ul class="dropdown-menu">
-                        @if(hasPermission('product_create'))
+
+                        @if(hasPermission('wholesale_product_read') && addon_is_activated('wholesale'))
+                            @if(hasPermission('wholesale_product_create'))
+                                <li class="@yield('wholesale_product_create')">
+                                    <a class="nav-link"
+                                    href="{{ route('wholesale.product.create') }}">{{ __('Add New Product') }}</a>
+                                </li>
+                            @endif
+                            <li class="@yield('wholesale_products')">
+                                <a class="nav-link"
+                                    href="{{ route('wholesale.products') }}">{{ __('All Products') }}</a>
+                            </li>
+                            <!-- @if(hasPermission('wholesale_product_setting'))
+                                <li class="@yield('wholesale_setting')">
+                                    <a class="nav-link"
+                                    href="{{ route('wholesale.setting') }}">{{ __('Wholesale Setting') }}</a>
+                                </li>
+                            @endif -->
+                        @endif
+                        <!-- @if(hasPermission('product_create'))
                             <li class="@yield('product-create')"><a class="nav-link"
                                                                     href="{{ route('product.create') }}">{{ __('Add New Product') }}</a>
                             </li>
-                        @endif
+                        @endif -->
                         @if(hasPermission('product_read'))
-                            <li class="@yield('product')"><a class="nav-link"
+                            <!-- <li class="@yield('product')"><a class="nav-link"
                                                              href="{{ route('products') }}">{{ __('All Product') }}</a>
-                            </li>
-                            <li class="@yield('digital-product')"><a class="nav-link"
-                                                                     href="{{ route('digital.products') }}">{{ __('Digital Products') }}</a>
-                            </li>
-                            <li class="@yield('catalog-product')"><a class="nav-link"
-                                                                     href="{{ route('catalog.products') }}">{{ __('Catalog Products') }}</a>
-                            </li>
-                            <li class="@yield('classified-product')"><a class="nav-link"
-                                                                        href="{{ route('classified.products') }}">{{ __('Classified Products') }}</a>
-                            </li>
+                            </li> -->
                             <li class="@yield('product_review')"><a class="nav-link"
                                                                     href="{{ route('admin.product.reviews') }}">{{ __('Product Reviews') }}</a>
                             </li>
@@ -153,37 +116,6 @@
                 </li>
             @endif
 
-            @if(hasPermission('wholesale_product_read') && addon_is_activated('wholesale'))
-                <li class="nav-item dropdown @yield('wholesale')">
-                    <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
-                        <i class="bx bx-credit-card-alt {{ config('app.demo_mode') ? 'beep' : ''}}"></i>
-                        <span>{{ __('Wholesale Product') }}</span>
-                        @if(config('app.demo_mode'))
-                            <p class="badge badge-addon">{{ __('Addon') }}</p>
-                        @endif
-                    </a>
-                    <ul class="dropdown-menu">
-                        @if(hasPermission('wholesale_product_create'))
-                            <li class="@yield('wholesale_product_create')">
-                                <a class="nav-link"
-                                   href="{{ route('wholesale.product.create') }}">{{ __('Add New Product') }}</a>
-                            </li>
-                        @endif
-                        @if(hasPermission('wholesale_product_read'))
-                            <li class="@yield('wholesale_products')">
-                                <a class="nav-link"
-                                   href="{{ route('wholesale.products') }}">{{ __('All Products') }}</a>
-                            </li>
-                        @endif
-                        @if(hasPermission('wholesale_product_setting'))
-                            <li class="@yield('wholesale_setting')">
-                                <a class="nav-link"
-                                   href="{{ route('wholesale.setting') }}">{{ __('Wholesale Setting') }}</a>
-                            </li>
-                        @endif
-                    </ul>
-                </li>
-            @endif
 
             @if(hasPermission('customer_read') || hasPermission('user_reward_read'))
                 <li class="nav-item dropdown @yield('customers')">
@@ -360,7 +292,7 @@
                         @endif
                         @if(hasPermission('subscriber_read'))
                             <li class="@yield('subscriber')"><a class="nav-link"
-                                                                href="{{ route('subscribers') }}">{{ __('Subscriber') }}</a>
+                                                                href="{{ route('subscribers') }}">{{ __('Subscribers') }}</a>
                             </li>
                         @endif
                         @if(settingHelper('coupon_system') == 1)
@@ -415,11 +347,6 @@
                             @if(hasPermission('support_department_read'))
                                 <li class="@yield('Contact_us')"><a class="nav-link"
                                                                     href="{{route('contact.us')}}">{{ __('Contact Messages') }}</a>
-                                </li>
-                            @endif
-                            @if(hasPermission('support_department_read'))
-                                <li class="@yield('Complaints')"><a class="nav-link"
-                                                                    href="{{route('complaints')}}">{{ __('Complaints') }}</a>
                                 </li>
                             @endif
                         </ul>

@@ -30,7 +30,6 @@
                                 @csrf
                                 <div class="row">
                                     <div class="col-12">
-                                        <h5>{{ __('Products') }}</h5>
                                         <div id="product-items">
                                             <div class="product-item card mb-3">
                                                 <div class="card-body">
@@ -62,10 +61,10 @@
                                                                 <small class="form-text text-muted quantity-hint"></small>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-1">
+                                                        <div class="col-md-1 d-flex align-items-center justify-content-center">
                                                             <div class="form-group">
                                                                 <label>&nbsp;</label>
-                                                                <button type="button" class="btn btn-outline-danger remove-item" style="display: none;">
+                                                                <button type="button" class="btn btn-outline-danger remove-item px-3" style="display: none;">
                                                                     <i class="bx bx-trash"></i>
                                                                 </button>
                                                             </div>
@@ -83,7 +82,7 @@
                                 <div class="row mt-4">
                                     <div class="col-12">
                                         <button type="submit" class="btn btn-primary">
-                                            <i class="bx bx-save"></i> {{ __('Add Products') }}
+                                            <i class="bx bx-save"></i> {{ __('Save') }}
                                         </button>
                                     </div>
                                 </div>

@@ -927,7 +927,7 @@
                         </div>
                     </div>
                     <div class="bottom-button">
-                        <button type="submit" name="status" value="unpublished" class="btn btn-outline-info"
+                        <button type="submit" name="status" value="unpublished" class="btn btn-outline-secondary"
                                 tabindex="4">
                             {{ __('Save & Unpublish') }}
                         </button>

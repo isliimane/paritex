@@ -26,7 +26,7 @@ class CategoryRequest extends FormRequest
         return [
             'title'      =>'required|max:70',
             'slug'       =>'max:70|unique:categories,slug,'.\Request()->category_id,
-            'commission' =>'nullable|numeric|max:100'
+            // 'commission' =>'nullable|numeric|max:100'
         ];
     }
 }

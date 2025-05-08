@@ -95,7 +95,7 @@
                                             : {{ __($order->payment_status) }} </strong></p>
                                 </div>
                             @endif
-                            <form action="{{ route('order.delivery.status.change') }}" method="POST" class=""
+                            <form action="{{ route('order.delivery.status.change') }}" method="POST"
                                   id="onChangeFormSubmit">
                                 @csrf
                                 <input type="hidden" name="id" value="{{ $order->id }}">
@@ -129,15 +129,14 @@
                 <div class="invoice-print">
                     <div class="row">
                         <div class="col-lg-12 pt-2">
-                            <div class="invoice-title">
+                            <div class="invoice-title d-sm-flex align-items-center justify-content-between">
                                 @php
                                     $logo = settingHelper('admin_dark_logo')
                                 @endphp
                                 <img
                                         src="{{($logo != [] && is_file_exists($logo['image_100x38'])) ? static_asset($logo['image_100x38']) : static_asset('images/default/dark-logo.png') }}"
-                                        alt="logo" width="100">
-                                <h2>{{ __('Invoice') }}</h2>
-                                <div class="invoice-number">{{__('Order')}} #{{ $order->code }}</div>
+                                        alt="logo" width="150" class="my-3">
+                                <div class="invoice-number mt-0 float-none">{{__('Order')}} #{{ $order->code }}</div>
                             </div>
                             <hr>
                             @if(!$order->pickupHub)
@@ -326,7 +325,7 @@
                                 </table>
                             </div>
                             <div class="row mt-4">
-                                <div class="col-lg-8">
+                                <div class="col-lg-6">
                                 </div>
                                 @php
                                     $total_payable = 0;
@@ -335,24 +334,24 @@
                                     $coupon_discount = $order->retail_coupon_discount > 0 ? $order->retail_coupon_discount : $order->coupon_discount;
                                     $total_tax = $order->retail_total_tax > 0 ? $order->retail_total_tax : $order->total_tax;
                                 @endphp
-                                <div class="col-lg-4 text-right">
-                                    <table class="table-borderless text-right">
+                                <div class="col-lg-6 text-right">
+                                    <table class="table-borderless text-right w-100">
                                         <tr>
-                                            <td class="invoice-detail-name"> {{ __('Sub Total') }}:</td>
+                                            <td class="invoice-detail-name"> {{ __('Sub Total') }}</td>
                                             <td class="invoice-detail-value">{{ get_price($sub_total, user_curr()) }}</td>
                                             @php
                                                 $total_payable += $sub_total;
                                             @endphp
                                         </tr>
                                         <tr>
-                                            <td class="invoice-detail-name">(-) {{ __('Discount') }}:</td>
+                                            <td class="invoice-detail-name">(-) {{ __('Discount') }}</td>
                                             <td class="invoice-detail-value">{{ get_price($discount,user_curr()) }}</td>
                                             @php
                                                 $total_payable -= $discount;
                                             @endphp
                                         </tr>
                                         <tr>
-                                            <td class="invoice-detail-name">(-) {{ __('Coupon Discount') }}:</td>
+                                            <td class="invoice-detail-name">(-) {{ __('Coupon Discount') }}</td>
                                             <td class="invoice-detail-value">{{ get_price($coupon_discount,user_curr()) }}</td>
                                             @php
                                                 $total_payable -= $coupon_discount;
@@ -360,7 +359,7 @@
                                         </tr>
                                         @if(($order->tax_method && $order->tax_method['vat_tax_type'] == 'product_base') || ($order->tax_method && $order->tax_method['vat_tax_type'] == 'order_base' && $order->tax_method['tax_type'] == 'before_tax') || (!$order->tax_method || !$order->tax_method['vat_tax_type']))
                                                 <tr>
-                                                    <td class="invoice-detail-name">(+) {{ __('Tax') }}:</td>
+                                                    <td class="invoice-detail-name">(+) {{ __('Tax') }}</td>
                                                     <td class="invoice-detail-value">{{ get_price($total_tax,user_curr()) }}</td>
                                                     @php
                                                         $total_payable += $total_tax;
@@ -368,7 +367,7 @@
                                                 </tr>
                                         @endif
                                         <tr>
-                                            <td class="invoice-detail-name">(+) {{ __('Shipping Cost') }}:</td>
+                                            <td class="invoice-detail-name">(+) {{ __('Shipping Cost') }}</td>
                                             <td class="invoice-detail-value">{{ get_price($order->shipping_cost,user_curr()) }}</td>
                                             @php
                                                 $total_payable += $order->shipping_cost;
@@ -380,11 +379,11 @@
                                                 <td>-------------</td>
                                             </tr>
                                             <tr>
-                                                <td class="invoice-detail-name">{{ __('Total Amount') }}:</td>
+                                                <td class="invoice-detail-name">{{ __('Total Amount') }}</td>
                                                 <td class="invoice-detail-value">{{ get_price($total_payable,user_curr()) }}</td>
                                             </tr>
                                             <tr>
-                                                <td class="invoice-detail-name">(+) {{ __('Tax') }}:</td>
+                                                <td class="invoice-detail-name">(+) {{ __('Tax') }}</td>
                                                 <td class="invoice-detail-value">{{ get_price($total_tax,user_curr()) }}</td>
                                                 @php
                                                     $total_payable += $total_tax;
@@ -396,7 +395,7 @@
                                             <td>-------------</td>
                                         </tr>
                                         <tr>
-                                            <td class="invoice-detail-name"> {{ __('Net Payable') }}:</td>
+                                            <td class="invoice-detail-name"> {{ __('Net Payable') }}</td>
                                             <td class="invoice-detail-value">{{ get_price($total_payable,user_curr()) }}</td>
                                         </tr>
 

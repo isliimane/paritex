@@ -20,7 +20,7 @@
                             <h4><i class="fas fa-exchange-alt"></i> {{ __('Stock Movements') }}</h4>
                             <div class="card-header-form">
                                 <form action="{{ route('stock-movements.index') }}" method="GET">
-                                    <div class="input-group">
+                                    <div class="input-group align-items-center">
                                         <select name="warehouse_id" class="form-control select2">
                                             <option value="">{{ __('All Warehouses') }}</option>
                                             @foreach($warehouses as $warehouse)
@@ -43,11 +43,9 @@
                                             <option value="refund" {{ request('movement_reason') == 'refund' ? 'selected' : '' }}>{{ __('Refund') }}</option>
                                         
                                         </select>
-                                        <div class="input-group-btn">
-                                            <button class="btn btn-primary" type="submit">
-                                                <i class="bx bx-search"></i>
-                                            </button>
-                                        </div>
+                                        <button class="btn btn-primary" type="submit">
+                                            <i class="bx bx-search"></i>
+                                        </button>
                                     </div>
                                 </form>
                             </div>

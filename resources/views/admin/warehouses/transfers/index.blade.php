@@ -66,8 +66,11 @@
                                                 <td>{{ $transfer->created_at->format('Y-m-d H:i') }}</td>
                                                 <td style="white-space: nowrap;">
                                                     @if($transfer->status === 'pending')
-                                                        <a href="{{ route('transfers.edit', $transfer->id) }}" class="btn btn-sm btn-primary">
-                                                            <i class="bx bx-edit"></i> Edit
+                                                        <a href="{{ route('transfers.edit', $transfer->id) }}"
+                                                            class="btn btn-outline-secondary btn-circle" data-url=""
+                                                            data-toggle="tooltip" title=""
+                                                            data-original-title="{{ __('Edit') }}">
+                                                                <i class="bx bx-edit"></i>
                                                         </a>
                                                         @if(hasPermission('warehouse_transfer_approve'))
                                                             <form action="{{ route('transfers.approve', $transfer->id) }}" method="POST" style="display: inline;" class="approve-form">

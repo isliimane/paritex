@@ -7,239 +7,14 @@
     active
 @endsection
 
-<style>
-
-        /* Fond blanc pour tout le dashboard */
-    body, 
-    .section {
-        background-color: #ffffff !important;
-    }
-
-    /* Fond blanc pour les cartes principales */
-    .card, 
-    .mini-stats-wid, 
-    .card-statistic-2, 
-    .card-statistic-3, 
-    .card-statistic-4, 
-    .card-statistic-5, 
-    .card-statistic-6 {
-        background-color: #ffffff !important;
-        border: 1px solid #f0f0f0 !important; /* Bordure légère pour la distinction */
-    }
-            /* Couleurs principales */
-    :root {
-        --primary-color:rgb(11, 108, 193);
-        --primary-light: #e6f7f3;
-        --primary-dark:rgb(15, 6, 109);
-        --white: #ffffff;
-        --light-gray: #f8f9fa;
-        --text-dark: #343a40;
-        --text-muted: #6c757d;
-    }
-
-    /* Cartes statistiques */
-    .mini-stats-wid.card {
-        background-color: var(--white) !important;
-        border: none;
-        border-radius: 10px;
-        box-shadow: 0 4px 20px rgba(11, 193, 150, 0.1);
-        position: relative;
-        overflow: hidden;
-        transition: all 0.3s ease;
-    }
-
-    .mini-stats-wid.card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba(11, 193, 150, 0.2);
-    }
-
-    .mini-stats-wid .wave {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 30px;
-        background-color: var(--primary-color);
-        clip-path: polygon(0 100%, 100% 100%, 100% 50%, 0 0);
-        opacity: 0.15;
-    }
-
-    .mini-stats-wid .wave:nth-child(2) {
-        height: 20px;
-        opacity: 0.1;
-        clip-path: polygon(0 100%, 100% 100%, 100% 70%, 0 30%);
-    }
-
-    .mini-stats-wid .card-body {
-        padding: 20px;
-        position: relative;
-        z-index: 1;
-    }
-
-    .mini-stats-wid .text-muted {
-        color: var(--text-muted) !important;
-        font-size: 14px;
-        margin-bottom: 5px;
-    }
-
-    .mini-stats-wid h4 {
-        color: var(--text-dark);
-        font-size: 24px;
-        font-weight: 600;
-    }
-
-    .mini-stat-icon {
-        background-color: var(--white) !important;
-        border: 2px solid var(--primary-light) !important;
-    }
-
-    .mini-stat-icon i {
-        color: white !important; /* Changé de var(--primary-color) à white */
-        font-size: 20px;
-    }
-
-    /* Cartes principales */
-    .card {
-        border: none;
-        border-radius: 10px;
-        box-shadow: 0 4px 20px rgba(11, 193, 150, 0.1);
-        margin-bottom: 24px;
-        background-color: var(--white) !important ;
-    }
-
-    .card-header {
-        background-color: var(--white);
-        border-bottom: 1px solid rgba(11, 108, 193, 0.1);
-        padding: 15px 20px;
-    }
-
-    .card-header h4 {
-        color: var(--text-dark);
-        font-weight: 600;
-    }
-
-    .card-body {
-        padding: 20px;
-    }
-
-    /* Badges */
-    .badge-primary {
-        background-color: var(--primary-color) !important;
-        color: var(--white) !important;
-    }
-
-    .badge-success {
-        background-color:rgb(11, 160, 193) !important;
-    }
-
-    .badge-warning {
-        background-color:rgb(7, 226, 255) !important;
-        color: var(--text-dark) !important;
-    }
-
-    .badge-danger {
-        background-color: #dc3545 !important;
-    }
-
-    .badge-info {
-        background-color: #17a2b8 !important;
-    }
-
-    /* Boutons */
-    .btn-outline-primary {
-        color: var(--primary-color);
-        border-color: var(--primary-color);
-    }
-
-    .btn-outline-primary:hover {
-        background-color: var(--primary-color);
-        border-color: var(--primary-color);
-    }
-
-    /* Tableaux */
-    .table-responsive {
-        border-radius: 20px;
-        overflow: hidden;
-    }
-
-    .table {
-        margin-bottom: 0;
-    }
-
-    .table th {
-        background-color: var(--primary-light);
-        color: var(--primary-dark);
-        border-top: none;
-    }
-
-    .table td, .table th {
-        vertical-align: middle;
-        padding: 12px 15px;
-    }
-
-    /* Graphiques */
-    .card-statistic-2, 
-    .card-statistic-3, 
-    .card-statistic-4, 
-    .card-statistic-5, 
-    .card-statistic-6 {
-        background-color: var(--white);
-        border-radius: 10px;
-        box-shadow: 0 4px 20px rgba(11, 96, 193, 0.46);
-    }
-
-    /* Tickets */
-    .ticket-item {
-        border-left: 3px solid var(--primary-color);
-        padding: 10px 15px;
-        margin-bottom: 10px;
-        background-color: var(--light-gray);
-        border-radius: 10px;
-    }
-
-    .ticket-item:hover {
-        background-color: var(--primary-light);
-    }
-
-    /* Dropdowns */
-    .dropdown-menu {
-        border: none;
-        box-shadow: 0 5px 15px rgba(11, 193, 150, 0.2);
-        border-radius: 8px;
-    }
-
-    .dropdown-item.active, .dropdown-item:active {
-        background-color: var(--primary-light);
-        color: var(--primary-dark);
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-        .mini-stats-wid .card-body {
-            padding: 15px;
-        }
-        
-        .mini-stats-wid h4 {
-            font-size: 20px;
-        }
-        
-    }
-
-    .dropdown-position .font-weight-600.dropdown-toggle {
-        color: white !important;
-    }
-</style>
-
 @section('main-content')
 
     <section class="section">
             <div class="row">
                 <div class="col-md-3">
-                    <a href="{{ route('orders') }}" class="stats-card-link">  <!-- Lien ajouté ici -->
+                    <!-- <a href=""> -->
                         <div class="mini-stats-wid card">
                             <div class="card-body">
-                                <div class="wave"></div>
-                                <div class="wave"></div>
                                 <div class="d-flex">
                                     <div class="flex-grow-1">
                                         <p class="text-muted fw-medium">{{ __('Orders')}}</p>
@@ -253,7 +28,7 @@
                                 </div>
                             </div>
                         </div>
-                    </a>  <!-- Fin du lien -->
+                    <!-- </a> -->
                 </div>
                 <div class="col-md-3">
                     <div class="mini-stats-wid card">
@@ -265,14 +40,15 @@
                                 </div>
                                 <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
                                     <span class="avatar-title">
-                                    <i class="bx bx-euro font-size-24"></i>                                    </span>
+                                        <i class="bx bx-euro font-size-24"></i>
+                                    </span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <a href="{{ route('products') }}" class="stats-card-link">
+                    <!-- <a href=""> -->
                         <div class="mini-stats-wid card">
                             <div class="card-body">
                                 <div class="d-flex">
@@ -288,10 +64,10 @@
                                 </div>
                             </div>
                         </div>
-                    </a>
+                    <!-- </a> -->
                 </div>
                 <div class="col-md-3">
-                    <a href="{{ route('customers') }}" class="stats-card-link">
+                    <!-- <a href=""> -->
                         <div class="mini-stats-wid card">
                             <div class="card-body">
                                 <div class="d-flex">
@@ -307,7 +83,7 @@
                                 </div>
                             </div>
                         </div>
-                    </a>
+                    <!-- </a> -->
                 </div>
             </div>
             <div class="row">
@@ -317,8 +93,8 @@
                             <div class="card-stats-title d-flex justify-content-between">
                                 <h4>{{__('Order Statistics')}}</h4>
                                 <div class="dropdown d-inline dropdown-position badge badge-primary">
-                                <a class="font-weight-600 dropdown-toggle dropdown-toggle-custom" data-toggle="dropdown" href="#"
-                                id="orders-category-month">{{__('Today')}}</a>
+                                    <a class="font-weight-600 dropdown-toggle" data-toggle="dropdown" href="#"
+                                       id="orders-month">{{__('Today')}}</a>
                                     <ul class="dropdown-menu dropdown-menu-sm" data-url="/admin/order-statistics/"
                                         data-id="order-statistics">
                                         <li><a href="javaScript:void(0)" class="dropdown-item order-statistics active"
@@ -366,7 +142,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-12">
+                <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="card card-statistic-3">
                         <div class="card-stats">
                             <div class="card-stats-title d-flex justify-content-between">
@@ -391,10 +167,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3"> 
-                    <div class="row">
-                        <a  href="{{ route('brands') }}" class="stats-card-link col-lg-12 col-md-12 col-sm-12">
-                            <div class="col-lg-12 col-md-12 col-sm-12">
+                <!-- <div class="col-md-3">  -->
+                    <!-- <div class="row"> -->
+                        <!-- <a href=""> -->
+                            <!-- <div class="col-lg-12 col-md-12 col-sm-12">
                                 <div class="mini-stats-wid card">
                                     <div class="card-body">
                                         <div class="d-flex">
@@ -410,11 +186,9 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                        </a>
-                    </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12">
+                            </div> -->
+                        <!-- </a> -->
+                            <!-- <div class="col-lg-12 col-md-12 col-sm-12">
                                 <div class="mini-stats-wid card">
                                     <div class="card-body">
                                         <div class="d-flex">
@@ -430,8 +204,9 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                </div>
+                            </div> -->
+                    <!-- </div> -->
+                <!-- </div> -->
             </div>
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12">
@@ -503,9 +278,9 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-6">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">
                                     <h4>{{ __('Top Categories') }}</h4>
@@ -529,7 +304,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header">
                                     <h4>{{ __('Top Brands') }}</h4>
@@ -561,11 +336,11 @@
                                     </ul>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 
-                <div class="col-lg-4">
+                <div class="col-lg-6">
                     <div class="card card-statistic-6">
                         <div class="card-stats">
                             <div class="card-stats-title d-flex justify-content-between">
@@ -620,7 +395,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-8">
                     <div class="card">
                         <div class="card-header">
                             <h4>Invoices</h4>
@@ -721,6 +496,36 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-4">
+                    <div class="card card-hero">
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <i class="far fa-question-circle"></i>
+                                </div>
+                                <h4>{{ $total_support }}</h4>
+                                <div class="card-description">{{__('Customers need help')}}</div>
+                            </div>
+                            <div class="card-body p-7">
+                                <div class="tickets-list">
+                                    @foreach ($supports as $key => $support)
+                                        <a href="{{ route('ticket.replay',$support->id) }}" class="ticket-item">
+                                            <div class="ticket-title">
+                                                <h4>{{ $support->subject }}</h4>
+                                            </div>
+                                            <div class="ticket-info">
+                                                <div>{{ @$support->user->full_name }}</div>
+                                                <div class="bullet"></div>
+                                                <div class="text-primary">{{ Carbon\Carbon::parse($support->created_at)->diffForHumans() }}</div>
+                                            </div>
+                                        </a>
+                                    @endforeach
+                                    <a href="{{ route('support') }}" class="ticket-item ticket-more">
+                                        {{__('View All')}} <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                    </div>
+                </div>
             </div>
     </section>
 @endsection
@@ -801,7 +606,7 @@
                         datasets: [{
                             label: 'Sales {{ get_symbol() }}',
                             data: {{ $sales_state }},
-                            fillColor: "rgba(205, 167, 151, 0)",
+                            fillColor: "rgba(151,187,205,0.5)",
                             strokeColor: "rgba(151,187,205,0.8)",
                             highlightFill: "rgba(151,187,205,0.75)",
                             highlightStroke: "rgba(151,187,205,1)",
@@ -854,7 +659,7 @@
                         datasets: [{
                             label: '{{ __('New Orders') }}',
                             data: {{ $order_state }},
-                            fillColor: "rgba(10, 66, 7, 0.93)",
+                            fillColor: "rgba(151,187,205,0.5)",
                             strokeColor: "rgba(151,187,205,0.8)",
                             highlightFill: "rgba(151,187,205,0.75)",
                             highlightStroke: "rgba(151,187,205,1)",

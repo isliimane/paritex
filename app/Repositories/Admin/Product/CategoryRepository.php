@@ -124,7 +124,7 @@ class CategoryRepository implements CategoryInterface
             $category->icon              = $request->icon ?? null;
             $category->slug              = $this->getSlug($request->title, $request->slug);
             $category->ordering          = $request->ordering ?? 0;
-            $category->commission        = $request->commission == null ? 0 : $request->commission;
+            // $category->commission        = $request->commission == null ? 0 : $request->commission;
 //            $category->is_digital        = $request->is_digital;
             $category->save();
 
@@ -162,7 +162,7 @@ class CategoryRepository implements CategoryInterface
         endif;
 
         $category->slug          = $this->getSlug($request->title, $request->slug);
-        $category->commission    = $request->commission == null ? 0 : $request->commission;
+        // $category->commission    = $request->commission == null ? 0 : $request->commission;
 //            $category->is_digital        = $request->is_digital;
 
         if ($request->logo != ''):

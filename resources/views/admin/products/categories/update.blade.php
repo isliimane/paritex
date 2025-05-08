@@ -108,19 +108,6 @@
                                     @endif
                                 </div>
                                 <div class="form-group">
-                                    <label for="commission">{{__('Commission Rate')}}</label>
-                                    <input id="commission" type="number" class="form-control" step="any"
-                                           name="commission"
-                                           value="{{ old('commission') ? old('commission') : $category_language->category->commission }}"
-                                           placeholder="{{__('Commission Rate')}} {{__('(%)')}}" tabindex="1">
-
-                                    @if ($errors->has('commission'))
-                                        <div class="invalid-feedback">
-                                            <p>{{ $errors->first('commission') }}</p>
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="form-group">
                                     <label for="barcode">{{ __('Icon') }}</label>
                                     <div class="input-group category-icon-selector">
                                         <div class="input-group-append" id="uip-select-input">
