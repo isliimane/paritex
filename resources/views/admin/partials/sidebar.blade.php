@@ -308,7 +308,7 @@
             @if(hasPermission('all_page_read'))
                 <li class="@yield('other_page')"><a class="nav-link" href="{{route('other.pages')}}"><i class="bx bx-news"></i><span>{{ __('Pages') }}</span></a></li>
             @endif
-            @if(hasPermission('blog_read') || hasPermission('blog_category_read'))
+            <!-- @if(hasPermission('blog_read') || hasPermission('blog_category_read'))
                 <li class="nav-item dropdown @yield('blogs_active')">
                     <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
                         <i class="bx bxs-news"></i>
@@ -326,7 +326,7 @@
                         @endif
                     </ul>
                 </li>
-            @endif
+            @endif -->
                 @if(hasPermission('support_read') || hasPermission('support_department_read'))
                     <li class="nav-item dropdown @yield('support_active')">
                         <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
@@ -604,7 +604,7 @@
                 </li>
             @endif
 
-            @if(hasPermission('android_setting_update') || hasPermission('ios_setting_update') || hasPermission('app_config_update') || hasPermission('ads_config_update')
+            <!-- @if(hasPermission('android_setting_update') || hasPermission('ios_setting_update') || hasPermission('app_config_update') || hasPermission('ads_config_update')
                 || hasPermission('api_setting_update') || hasPermission('api_key_read_all') || hasPermission('api_key_read')
                  || hasPermission('api_key_update') || hasPermission('api_key_delete') || hasPermission('all_page_read'))
                 <li class="nav-item dropdown @yield('mobile_apps')">
@@ -658,7 +658,7 @@
                         </li>
                     </ul>
                 </li>
-            @endif
+            @endif -->
                     <!-- <li class="nav-item dropdown @yield('addon_utility')">
                         <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown"><i
                                     class="bx bx-extension"
