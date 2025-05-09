@@ -22,7 +22,7 @@ class CreateSettingsTable extends Migration
         });
         $now = now();
         \Illuminate\Support\Facades\DB::unprepared("INSERT INTO `settings` (`id`, `lang`, `title`, `value`, `created_at`, `updated_at`) VALUES
-        (1, 'en', 'current_version', '167', '$now', '$now'),
+        (1, 'en', 'current_version', '100', '$now', '$now'),
 (2, 'en', 'default_language', 'en', '$now', '$now'),
 (3, 'en', 'system_name', 'Yoori e-Commerce CMS', '$now', '$now'),
 (4, 'en', 'default_time_zone', 'Asia/Dhaka', '$now', '$now'),
@@ -242,7 +242,6 @@ class CreateSettingsTable extends Migration
 (233, 'en', 'admin_panel_copyright_text', '©Yoori by SpaGreen Creative 2022, All Rights Reserved.', NULL, NULL),
 (234, 'en', 'admin_panel_title', 'Yoori e-Commerce CMS', '$now', '$now'),
 (235, 'en', 'system_short_name', 'Yoori', '$now', '$now'),
-(239, 'en', 'pay_later_system', '1', '$now', '$now'),
 (240, 'en', 'invoice_based_shipping_fee', 'a:1:{i:0;a:3:{s:10:\"min_amount\";s:0:\"\";s:10:\"max_amount\";s:0:\"\";s:3:\"fee\";s:0:\"\";}}', '$now', '$now'),
 (241, 'en', 'shipping_fee_default_rate', '', '$now', '$now'),
 (242, 'en', 'default_country', '19', NULL, NULL),

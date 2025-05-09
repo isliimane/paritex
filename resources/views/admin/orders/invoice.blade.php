@@ -13,7 +13,10 @@
         }
 
         p {
-            margin: 4pt 0 0 0;
+            margin-top: 20px;
+margin-right: 0;
+margin-bottom: 0;
+margin-left: 0;
         }
 
         td {
@@ -75,7 +78,7 @@
 <body>
 <table width="100%">
     <tr>
-        <td width="32%" class="d-inline-block">
+        <td width="32%" class="d-inline-block" style="vertical-align: middle;">
             @php
                 $logo = settingHelper('invoice_logo');
             @endphp
@@ -91,7 +94,7 @@
             <p>{{ settingHelper('contact_phone') ? : settingHelper('header_contact_phone')  }}</p>
         </td>
         <td width="3%" class="right"></td>
-        <td width="32%" class="right">
+        <td width="32%" class="right" style="vertical-align: middle;">
             <div style="font-weight: bold; color:#333333; font-size: 16px; text-transform: uppercase;">{{ __('Invoice') }}</div>
         </td>
     </tr>

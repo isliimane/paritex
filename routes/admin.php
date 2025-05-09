@@ -547,9 +547,6 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 Route::put('services/{service}', [ServiceController::class, 'update'])->name('services.update')->middleware('PermissionCheck:service_update');
                 Route::delete('delete/services/{service}', [CommonController::class, 'delete'])->middleware('PermissionCheck:service_delete');
 
-                Route::get('server-info',[GeneralSettingsController::class, 'serverInfo'])->name('admin.server.info');
-                Route::get('update-system',[GeneralSettingsController::class, 'updateServerForm'])->name('admin.system.update.form');
-                Route::post('update-system',[GeneralSettingsController::class, 'updateSystem'])->name('admin.system.update');
                 Route::post('download-update-files',[GeneralSettingsController::class, 'downloadUpdate'])->name('admin.download.update');
                 Route::get('time-zone-by-ajax', [GeneralSettingsController::class, 'getTomeZoneByAjax'])->name('time.zone.by.ajax');
 

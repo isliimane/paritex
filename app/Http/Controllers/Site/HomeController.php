@@ -153,7 +153,7 @@ class HomeController extends Controller
         $store_links = settingData(['play_store_link', 'apple_store_link']);
         $other_data = settingData(['is_google_login_activated', 'is_facebook_login_activated', 'is_twitter_login_activated']);
         $recaptcha = settingData(['is_recaptcha_activated', 'recaptcha_Site_key']);
-        $modules = settingData(['color', 'pickup_point', 'wallet_system', 'coupon_system', 'pay_later_system']);
+        $modules = settingData(['color', 'pickup_point', 'wallet_system', 'coupon_system']);
         $agreements = [
             'customer_agreement' => PageGdprResource::collection($page->pageByLink(settingHelper('customer_agreement') && is_array(settingHelper('customer_agreement')) ? settingHelper('customer_agreement') : [])),
             'privacy_agreement' => PageGdprResource::collection($page->pageByLink(settingHelper('privacy_agreement') && is_array(settingHelper('privacy_agreement')) ? settingHelper('privacy_agreement') : [])),

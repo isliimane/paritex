@@ -63,22 +63,14 @@
                                 <a class="nav-link"
                                     href="{{ route('wholesale.products') }}">{{ __('All Products') }}</a>
                             </li>
-                            <!-- @if(hasPermission('wholesale_product_setting'))
+                            @if(hasPermission('wholesale_product_setting'))
                                 <li class="@yield('wholesale_setting')">
                                     <a class="nav-link"
                                     href="{{ route('wholesale.setting') }}">{{ __('Wholesale Setting') }}</a>
                                 </li>
-                            @endif -->
+                            @endif
                         @endif
-                        <!-- @if(hasPermission('product_create'))
-                            <li class="@yield('product-create')"><a class="nav-link"
-                                                                    href="{{ route('product.create') }}">{{ __('Add New Product') }}</a>
-                            </li>
-                        @endif -->
                         @if(hasPermission('product_read'))
-                            <!-- <li class="@yield('product')"><a class="nav-link"
-                                                             href="{{ route('products') }}">{{ __('All Product') }}</a>
-                            </li> -->
                             <li class="@yield('product_review')"><a class="nav-link"
                                                                     href="{{ route('admin.product.reviews') }}">{{ __('Product Reviews') }}</a>
                             </li>
@@ -437,11 +429,6 @@
                     <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown"><i
                                 class="bx bx-cog"></i><span>{{ __('Store Front') }}</span></a>
                     <ul class="dropdown-menu @yield('store-front')">
-                        <!-- @if(hasPermission('theme_option_update'))
-                            <li class="@yield('theme-options')"><a class="nav-link"
-                                                                   href="{{ route('get.theme.options') }}"> {{ __('Theme Options') }}</a>
-                            </li>
-                        @endif -->
                         @if(hasPermission('header_content_update'))
                             <li class="@yield('header_content')"><a class="nav-link"
                                                                     href="{{ route('header') }}">{{ __('Header Content') }}</a>
@@ -468,16 +455,6 @@
                                                                    href="{{ route('website.popup') }}">{{ __('Website Popup') }}</a>
                             </li>
                         @endif
-                        <!-- @if(hasPermission('custom_css_update'))
-                            <li class="@yield('custom-css')"><a class="nav-link"
-                                                                href="{{ route('custom.css') }}">{{ __('Custom CSS') }}</a>
-                            </li>
-                        @endif
-                        @if(hasPermission('custom_js_update'))
-                            <li class="@yield('custom-js')"><a class="nav-link"
-                                                               href="{{ route('custom.js') }}">{{ __('Custom JS') }}</a>
-                            </li>
-                        @endif -->
 
                         @if(hasPermission('gdpr_update'))
                             <li class="@yield('gdpr')"><a class="nav-link"
@@ -604,7 +581,7 @@
                 </li>
             @endif
 
-            <!-- @if(hasPermission('android_setting_update') || hasPermission('ios_setting_update') || hasPermission('app_config_update') || hasPermission('ads_config_update')
+            @if(hasPermission('android_setting_update') || hasPermission('ios_setting_update') || hasPermission('app_config_update') || hasPermission('ads_config_update')
                 || hasPermission('api_setting_update') || hasPermission('api_key_read_all') || hasPermission('api_key_read')
                  || hasPermission('api_key_update') || hasPermission('api_key_delete') || hasPermission('all_page_read'))
                 <li class="nav-item dropdown @yield('mobile_apps')">
@@ -658,8 +635,8 @@
                         </li>
                     </ul>
                 </li>
-            @endif -->
-                    <!-- <li class="nav-item dropdown @yield('addon_utility')">
+            @endif
+                    <li class="nav-item dropdown @yield('addon_utility')">
                         <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown"><i
                                     class="bx bx-extension"
                                     aria-hidden="true"></i><span>{{ __('Addons') }}</span></a>
@@ -671,19 +648,7 @@
                                                                      href="{{ route('admin.available.addons') }}">{{ __('Available Addons') }}</a>
                             </li>
                         </ul>
-                    </li> -->
-                    <!-- <li class="@yield('updater')">
-                        <a class="nav-link" href="{{ route('admin.system.update.form') }}">
-                            <i class="bx bx-wrench"></i>
-                            <span>{{ __('System Update') }}</span>
-                        </a>
-                    </li> -->
-                    <!-- <li class="@yield('server-info')">
-                        <a class="nav-link" href="{{ route('admin.server.info') }}">
-                            <i class="bx bx-server"></i>
-                            <span>{{ __('Server Info') }}</span>
-                        </a>
-                    </li> -->
+                    </li> 
             @if(hasPermission('warehouse_read'))
                 <li class="nav-item dropdown @yield('warehouse_active')">
                     <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">

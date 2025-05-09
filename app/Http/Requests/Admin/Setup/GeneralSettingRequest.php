@@ -25,10 +25,8 @@ class GeneralSettingRequest extends FormRequest
     {
         return [
             'system_name'       => 'required',
-            'default_time_zone' => 'required',
             'default_language'  => 'required',
             'default_currency'  => 'required',
-            'purchase_code'     => 'required',
             'favicon'           => 'mimes:jpg,JPG,JPEG,ico,jpeg,png,PNG,webp,WEBP|max:5120',
         ];
     }

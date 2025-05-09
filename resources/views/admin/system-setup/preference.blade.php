@@ -34,20 +34,20 @@
                                             <th colspan="2">{{ __('System') }}</th>
                                         </tr>
                                         <tr>
-                                            <td>{{ __('HTTPS Activation') }}
-                                                <div class="invalid-feedback">
-                                                    {{ __('N.B: Make sure you have SSL Installed before activating HTTPS') }}
-                                                </div>
-                                            </td>
+                                                <td>{{ __('HTTPS Activation') }}
+                                                    <div class="invalid-feedback">
+                                                        {{ __('N.B: Make sure you have SSL Installed before activating HTTPS') }}
+                                                    </div>
+                                                </td>
 
-                                            <td width="300">
-                                                <label class="custom-switch mt-2">
-                                                    <input type="checkbox" name="custom-switch-checkbox"
-                                                           value="setting-status-change/{{ 'https' }}"
-                                                           class="custom-switch-input status-change" {{ settingHelper('https') == 1 ? 'checked' : ''}} />
-                                                    <span class="custom-switch-indicator"></span>
-                                                </label>
-                                            </td>
+                                                <td width="300">
+                                                    <label class="custom-switch mt-2">
+                                                        <input type="checkbox" name="custom-switch-checkbox"
+                                                            value="setting-status-change/{{ 'https' }}"
+                                                            class="custom-switch-input status-change" {{ settingHelper('https') == 1 ? 'checked' : ''}} />
+                                                        <span class="custom-switch-indicator"></span>
+                                                    </label>
+                                                </td>
                                         </tr>
                                         <tr>
                                             <td>
@@ -111,17 +111,6 @@
                                                     <input type="checkbox" name="custom-switch-checkbox"
                                                            value="setting-status-change/{{ 'pickup_point' }}"
                                                            class="custom-switch-input status-change" {{ settingHelper('pickup_point') == 1 ? 'checked' : ''}} />
-                                                    <span class="custom-switch-indicator"></span>
-                                                </label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{ __('Pay Later Payment Activation') }}</td>
-                                            <td width="300">
-                                                <label class="custom-switch mt-2">
-                                                    <input type="checkbox" name="custom-switch-checkbox"
-                                                           value="setting-status-change/{{ 'pay_later_system' }}"
-                                                           class="custom-switch-input status-change" {{ settingHelper('pay_later_system') == 1 ? 'checked' : ''}} />
                                                     <span class="custom-switch-indicator"></span>
                                                 </label>
                                             </td>

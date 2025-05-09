@@ -20,27 +20,18 @@
                 @if(hasPermission('storage_setting_update'))
                 <li class="nav-item"><a href="{{ route('storage.setting') }}" class="nav-link @yield('storage.setting')">{{ __('Storage') }}</a></li>
                 @endif
-                @if(hasPermission('cache_update'))
-                <li class="nav-item"><a href="{{ route('cache') }}" class="nav-link @yield('cache')">{{ __('Cache') }}</a></li>
-                @endif
                 @if(hasPermission('admin_panel_setting_update'))
                     <li class="nav-item"><a href="{{ route('admin.panel.setting') }}" class="nav-link @yield('white_level')">{{ __('Admin Panel Setting') }}</a></li>
                 @endif
                 @if(hasPermission('google_service_update'))
                     <li class="nav-item"><a href="{{ route('settings.google.recaptcha') }}" class="nav-link @yield('google_recaptcha_active')">{{ __('Google reCaptcha') }}</a></li>
                 @endif
-                <!-- @if(hasPermission('pusher_notification_update'))
+                @if(hasPermission('pusher_notification_update'))
                     <li class="nav-item"><a href="{{ route('settings.pusher.notification') }}" class="nav-link @yield('pusher_notification_active')">{{ __('Pusher Notification') }}</a></li>
-                @endif -->
+                @endif
 
                 <!-- @if(hasPermission('miscellaneous_setting_update'))
                     <li class="nav-item"><a href="{{ route('miscellaneous') }}" class="nav-link @yield('miscellaneous')">{{ __('Miscellaneous') }}</a></li>
-                @endif -->
-                @if(true && !isAppMode())
-                    <li class="nav-item"><a href="{{ route('settings.firebase') }}" class="nav-link @yield('firebase_update')">{{ __('Firebase') }}</a></li>
-                @endif
-                <!-- @if(hasPermission('miscellaneous_setting_update'))
-                    <li class="nav-item"><a href="{{ route('admin.get.fonts') }}" class="nav-link @yield('pdf_font')">{{ __('Pdf Font') }}</a></li>
                 @endif -->
             </ul>
         </div>
