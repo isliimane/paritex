@@ -29,10 +29,6 @@
                 @if(hasPermission('pusher_notification_update'))
                     <li class="nav-item"><a href="{{ route('settings.pusher.notification') }}" class="nav-link @yield('pusher_notification_active')">{{ __('Pusher Notification') }}</a></li>
                 @endif
-
-                <!-- @if(hasPermission('miscellaneous_setting_update'))
-                    <li class="nav-item"><a href="{{ route('miscellaneous') }}" class="nav-link @yield('miscellaneous')">{{ __('Miscellaneous') }}</a></li>
-                @endif -->
             </ul>
         </div>
     </div>

@@ -268,8 +268,6 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 Route::get("settings/google-services", [ThirdPartyController::class, 'googleService'])->name('settings.google.services')->middleware('PermissionCheck:google_service_update');
                 Route::get("settings/google-recaptcha", [ThirdPartyController::class, 'googleRecaptcha'])->name('settings.google.recaptcha')->middleware('PermissionCheck:google_service_update');
                 Route::get("settings/pusher-notification", [ThirdPartyController::class, 'pusherNotification'])->name('settings.pusher.notification')->middleware('PermissionCheck:pusher_notification_update');
-                Route::get("settings/firebase", [ThirdPartyController::class, 'firebase'])->name('settings.firebase')->middleware('PermissionCheck:google_service_update');
-                Route::get("settings/firebase-update", [ThirdPartyController::class, 'firebaseUpdate'])->name('settings.firebase.update')->middleware('PermissionCheck:pusher_notification_update');
 
                 //media routes
                 Route::get('media-library', [MediaController::class, 'index'])->name('media.library')->middleware('PermissionCheck:media_read');

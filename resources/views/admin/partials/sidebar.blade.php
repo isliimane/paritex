@@ -533,10 +533,6 @@
                                                                             href="{{ route('storage.setting') }}">{{ __('Storage') }}</a>
                             </li>
                         @endif
-                        @if(hasPermission('cache_update'))
-                            <li class="@yield('cache_active')"><a class="nav-link"
-                                                                  href="{{ route('cache') }}">{{ __('Cache') }}</a></li>
-                        @endif
                         @if(hasPermission('google_service_update'))
                             <li class="@yield('google_recaptcha_active')"><a
                                         href="{{ route('settings.google.recaptcha') }}"
@@ -556,20 +552,6 @@
                                    href="{{ route('settings.pusher.notification') }}">{{ __('Pusher Notification') }}</a>
                             </li>
                         @endif
-                        @if(hasPermission('pusher_notification_update'))
-                            <li class="@yield('firebase_update')"><a
-                                        href="{{ route('settings.firebase') }}"
-                                        class="nav-link">{{ __('Firebase') }}</a>
-                            </li>
-                        @endif
-                        @if(hasPermission('miscellaneous_setting_update'))
-                            <li class="@yield('miscellaneous_active')"><a class="nav-link"
-                                                                          href="{{ route('miscellaneous') }}">{{ __('Misc') }}</a>
-                            </li>
-                        @endif
-                            <li class="@yield('pdf_font')"><a class="nav-link"
-                                                              href="{{ route('admin.get.fonts') }}">{{ __('Pdf Font') }}</a>
-                            </li>
                     </ul>
                 </li>
             @endif
