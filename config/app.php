@@ -10,6 +10,16 @@ if (isset($url['path'])) {
 }
 return [
 
+    'locale'=> 'fr',
+
+    // 'fallback_locale' => 'fr', // Changé de 'en' à 'fr'
+
+    
+    // 'available_locales' => ['fr', 'en'], // Ajout de cette nouvelle configuration
+
+   
+    // 'faker_locale' => 'fr_FR', // Changé de 'en_US' à 'fr_FR'
+    
     /*
     |--------------------------------------------------------------------------
     | Application Name

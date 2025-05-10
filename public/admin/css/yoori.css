@@ -1,8 +1,8 @@
 @charset "UTF-8";
 :root {
-    --primary-color: #556ee6;
+    --primary-color:  rgb(9, 173, 42);
     --primary-font: 'Inter', sans-serif;
-    --primary-bg: linear-gradient(to right, #0068e1, #003471);
+    --primary-bg: linear-gradient(to right, #00e12d, #007146);
     /* Colors */
     --primary: var(--primary-color);
     --secondary-color: #333333;

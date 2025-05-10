@@ -31,13 +31,13 @@
                                 <div class="form-row">
                                     <div class="form-group col-sm-xs-12 col-md-5">
                                         <label for="u">{{ __('Filter by User') }}</label>
-                                        <select class="all-user-by-ajax form-control select2" name="u" id ="u"  aria-hidden="true" >
+                                       <div> <select class="all-user-by-ajax form-control select2" name="u" id ="u"  aria-hidden="true" >
                                             <option value="">{{ __('Filter By User') }}</option>
                                             @if(isset($u))
                                                 <option selected value="{{ @$u }}"> {{ @$selected_user->first_name.' '. @$selected_user->last_name .' - '. @$selected_user->phone }} </option>
                                             @endif
                                         </select>
-                                    </div>
+                                    </div></div>
                                     <div class="form-group col-sm-xs-12 col-md-5">
                                         <label for="time_period">{{ __('Filter by Date Range') }}</label>
                                         <div class="input-group">

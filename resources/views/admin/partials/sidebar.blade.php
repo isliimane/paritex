@@ -5,114 +5,106 @@
 <div class="main-sidebar">
 <style>
 .main-sidebar {
-  background: linear-gradient(135deg,rgb(77, 103, 181) 0%,rgb(250, 248, 248) 100%) !important;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Style pour le logo et le nom court */
-.sidebar-brand, .sidebar-brand-sm a {
-  color: #000000 !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  padding: 15px 0;
-}
-
-/* Style des éléments du menu */
+    background:rgb(255, 255, 255) !important; /* Fond noir */
+    
+  }
 .sidebar-menu .nav-link {
   color: #000000 !important;
-  padding: 12px 15px;
-  margin: 5px 0;
-  border-radius: 4px;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 /* Style des icônes - Version bleue */
 .sidebar-menu i.bx {
-  font-size: 1.2rem;
-  color:rgb(50, 13, 236) !important; /* Bleu clair */
-  margin-right: 10px;
-  vertical-align: middle;
-  transition: color 0.3s ease;
+  color:  #47c363  !important; /* Bleu clair */
 }
-
-/* Alternative bleu plus foncé */
-/* .sidebar-menu i.bx {
-  color: #2980b9 !important; 
-} */
-
 /* Effet au survol */
 .sidebar-menu .nav-link:hover {
-  background-color: rgba(255, 255, 255, 0.1) !important; /* Fond légèrement clair au survol */
+  background-color: rgba(0, 0, 0, 0.05) !important;
   transform: translateX(5px);
 }
 
-.sidebar-menu .nav-link:hover i.bx {
+.sidebar-menu .nav-link:hover i.bx, .sidebar-menu .nav-link.active i.bx {
   color: #2c3e50 !important; /* Bleu foncé au survol */
 }
 .sidebar-menu .nav-link.active {
-  background-color: rgba(0, 0, 0, 0.1) !important;
-  font-weight: bold;
-  color: #000000 !important;
+  background-color: rgba(0, 0, 0, 0.05) !important;
 }
-
-.sidebar-menu .nav-link.active i.bx {
-  color: #1a5276 !important; /* Bleu plus soutenu pour l'état actif */
-}
-
-/* Style des sous-menus */
 .sidebar-menu .dropdown-menu {
-  background-color:180deg,rgb(37, 82, 215) 0%,rgb(250, 248, 248) 100%t;
-  border: 1px solid #e0e0e0 !important;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    border: 0;
 }
-
-.sidebar-menu .dropdown-menu a {
+.sidebar-menu .dropdown-menu li{
+    border: 0;
+}
+.sidebar-menu .dropdown-menu .nav-link {
+  padding-top: 22px;
+  padding-bottom: 22px;
   color: #000000 !important;
-}
-
-.sidebar-menu .dropdown-menu i.bx {
-  color:rgb(15, 33, 227) !important; /* Même bleu que les icônes principales */
-}
-
-/* Animation douce pour l'ouverture de la sidebar */
-.aside {
-  transition: all 0.3s ease-out;
-}
-
-/* Ombre portée pour le contenu */
-#sidebar-wrapper {
-  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Séparateur entre les éléments du menu */
 .sidebar-menu li {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Séparateur clair */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .sidebar-menu li:last-child {
   border-bottom: none;
 }
-
-/* Style pour les badges */
-.badge, .badge-addon {
-  color: #000 !important; /* Texte noir pour les badges */
-  background-color: #fff !important; /* Fond blanc pour les badges */
+.nav-link .rounded-circle {
+    border-radius: 20% !important;
 }
-
-/* Style pour le logo dans la sidebar */
-.sidebar-brand img {
-  filter: brightness(0) invert(1); /* Pour inverser les couleurs du logo (le rendre blanc) */
+.bx-trending-up:before, .bx-euro:before, .bxl-product-hunt:before, .bx-group:before, .bx-star:before, .bx-star:before{
+    color:"#47c363  !important;"
 }
+.green-icon {
+    color: #47c363 !important;
+  }
+
+  a {
+    color:rgb(0, 0, 0) !important;}
 </style>
+
     <aside id="sidebar-wrapper">
-        <div class="sidebar-brand sidebar-brand-sm py-3">
-            <a href="{{ route('dashboard') }}">{{ settingHelper('system_short_name') != '' ? settingHelper('system_short_name',app()->getLocale()) :  "Paritex" }}</a>
-        </div>
-        <div class="sidebar-brand py-3">
-            <a href="{{ route('dashboard') }}">
-                <img
-                        src="{{($logo != [] && is_file_exists($logo['image_100x38'])) ? static_asset($logo['image_100x38']) : static_asset('images/default/logo3.png') }}"
-                        alt="Logo"></a>
-        </div>
+    
+     
+        <a href="#" data-toggle="dropdown"
+                class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+
+                @if (Sentinel::getUser()->images &&
+                        array_key_exists('image_40x40', Sentinel::getUser()->images) &&
+                        @is_file_exists(Sentinel::getUser()->images['image_40x40']))
+                  
+
+                        <img alt="{{ Sentinel::getUser()->first_name }}"
+     src="{{ static_asset(Sentinel::getUser()->images['image_40x40']) }}"
+     class="rounded-circle mr-1 profile-thumb" style=" width: 60px;
+    height: 60px;">
+                @else
+                    <img alt="{{ Sentinel::getUser()->first_name }}"
+                        src="{{ static_asset('images/default/user32x32.jpg') }}" class="rounded-circle mr-1">
+                @endif
+                <div class="d-sm-none d-lg-inline-block">{{ Sentinel::getUser()->first_name }}</div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" style="background-color: #fff;">
+                @if (@Sentinel::getUser()->lastLogin())
+                    <div class="dropdown-title">
+                        {{ __('Logged in :minutes', ['minutes' => \Carbon\Carbon::parse(Sentinel::getUser()->lastLogin())->diffForHumans()]) }}
+                    </div>
+                @endif
+                <a href="{{ route('admin.profile') }}"
+                    class="dropdown-item has-icon">
+                    <i class="bx bx-user"></i> {{ __('Profile') }}
+                </a>
+                <a href="{{ route('admin.login.activity') }}"
+                    class="dropdown-item has-icon">
+                    <i class='bx bx-file'></i>{{ __('Login Activities') }}
+                </a>
+                <div class="dropdown-divider"></div>
+                <a href="{{ route('logout') }}" class="dropdown-item has-icon text-danger">
+                    <i class="bx bx-log-out"></i> {{ __('Logout') }}
+                </a>
+            </div>
+        
+                   
     
 
         <ul class="sidebar-menu" >
@@ -121,30 +113,10 @@
                     <span>{{ __('Dashboard') }}</span></a>
             </li>
             
-<<<<<<< HEAD
-          <!-- reclamation  -->
-     
-<!--return -->
-@if(hasPermission('return_read'))
-    <li class="@yield('return')">
-        <a class="nav-link" href="{{ route('admin.return.index') }}">
-            <i class="bx bx-arrow-back"></i>
-            <span>{{ __('Demandes de retour') }}</span>
-            
-            @php
-                $pendingCount = \App\Models\ReturnRequest::where('status', 'pending')->count();
-            @endphp
-            
-            <!-- @if($pendingCount > 0)
-                <span class="badge bg-danger float-end">{{ $pendingCount }}</span>
-            @endif -->
-        </a>
-    </li>
-@endif
             @if(hasPermission('order_read') || hasPermission('pickup_hub_read'))
                 <li class="nav-item dropdown @yield('order_active')">
                     <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
-                        <i class="bx bx-trending-up"></i>
+                        <i class="bx bx-trending-up green-icon" ></i>
                         <span>{{ __('Orders') }}</span>
                     </a>
                     <ul class="dropdown-menu">
@@ -163,39 +135,6 @@
                     </ul>
                 </li>
             @endif
-            @if(addon_is_activated('pos_system') && (hasPermission('pos_order') || hasPermission('pos_config_update')))
-                <li class="nav-item dropdown @yield('pos_services_active')">
-                    <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
-                        <i class="bx bx-printer {{ config('app.demo_mode') ? 'beep' : ''}}"></i>
-                        <span>{{ __('pos_system') }}</span>
-                        @if(config('app.demo_mode'))
-                            <p class="badge badge-addon">{{ __('Addon') }}</p>
-                        @endif
-                    </a>
-                    <ul class="dropdown-menu">
-                        @if(hasPermission('pos_order'))
-                            <li><a class="nav-link" href="{{ route('admin.pos.system') }}">{{ __('POS') }}</a>
-                            </li>
-                        @endif
-                        @if(hasPermission('pos_config_update'))
-                            <li class="@yield('pos_services')"><a class="nav-link"
-                                                                  href="{{ route('admin.pos.config') }}">{{ __('POS Configuration') }}</a>
-                            </li>
-                        @endif
-                    </ul>
-                </li>
-            @endif
-            @if(addon_is_activated('ai_writer') && hasPermission('ai_writer_setting'))
-                <li class="@yield('ai_writer')"><a class="nav-link" href="{{ route('ai-writer.config') }}"><i
-                                class="bx bx-pencil {{ config('app.demo_mode') ? 'beep' : ''}}"></i>
-                        <span>{{ __('ai_writer') }}</span>
-                        @if(config('app.demo_mode'))
-                            <p class="badge badge-addon">{{ __('Addon') }}</p>
-                        @endif
-                    </a>
-                </li>
-            @endif
-
 
             @if(hasPermission('product_read') || hasPermission('color_read') || hasPermission('attribute_set_read') || hasPermission('brand_read') || hasPermission('category_read') || hasPermission('attribute_value_read'))
                 <li class="nav-item dropdown @yield('product_active')">
@@ -216,12 +155,7 @@
                             <li class="@yield('digital-product')"><a class="nav-link"
                                                                      href="{{ route('digital.products') }}">{{ __('Digital Products') }}</a>
                             </li>
-                            <li class="@yield('catalog-product')"><a class="nav-link"
-                                                                     href="{{ route('catalog.products') }}">{{ __('Catalog Products') }}</a>
-                            </li>
-                            <li class="@yield('classified-product')"><a class="nav-link"
-                                                                        href="{{ route('classified.products') }}">{{ __('Classified Products') }}</a>
-                            </li>
+                            
                             <li class="@yield('product_review')"><a class="nav-link"
                                                                     href="{{ route('admin.product.reviews') }}">{{ __('Product Reviews') }}</a>
                             </li>
@@ -255,6 +189,15 @@
                                                                     href="{{ route('admin.product.import') }}">{{ __('Import Products') }}</a>
                             </li>
                         @endif
+              
+              
+              
+                        @if(hasPermission('recharge_request_read'))
+                    <li class="@yield('wallet_recharge_request')"> <a class="nav-link" 
+                                                                    href="{{ route('admin.wallet.recharge.request') }}">{{ __('Wallet Requests') }}</a>
+                    </li>
+               
+                         @endif
                     </ul>
                 </li>
             @endif
@@ -312,16 +255,6 @@
                         @endif
                     </ul>
                 </li>
-            @endif
-            @if(settingHelper('wallet_system') == 1)
-                @if(hasPermission('recharge_request_read'))
-                    <li class="@yield('wallet_recharge_request')">
-                        <a class="nav-link" href="{{ route('admin.wallet.recharge.request') }}"><i
-                                    class="bx bxs-wallet"></i>
-                            <span>{{ __('Wallet Requests') }}</span>
-                        </a>
-                    </li>
-                @endif
             @endif
 
             @if(hasPermission('delivery_hero_read') || hasPermission('delivery_hero_create') || hasPermission('delivery_hero_commission_history') || hasPermission('delivery_hero_deposit_history') || hasPermission('delivery_hero_collection_history') || hasPermission('delivery_hero_cancel_request') || hasPermission('delivery_hero_configuration_read'))
@@ -464,18 +397,7 @@
                                                               href="{{ route('campaign') }}">{{ __('Campaigns') }}</a>
                             </li>
                         @endif
-                        @if(addon_is_activated('otp_system') == 1)
-                            @if(hasPermission('bulk_sms_read'))
-                                <li class="@yield('bulk_sms')"><a class="nav-link"
-                                                                  href="{{ route('bulk.sms') }}">{{ __('Bulk SMS') }}</a>
-                                </li>
-                            @endif
-                        @endif
-                        @if(hasPermission('subscriber_read'))
-                            <li class="@yield('subscriber')"><a class="nav-link"
-                                                                href="{{ route('subscribers') }}">{{ __('Subscriber') }}</a>
-                            </li>
-                        @endif
+
                         @if(settingHelper('coupon_system') == 1)
                             @if(hasPermission('coupon_read'))
                                 <li class="@yield('coupon')"><a class="nav-link"
@@ -489,26 +411,7 @@
             @if(hasPermission('all_page_read'))
                 <li class="@yield('other_page')"><a class="nav-link" href="{{route('other.pages')}}"><i class="bx bx-news"></i><span>{{ __('Pages') }}</span></a></li>
             @endif
-            @if(hasPermission('blog_read') || hasPermission('blog_category_read'))
-                <li class="nav-item dropdown @yield('blogs_active')">
-                    <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
-                        <i class="bx bxs-news"></i>
-                        <span>{{ __('Blog') }}</span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        @if(hasPermission('blog_read'))
-                            <li class="@yield('blog_post')"><a class="nav-link"
-                                                               href="{{ route('blogs') }}">{{ __('All Post') }}</a></li>
-                        @endif
-                        @if(hasPermission('blog_category_read'))
-                            <li class="@yield('blog_category')"><a class="nav-link"
-                                                                   href="{{ route('blogs.categories') }}">{{ __('Post Category') }}</a>
-                            </li>
-                        @endif
-                    </ul>
-                </li>
-            @endif
-            <!-- @if(settingHelper('seller_system') == 1) -->
+           
                 @if(hasPermission('support_read') || hasPermission('support_department_read'))
                     <li class="nav-item dropdown @yield('support_active')">
                         <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
@@ -539,135 +442,7 @@
                         </ul>
                     </li>
                 @endif
-            <!-- @endif -->
-            @if(addon_is_activated('offline_payment'))
-                @if (hasPermission('offline_payment_read') || hasPermission('wallet_recharge_read'))
-                    <li class="nav-item dropdown @yield('offline_payment')">
-                        <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
-                            <i class="bx bx-credit-card-front {{ config('app.demo_mode') ? 'beep' : ''}}"></i>
-                            <span>{{ __('Offline Payment') }}</span>
-                            @if(config('app.demo_mode'))
-                                <p class="badge badge-addon">{{ __('Addon') }}</p>
-                            @endif
-                        </a>
-                        <ul class="dropdown-menu">
-                            @if (hasPermission('offline_payment_read'))
-                                <li class="@yield('offline_payment_methods')"><a class="nav-link"
-                                                                                 href="{{ route('offline.payment.methods') }}">{{ __('Payment Methods') }}</a>
-                                </li>
-                            @endif
-                            @if (hasPermission('wallet_recharge_read'))
-                                <li class="@yield('offline_wallet_recharge')"><a class="nav-link"
-                                                                                 href="{{ route('offline.wallet.recharge.history') }}">{{ __('Wallet Recharge') }}</a>
-                                </li>
-                            @endif
-                        </ul>
-                    </li>
-                @endif
-            @endif
-            @if(addon_is_activated('reward'))
-                @if(hasPermission('reward_configuration_read') || hasPermission('reward_setting_read') || hasPermission('user_reward_read'))
-                    <li class="nav-item dropdown @yield('reward_system')">
-                        <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
-                            <i class="bx bx-collection {{ config('app.demo_mode') ? 'beep' : ''}}"></i>
-                            <span>{{__('Reward System')}}</span>
-                            @if(config('app.demo_mode'))
-                                <p class="badge badge-addon">{{ __('Addon') }}</p>
-                            @endif
-                        </a>
-                        <ul class="dropdown-menu">
-                            @if(hasPermission('user_reward_read'))
-                                <li class="@yield('user_rewards')"><a class="nav-link"
-                                                                      href="{{route('user.rewards')}}">{{ __('User Rewards') }}</a>
-                                </li>
-                            @endif
-                            @if(hasPermission('reward_configuration_read'))
-                                <li class="@yield('reward_config')"><a class="nav-link"
-                                                                       href="{{route('reward.config')}}">{{ __('Reward Configuration') }}</a>
-                                </li>
-                            @endif
-                            @if(hasPermission('reward_setting_read'))
-                                <li class="@yield('reward_active')"><a class="nav-link"
-                                                                       href="{{route('set.reward')}}">{{ __('Set Reward') }}</a>
-                                </li>
-                            @endif
-                        </ul>
-                    </li>
-                @endif
-            @endif
-            @if(addon_is_activated('affiliate'))
-                <li class="nav-item dropdown @yield('affiliate')">
-                    <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
-                        <i class="bx bx-collection {{ config('app.demo_mode') ? 'beep' : ''}}"></i>
-                        <span>{{__('Affiliate Marketing')}}</span>
-                        @if(config('app.demo_mode'))
-                            <p class="badge badge-addon">{{ __('Addon') }}</p>
-                        @endif
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li class="@yield('affiliate_configure_active')"><a class="nav-link"
-                                                                            href="{{route('affiliate.configuration')}}">{{ __('Affiliate Configuration') }}</a>
-                        </li>
-                        <li class="@yield('affiliate_program_active')"><a class="nav-link"
-                                                                          href="{{route('affiliate.program')}}">{{ __('Affiliate Program') }}</a>
-                        </li>
-                    </ul>
-                </li>
-            @endif
-            @if(addon_is_activated('otp_system'))
-                @if(hasPermission('otp_setting_read') || hasPermission('sms_template_read'))
-                    <li class="nav-item dropdown @yield('otp_setting_menu')">
-                        <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
-                            <i class="bx bx-comment {{ config('app.demo_mode') ? 'beep' : ''}}"></i>
-                            <span>{{ __('OTP System') }}</span>
-                            @if(config('app.demo_mode'))
-                                <p class="badge badge-addon">{{ __('Addon') }}</p>
-                            @endif
-                        </a>
-                        <ul class="dropdown-menu">
-                            @if(hasPermission('otp_setting_read'))
-                                <li class="@yield('otp_setting')"><a class="nav-link"
-                                                                     href="{{ route('otp-settings') }}">{{ __('OTP Setting') }}</a>
-                                </li>
-                            @endif
-                            @if(hasPermission('sms_template_read'))
-                                <li class="@yield('sms_templates')"><a class="nav-link"
-                                                                       href="{{ route('sms-templates') }}">{{ __('SMS Templates') }}</a>
-                                </li>
-                            @endif
-                        </ul>
-                    </li>
-                @endif
-            @endif
-
-            @if(hasPermission('chat_messenger_read') && !isAppMode())
-                <li class="@yield('chat-messenger')"><a class="nav-link" href="{{ route('chat.messenger') }}"><i
-                                class="bx bx-chat"></i>
-                        <span>{{ __('Chat Messenger') }}</span>
-                    </a>
-                </li>
-            @endif
-
-            @if(addon_is_activated('video_shopping'))
-                @if(hasPermission('video_shopping_read'))
-                    <li class="nav-item dropdown @yield('video_shopping_menu')">
-                        <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
-                            <i class="bx bx-video {{ config('app.demo_mode') ? 'beep' : ''}}"></i>
-                            <span>{{__('Video Shopping') }}</span>
-                            @if(config('app.demo_mode'))
-                                <p class="badge badge-addon">{{ __('Addon') }}</p>
-                            @endif
-                        </a>
-                        <ul class="dropdown-menu">
-                            @if(hasPermission('video_shopping_read'))
-                                <li class="@yield('video_shopping')"><a class="nav-link"
-                                                                        href="{{ route('admin.video.shopping') }}">{{ __('Video Shopping') }}</a>
-                                </li>
-                            @endif
-                        </ul>
-                    </li>
-                @endif
-            @endif
+           
             @if(hasPermission('payment_gateway_read'))
                 <li class="@yield('payment-gateway')"><a class="nav-link" href="{{ route('payment.gateway') }}"><i
                                 class="bx bx-dollar" aria-hidden="true"></i>
@@ -707,7 +482,7 @@
                     </ul>
                 </li>
             @endif
-            @if((hasPermission('theme_option_update') || hasPermission('header_content_update') || hasPermission('footer_content_update') || hasPermission('home_page_update') || hasPermission('website_seo_update') ||
+            <!-- @if((hasPermission('theme_option_update') || hasPermission('header_content_update') || hasPermission('footer_content_update') || hasPermission('home_page_update') || hasPermission('website_seo_update') ||
                 hasPermission('website_popup_update') || hasPermission('custom_css_update') || hasPermission('custom_js_update') || hasPermission('gdpr_update') || hasPermission('slider_read') ||
                 hasPermission('service_read') || hasPermission('all_page_read') || hasPermission('login_singup_read')) && !config('app.mobile_mode'))
                 <li class="nav-item dropdown @yield('store_front_active') @yield('header_content') @yield('footer_content') @yield('slider_active') @yield('service_active')  @yield('banners')">
@@ -792,8 +567,8 @@
                         </li>
                     </ul>
                 </li>
-            @endif
-            @if(hasPermission('language_read') || hasPermission('language_create') || hasPermission('language_update') || hasPermission('general_setting_update') || hasPermission('preference_setting_update') || hasPermission('email_setting_update') || hasPermission('currency_setting_update') || hasPermission('vat_tax_setting_update') || hasPermission('storage_setting_update') || hasPermission('cache_update') || hasPermission('miscellaneous_setting_update') || hasPermission('admin_panel_setting_update') || hasPermission('third_party_update'))
+            @endif -->
+            <!-- @if(hasPermission('language_read') || hasPermission('language_create') || hasPermission('language_update') || hasPermission('general_setting_update') || hasPermission('preference_setting_update') || hasPermission('email_setting_update') || hasPermission('currency_setting_update') || hasPermission('vat_tax_setting_update') || hasPermission('storage_setting_update') || hasPermission('cache_update') || hasPermission('miscellaneous_setting_update') || hasPermission('admin_panel_setting_update') || hasPermission('third_party_update'))
                 <li class="nav-item dropdown @yield('setup')">
                     <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown"><i
                                 class="bx bx-slider-alt"></i><span>{{__('System Setup')}}</span></a>
@@ -874,7 +649,7 @@
                         @endif
                     </ul>
                 </li>
-            @endif
+            @endif -->
             @if(hasPermission('staff_read') || hasPermission('role_read'))
                 <li class="@yield('staffs')">
                     <a href="{{ route('staffs') }}" class="nav-link"><i
@@ -883,7 +658,7 @@
                 </li>
             @endif
 
-            @if(hasPermission('android_setting_update') || hasPermission('ios_setting_update') || hasPermission('app_config_update') || hasPermission('ads_config_update')
+            <!-- @if(hasPermission('android_setting_update') || hasPermission('ios_setting_update') || hasPermission('app_config_update') || hasPermission('ads_config_update')
                 || hasPermission('api_setting_update') || hasPermission('api_key_read_all') || hasPermission('api_key_read')
                  || hasPermission('api_key_update') || hasPermission('api_key_delete') || hasPermission('all_page_read'))
                 <li class="nav-item dropdown @yield('mobile_apps')">
@@ -938,49 +713,8 @@
                     </ul>
                 </li>
             @endif
-            @if(hasPermission('addon_read'))
-                @if(settingHelper('current_version') != '1.0.0')
-                    <li class="nav-item dropdown @yield('addon_utility')">
-                        <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown"><i
-                                    class="bx bx-extension"
-                                    aria-hidden="true"></i><span>{{ __('Addons') }}</span></a>
-                        <ul class="dropdown-menu">
-                            <li class="@yield('installed_addon')"><a class="nav-link"
-                                                                     href="{{ route('admin.installed.addon') }}">{{ __('Installed Addons') }}</a>
-                            </li>
-                            <li class="@yield('available_addon')"><a class="nav-link"
-                                                                     href="{{ route('admin.available.addons') }}">{{ __('Available Addons') }}</a>
-                            </li>
-                        </ul>
-                    </li>
-                @endif
-            @endif
-            {{-- @if(hasPermission('addon_read'))
-                @if(settingHelper('current_version') != '1.0.0')
-                <li class="@yield('plugins')">
-                    <a class="nav-link" href="{{ route('admin.plugin.index') }}">
-                        <i class='bx bx-plug'></i>
-                        <span>{{ __('Installed Plugins') }}</span>
-                    </a>
-                </li>
-                @endif
-            @endif --}}
-            @if(hasPermission('addon_read'))
-                @if(settingHelper('current_version') != '1.0.0')
-                    <li class="@yield('updater')">
-                        <a class="nav-link" href="{{ route('admin.system.update.form') }}">
-                            <i class="bx bx-wrench"></i>
-                            <span>{{ __('System Update') }}</span>
-                        </a>
-                    </li>
-                    <!-- <li class="@yield('server-info')">
-                        <a class="nav-link" href="{{ route('admin.server.info') }}">
-                            <i class="bx bx-server"></i>
-                            <span>{{ __('Server Info') }}</span>
-                        </a>
-                    </li> -->
-                @endif
-            @endif
+             -->
+           
             @if(hasPermission('warehouse_read'))
                 <li class="nav-item dropdown @yield('warehouse_active')">
                     <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
@@ -1011,6 +745,6 @@
 </div>
 @section('page-style')
    
-    <link rel="stylesheet" href="{{ static_asset('admin/css/formulair.css') }}">
+    <link rel="stylesheet" href="{{ static_asset('admin/css/sidebar.css') }}">
     
 @endsection

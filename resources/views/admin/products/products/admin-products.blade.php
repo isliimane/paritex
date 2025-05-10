@@ -358,3 +358,8 @@
 @push('script')
     <script type="text/javascript" src="{{ static_asset('admin/js/ajax-live-search.js') }}"></script>
 @endpush
+@section('page-style')
+    <link rel="stylesheet" href="{{ static_asset('admin/css/daterangepicker.css') }}">
+    <link rel="stylesheet" href="{{ static_asset('admin/css/summernote-bs4.css') }}">
+    <link rel="stylesheet" href="{{ static_asset('admin/css/formulair.css') }}">
+@endsection

@@ -1,158 +1,8 @@
-<!-- hide "visit store" button from movile view -->
-<style>
-    @media (max-width: 767px) {
-        .icon-visible {
-            display: none !important;
-        }
-    }
 
-
-/* Icônes principales de la navbar */
-.navbar .bx {
-  color: rgb(9, 173, 42) !important; /* Bleu standard */
-  transition: all 0.3s ease;
-}
-
-/* Icône du menu burger */
-.navbar .bx-menu {
-  color:  rgb(9, 173, 42)  !important;
-}
-
-/* Icône de notification */
-.navbar .bx-bell {
-  color: rgb(9, 173, 42)  !important;
-}
-
-/* Icône POS */
-.navbar .bx-printer {
-  color: rgb(9, 173, 42)  !important;
-}
-
-/* Icône "Visit Store" */
-.navbar .bx-globe {
-  color:   rgb(9, 173, 42)  !important;
-}
-
-/* Effet au survol des icônes */
-.navbar .nav-link:hover .bx {
-  color: rgb(9, 173, 42)  !important; /* Bleu plus foncé au survol */
-}
-
-/* Dropdown utilisateur - Icônes */
-.dropdown-menu .bx {
-  color: rgb(9, 173, 42)  !important;
-  margin-right: 8px;
-}
-
-/* Icône de profil */
-.dropdown-menu .bx-user {
-  color: rgb(9, 173, 42) !important;
-}
-
-/* Icône des activités de connexion */
-.dropdown-menu .bx-file {
-  color: rgb(9, 173, 42)  !important;
-}
-
-/* Icône de déconnexion */
-.dropdown-menu .bx-log-out {
-  color: #e74c3c !important; /* Rouge pour la déconnexion */
-}
-
-/* Style du nom d'utilisateur dans la navbar */
-.nav-link-user div {
-  color: rgb(9, 173, 42)  !important;
-  font-weight: 600;
-}
-
-/* Style des flags/langues */
-.nav-link-flag img {
-  border: 2px solid rgb(9, 173, 42) ;
-  border-radius: 3px;
-}
-
-/* Style du dropdown devise */
-.nav-link-flag .d-sm-none.d-lg-inline-block {
-  color:rgb(255, 255, 255) !important;
-  font-weight: 500;
-}
-
-/* Animation des icônes */
-.navbar .bx {
-  transition: transform 0.3s ease;
-}
-
-.navbar .nav-link:hover .bx {
-  transform: scale(1.1);
-}
-
-/* Badge de notification */
-.notification-toggle.beep::after {
-  background-color: #e74c3c; /* Rouge pour les notifications non lues */
-}
-
-/* Style spécifique pour les écrans mobiles */
-@media (max-width: 767px) {
-  .navbar .bx {
-    font-size: 1.4rem; /* Taille légèrement augmentée */
-  }
-  
-  .nav-link-user div {
-    font-size: 0.9rem;
-  }
-  .navbar-bg .navbar{ 
-    color:rgb(62, 59, 59) !important; 
-  }
-}
-
- 
-
-
-
-.navbar-bg {
-    background-color: #rgb(5, 20, 7)!important; /* Arrière-plan noir */
-    
-}
-
-.main-navbar {
-    background-color:rgb(5, 20, 7)!important; /* Noir légèrement transparent */
-}
-
-
-
-.navbar .nav-link div,
-.navbar .nav-link i,
-.navbar .dropdown-toggle div {
-    color: #fff !important; /* Texte et icônes en blanc */
-}
-
-.dropdown-menu {
-    background-color: #333 !important; /* Fond du menu déroulant plus foncé */
-    color: #fff !important;
-}
-
-.dropdown-item {
-    color: #fff !important;
-}
-
-.dropdown-item:hover {
-    background-color: #444 !important; /* Couleur de survol */
-}
-
-
-.dropdown-list-content {
-    background-color: #333 !important;
-}
-
-.dropdown-item-desc {
-    color: #fff !important;
-}
-
-</style>
 <!-- hide "visit store" button from movile view -->
 
 <div class="navbar-bg"></div>
-<nav class="navbar navbar-expand-lg main-navbar">
+<nav class="navbar navbar-expand-lg main-navbar" style="        background-color:rgb(255, 255, 255)  !important;"><!--dee8e3-->
     <form class="form-inline {{ $locale_language->text_direction == 'rtl' ? 'ml-auto' : 'mr-auto' }}">
         <ul class="navbar-nav mr-3">
             <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="bx bx-menu"></i></a>
@@ -215,8 +65,8 @@
                 </div>
             </div>
         </li>
-        <li class="dropdown">
-                <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-flag">
+        <!-- <li class="dropdown">
+                <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-flag"  style="color: #000;">
                     {{--                $curr = authId() == 1 ? settingHelper('default_currency') : authUser()->currency_id; --}}
 
                     @php
@@ -234,7 +84,7 @@
                             $curr_symbol = $curr->symbol;
                         }
                     @endphp
-                    <div class="d-sm-none d-lg-inline-block">{{ $curr_name }} ({{ $curr_symbol }})</div>
+                    <div class="d-sm-none d-lg-inline-block"  >{{ $curr_name }} ({{ $curr_symbol }})</div>
                 </a>
                 <input type="hidden" value="{{ $curr_code }}" id="active_currency">
                 <div class="dropdown-menu dropdown-menu-right">
@@ -246,9 +96,9 @@
                         </a>
                     @endforeach
                 </div>
-        </li>
+        </li> -->
         <li class="dropdown">
-            <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-flag">
+            <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-flag"  style="color: #000;">
                 @php
                     $lang = $active_languages->where('locale', app()->getLocale())->first();
                 @endphp
@@ -269,7 +119,7 @@
             </div>
         </li>
 
-        <li class="dropdown"><a href="#" data-toggle="dropdown"
+        <!-- <li class="dropdown"><a href="#" data-toggle="dropdown"
                 class="nav-link dropdown-toggle nav-link-lg nav-link-user">
 
                 @if (Sentinel::getUser()->images &&
@@ -303,6 +153,12 @@
                     <i class="bx bx-log-out"></i> {{ __('Logout') }}
                 </a>
             </div>
-        </li>
+        </li> -->
     </ul>
 </nav>
+@section('page-style')
+   
+    <link rel="stylesheet" href="{{ static_asset('admin/css/header.css') }}">
+
+    
+@endsection

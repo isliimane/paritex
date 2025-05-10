@@ -1,104 +1,4 @@
 <template>
-<<<<<<< HEAD
-  <footer class="modern-footer">
-    <div class="footer-main">
-      <div class="container">
-        <div class="footer-grid">
-          <!-- Logo et description -->
-          <div class="footer-brand">
-            <router-link :to="{ name: 'home' }" class="footer-logo">
-			  <img  :src="settings.logo01_logo" alt="Logo" class="img-fluid" width="138"/>
-            </router-link>
-            <div class="footer-about" v-html="settings.about_description"></div>
-            <div class="social-links" v-if="settings.show_social_links && settings.show_social_links == 1">
-              <a v-if="settings.facebook_link" :href="settings.facebook_link" target="_blank" class="social-icon">
-                <i class="mdi mdi-facebook"></i>
-              </a>
-              <a v-if="settings.twitter_link" :href="settings.twitter_link" target="_blank" class="social-icon">
-                <i class="mdi mdi-twitter"></i>
-              </a>
-              <a v-if="settings.instagram_link" :href="settings.instagram_link" target="_blank" class="social-icon">
-                <i class="mdi mdi-instagram"></i>
-              </a>
-              <a v-if="settings.linkedin_link" :href="settings.linkedin_link" target="_blank" class="social-icon">
-                <i class="mdi mdi-linkedin"></i>
-              </a>
-              <a v-if="settings.youtube_link" :href="settings.youtube_link" target="_blank" class="social-icon">
-                <i class="mdi mdi-youtube"></i>
-              </a>
-            </div>
-          </div>
-
-          <!-- Liens rapides -->
-          <div class="footer-links">
-            <h3 class="footer-title">{{ lang.useful_links }}</h3>
-            <ul class="links-list">
-              <li v-for="(link, i) in usefulLinks" :key="i">
-                <router-link :to="link.url" class="footer-link">{{ link.label }}</router-link>
-              </li>
-            </ul>
-          </div>
-
-          <!-- Mon compte -->
-          <div class="footer-links">
-            <h3 class="footer-title">{{ lang.my_account }}</h3>
-            <ul class="links-list" v-if="!authUser">
-              <li><router-link :to="{ name: 'login' }" class="footer-link">{{ lang.Login }}</router-link></li>
-              <li><router-link :to="{ name: 'register' }" class="footer-link">{{ lang.create_account }}</router-link></li>
-            </ul>
-            <ul class="links-list" v-if="authUser && authUser.user_type == 'customer'">
-              <li><router-link :to="{ name: 'dashboard' }" class="footer-link">{{ lang.my_profile }}</router-link></li>
-              <li><router-link :to="{ name: 'change.password' }" class="footer-link">{{ lang.change_password }}</router-link></li>
-              <li><router-link :to="{ name: 'order.history' }" class="footer-link">{{ lang.order_history }}</router-link></li>
-              <li><router-link :to="{ name: 'wishlist' }" class="footer-link">{{ lang.my_wishlist }}</router-link></li>
-            </ul>
-            <ul class="links-list" v-else-if="authUser && (authUser.user_type == 'admin' || authUser.user_type == 'staff')">
-              <li><a :href="getUrl('admin/dashboard')" target="_blank" class="footer-link">{{ lang.dashboard }}</a></li>
-              <li><a :href="getUrl('admin/profile')" target="_blank" class="footer-link">{{ lang.my_profile }}</a></li>
-            </ul>
-            <ul class="links-list" v-else-if="authUser && authUser.user_type == 'seller'">
-              <li><a :href="getUrl('seller/dashboard')" target="_blank" class="footer-link">{{ lang.dashboard }}</a></li>
-              <li><a :href="getUrl('seller/profile')" target="_blank" class="footer-link">{{ lang.my_profile }}</a></li>
-            </ul>
-          </div>
-
-          <!-- Contact -->
-          <div class="footer-contact">
-            <h3 class="footer-title">{{ lang.contact_us }}</h3>
-            <div class="contact-info">
-              <div class="contact-item">
-                <i class="mdi mdi-map-marker-outline"></i>
-                <p>{{ settings.footer_contact_address }}</p>
-              </div>
-              <div class="contact-item">
-                <i class="mdi mdi-email-outline"></i>
-                <a :href="'mailto:' + settings.footer_contact_email">{{ settings.footer_contact_email }}</a>
-              </div>
-              <div class="contact-item">
-                <i class="mdi mdi-phone-outline"></i>
-                <a :href="'tel:' + settings.footer_contact_phone">{{ settings.footer_contact_phone }}</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    
-    <!-- Bouton retour en haut -->
-    <button class="back-to-top" @click="scrollToTop">
-      <i class="mdi mdi-chevron-up"></i>
-    </button>
-
-    <!-- Cookies GDPR -->
-    <div class="cookie-consent" v-if="checkGDPR() && gdpr">
-      <div class="cookie-content" v-html="settings.gdpr"></div>
-      <button class="cookie-accept" @click="setGDPR">{{ lang.accept_all }}</button>
-    </div>
-
-    <chat_system v-if="addons.includes('chat_system')"></chat_system>
-  </footer>
-=======
 	<footer class="footer-section">
 		<div class="footer-top">
 			<div class="container">
@@ -256,7 +156,6 @@
 		</div>
 		<div class="btnTOP"><span class="icon mdi mdi-name mdi-chevron-up"></span></div>
 	</footer><!-- /.footer-section -->
->>>>>>> temp2
 </template>
 
 <script>
@@ -271,33 +170,6 @@ export default {
     };
   },
   computed: {
-<<<<<<< HEAD
-    usefulLinks() {
-      return this.settings.useful_links;
-    }
-  },
-  methods: {
-    checkGDPR() {
-      return !localStorage.getItem("gdpr") && this.settings.gdpr_enable == 1;
-    },
-    setGDPR() {
-      this.gdpr = false;
-      localStorage.setItem("gdpr", "1");
-    },
-    scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    }
-  },
-  mounted() {
-    window.addEventListener('scroll', this.toggleBackToTop);
-  },
-  beforeDestroy() {
-    window.removeEventListener('scroll', this.toggleBackToTop);
-  }
-=======
 		usefulLinks() {
 			return this.settings.useful_links;
 		},
@@ -314,7 +186,6 @@ export default {
 			return localStorage.setItem("gdpr", "1");
 		},
 	},
->>>>>>> temp2
 };
 </script>
 

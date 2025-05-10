@@ -249,8 +249,7 @@
 @endsection
 @include('admin.common.delete-ajax')
 
-@section('style')
-    <link rel="stylesheet" href="{{ static_asset('admin/css/dropzone.css') }}">
+@section('page-style')
     <link rel="stylesheet" href="{{ static_asset('admin/css/formulair.css') }}">
 @endsection
 @push('script')

@@ -5,7 +5,12 @@
     $title = isset($user) ? __('Edit') : __('Add');
     $button_name = isset($user) ? __('Update') : __('Add');
 @endphp
-
+<style>
+.profile-thumb {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+}</style>
 
 @section('title')
     {{ $title }} {{ __('Staff') }}
@@ -122,10 +127,11 @@
                                         </select>
                                     </div>
                                     <div class="form-group mt-4 text-center">
-                                        @if (@$user->images != [] && @is_file_exists(@$user->images['image_128x128']))
-                                            <img src="{{ static_asset($user->images['image_128x128']) }}"
-                                                 alt="{{ @$user->first_name }}" id="img_profile"
-                                                 class="img-thumbnail user-profile ">
+                                        @if (@$user->images != [] && @is_file_exists(@$user->images['image_4x4']))
+                                        <img alt="{{ Sentinel::getUser()->first_name }}"
+     src="{{ static_asset(Sentinel::getUser()->images['image_40x40']) }}"
+     class="rounded-circle mr-1"
+     style="width: 40px; height: 40px; object-fit: cover;">
                                         @else
                                             <img src="{{ static_asset('images/default/user.jpg') }}"
                                                  alt="{{ @$user->first_name }}" id="img_profile"

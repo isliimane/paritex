@@ -8,6 +8,12 @@
   transition: all 0.3s ease-in-out;
 }
  
+.body {
+  background-color: #dee8e3 !important;
+}
+
+
+
 /* Effet au survol */
 .custom-button:hover {
   transform: scale(1.05);
@@ -51,6 +57,18 @@
   }
 }
 
+.section .section-title:before {
+  content: " ";
+  border-radius: 5px;
+  height: 8px;
+  width: 30px;
+  background-color:  #00a241 !important;
+  display: inline-block;
+  float: left;
+  margin-top: 6px;
+  margin-right: 15px;
+}
+
 
 
                     .nav-link.bar {
@@ -77,9 +95,8 @@
     border-radius: 16px;
     border: none;
     padding: 12px 24px;
-    background: radial-gradient(circle 80px at 80% -10%, #ffffff, #008000);
+    background:  #008000;
     position: relative;
-    transition: background 0.3s, transform 0.3s;
     color: white;
     font-weight: bold;
 }
@@ -88,7 +105,16 @@
     transform: scale(0.98);
     background: radial-gradient(circle 80px at 80% -10%, #008000, #006400);
 }
+.btn-outline-info, .btn-outline-info.disabled{
+  border-color: transparent !important;
+    background: #28a745 !important;
+    color: #000 !important;
+}
 
+.btn.btn-outline-primary, .btn.btn-outline-primary.disabled {
+  color: #28a745 !important;
+  background-color: var(--secondary-color);
+}
 .bottom-button button::after {
     content: "";
     position: absolute;
@@ -127,11 +153,20 @@
 }
 /* Arrière-plan vert pour la section contenant les onglets */
 .middle {
-    background-color:rgb(238, 238, 238) !important ; /* Vert Bootstrap */
+    background-color: #dee8e3 !important ; /* Vert Bootstrap */
     padding: 20px;
     border-radius: 10px;
 }
+.form{
+  background-color:rgb(38, 135, 86) !important ;
+}
 
+.section .section-title:before {
+  content: " ";
+  border-radius: 5px;
+  height: 8px;
+  width: 30px;
+  background-color: #28a745 !important;}
 /* Onglets avec un design amélioré */
 .nav-pills .nav-link {
     font-size: 16px;

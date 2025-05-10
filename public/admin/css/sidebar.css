@@ -1,6 +1,6 @@
 /* Style pour la sidebar complète */
 .main-sidebar {
-    background:  #2d2d2d !important; /* Fond noir */
+    background:  #ffffff !important; /* dee8e3 */
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
   }
   
@@ -94,3 +94,4 @@
   .sidebar-brand img {
     filter: brightness(0) invert(1); /* Pour inverser les couleurs du logo (le rendre blanc) */
   }
+ 

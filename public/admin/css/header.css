@@ -1,0 +1,168 @@
+/* hide "visit store" button from movile view */
+
+    @media (max-width: 767px) {
+        .icon-visible {
+            display: none !important;
+        }
+    }
+    .navbar{
+        background-color: #47c363 !important;
+    }
+    .navbar .nav-link{
+        color:rgb(9, 173, 42) !important;
+
+    }
+    .nav-link-flag .d-sm-none.d-lg-inline-block {
+    color:rgb(9, 18, 11) !important;
+    font-weight: 500;
+}
+
+a.dropdown-item:focus, a.dropdown-item:active, a.dropdown-item.active {
+    background-color: #28a745;
+    color: #fff !important;
+}
+
+.navbar .nav-link div, .navbar .dropdown-toggle div {
+    color: #191d21 !important;
+}
+/* Icônes principales de la navbar */
+.navbar .bx {
+  color: rgb(9, 173, 42) !important; /* Bleu standard */
+  transition: all 0.3s ease;
+}
+
+/* Icône du menu burger */
+.navbar .bx-menu {
+  color:  rgb(9, 173, 42)  !important;
+}
+
+/* Icône de notification */
+.navbar .bx-bell {
+  color: rgb(9, 173, 42)  !important;
+}
+
+/* Icône POS */
+.navbar .bx-printer {
+  color: rgb(9, 173, 42)  !important;
+}
+
+/* Icône "Visit Store" */
+.navbar .bx-globe {
+  color:   rgb(9, 173, 42)  !important;
+}
+
+/* Effet au survol des icônes */
+.navbar .nav-link:hover .bx {
+  color: rgb(9, 173, 42)  !important; /* Bleu plus foncé au survol */
+}
+
+/* Dropdown utilisateur - Icônes */
+.dropdown-menu .bx {
+  color: rgb(9, 173, 42)  !important;
+  margin-right: 8px;
+}
+
+/* Icône de profil */
+.dropdown-menu .bx-user {
+  color: rgb(9, 173, 42) !important;
+}
+
+/* Icône des activités de connexion */
+.dropdown-menu .bx-file {
+  color: rgb(9, 173, 42)  !important;
+}
+
+/* Icône de déconnexion */
+.dropdown-menu .bx-log-out {
+  color: #e74c3c !important; /* Rouge pour la déconnexion */
+}
+
+/* Style du nom d'utilisateur dans la navbar */
+.nav-link-user div {
+  color: rgb(9, 173, 42)  !important;
+  font-weight: 600;
+}
+
+/* Style des flags/langues */
+.nav-link-flag img {
+  border: 2px solid rgb(9, 173, 42) ;
+  border-radius: 3px;
+}
+.navbar .nav-link div, .navbar .nav-link i, .navbar .dropdown-toggle div{
+    color:rgb(9, 173, 42) !important;
+}
+
+
+/* Animation des icônes */
+.navbar .bx {
+  transition: transform 0.3s ease;
+}
+
+.navbar .nav-link:hover .bx {
+  transform: scale(1.1);
+}
+
+/* Badge de notification */
+.notification-toggle.beep::after {
+  background-color: #e74c3c; /* Rouge pour les notifications non lues */
+}
+
+/* Style spécifique pour les écrans mobiles */
+@media (max-width: 767px) {
+  .navbar .bx {
+    font-size: 1.4rem; /* Taille légèrement augmentée */
+  }
+  
+  .nav-link-user div {
+    font-size: 0.9rem;
+  }
+  .navbar-bg .navbar{ 
+    color:rgb(70, 86, 78) !important; 
+  }
+}
+
+
+
+    .navbar .nav-link.nav-link-lg div {
+        margin-top: 3px;
+        color: #000 !important;
+    }
+
+.navbar-bg {
+    background-color: rgb(255, 255, 255)!important; /* Arrière-plan noir */
+    
+}
+
+.main-navbar {
+    background-color:rgb(255, 255, 255)!important; /* Noir légèrement transparent */
+}
+
+
+
+.navbar .nav-link div,
+.navbar .dropdown-toggle div {
+    color: #fff !important; /* Texte et icônes en blanc */
+}
+
+.dropdown-menu {
+    background-color: #333 !important; /* Fond du menu déroulant plus foncé */
+    color: #fff !important;
+}
+
+.dropdown-item {
+    color: #fff !important;
+}
+
+.dropdown-item:hover {
+    background-color: #444 !important; /* Couleur de survol */
+}
+
+
+.dropdown-list-content {
+    background-color: #333 !important;
+}
+
+.dropdown-item-desc {
+    color: #fff !important;
+}
+

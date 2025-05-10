@@ -54,13 +54,14 @@
                                                 <option {{ $a != null ? ($country->id == $a ? "selected" : "" ) :''}} value="{{ $country->id }}">{{ $country->name }}</option>
                                             @endforeach
                                         </select>
-                                    </div>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" name="q" value="{{ $q != null ? $q : "" }}" placeholder="{{ __('Search') }}">
-                                        <div class="input-group-btn">
-                                            <button class="btn btn-outline-primary"><i class="bx bx-search"></i></button>
+                                      </div>
+                                        <div class="input-group">
+                                        <input type="text" class="form-control" name="q" value="{{ $q != null ? $q : "" }}" placeholder="{{ __('Search') }}">                                        <div class="input-group-btn">
+                                            <button class="btn btn-outline-primary"><i class="bx bx-search"></i>
+                                            </button>
                                         </div>
                                     </div>
+                                    
                                 </form>
                             </div>
                         </div>

@@ -65,7 +65,7 @@ class CategoryController extends Controller
             Toastr::error($e->getMessage());
             return redirect()->back();
         }
-    }
+    } 
 
     public function edit($id, Request $request)
     {
