@@ -167,50 +167,7 @@
                         </div>
                     </div>
                 </div>
-<<<<<<< HEAD
                
-=======
-                <!-- <div class="col-md-3">  -->
-                    <!-- <div class="row"> -->
-                        <!-- <a href=""> -->
-                            <!-- <div class="col-lg-12 col-md-12 col-sm-12">
-                                <div class="mini-stats-wid card">
-                                    <div class="card-body">
-                                        <div class="d-flex">
-                                            <div class="flex-grow-1">
-                                                <p class="text-muted fw-medium">{{__('Brands')}}</p>
-                                                <h4 class="mb-0">{{ $total_brand }}</h4>
-                                            </div>
-                                            <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
-                                                <span class="avatar-title">
-                                                    <i class="bx bx-star font-size-24"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
-                        <!-- </a> -->
-                            <!-- <div class="col-lg-12 col-md-12 col-sm-12">
-                                <div class="mini-stats-wid card">
-                                    <div class="card-body">
-                                        <div class="d-flex">
-                                            <div class="flex-grow-1">
-                                                <p class="text-muted fw-medium">{{__('Total Categories')}}</p>
-                                                <h4 class="mb-0">{{ $total_categories }}</h4>
-                                            </div>
-                                            <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
-                                                <span class="avatar-title">
-                                                    <i class="bx bx-category font-size-24"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
-                    <!-- </div> -->
-                <!-- </div> -->
->>>>>>> yassine
             </div>
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12">
@@ -281,17 +238,10 @@
                     </div>
                 </div>
             </div>
-<<<<<<< HEAD
-          
-               
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-12">
-=======
             <div class="row">
                 <div class="col-lg-6">
                     <div class="row">
                         <div class="col-md-12">
->>>>>>> yassine
                             <div class="card">
                                 <div class="card-header">
                                     <h4>{{ __('Top Categories') }}</h4>
@@ -316,7 +266,6 @@
                                 </div>
                             </div>
                         </div>
-<<<<<<< HEAD
                        
 
                  <div class="col-lg-6 col-md-6 col-sm-12">
@@ -325,51 +274,6 @@
                                     <h4>{{ __('Top Products') }}</h4>
                                     <div class="dropdown d-inline dropdown-position badge badge-primary">
                                     <a class="font-weight-600 dropdown-toggle dropdown-toggle-custom" data-toggle="dropdown" href="#"
-=======
-                        <!-- <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4>{{ __('Top Brands') }}</h4>
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-unstyled list-unstyled-border list-unstyled-noborder mb-0">
-
-                                        @foreach($top_brands as $product)
-                                            @php
-                                                $brand = $product->brand;
-                                                $title = $brand ? $brand->getTranslation('title',app()->getLocale()) : '';
-                                            @endphp
-                                            @if($brand)
-                                                <li class="media">
-                                                    <img class="img-fluid mt-1 img-shadow"
-                                                         src="{{ getFileLink('40x40',$brand->logo) }}"
-                                                         alt="{{ $title }}" width="40">
-                                                    <div class="media-body ml-3">
-                                                        <a href="{{ route('brand-by-slug',$brand->slug) }}"
-                                                           target="_blank">
-                                                            <div class="media-title">{{ $title }}</div>
-                                                        </a>
-                                                        <div class="text-small text-muted">{{ number_format($product->brand_total_sale) }} {{ __('Sales') }}
-                                                            <i class="fas fa-caret-down text-danger"></i></div>
-                                                    </div>
-                                                </li>
-                                            @endif
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
-                        </div> -->
-                    </div>
-                </div>
-
-                <div class="col-lg-6">
-                    <div class="card card-statistic-6">
-                        <div class="card-stats">
-                            <div class="card-stats-title d-flex justify-content-between">
-                                <h4>{{__('Top Products')}}</h4>
-                                <div class="dropdown d-inline dropdown-position badge badge-primary">
-                                    <a class="font-weight-600 dropdown-toggle" data-toggle="dropdown" href="#"
->>>>>>> yassine
                                        id="top-products-month">{{__('This Week')}}</a>
                                     <ul class="dropdown-menu dropdown-menu-sm" data-url="/admin/top-products/"
                                         data-id="top-products">

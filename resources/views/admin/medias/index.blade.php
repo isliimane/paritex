@@ -114,13 +114,8 @@
                                                         <a href="javascript:void(0)"
                                                            data-text="{{ __('Copied to Clipboard') }}"
                                                            data-url="{{ get_media($media->original_file, $media->storage) }}"
-<<<<<<< HEAD
-                                                           class="dropdown-item {{ (hasPermission('media_delete') ? 'ml-2' : '') }} copy-to-clipboard btn btn-outline-info btn-circle" 
-                                                           <i class='bx bx-copy'></i>
-=======
                                                            class="dropdown-item {{ hasPermission('media_delete') ? 'ml-2' : '' }} copy-to-clipboard btn btn-outline-info btn-circle">
                                                             <i class='bx bx-copy'></i>
->>>>>>> yassine
                                                         </a>
                                                     </div>
                                                     <div class="center mt-1">

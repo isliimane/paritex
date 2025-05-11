@@ -849,11 +849,7 @@
                                             <label for="short_description"
                                                    class="form-control-label">{{ __('Short Description') }}</label>
                                             <div>
-<<<<<<< HEAD
-                                              
-=======
                                                 
->>>>>>> yassine
                                                 <textarea type="text" class="form-control ai_short_description"
                                                           name="short_description"
                                                           id="short_description">{{ old('short_description') ? old('short_description') :'' }}</textarea>

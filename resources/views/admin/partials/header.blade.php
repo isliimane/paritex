@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-
-<!-- hide "visit store" button from movile view -->
-
-=======
->>>>>>> yassine
 <div class="navbar-bg"></div>
 <nav class="navbar navbar-expand-lg main-navbar" style="        background-color:rgb(255, 255, 255)  !important;"><!--dee8e3-->
     <form class="form-inline {{ $locale_language->text_direction == 'rtl' ? 'ml-auto' : 'mr-auto' }}">
@@ -87,11 +81,7 @@
                             $curr_symbol = $curr->symbol;
                         }
                     @endphp
-<<<<<<< HEAD
                     <div class="d-sm-none d-lg-inline-block"  >{{ $curr_name }} ({{ $curr_symbol }})</div>
-=======
-                    <div class="d-sm-none d-md-inline-block">{{ $curr_name }} ({{ $curr_symbol }})</div>
->>>>>>> yassine
                 </a>
                 <input type="hidden" value="{{ $curr_code }}" id="active_currency">
                 <div class="dropdown-menu dropdown-menu-right">

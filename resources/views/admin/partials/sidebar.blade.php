@@ -3,69 +3,6 @@
 @endphp
 
 <div class="main-sidebar">
-<<<<<<< HEAD
-<style>
-.main-sidebar {
-    background:rgb(255, 255, 255) !important; /* Fond noir */
-    
-  }
-.sidebar-menu .nav-link {
-  color: #000000 !important;
-  transition: all 0.2s ease;
-}
-
-/* Style des icônes - Version bleue */
-.sidebar-menu i.bx {
-  color:  #47c363  !important; /* Bleu clair */
-}
-/* Effet au survol */
-.sidebar-menu .nav-link:hover {
-  background-color: rgba(0, 0, 0, 0.05) !important;
-  transform: translateX(5px);
-}
-
-.sidebar-menu .nav-link:hover i.bx, .sidebar-menu .nav-link.active i.bx {
-  color: #2c3e50 !important; /* Bleu foncé au survol */
-}
-.sidebar-menu .nav-link.active {
-  background-color: rgba(0, 0, 0, 0.05) !important;
-}
-.sidebar-menu .dropdown-menu {
-    border: 0;
-}
-.sidebar-menu .dropdown-menu li{
-    border: 0;
-}
-.sidebar-menu .dropdown-menu .nav-link {
-  padding-top: 22px;
-  padding-bottom: 22px;
-  color: #000000 !important;
-}
-
-/* Séparateur entre les éléments du menu */
-.sidebar-menu li {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.sidebar-menu li:last-child {
-  border-bottom: none;
-}
-.nav-link .rounded-circle {
-    border-radius: 20% !important;
-}
-.bx-trending-up:before, .bx-euro:before, .bxl-product-hunt:before, .bx-group:before, .bx-star:before, .bx-star:before{
-    color:"#47c363  !important;"
-}
-.green-icon {
-    color: #47c363 !important;
-  }
-
-  a {
-    color:rgb(0, 0, 0) !important;}
-</style>
-
-=======
->>>>>>> yassine
     <aside id="sidebar-wrapper">
     
      
@@ -166,16 +103,6 @@
                             @endif
                         @endif
                         @if(hasPermission('product_read'))
-<<<<<<< HEAD
-                            <li class="@yield('product')"><a class="nav-link"
-                                                             href="{{ route('products') }}">{{ __('All Product') }}</a>
-                            </li>
-                            <li class="@yield('digital-product')"><a class="nav-link"
-                                                                     href="{{ route('digital.products') }}">{{ __('Digital Products') }}</a>
-                            </li>
-                            
-=======
->>>>>>> yassine
                             <li class="@yield('product_review')"><a class="nav-link"
                                                                     href="{{ route('admin.product.reviews') }}">{{ __('Product Reviews') }}</a>
                             </li>
@@ -386,15 +313,11 @@
                                                               href="{{ route('campaign') }}">{{ __('Campaigns') }}</a>
                             </li>
                         @endif
-<<<<<<< HEAD
-
-=======
                         @if(hasPermission('subscriber_read'))
                             <li class="@yield('subscriber')"><a class="nav-link"
                                                                 href="{{ route('subscribers') }}">{{ __('Subscribers') }}</a>
                             </li>
                         @endif
->>>>>>> yassine
                         @if(settingHelper('coupon_system') == 1)
                             @if(hasPermission('coupon_read'))
                                 <li class="@yield('coupon')"><a class="nav-link"
@@ -408,29 +331,7 @@
             @if(hasPermission('all_page_read'))
                 <li class="@yield('other_page')"><a class="nav-link" href="{{route('other.pages')}}"><i class="bx bx-news"></i><span>{{ __('Pages') }}</span></a></li>
             @endif
-<<<<<<< HEAD
            
-=======
-            <!-- @if(hasPermission('blog_read') || hasPermission('blog_category_read'))
-                <li class="nav-item dropdown @yield('blogs_active')">
-                    <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
-                        <i class="bx bxs-news"></i>
-                        <span>{{ __('Blog') }}</span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        @if(hasPermission('blog_read'))
-                            <li class="@yield('blog_post')"><a class="nav-link"
-                                                               href="{{ route('blogs') }}">{{ __('All Post') }}</a></li>
-                        @endif
-                        @if(hasPermission('blog_category_read'))
-                            <li class="@yield('blog_category')"><a class="nav-link"
-                                                                   href="{{ route('blogs.categories') }}">{{ __('Post Category') }}</a>
-                            </li>
-                        @endif
-                    </ul>
-                </li>
-            @endif -->
->>>>>>> yassine
                 @if(hasPermission('support_read') || hasPermission('support_department_read'))
                     <li class="nav-item dropdown @yield('support_active')">
                         <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
@@ -456,9 +357,6 @@
                         </ul>
                     </li>
                 @endif
-<<<<<<< HEAD
-           
-=======
             @if(addon_is_activated('reward'))
                 @if(hasPermission('reward_configuration_read') || hasPermission('reward_setting_read') || hasPermission('user_reward_read'))
                     <li class="nav-item dropdown @yield('reward_system')">
@@ -498,7 +396,6 @@
                 </li>
             @endif
 
->>>>>>> yassine
             @if(hasPermission('payment_gateway_read'))
                 <li class="@yield('payment-gateway')"><a class="nav-link" href="{{ route('payment.gateway') }}"><i
                                 class="bx bx-dollar" aria-hidden="true"></i>
@@ -734,24 +631,8 @@
                     </ul>
                 </li>
             @endif
-<<<<<<< HEAD
              -->
            
-=======
-                    <li class="nav-item dropdown @yield('addon_utility')">
-                        <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown"><i
-                                    class="bx bx-extension"
-                                    aria-hidden="true"></i><span>{{ __('Addons') }}</span></a>
-                        <ul class="dropdown-menu">
-                            <li class="@yield('installed_addon')"><a class="nav-link"
-                                                                     href="{{ route('admin.installed.addon') }}">{{ __('Installed Addons') }}</a>
-                            </li>
-                            <li class="@yield('available_addon')"><a class="nav-link"
-                                                                     href="{{ route('admin.available.addons') }}">{{ __('Available Addons') }}</a>
-                            </li>
-                        </ul>
-                    </li> 
->>>>>>> yassine
             @if(hasPermission('warehouse_read'))
                 <li class="nav-item dropdown @yield('warehouse_active')">
                     <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
@@ -780,11 +661,3 @@
         </ul>
     </aside>
 </div>
-<<<<<<< HEAD
-@section('page-style')
-   
-    <link rel="stylesheet" href="{{ static_asset('admin/css/sidebar.css') }}">
-    
-@endsection
-=======
->>>>>>> yassine
