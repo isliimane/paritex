@@ -18,12 +18,8 @@ class DashboardController extends Controller
     public function index()
     {
         try {
-            if (settingHelper('purchase_code') == '' && !config('app.demo_mode')):
-                return view('admin.dashboard');
-            else:
                 $data = $this->dashboard->index();
                 return view('admin.dashboard',$data);
-            endif;
         } catch (\Exception $e){
             abort(500);
         }

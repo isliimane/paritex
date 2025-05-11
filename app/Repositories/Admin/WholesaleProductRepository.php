@@ -116,20 +116,11 @@ class WholesaleProductRepository implements WholesaleProductInterface
             if ($request->has('is_refundable')):
                 $product->is_refundable      = 1;
             endif;
-            if ($request->has('is_catalog')):
-                $product->is_catalog      = 1;
-            endif;
             if ($request->has('is_featured')):
                 $product->is_featured      = 1;
             endif;
 
-            //digital product will not get delivered
-            if ($request->has('is_digital')):
-                $product->is_digital      = 1;
-            else:
-                $product->estimated_shipping_days      = $request->estimated_shipping_days != '' ? $request->estimated_shipping_days : 0;
-            endif;
-
+            $product->estimated_shipping_days      = $request->estimated_shipping_days != '' ? $request->estimated_shipping_days : 0;
             if ($request->has('todays_deal')):
                 $product->todays_deal      = $request->todays_deal;
             endif;
@@ -150,17 +141,6 @@ class WholesaleProductRepository implements WholesaleProductInterface
                 endif;
             endif;
 
-            if ($request->has('is_classified')):
-                $product->is_classified      = 1;
-
-                $contact_details['contact_name']    = $request->contact_name;
-                $contact_details['phone_no']        = $request->phone_no;
-                $contact_details['email']           = $request->email;
-                $contact_details['address']         = $request->address;
-                $contact_details['others']          = $request->others;
-
-                $product->contact_info              = $contact_details;
-            endif;
 
             $product->is_wholesale                  = 1;
             $product->save();
@@ -385,24 +365,12 @@ class WholesaleProductRepository implements WholesaleProductInterface
             else:
                 $product->is_refundable      = 0;
             endif;
-            if ($request->has('is_catalog')):
-                $product->is_catalog      = 1;
-            else:
-                $product->is_catalog      = 0;
-            endif;
             if ($request->has('is_featured')):
                 $product->is_featured      = 1;
             else:
                 $product->is_featured      = 0;
             endif;
-            //digital product will not get delivered
-            if ($request->has('is_digital')):
-                $product->is_digital      = 1;
-            else:
-                $product->is_digital      = 0;
-                $product->estimated_shipping_days      = $request->estimated_shipping_days != '' ? $request->estimated_shipping_days : 0;
-            endif;
-
+            $product->estimated_shipping_days      = $request->estimated_shipping_days != '' ? $request->estimated_shipping_days : 0;
             if ($request->has('todays_deal')):
                 $product->todays_deal      = $request->todays_deal;
             else:
@@ -424,16 +392,7 @@ class WholesaleProductRepository implements WholesaleProductInterface
                     $product->shipping_fee_depend_on_quantity = 0;
                 endif;
             endif;
-            if ($request->has('is_classified')):
-                $product->is_classified      = 1;
-
-                $contact_details['contact_name']    = $request->contact_name;
-                $contact_details['phone_no']        = $request->phone_no;
-                $contact_details['email']           = $request->email;
-                $contact_details['address']         = $request->address;
-                $contact_details['others']          = $request->others;
-                $product->contact_info              = $contact_details;
-            endif;
+          
 //            $product->status       = $request->status;
             $product->save();
 

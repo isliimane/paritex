@@ -24,26 +24,6 @@
                                     <form method="post" action="{{route('update')}}" enctype="multipart/form-data">
                                         @csrf @method('put')
                                         <div class="form-group">
-                                            <div class="row gutters-sm imagecheck-margin">
-                                                <div class="col-6 col-sm-4">
-                                                    <label class="imagecheck mb-4">
-                                                        <input name="header_theme" type="checkbox" id="header_theme" value="header_theme1" class="imagecheck-input" @if(old('header_theme') ? old('header_theme') : settingHelper('header_theme') == 'header_theme1') checked @endif/>
-                                                        <div class="imagecheck-figure theme">
-                                                            <img src="{{ static_asset('images/default/header_1.png') }}" class="imagecheck-image imagecheck-height" />
-                                                        </div>
-                                                    </label>
-                                                </div>
-                                                <div class="col-6 col-sm-4">
-                                                    <label class="imagecheck mb-4">
-                                                        <input name="header_theme" type="checkbox" id="header_theme" value="header_theme2" class="imagecheck-input" @if(old('header_theme') ? old('header_theme') : settingHelper('header_theme') == 'header_theme2') checked @endif />
-                                                        <div class="imagecheck-figure theme">
-                                                            <img src="{{ static_asset('images/default/header_2.png') }}" class="imagecheck-image imagecheck-height" />
-                                                        </div>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
                                             <label for="light_logo">{{ __('Logo Light') }} {{__('(138X52)')}}</label>
                                             <div class="form-group">
                                                 <input type="file" id="light_logo" class="custom-file-input image_pick file-select" accept="image/*" data-image-for="light_logo" name="light_logo" id="customFile" value="{{ @$user->image_id }}" />

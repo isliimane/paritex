@@ -14,13 +14,11 @@ class RefundController extends Controller
 {
     protected       $settings;
     protected       $refunds;
-    protected       $payouts;
 
     public function __construct(SettingInterface $settings , RefundInterface $refunds)
     {
         $this->settings     = $settings;
         $this->refunds      = $refunds;
-        $this->payouts       = $payouts;
     }
     public function refund(Request $request){
         $refunds = $this->refunds->paginate($request,get_pagination('pagination'),'');

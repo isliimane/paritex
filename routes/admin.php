@@ -99,24 +99,16 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 Route::post('create-product', [ProductController::class, 'store'])->name('admin.product.store')->middleware('PermissionCheck:product_create');
                 Route::get('edit-product/{id}', [ProductController::class, 'edit'])->name('admin.product.edit')->middleware('PermissionCheck:product_update');
                 Route::post('update-product', [ProductController::class, 'update'])->name('admin.product.update')->middleware('PermissionCheck:product_update');
-                Route::put('product-status-change', [ProductController::class, 'statusChange'])->name('admin.product.status.change')->middleware('PermissionCheck:product_update|wholesale_product_update');
+                Route::put('product-status-change', [ProductController::class, 'statusChange'])->name('admin.product.status.change')->middleware('PermissionCheck:product_update');
                 Route::post('products/get-variants', [ProductController::class, 'variants'])->name('get-variants');
                 Route::post('products/get-variants-edit', [ProductController::class, 'variantsEdit'])->name('get-variants-edit');
                 Route::post('products/get-attribute-values', [ProductController::class, 'getAttributeValues'])->name('get-attribute-values');
-                Route::delete('delete/products/{id}', [CommonController::class, 'delete'])->middleware('PermissionCheck:product_delete|wholesale_product_delete');
-                Route::get('product-restore/{id}', [ProductController::class, 'restore'])->name('product.restore')->middleware('PermissionCheck:product_restore|wholesale_product_restore');
+                Route::delete('delete/products/{id}', [CommonController::class, 'delete'])->middleware('PermissionCheck:product_delete');
+                Route::get('product-restore/{id}', [ProductController::class, 'restore'])->name('product.restore')->middleware('PermissionCheck:product_restore');
 
                 Route::get('admin-products/{status?}', [ProductController::class, 'adminProducts'])->name('admin.products')->middleware('PermissionCheck:product_read');
-                //digital product
-                Route::get('digital-product/{status?}', [ProductController::class, 'digitalProducts'])->name('digital.products')->middleware('PermissionCheck:product_read');
-                Route::get('create-digital-product', [ProductController::class, 'createDigitalProduct'])->name('digital.product.create')->middleware('PermissionCheck:product_create');
-                Route::get('catalog-product/{status?}', [ProductController::class, 'catalogProducts'])->name('catalog.products')->middleware('PermissionCheck:product_read');
-                Route::get('create-catalog-product', [ProductController::class, 'createCatalogProduct'])->name('catalog.product.create')->middleware('PermissionCheck:product_create');
                 Route::get('product-status/change/{status}/{id}', [ProductController::class, 'productStatusChange'])->name('product.status.change')->middleware('PermissionCheck:product_update');
 
-                //classified product
-                Route::get('classified-product/{status?}', [ProductController::class, 'classifiedProducts'])->name('classified.products')->middleware('PermissionCheck:product_read');
-                Route::get('create-classified-product', [ProductController::class, 'createClassifiedProduct'])->name('classified.product.create')->middleware('PermissionCheck:product_create');
                 Route::get('product-reviews', [ProductController::class, 'reviews'])->name('admin.product.reviews')->middleware('PermissionCheck:product_create');
                 Route::get('product-replies/{id}', [ProductController::class, 'replies'])->name('admin.product.replies')->middleware('PermissionCheck:product_create');
                 Route::put('review-status-change', [ProductController::class, 'reviewStatusChange'])->name('admin.review.status.change');
@@ -260,12 +252,12 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 Route::put('admin-panel/setting-update', [AdminPanelSettingController::class, 'update'])->name('admin.panel.setting.update');
 
                 //fonts
-                Route::get('admin-panel/fonts', [FontController::class, 'index'])->name('admin.get.fonts')->middleware('PermissionCheck:font_update');
-                Route::post('admin-panel/add-font', [FontController::class, 'addFont'])->name('admin.add.font')->middleware('PermissionCheck:font_update');
-                Route::get('admin-panel/edit-font/{id}', [FontController::class, 'editFont'])->name('admin.edit.font')->middleware('PermissionCheck:font_update');
-                Route::post('admin-panel/update-font', [FontController::class, 'updateFont'])->name('admin.update.font')->middleware('PermissionCheck:font_update');
-                Route::put('font-status-change', [FontController::class, 'statusChange'])->name('admin.font.status.change')->middleware('PermissionCheck:font_update');
-                Route::get('font-delete/{id}', [FontController::class, 'delete'])->name('font.delete')->middleware('PermissionCheck:font_update');
+                Route::get('admin-panel/fonts', [FontController::class, 'index'])->name('admin.get.fonts');
+                Route::post('admin-panel/add-font', [FontController::class, 'addFont'])->name('admin.add.font');
+                Route::get('admin-panel/edit-font/{id}', [FontController::class, 'editFont'])->name('admin.edit.font');
+                Route::post('admin-panel/update-font', [FontController::class, 'updateFont'])->name('admin.update.font');
+                Route::put('font-status-change', [FontController::class, 'statusChange'])->name('admin.font.status.change');
+                Route::get('font-delete/{id}', [FontController::class, 'delete'])->name('font.delete');
 
 
                 //Third Parti Settings
@@ -276,8 +268,6 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 Route::get("settings/google-services", [ThirdPartyController::class, 'googleService'])->name('settings.google.services')->middleware('PermissionCheck:google_service_update');
                 Route::get("settings/google-recaptcha", [ThirdPartyController::class, 'googleRecaptcha'])->name('settings.google.recaptcha')->middleware('PermissionCheck:google_service_update');
                 Route::get("settings/pusher-notification", [ThirdPartyController::class, 'pusherNotification'])->name('settings.pusher.notification')->middleware('PermissionCheck:pusher_notification_update');
-                Route::get("settings/firebase", [ThirdPartyController::class, 'firebase'])->name('settings.firebase')->middleware('PermissionCheck:google_service_update');
-                Route::get("settings/firebase-update", [ThirdPartyController::class, 'firebaseUpdate'])->name('settings.firebase.update')->middleware('PermissionCheck:pusher_notification_update');
 
                 //media routes
                 Route::get('media-library', [MediaController::class, 'index'])->name('media.library')->middleware('PermissionCheck:media_read');
@@ -375,8 +365,6 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 // marketing  
                 Route::get('subscribers', [SubscriberController::class, 'index'])->name('subscribers')->middleware('PermissionCheck:subscriber_read');
                 Route::delete('delete/subscribers/{id}', [CommonController::class, 'delete'])->name('subscriber.delete')->middleware('PermissionCheck:subscriber_delete');
-                Route::get('bulk-SMS', [BulkSMSController::class, 'bulkSMS'])->name('bulk.sms')->middleware('PermissionCheck:bulk_sms_read');
-                Route::post('send-bulk-SMS', [BulkSMSController::class, 'sendBulkSMS'])->name('send.bulk.sms')->middleware('PermissionCheck:send_bulk_sms');
 
                 Route::get('campaign', [CampaignController::class, 'index'])->name('campaign')->middleware('PermissionCheck:campaign_read');
                 Route::get('campaign/create', [CampaignController::class, 'create'])->name('campaign.create')->middleware('PermissionCheck:campaign_create');
@@ -491,7 +479,7 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                     Route::post('assign/delivery-hero', [OrderController::class, 'assignDeliveryHero'])->name('order.assign.delivery.hero')->middleware('PermissionCheck:order_update');
                     Route::post('delivery/status-change', [OrderController::class, 'deliveryStatusChange'])->name('order.delivery.status.change')->middleware('PermissionCheck:order_update');
                     Route::post('payment/status-change', [OrderController::class, 'paymentStatusChange'])->name('order.payment.status.change')->middleware('PermissionCheck:order_update');
-                    Route::post('approve-offline-payment', [OrderController::class, 'approveOfflinePayment'])->name('order.approve.offline.payment')->middleware('PermissionCheck:order_approve_offline_payment');
+                    Route::post('approve-offline-payment', [OrderController::class, 'approveOfflinePayment'])->name('order.approve.offline.payment')->middleware('PermissionCheck:order_update');
                     Route::get('edit/{id}', [OrderController::class, 'edit'])->name('order.edit')->middleware('PermissionCheck:order_update');
                     Route::put('update/{id}', [OrderController::class, 'update'])->name('order.update')->middleware('PermissionCheck:order_update');               
                 });
@@ -526,12 +514,12 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 Route::post('mobile-home-page-update', [MobileAppsController::class, 'updateMobileHomeContent'])->name('mobile.home.page.update');
 
                 //App Intro  Settings
-                Route::get('app-intro-setting', [AppIntroController::class, 'index'])->name('app.intro.settings')->middleware('PermissionCheck:mobile_app_intro_read');
-                Route::post('app-intro-setting-store', [AppIntroController::class, 'store'])->name('app.intro.store')->middleware('PermissionCheck:mobile_app_intro_create');
-                Route::get('app-intro-edit/{id}', [AppIntroController::class, 'edit'])->name('app.intro.edit')->middleware('PermissionCheck:mobile_app_intro_update');
-                Route::put('app-intro-update', [AppIntroController::class, 'update'])->name('app.intro.update')->middleware('PermissionCheck:mobile_app_intro_update');
-                Route::put('app-intro-status-change', [AppIntroController::class, 'statusChange'])->name('app.intro.status.change')->middleware('PermissionCheck:mobile_app_intro_update');
-                Route::delete('delete/app_intros/{id}', [CommonController::class, 'delete'])->name('app.intro.delete')->middleware('PermissionCheck:mobile_app_intro_delete');
+                Route::get('app-intro-setting', [AppIntroController::class, 'index'])->name('app.intro.settings');
+                Route::post('app-intro-setting-store', [AppIntroController::class, 'store'])->name('app.intro.store');
+                Route::get('app-intro-edit/{id}', [AppIntroController::class, 'edit'])->name('app.intro.edit');
+                Route::put('app-intro-update', [AppIntroController::class, 'update'])->name('app.intro.update');
+                Route::put('app-intro-status-change', [AppIntroController::class, 'statusChange'])->name('app.intro.status.change');
+                Route::delete('delete/app_intros/{id}', [CommonController::class, 'delete'])->name('app.intro.delete');
 
                 //Slider Routes...
                 Route::get('sliders', [SliderController::class, 'index'])->name('sliders.index')->middleware('PermissionCheck:slider_read');
@@ -557,9 +545,6 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 Route::put('services/{service}', [ServiceController::class, 'update'])->name('services.update')->middleware('PermissionCheck:service_update');
                 Route::delete('delete/services/{service}', [CommonController::class, 'delete'])->middleware('PermissionCheck:service_delete');
 
-                Route::get('server-info',[GeneralSettingsController::class, 'serverInfo'])->name('admin.server.info');
-                Route::get('update-system',[GeneralSettingsController::class, 'updateServerForm'])->name('admin.system.update.form');
-                Route::post('update-system',[GeneralSettingsController::class, 'updateSystem'])->name('admin.system.update');
                 Route::post('download-update-files',[GeneralSettingsController::class, 'downloadUpdate'])->name('admin.download.update');
                 Route::get('time-zone-by-ajax', [GeneralSettingsController::class, 'getTomeZoneByAjax'])->name('time.zone.by.ajax');
 

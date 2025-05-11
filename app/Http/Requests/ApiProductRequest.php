@@ -44,12 +44,7 @@ class ApiProductRequest extends FormRequest
             'campaign_discount'         => 'required_with:campaign',
             'campaign_discount_type'    => 'required_with:campaign'
         ];
-
-        if (!in_array(1,[$request->is_classified,$request->is_catalog]) && $request->is_classified != null && $request->is_catalog != null)
-        {
             $rules['sku'] = 'required_without:has_variant|unique:product_stocks,sku';
-        }
-
         return $rules;
     }
 }

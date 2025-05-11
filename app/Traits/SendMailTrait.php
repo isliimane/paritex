@@ -11,7 +11,8 @@ trait SendMailTrait{
     use pdfTrait;
     protected function sendMail($to, $subject, $body,$view,$url=null,$item=null,$otp=null): bool
     {
-        $engine = env('MAIL_MAILER');
+        try{
+            $engine = env('MAIL_MAILER');
 
         if ($engine == "smtp") {
             $from = env('MAIL_FROM_ADDRESS');
@@ -62,6 +63,11 @@ trait SendMailTrait{
         endif;
         Toastr::success(__('Email send successfully. Check your email'));
         return true;
+        }
+        catch(\Exception $e){
+            Toastr::error(__('Email Not Send. Please Check Email Configuration'));
+            return false;
+        }
     }
 
     function sendMailTo($email, $data)

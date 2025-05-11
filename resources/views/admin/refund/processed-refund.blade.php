@@ -53,7 +53,6 @@
                                         <th>#</th>
                                         <th>{{ __('Order Code') }}</th>
                                         <th>{{ __('Product') }}</th>
-                                        <th>{{ __('Shop Name') }}</th>
                                         <th>{{ __('Refund Status') }}</th>
                                         <th>{{ __('Processed By') }}</th>
                                         <th>{{ __('Processed At') }}</th>
@@ -75,9 +74,6 @@
                                                     @endif
                                                 </td>
                                             @endif
-                                            <td>
-                                            {{__('admin')}}
-                                            </td>
                                             <td class="{{ $refund->status == 'pending' ? 'text-warning' : 'text-success'}}">
                                                 {{ucfirst($refund->status)}}
                                             </td>

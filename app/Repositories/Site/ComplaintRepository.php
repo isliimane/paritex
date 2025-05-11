@@ -6,6 +6,7 @@ use App\Models\Complaint;
 use App\Repositories\Interfaces\Site\ComplaintInterface;
 use App\Traits\SendMailTrait;
 use Sentinel;
+use App\Models\Support;
 
 class ComplaintRepository implements ComplaintInterface {
 
@@ -18,25 +19,32 @@ class ComplaintRepository implements ComplaintInterface {
 
     public function storeComplaint($request)
     {
-        $complaint = Complaint::create([
-            'name'      => $request->name,
-            'email'     => $request->email,
-            'subject'   => $request->subject,
-            'message'   => $request->message,
-        ]);
+        $support = new Support();
+        $support->subject           = $request->subject;
+        $support->user_id           = auth()->id();
+        $support->ticket_id         = rand(1000,50000);
+        $support->support_department_id     = $request->support_department_id;
+        $support->priority          = $request->priority;
+        $support->status            = "pending";
+        $support->ticket_body       = $request->message;
+        if(!blank($request->file)){
 
-        // $data['message']     = [
-        //     'message_from' => 'Message From: '.$request->name,
-        //     'email' => 'Email: '.$request->email,
-        //     'message' => 'Message: '.$request->message,
-        // ];
-        // $data['subject']     = $request->subject;
-        // $admin = User::find(1);
-        // $this->sendmail($admin->email, 'Complaint', $data, 'email.auth.email-template','');
-        
-        return $complaint;
+        $array_file = explode(',', $request->file);
+        $all_files= [];
+        foreach ($array_file as $key => $array){
+            $files = $this->getAllType($array);
+            if ($files):
+                array_push($all_files, $files);
+            else:
+                unset($array_file[$key]);
+            endif;
+        }
+        $support->file     = $all_files;
+        }
+
+        $support->save();
+        return true;
     }
-
     public function reply($request)
     {
         $complaint = Complaint::find($request['id']);

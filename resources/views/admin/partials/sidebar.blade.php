@@ -3,6 +3,7 @@
 @endphp
 
 <div class="main-sidebar">
+<<<<<<< HEAD
 <style>
 .main-sidebar {
     background:rgb(255, 255, 255) !important; /* Fond noir */
@@ -63,6 +64,8 @@
     color:rgb(0, 0, 0) !important;}
 </style>
 
+=======
+>>>>>>> yassine
     <aside id="sidebar-wrapper">
     
      
@@ -143,12 +146,27 @@
                         <span>{{ __('Products') }}</span>
                     </a>
                     <ul class="dropdown-menu">
-                        @if(hasPermission('product_create'))
-                            <li class="@yield('product-create')"><a class="nav-link"
-                                                                    href="{{ route('product.create') }}">{{ __('Add New Product') }}</a>
+
+                        @if(hasPermission('product_read'))
+                            @if(hasPermission('product_create'))
+                                <li class="@yield('wholesale_product_create')">
+                                    <a class="nav-link"
+                                    href="{{ route('wholesale.product.create') }}">{{ __('Add New Product') }}</a>
+                                </li>
+                            @endif
+                            <li class="@yield('wholesale_products')">
+                                <a class="nav-link"
+                                    href="{{ route('wholesale.products') }}">{{ __('All Products') }}</a>
                             </li>
+                            @if(hasPermission('wholesale_product_setting'))
+                                <li class="@yield('wholesale_setting')">
+                                    <a class="nav-link"
+                                    href="{{ route('wholesale.setting') }}">{{ __('Wholesale Setting') }}</a>
+                                </li>
+                            @endif
                         @endif
                         @if(hasPermission('product_read'))
+<<<<<<< HEAD
                             <li class="@yield('product')"><a class="nav-link"
                                                              href="{{ route('products') }}">{{ __('All Product') }}</a>
                             </li>
@@ -156,6 +174,8 @@
                                                                      href="{{ route('digital.products') }}">{{ __('Digital Products') }}</a>
                             </li>
                             
+=======
+>>>>>>> yassine
                             <li class="@yield('product_review')"><a class="nav-link"
                                                                     href="{{ route('admin.product.reviews') }}">{{ __('Product Reviews') }}</a>
                             </li>
@@ -202,37 +222,6 @@
                 </li>
             @endif
 
-            @if(hasPermission('wholesale_product_read') && addon_is_activated('wholesale'))
-                <li class="nav-item dropdown @yield('wholesale')">
-                    <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
-                        <i class="bx bx-credit-card-alt {{ config('app.demo_mode') ? 'beep' : ''}}"></i>
-                        <span>{{ __('Wholesale Product') }}</span>
-                        @if(config('app.demo_mode'))
-                            <p class="badge badge-addon">{{ __('Addon') }}</p>
-                        @endif
-                    </a>
-                    <ul class="dropdown-menu">
-                        @if(hasPermission('wholesale_product_create'))
-                            <li class="@yield('wholesale_product_create')">
-                                <a class="nav-link"
-                                   href="{{ route('wholesale.product.create') }}">{{ __('Add New Product') }}</a>
-                            </li>
-                        @endif
-                        @if(hasPermission('wholesale_product_read'))
-                            <li class="@yield('wholesale_products')">
-                                <a class="nav-link"
-                                   href="{{ route('wholesale.products') }}">{{ __('All Products') }}</a>
-                            </li>
-                        @endif
-                        @if(hasPermission('wholesale_product_setting'))
-                            <li class="@yield('wholesale_setting')">
-                                <a class="nav-link"
-                                   href="{{ route('wholesale.setting') }}">{{ __('Wholesale Setting') }}</a>
-                            </li>
-                        @endif
-                    </ul>
-                </li>
-            @endif
 
             @if(hasPermission('customer_read') || hasPermission('user_reward_read'))
                 <li class="nav-item dropdown @yield('customers')">
@@ -385,7 +374,7 @@
                 @endif
             @endif
 
-            @if(hasPermission('campaign_read') ||  hasPermission('bulk_sms_read') || hasPermission('subscriber_read') || hasPermission('coupon_read') || hasPermission('campaign_request_read') || hasPermission('otp_setting_read') || hasPermission('sms_template_read'))
+            @if(hasPermission('campaign_read') || hasPermission('subscriber_read') || hasPermission('coupon_read') || hasPermission('campaign_request_read') || hasPermission('otp_setting_read') || hasPermission('sms_template_read'))
                 <li class="nav-item dropdown @yield('marketing_active')">
                     <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
                         <i class="bx bx-paper-plane"></i>
@@ -397,7 +386,15 @@
                                                               href="{{ route('campaign') }}">{{ __('Campaigns') }}</a>
                             </li>
                         @endif
+<<<<<<< HEAD
 
+=======
+                        @if(hasPermission('subscriber_read'))
+                            <li class="@yield('subscriber')"><a class="nav-link"
+                                                                href="{{ route('subscribers') }}">{{ __('Subscribers') }}</a>
+                            </li>
+                        @endif
+>>>>>>> yassine
                         @if(settingHelper('coupon_system') == 1)
                             @if(hasPermission('coupon_read'))
                                 <li class="@yield('coupon')"><a class="nav-link"
@@ -411,7 +408,29 @@
             @if(hasPermission('all_page_read'))
                 <li class="@yield('other_page')"><a class="nav-link" href="{{route('other.pages')}}"><i class="bx bx-news"></i><span>{{ __('Pages') }}</span></a></li>
             @endif
+<<<<<<< HEAD
            
+=======
+            <!-- @if(hasPermission('blog_read') || hasPermission('blog_category_read'))
+                <li class="nav-item dropdown @yield('blogs_active')">
+                    <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
+                        <i class="bx bxs-news"></i>
+                        <span>{{ __('Blog') }}</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        @if(hasPermission('blog_read'))
+                            <li class="@yield('blog_post')"><a class="nav-link"
+                                                               href="{{ route('blogs') }}">{{ __('All Post') }}</a></li>
+                        @endif
+                        @if(hasPermission('blog_category_read'))
+                            <li class="@yield('blog_category')"><a class="nav-link"
+                                                                   href="{{ route('blogs.categories') }}">{{ __('Post Category') }}</a>
+                            </li>
+                        @endif
+                    </ul>
+                </li>
+            @endif -->
+>>>>>>> yassine
                 @if(hasPermission('support_read') || hasPermission('support_department_read'))
                     <li class="nav-item dropdown @yield('support_active')">
                         <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
@@ -434,15 +453,52 @@
                                                                     href="{{route('contact.us')}}">{{ __('Contact Messages') }}</a>
                                 </li>
                             @endif
-                            @if(hasPermission('support_department_read'))
-                                <li class="@yield('Complaints')"><a class="nav-link"
-                                                                    href="{{route('complaints')}}">{{ __('Complaints') }}</a>
+                        </ul>
+                    </li>
+                @endif
+<<<<<<< HEAD
+           
+=======
+            @if(addon_is_activated('reward'))
+                @if(hasPermission('reward_configuration_read') || hasPermission('reward_setting_read') || hasPermission('user_reward_read'))
+                    <li class="nav-item dropdown @yield('reward_system')">
+                        <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
+                            <i class="bx bx-collection {{ config('app.demo_mode') ? 'beep' : ''}}"></i>
+                            <span>{{__('Reward System')}}</span>
+                            @if(config('app.demo_mode'))
+                                <p class="badge badge-addon">{{ __('Addon') }}</p>
+                            @endif
+                        </a>
+                        <ul class="dropdown-menu">
+                            @if(hasPermission('user_reward_read'))
+                                <li class="@yield('user_rewards')"><a class="nav-link"
+                                                                      href="{{route('user.rewards')}}">{{ __('User Rewards') }}</a>
+                                </li>
+                            @endif
+                            @if(hasPermission('reward_configuration_read'))
+                                <li class="@yield('reward_config')"><a class="nav-link"
+                                                                       href="{{route('reward.config')}}">{{ __('Reward Configuration') }}</a>
+                                </li>
+                            @endif
+                            @if(hasPermission('reward_setting_read'))
+                                <li class="@yield('reward_active')"><a class="nav-link"
+                                                                       href="{{route('set.reward')}}">{{ __('Set Reward') }}</a>
                                 </li>
                             @endif
                         </ul>
                     </li>
                 @endif
-           
+            @endif
+
+            @if(hasPermission('chat_messenger_read') && !isAppMode())
+                <li class="@yield('chat-messenger')"><a class="nav-link" href="{{ route('chat.messenger') }}"><i
+                                class="bx bx-chat"></i>
+                        <span>{{ __('Chat Messenger') }}</span>
+                    </a>
+                </li>
+            @endif
+
+>>>>>>> yassine
             @if(hasPermission('payment_gateway_read'))
                 <li class="@yield('payment-gateway')"><a class="nav-link" href="{{ route('payment.gateway') }}"><i
                                 class="bx bx-dollar" aria-hidden="true"></i>
@@ -489,11 +545,6 @@
                     <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown"><i
                                 class="bx bx-cog"></i><span>{{ __('Store Front') }}</span></a>
                     <ul class="dropdown-menu @yield('store-front')">
-                        @if(hasPermission('theme_option_update'))
-                            <li class="@yield('theme-options')"><a class="nav-link"
-                                                                   href="{{ route('get.theme.options') }}"> {{ __('Theme Options') }}</a>
-                            </li>
-                        @endif
                         @if(hasPermission('header_content_update'))
                             <li class="@yield('header_content')"><a class="nav-link"
                                                                     href="{{ route('header') }}">{{ __('Header Content') }}</a>
@@ -518,16 +569,6 @@
                         @if(hasPermission('website_popup_update'))
                             <li class="@yield('website-popup')"><a class="nav-link"
                                                                    href="{{ route('website.popup') }}">{{ __('Website Popup') }}</a>
-                            </li>
-                        @endif
-                        @if(hasPermission('custom_css_update'))
-                            <li class="@yield('custom-css')"><a class="nav-link"
-                                                                href="{{ route('custom.css') }}">{{ __('Custom CSS') }}</a>
-                            </li>
-                        @endif
-                        @if(hasPermission('custom_js_update'))
-                            <li class="@yield('custom-js')"><a class="nav-link"
-                                                               href="{{ route('custom.js') }}">{{ __('Custom JS') }}</a>
                             </li>
                         @endif
 
@@ -608,10 +649,6 @@
                                                                             href="{{ route('storage.setting') }}">{{ __('Storage') }}</a>
                             </li>
                         @endif
-                        @if(hasPermission('cache_update'))
-                            <li class="@yield('cache_active')"><a class="nav-link"
-                                                                  href="{{ route('cache') }}">{{ __('Cache') }}</a></li>
-                        @endif
                         @if(hasPermission('google_service_update'))
                             <li class="@yield('google_recaptcha_active')"><a
                                         href="{{ route('settings.google.recaptcha') }}"
@@ -629,22 +666,6 @@
                             <li class="@yield('pusher_notification')">
                                 <a class="nav-link"
                                    href="{{ route('settings.pusher.notification') }}">{{ __('Pusher Notification') }}</a>
-                            </li>
-                        @endif
-                        @if(hasPermission('pusher_notification_update'))
-                            <li class="@yield('firebase_update')"><a
-                                        href="{{ route('settings.firebase') }}"
-                                        class="nav-link">{{ __('Firebase') }}</a>
-                            </li>
-                        @endif
-                        @if(hasPermission('miscellaneous_setting_update'))
-                            <li class="@yield('miscellaneous_active')"><a class="nav-link"
-                                                                          href="{{ route('miscellaneous') }}">{{ __('Misc') }}</a>
-                            </li>
-                        @endif
-                        @if(hasPermission('font_update'))
-                            <li class="@yield('pdf_font')"><a class="nav-link"
-                                                              href="{{ route('admin.get.fonts') }}">{{ __('Pdf Font') }}</a>
                             </li>
                         @endif
                     </ul>
@@ -713,8 +734,24 @@
                     </ul>
                 </li>
             @endif
+<<<<<<< HEAD
              -->
            
+=======
+                    <li class="nav-item dropdown @yield('addon_utility')">
+                        <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown"><i
+                                    class="bx bx-extension"
+                                    aria-hidden="true"></i><span>{{ __('Addons') }}</span></a>
+                        <ul class="dropdown-menu">
+                            <li class="@yield('installed_addon')"><a class="nav-link"
+                                                                     href="{{ route('admin.installed.addon') }}">{{ __('Installed Addons') }}</a>
+                            </li>
+                            <li class="@yield('available_addon')"><a class="nav-link"
+                                                                     href="{{ route('admin.available.addons') }}">{{ __('Available Addons') }}</a>
+                            </li>
+                        </ul>
+                    </li> 
+>>>>>>> yassine
             @if(hasPermission('warehouse_read'))
                 <li class="nav-item dropdown @yield('warehouse_active')">
                     <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
@@ -743,8 +780,11 @@
         </ul>
     </aside>
 </div>
+<<<<<<< HEAD
 @section('page-style')
    
     <link rel="stylesheet" href="{{ static_asset('admin/css/sidebar.css') }}">
     
 @endsection
+=======
+>>>>>>> yassine

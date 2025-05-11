@@ -53,7 +53,6 @@
                                         <th>{{__('Order')}}</th>
                                         <!-- <th>{{__('Thumbnail')}}</th> -->
                                         <!-- <th>{{__('Banner')}}</th> -->
-                                        <th>{{__('Commission')}}</th>
                                         <th>{{__('Featured')}}</th>
                                         <th>{{__('Status')}}</th>
                                         @if(hasPermission('category_update') || hasPermission('category_delete'))
@@ -79,9 +78,8 @@
                                             <td>
                                                 {{ $category->ordering }}
                                             </td>
-                                            <td><img src="{{ getFileLink('40x40',$category->logo) }}" alt="{{ $title }}" class="mr-3 rounded" width="40"></td>
+                                            <!-- <td><img src="{{ getFileLink('40x40',$category->logo) }}" alt="{{ $title }}" class="mr-3 rounded" width="40"></td> -->
                                             <!-- <td><img src="{{ getFileLink('40x40',$category->banner) }}" alt="{{ $title }}" class="mr-3 rounded" width="40"></td> -->
-                                            <td>{{ $category->commission }} %</td>
                                             <td>
                                                 <label class="custom-switch mt-2 {{ hasPermission('category_update') ? '' : 'cursor-not-allowed' }}">
                                                     <input type="checkbox"
@@ -187,18 +185,6 @@
                                         @if ($errors->has('slug'))
                                             <div class="invalid-feedback">
                                                 <p>{{ $errors->first('slug') }}</p>
-                                            </div>
-                                        @endif
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="commission">{{__('Commission Rate')}}</label>
-                                        <input id="commission" type="number" class="form-control" step="any"
-                                               name="commission" value="{{old('commission')}}"
-                                               placeholder="{{__('Commission Rate')}} {{__('(%)')}}" tabindex="1">
-
-                                        @if ($errors->has('commission'))
-                                            <div class="invalid-feedback">
-                                                <p>{{ $errors->first('commission') }}</p>
                                             </div>
                                         @endif
                                     </div>
@@ -366,8 +352,13 @@
 @endsection
 @include('admin.common.delete-ajax')
 
+<<<<<<< HEAD
 @section('page-style')
     <link rel="stylesheet" href="{{ static_asset('admin/css/formulair.css') }}">
+=======
+@section('style')
+    <link rel="stylesheet" href="{{ static_asset('admin/css/dropzone.css') }}">
+>>>>>>> yassine
 @endsection
 @push('script')
     <script type="text/javascript" src="{{ static_asset('admin/js/dropzone.min.js') }}"></script>

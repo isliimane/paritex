@@ -12,9 +12,9 @@
                 <li class="nav-item">
                     <a class="nav-link @yield('copyright')" href="{{ route('copyright') }}">{{ __('Copyright') }}</a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link @yield('link')"  href="{{ route('link') }}">{{ __('Footer Menu') }}</a>
-                </li>
+                </li> -->
                 <li class="nav-item">
                     <a class="nav-link @yield('social_link')"  href="{{ route('social.link') }}">{{ __('Social Link') }}</a>
                 </li>

@@ -149,11 +149,11 @@ class HomeController extends Controller
         $social_links = settingData(['facebook_link', 'twitter_link', 'instagram_link', 'youtube_link', 'linkedin_link']);
         $footer_data = settingData(['footer_contact_phone', 'footer_contact_email', 'footer_contact_address']);
         $currency_setting = settingData(['decimal_separator', 'currency_symbol_format']);
-        $header_data = settingData(['default_language', 'system_name', 'default_currency', 'header_contact_phone', 'header_contact_email', 'language_switcher', 'currency_switcher', 'topbar_play_store_link', 'topbar_app_store_link', 'header_contact_number']);
+        $header_data = settingData(['default_language', 'system_name', 'default_currency', 'header_contact_phone', 'header_contact_email', 'language_switcher', 'currency_switcher', 'header_contact_number']);
         $store_links = settingData(['play_store_link', 'apple_store_link']);
         $other_data = settingData(['is_google_login_activated', 'is_facebook_login_activated', 'is_twitter_login_activated']);
         $recaptcha = settingData(['is_recaptcha_activated', 'recaptcha_Site_key']);
-        $modules = settingData(['color', 'pickup_point', 'wallet_system', 'coupon_system', 'pay_later_system']);
+        $modules = settingData(['color', 'pickup_point', 'wallet_system', 'coupon_system']);
         $agreements = [
             'customer_agreement' => PageGdprResource::collection($page->pageByLink(settingHelper('customer_agreement') && is_array(settingHelper('customer_agreement')) ? settingHelper('customer_agreement') : [])),
             'privacy_agreement' => PageGdprResource::collection($page->pageByLink(settingHelper('privacy_agreement') && is_array(settingHelper('privacy_agreement')) ? settingHelper('privacy_agreement') : [])),

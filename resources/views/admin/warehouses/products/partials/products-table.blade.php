@@ -17,7 +17,7 @@
                     <td>{{ $product->productStock->sku ?? '-' }}</td>
                     <td>{{ $product->quantity }}</td>
                     <td>
-                        @if(hasPermission('warehouse_products.edit'))
+                        @if(hasPermission('warehouse_product_edit'))
                             <button type="button" class="btn btn-outline-secondary btn-circle edit-product" 
                                     data-id="{{ $product->id }}"
                                     data-quantity="{{ $product->quantity }}"

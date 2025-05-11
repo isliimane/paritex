@@ -138,16 +138,12 @@
                                         </td>
 
                                         <td>
-                                            @if(hasPermission('mobile_app_intro_update'))
                                                 <a href="{{ route('app.intro.edit',$app_intro->id) }}" class="btn btn-outline-secondary btn-circle" data-url=""data-toggle="tooltip" title="" data-original-title="{{ __('Edit') }}">
                                                     <i class="bx bx-edit"></i>
                                                 </a>
-                                            @endif
-                                            @if(hasPermission('mobile_app_intro_delete'))
                                             <a href="javaScript:void(0)" onclick="delete_row('delete/app_intros/',{{ $app_intro->id }})"class="btn btn-outline-danger btn-circle" data-toggle="tooltip" title=""data-original-title="{{ __('Delete') }}">
                                                 <i class='bx bx-trash'></i>
                                             </a>
-                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

@@ -171,8 +171,6 @@ class RoleSeeder extends Seeder
             'campaign_product_update',
             'campaign_product_delete',
 
-            'bulk_sms_read',
-            'send_bulk_sms',
 
             'subscriber_read',
             'subscriber_delete',
@@ -259,11 +257,6 @@ class RoleSeeder extends Seeder
 
             'user_reward_read',
             'user_reward_update',
-
-            'offline_payment_read',
-            'offline_payment_create',
-            'offline_payment_update',
-            'offline_payment_delete',
 
             'service_read',
             'service_create',

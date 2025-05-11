@@ -22,7 +22,7 @@ class CreateSettingsTable extends Migration
         });
         $now = now();
         \Illuminate\Support\Facades\DB::unprepared("INSERT INTO `settings` (`id`, `lang`, `title`, `value`, `created_at`, `updated_at`) VALUES
-        (1, 'en', 'current_version', '167', '$now', '$now'),
+        (1, 'en', 'current_version', '100', '$now', '$now'),
 (2, 'en', 'default_language', 'en', '$now', '$now'),
 (3, 'en', 'system_name', 'Yoori e-Commerce CMS', '$now', '$now'),
 (4, 'en', 'default_time_zone', 'Asia/Dhaka', '$now', '$now'),
@@ -30,8 +30,6 @@ class CreateSettingsTable extends Migration
 (6, 'en', 'favicon', NULL, '$now', '$now'),
 (7, 'en', 'https', '0', '$now', '$now'),
 (8, 'en', 'maintenance_mode', '0', '$now', '$now'),
-(10, 'en', 'classified_product', '1', '$now', '$now'),
-(11, 'en', 'seller_product_auto_approve', '0', '$now', '$now'),
 (12, 'en', 'wallet_system', '1', '$now', '$now'),
 (13, 'en', 'coupon_system', '1', '$now', '$now'),
 (14, 'en', 'pickup_point', '1', '$now', '$now'),
@@ -114,8 +112,6 @@ class CreateSettingsTable extends Migration
 (93, 'en', 'header_contact_email', 'support@website.com', '$now', '$now'),
 (94, 'en', 'language_switcher', '1', '$now', '$now'),
 (95, 'en', 'currency_switcher', '1', '$now', '$now'),
-(96, 'en', 'topbar_play_store_link', '0', '$now', '$now'),
-(97, 'en', 'topbar_app_store_link', '0', '$now', '$now'),
 (98, 'en', 'banner_link', NULL, '$now', '$now'),
 (99, 'en', 'banner_image', '[]', '$now', '$now'),
 (100, 'en', 'header_menu', 'a:7:{i:0;a:2:{s:5:\"label\";s:4:\"Home\";s:3:\"url\";s:1:\"/\";}i:1;a:2:{s:5:\"label\";s:8:\"Products\";s:3:\"url\";s:9:\"/products\";}i:2;a:2:{s:5:\"label\";s:10:\"Categories\";s:3:\"url\";s:11:\"/categories\";}i:3;a:2:{s:5:\"label\";s:6:\"Brands\";s:3:\"url\";s:7:\"/brands\";}i:4;a:2:{s:5:\"label\";s:9:\"Campaigns\";s:3:\"url\";s:10:\"/campaigns\";}i:5;a:2:{s:5:\"label\";s:7:\"Sellers\";s:3:\"url\";s:8:\"/sellers\";}i:6;a:5:{s:5:\"label\";s:5:\"Pages\";s:3:\"url\";s:18:\"javascript:void(0)\";i:0;a:2:{s:5:\"label\";s:5:\"Blogs\";s:3:\"url\";s:6:\"/blogs\";}i:1;a:2:{s:5:\"label\";s:8:\"About Us\";s:3:\"url\";s:11:\"/page/about\";}i:2;a:2:{s:5:\"label\";s:10:\"Contact Us\";s:3:\"url\";s:8:\"/contact\";}}}', '$now', '$now'),
@@ -246,7 +242,6 @@ class CreateSettingsTable extends Migration
 (233, 'en', 'admin_panel_copyright_text', '©Yoori by SpaGreen Creative 2022, All Rights Reserved.', NULL, NULL),
 (234, 'en', 'admin_panel_title', 'Yoori e-Commerce CMS', '$now', '$now'),
 (235, 'en', 'system_short_name', 'Yoori', '$now', '$now'),
-(239, 'en', 'pay_later_system', '1', '$now', '$now'),
 (240, 'en', 'invoice_based_shipping_fee', 'a:1:{i:0;a:3:{s:10:\"min_amount\";s:0:\"\";s:10:\"max_amount\";s:0:\"\";s:3:\"fee\";s:0:\"\";}}', '$now', '$now'),
 (241, 'en', 'shipping_fee_default_rate', '', '$now', '$now'),
 (242, 'en', 'default_country', '19', NULL, NULL),

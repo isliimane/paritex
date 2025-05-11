@@ -27,7 +27,7 @@ class TicketReplayFactory extends Factory
             'support_id'     => rand(1, 9),
             'ticket_id'      =>$prefix.Carbon::now()->format('Ymd-His').rand(100, 999),
             'replay'        => $this->faker->unique()->slug(2),
-            'type' => $this->faker->randomElement(['admin', 'customer','seller','delivery_hero','staff']),
+            'type' => $this->faker->randomElement(['admin', 'customer','delivery_hero','staff']),
         ];
     }
 }

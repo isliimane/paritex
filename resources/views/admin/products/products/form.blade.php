@@ -8,16 +8,7 @@
 @endsection
 
 @php
-    $title = '';
-    if(isset($is_digital)):
-        $title =  __('Add Digital Product');
-    elseif(isset($is_catalog)):
-        $title =  __('Add Catalog Product');
-    elseif(isset($is_classified)):
-       $title = __('Add Classified Product');
-    else:
-       $title = __('Add Product');
-    endif;
+    $title = __('Add Product');
 @endphp
 @section('title')
     {{ $title }}
@@ -51,7 +42,7 @@
                     <div class="mb-3 bg-white px-4 py-2 mod">
                         <ul class="nav nav-pills" id="myTab3" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link bar active {{ has_key(['name','category','brand','unit','minimum_order_quantity','barcode','tags','slug','is_digital','product_file','external_link'],$errors) ? 'error' : '' }}"
+                                <a class="nav-link bar active {{ has_key(['name','category','brand','unit','minimum_order_quantity','barcode','tags','slug'],$errors) ? 'error' : '' }}"
                                    id="product-info-tab" data-toggle="tab" href="#product-info" role="tab"
                                    aria-controls="home"
                                    aria-selected="true">{{ __('Product Information') }}</a>
@@ -76,30 +67,18 @@
                                    aria-controls="contact"
                                    aria-selected="false">{{ __('Description ') }}</a>
                             </li>
-                            @if(!isset($is_digital) && !isset($is_catalog) && !isset($is_classified))
                                 <li class="nav-item">
                                     <a class="nav-link bar shipping-days {{ has_key(['shipping_type','shipping_fee','shipping_fee_depend_on_quantity','cash_on_delivery','estimated_shipping_days'],$errors) ? 'error' : '' }} }}"
                                        id="shipping-tab" data-toggle="tab" href="#shipping" role="tab"
                                        aria-controls="profile"
                                        aria-selected="false">{{ __('Shipping Info') }}</a>
                                 </li>
-                            @endif
-                            @if(!isset($is_catalog) && !isset($is_classified))
                                 <li class="nav-item">
                                     <a class="nav-link bar {{ has_key(['campaign','campaign_discount','campaign_discount_type','is_refundable','is_featured','todays_deal'],$errors) ? 'error' : '' }}"
                                        id="others-tab" data-toggle="tab" href="#others"
                                        role="tab" aria-controls="contact"
                                        aria-selected="false">{{ __('Others') }}</a>
                                 </li>
-                            @endif
-                            @if(isset($is_classified))
-                                <li class="nav-item">
-                                    <a class="nav-link bar {{ has_key(['contact_name','email','phone_no','address','others'],$errors) ? 'error' : '' }}"
-                                       id="contact-details-tab" data-toggle="tab" href="#contact-details" role="tab"
-                                       aria-controls="contact"
-                                       aria-selected="false">{{ __('Contact Details') }}</a>
-                                </li>
-                            @endif
                             <li class="nav-item">
                                 <a class="nav-link bar {{ has_key(['meta_title','meta_description','meta_image','meta_keywords'],$errors) ? 'error' : '' }}"
                                    id="seo-tab" data-toggle="tab" href="#seo" role="tab"
@@ -120,11 +99,6 @@
                                     <div class="card-header extra-padding">
                                         <h4>{{ __('Product Information') }}</h4>
                                     </div>
-                                    @if(isset($is_catalog))
-                                        <div class="invalid-feedback text-info pl-4">
-                                            {{ __("N.B: It can't be added to cart only details will be shown.") }}
-                                        </div>
-                                    @endif
                                     <div class="card-body">
                                         <!--<div class="form-group">-->
                                         
@@ -423,87 +397,6 @@
                                                 </div>
                                             @endif
                                         </div>
-                                      <!--  @if(!isset($is_digital) && !isset($is_catalog) && !isset($is_classified))
-                                            <div class="form-group row mt-2">
-                                                <label class="col-md-5 col-from-label">{{ __('Digital') }}</label>
-                                                <div class="col-md-7">
-                                                    <label class="custom-switch">
-                                                        <input type="checkbox" value="1" name="is_digital"
-                                                               {{ old('is_digital') == 1 ? 'checked' : '' }}
-                                                               class="custom-switch-input digital-product">
-                                                        <span class="custom-switch-indicator"></span>
-                                                        <span
-                                                                class="custom-switch-description">{{ __("The product won't be shipped") }}</span>
-                                                    </label>
-                                                    @if ($errors->has('is_digital'))
-                                                        <div class="invalid-feedback">
-                                                            <p>{{ $errors->first('is_digital') }}</p>
-                                                        </div>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        @elseif(isset($is_digital))
-                                            <input type="hidden" name="is_digital" value="1">
-                                        @endif
-                                        <div class="digital-product-div {{ isset($is_digital) || old('is_digital') == 1 ? '' : 'd-none' }}">
-                                            <div class="section-title mt-0">{{ __('Product File') }}</div>
-                                            <div class="form-group">
-                                                <label for="logo">{{ __('Product File') }}</label>
-                                                <div class="form-group">
-                                                    <div class="input-group gallery-modal" id="btnSubmit" data-for="all"
-                                                         data-selection="single" data-variant="1"
-                                                         data-target="#galleryModal" data-dismiss="modal">
-                                                        <input type="hidden" name="product_file"
-                                                               value="{{ old('product_file') !='' ? old('product_file') : '' }}"
-                                                               class="image-selected">
-                                                        <span class="form-control"><span
-                                                                    class="counter">{{ old('product_file') != '' ? substr_count(old('product_file'), ',') + 1  : '' }}</span> {{ __('file chosen') }}</span>
-                                                        <div class="input-group-prepend">
-                                                            <div class="input-group-text">
-                                                                {{ __('Choose File') }}
-                                                            </div>
-                                                        </div>
-                                                        @if ($errors->has('product_file'))
-                                                            <div class="invalid-feedback">
-                                                                <p>{{ $errors->first('product_file') }}</p>
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                    <div class="selected-media-box">
-                                                        <div class="mt-2 gallery gallery-md d-flex">
-                                                            @if(old('product_file') !='')
-                                                                <div class="selected-media mr-2 mb-2 mt-3 ml-0"
-                                                                     data-id="{{ old('product_file') }}">
-                                                                    <img
-                                                                            src="{{ static_asset('images/default/default-pdf-72x72.png') }}"
-                                                                            alt="img-thumbnail"
-                                                                            class="img-thumbnail logo-profile">
-                                                                    <div class="image-remove">
-                                                                        <a href="javascript:void(0)" class="remove"><i
-                                                                                    class="bx bx-x"></i></a>
-                                                                    </div>
-                                                                </div>
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>-->
-                                        @if(isset($is_catalog))
-                                            <input type="hidden" name="is_catalog" value="1">
-                                            <div class="form-group mt-2">
-                                                <label for="external_link">{{ __('External Link') }}</label>
-                                                <input type="text" name="external_link"
-                                                       value="{{ old('external_link') != '' ? old('external_link') : '' }}"
-                                                       id="external_link" class="form-control"
-                                                       placeholder="{{__('External Link')}}">
-                                                @if ($errors->has('external_link'))
-                                                    <div class="invalid-feedback">
-                                                        <p>{{ $errors->first('external_link') }}</p>
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -771,7 +664,6 @@
                                         @endif
                                     </div>
                                 </div>
-                                @if(!isset($is_classified))
                                     <div class="card">
                                         <div class="card-header extra-padding d-flex justify-content-space-between">
                                             <h4>{{ __('Product Stock') }}</h4>
@@ -791,7 +683,6 @@
                                             </div>
                                         </div>
                                         <div class="card-body">
-                                            @if(!isset($is_catalog))
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
@@ -827,7 +718,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            @endif
                                             <div class="without-variant {{ old('has_variant') == 1 ? 'd-none' : '' }}">
                                                 <div class="row">
                                                     <div class="col-md-6">
@@ -946,7 +836,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                @endif
                             </div>
                             <div class="tab-pane fade"
                                  id="description-and-specification" role="tabpane6"
@@ -960,7 +849,11 @@
                                             <label for="short_description"
                                                    class="form-control-label">{{ __('Short Description') }}</label>
                                             <div>
+<<<<<<< HEAD
                                               
+=======
+                                                
+>>>>>>> yassine
                                                 <textarea type="text" class="form-control ai_short_description"
                                                           name="short_description"
                                                           id="short_description">{{ old('short_description') ? old('short_description') :'' }}</textarea>
@@ -1058,8 +951,6 @@
                                         <h4>{{__('Shipping Info')}}</h4>
                                     </div>
                                     <div class="card-body extra-padding">
-                                        @if(!isset($is_catalog))
-                                            @if(!isset($is_classified))
                                                     @if(settingHelper('shipping_fee_type') == 'product_base')
                                                         <div class="form-group">
                                                             <label for="shipping_type">{{ __('Shipping Fee Type') }}</label>
@@ -1114,9 +1005,8 @@
                                                         {{ __('Product base shipping fee is disabled. Configure your shipping fee here') }}
                                                         <a href="{{ route('shipping-configuration') }}">{{ __('Shipping Configuration') }}</a>
                                                     @endif
-                                                @if(!isset($is_digital))
                                                         <div class="section-title mt-0">{{ __('Estimated Shipping Days & COD') }}</div>
-                                                        <div class="form-group row mt-2 shipping-days {{ old('is_digital') == 1 ? 'd-none' : '' }}">
+                                                        <div class="form-group row mt-2 shipping-days">
                                                             <label class="col-md-5 col-from-label">{{ __('Cash On Delivery') }}</label>
                                                             <div class="col-md-7">
                                                                 <label class="custom-switch">
@@ -1147,9 +1037,6 @@
                                                             </div>
                                                         @endif
                                                     </div>
-                                                @endif
-                                            @endif
-                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -1276,94 +1163,6 @@
                                     </div>
                                 </div>
                             </div>
-                            @if(isset($is_classified))
-                                <div class="tab-pane fade"
-                                     id="contact-details" role="tabpane3"
-                                     aria-labelledby="contact-details-tab">
-                                    <input type="hidden" name="is_classified" value="1">
-                                    <div class="card">
-                                        <div class="card-header extra-padding">
-                                            <h4>{{ __('Contact Details') }}</h4>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="contact_name">{{ __('Contact Name') }}</label>
-                                                        <input type="text" class="form-control" name="contact_name"
-                                                               id="contact_name"
-                                                               value="{{ old('contact_name') != '' ? old('contact_name') : '' }}"
-                                                               placeholder="{{__('Contact Name')}}">
-                                                        @if ($errors->has('contact_name'))
-                                                            <div class="invalid-feedback">
-                                                                <p>{{ $errors->first('contact_name') }}</p>
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="phone_no">{{ __('Phone No') }}</label>
-                                                        <input type="phone" class="form-control" name="phone_no"
-                                                               value="{{ old('phone_no') != '' ? old('phone_no') : '' }}"
-                                                               id="phone_no"
-                                                               placeholder="{{ __('Enter Contact Phone No') }}">
-                                                        @if ($errors->has('phone_no'))
-                                                            <div class="invalid-feedback">
-                                                                <p>{{ $errors->first('phone_no') }}</p>
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="email">{{ __('Email') }}</label>
-                                                        <input type="email" class="form-control" name="email" id="email"
-                                                               value="{{ old('email') != '' ? old('email') : '' }}"
-                                                               placeholder="{{__('Enter Contact Email Address')}}">
-                                                        @if ($errors->has('email'))
-                                                            <div class="invalid-feedback">
-                                                                <p>{{ $errors->first('email') }}</p>
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="address">{{ __('Address') }}</label>
-                                                        <input type="address" class="form-control" name="address"
-                                                               value="{{ old('address') != '' ? old('address') : '' }}"
-                                                               id="address"
-                                                               placeholder="{{ __('Enter Contact Address') }}">
-                                                        @if ($errors->has('address'))
-                                                            <div class="invalid-feedback">
-                                                                <p>{{ $errors->first('address') }}</p>
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label for="others">{{ __('Others Info') }}</label>
-                                                        <textarea type="text" class="summernote" name="others"
-                                                                  id="others">{{ old('others') ? old('others') :'' }}</textarea>
-
-                                                        @if ($errors->has('others'))
-                                                            <div class="invalid-feedback">
-                                                                <p>{{ $errors->first('others') }}</p>
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
                             <div class="tab-pane fade" id="seo" role="tabpane5"
                                  aria-labelledby="seo-tab">
 
@@ -1477,7 +1276,6 @@
 @section('page-style')
     <link rel="stylesheet" href="{{ static_asset('admin/css/summernote-bs4.css') }}">
     <link rel="stylesheet" href="{{ static_asset('admin/css/daterangepicker.css') }}">
-    <link rel="stylesheet" href="{{ static_asset('admin/css/formulair.css') }}">
     
 @endsection
 @push('page-script')

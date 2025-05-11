@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="{{ static_asset('admin/css/yoori.css') }}">
     <link rel="stylesheet" href="{{ static_asset('admin/css/style.css') }}">
     <link rel="stylesheet" href="{{ static_asset('admin/css/custom.css') }}">
+    <link rel="stylesheet" href="{{ static_asset('admin/css/yassine-admin.css') }}">
+    <!-- <link rel="stylesheet" href="{{ static_asset('admin/css/formulair.css') }}"> -->
 
     @php
         $icon = settingHelper('favicon');
@@ -74,11 +76,12 @@
                             <form method="POST" class="login_form" action="{{route('admin.seller.login')}}">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="email">{{__('Email')}}</label>
+                                    <!-- <label for="email">{{__('Email')}}</label> -->
                                     <input id="email" type="email" class="form-control"
                                            value="{{config('app.demo_mode') ? request()->path() == 'admin/login' ? 'admin@spagreen.net' : (request()->path() == 'seller/login' ? 'seller@spagreen.net' : old('email')) : ''}}"
                                            name="email" tabindex="1"
-                                           required autofocus>
+                                           required autofocus
+                                           placeholder="{{__('Email')}}">
                                     @if($errors->has('email'))
                                         <div class="invalid-feedback">
                                             {{ $errors->first('email') }}
@@ -87,12 +90,13 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="d-block">
-                                        <label for="password" class="control-label">{{__('Password')}}</label>
+                                        <!-- <label for="password" class="control-label">{{__('Password')}}</label> -->
                                     </div>
                                     <input id="password"
                                            value="{{config('app.demo_mode') ? request()->path() == 'admin/login' ? '123456' : (request()->path() == 'seller/login' ? '123456' : old('password')) : ''}}"
                                            type="password" class="form-control" name="password"
-                                           tabindex="2" required>
+                                           tabindex="2" required
+                                           placeholder="{{__('Password')}}">
                                     <input type="hidden" value="{{$path_check}}" name="request_path" />
                                     @if($errors->has('password'))
                                         <div class="invalid-feedback">

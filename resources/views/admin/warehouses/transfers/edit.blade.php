@@ -113,11 +113,11 @@
                                                                 <small class="form-text text-muted quantity-hint"></small>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-1">
+                                                        <div class="col-md-1 d-flex align-items-center justify-content-center">
                                                             <div class="form-group">
                                                                 <label>&nbsp;</label>
-                                                                <button type="button" class="btn btn-danger btn-block remove-item" {{ $index == 0 ? 'style="display: none;"' : '' }}>
-                                                                    <i class="fas fa-trash"></i>
+                                                                <button type="button" class="btn btn-outline-danger remove-item px-3" {{ $index == 0 ? 'style="display: none;"' : '' }}>
+                                                                    <i class="bx bx-trash"></i>
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -243,7 +243,7 @@
                         dataType: "json",
                         success: function(data) {
                             $.each(data, function(key, stock) {
-                                stockSelect.append('<option value="' + stock.id + '" data-quantity="' + stock.quantity + '">' + stock.name + ' (' + stock.quantity + ' available)</option>');
+                                stockSelect.append('<option value="' + stock.id + '" data-quantity="' + stock.quantity + '">' + stock.sku + ' (' + stock.quantity + ' available)</option>');
                             });
                         },
                         error: function(jqXHR, status, error) {

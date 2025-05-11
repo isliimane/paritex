@@ -146,6 +146,7 @@ class LanguageController extends Controller
 
             return view('admin.settings.language.translation.index', compact('language', 'languages', 'groups', 'translations'));
         } catch (\Exception $e){
+            dd($e);
             Toastr::error($e->getMessage());
             return back();
         }

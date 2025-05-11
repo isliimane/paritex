@@ -71,9 +71,6 @@
                                   :value="'iyzico'" :label="lang.pay_with_iyzico" :image="getUrl('public/images/payment-method/iyzico.svg')">
                   </payment_method>
                  
-                  <payment_method v-if="!code && settings.pay_later_system == 1 && authUser"
-                                  :value="'pay_later'" :label="lang.pay_later" :image="getUrl('public/images/payment-method/paylater.svg')">
-                  </payment_method>
                   <payment_method v-if="payment_form.total > 0 && !code && !check_cod"
                                   :value="'cash_on_delivery'" :label="lang.cash_on_delivery" :image="getUrl('public/images/payment-method/cash.svg')">
                   </payment_method>

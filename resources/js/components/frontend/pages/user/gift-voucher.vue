@@ -16,6 +16,7 @@
                                 <div class="col-md-6" v-for="(coupon,i) in coupons.data" :key="i">
                                     <div class="coupon-text-thumb">
                                         <div class="coupon-text">
+                                            <!-- add isLicenseVerified if we want to hide discount from unverified users -->
                                             <h3><a href="javascript:void(0)">{{ coupon.discount_type == 'flat' ? priceFormat(coupon.discount) : coupon.discount +'% OFF' }}</a></h3>
                                             <p>{{coupon.title}}</p>
                                             <a href="javaScript:void(0)" @click="copyTestingCode(coupon.code)" class="btn" >{{lang.get_code}}</a>
@@ -84,6 +85,9 @@ export default {
         shimmer(){
             return this.$store.state.module.shimmer
         },
+        isLicenseVerified() {
+          return (this.authUser && this.authUser.user_type === 'admin') || (this.authUser && this.authUser.user_type === 'customer' && this.authUser.license_verified);
+        }
     },
     methods:{
         copyTestingCode (code) {

@@ -61,7 +61,7 @@ class CartController extends Controller
         try {
             $product = $this->product->get($request->id);
 
-            if (!$product->is_digital && ($product->minimum_order_quantity > $request->quantity)):
+            if (($product->minimum_order_quantity > $request->quantity)):
                 return response()->json([
                     'error' => __('Please order minimum of :quantity products', ['quantity' => $product->minimum_order_quantity])
                 ]);

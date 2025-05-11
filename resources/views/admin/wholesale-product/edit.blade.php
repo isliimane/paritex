@@ -59,13 +59,13 @@
                                aria-selected="false">{{ __('Description & Specification') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link bar {{ has_key(['shipping_type','shipping_fee','shipping_fee_depend_on_quantity','cash_on_delivery','is_digital','estimated_shipping_days','product_file'],$errors) ? 'error' : '' }} }}"
+                            <a class="nav-link bar {{ has_key(['shipping_type','shipping_fee','shipping_fee_depend_on_quantity','cash_on_delivery','estimated_shipping_days'],$errors) ? 'error' : '' }} }}"
                                id="shipping-tab" data-toggle="tab" href="#shipping" role="tab"
                                aria-controls="profile"
                                aria-selected="false">{{ __('Shipping Info') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link bar {{ has_key(['campaign','campaign_discount','campaign_discount_type','is_refundable','is_featured','todays_deal','external_link'],$errors) ? 'error' : '' }}"
+                            <a class="nav-link bar {{ has_key(['campaign','campaign_discount','campaign_discount_type','is_refundable','is_featured','todays_deal'],$errors) ? 'error' : '' }}"
                                id="others-tab" data-toggle="tab" href="#others"
                                role="tab" aria-controls="contact"
                                aria-selected="false">{{ __('Others') }}</a>
@@ -113,11 +113,6 @@
                                     <div class="card-header extra-padding">
                                         <h4>{{ __('Product Information') }}</h4>
                                     </div>
-                                    @if($product_language->product->is_catalog == 1)
-                                        <div class="invalid-feedback text-info pl-4">
-                                            {{ __("N.B: It can't be added to cart only details will be shown.") }}
-                                        </div>
-                                    @endif
                                     <div class="card-body">
                                         <div class="form-group">
                                             <label for="name">{{ __('Product Name') }} *</label>
@@ -139,11 +134,9 @@
                                                 <div class="form-group">
                                                     <label for="category">{{ __('Category') }} *</label>
                                                     <select class="form-control filter-categories-by-ajax" name="category" id="category">
-                                                        {{--
                                                         @if($category)
                                                             <option value="{{ $category->id }}">{{ $category->getTranslation('title', App::getLocale()) }}</option>
                                                         @endif
-                                                        --}}
                                                     </select>
 
                                                     @if ($errors->has('category'))
@@ -165,11 +158,9 @@
                                                                value="{{ $product_language->product_id }}">
                                                     @endif
                                                     <select class="form-control brand-by-ajax" name="brand" id="brand">
-                                                        {{--
                                                         @if($brand)
                                                             <option value="{{ $brand->id }}">{{ $brand->getTranslation('title', App::getLocale()) }}</option>
                                                         @endif
-                                                        --}}
                                                     </select>
 
                                                     @if ($errors->has('brand'))
@@ -613,11 +604,7 @@
                                             <label for="short_description"
                                                    class="form-control-label">{{ __('Short Description') }}</label>
                                             <div>
-                                                @include('admin.ai_writer.ai_btn',[
-                                                    'name' => 'ai_short_description',
-                                                    'length' => '200',
-                                                    'topic' => 'ai_content_name',
-                                                                      ])
+                                           
                                                 <textarea type="text" class="form-control ai_short_description"
                                                           name="short_description"
                                                           id="short_description">{{ old('short_description') ? old('short_description') : $product_language->short_description }}</textarea>
@@ -633,12 +620,7 @@
                                             <label for="description"
                                                    class="form-control-label">{{ __('Long Description') }}</label>
                                             <div>
-                                                @include('admin.ai_writer.ai_btn',[
-                                                    'name' => 'ai_description',
-                                                    'length' => '259',
-                                                    'topic' => 'ai_content_name',
-                                                    'long_description' => 1
-                                                                      ])
+                                              
                                                 <textarea type="text" class="summernote ai_description"
                                                           name="description"
                                                           id="description">{{ old('description') ? old('description') : $product_language->description }}</textarea>

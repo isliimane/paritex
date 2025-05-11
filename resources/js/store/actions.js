@@ -48,18 +48,6 @@ export default {
             context.commit("getDailyDeals", response.data.products);
         });
     },
-    giftIdea(context, form) {
-        let url = context.state.url + '/home/gift-idea?page=1';
-        axios.get(url, {params: form}).then((response) => {
-            context.commit("getGiftIdea", response.data.products);
-        });
-    },
-    businessIdea(context, form) {
-        let url = context.state.url + '/home/business-idea?page=1';
-        axios.get(url, {params: form}).then((response) => {
-            context.commit("getBusinessIdea", response.data.products);
-        });
-    },
 
     productDetails(context, set_params) {
         let url = context.state.url + '/home/product-details/' + set_params.slug + '?trx_id='+set_params.trx_id;
@@ -136,7 +124,7 @@ export default {
             context.commit("getShopAttributes",data);
             context.commit("getShopBrands", response.data.brands);
             context.commit("getShopColors", response.data.colors);
-            context.commit("getShop", response.data.shop);
+            // context.commit("getShop", response.data.shop);
             context.commit("setPriceRange", response.data.price_range);
             context.commit('getFilterLoaded', true);
         });

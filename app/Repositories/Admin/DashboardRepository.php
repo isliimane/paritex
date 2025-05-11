@@ -72,6 +72,8 @@ class DashboardRepository implements DashboardInterface
                 'total_categories'              =>$this->category->all()->count(),
 
             ];
+            $supports                            = $this->support->all()->where('status', 'pending');
+
         $data[] = [
             'total_orders'              => $this->order->all()->where('seller_id', 1)->count(),
             'total_sale'                => $total_order_amount - $total_refund,
@@ -86,6 +88,8 @@ class DashboardRepository implements DashboardInterface
             'sales_state'               => json_encode($sales_state),
             'top_products'              => $top_products,
             'orders'                    => $orders,
+            'total_support'                  => $supports->count(),
+            'supports'                       => $supports->take(3)->get(),
         ];
 
         return array_merge(...$data);

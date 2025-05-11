@@ -51,8 +51,6 @@ interface OrderInterface
 
     public function checkCodByCode($code);
 
-    public function digitalProductOrders($limit,$token);
-
     //quantity manage
     public function adjustQuantity($order, $remove_quantity,$reason = '');
 

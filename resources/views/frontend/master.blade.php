@@ -72,7 +72,7 @@
               <link rel="stylesheet"
               href="{{ static_asset('frontend/css/yassine-rtl.css') }}?version={{ settingHelper('current_version') }}">
     @endif
-    <link rel="stylesheet" href="{{ mix('frontend/css/yassine.css') }}">
+    <link rel="stylesheet" href="{{ static_asset('frontend/css/yassine.css') }}">
     <style>
         :root {
             --primary-color: {{ settingHelper('primary_color')}};
