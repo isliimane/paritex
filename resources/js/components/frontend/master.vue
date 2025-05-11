@@ -1,6 +1,7 @@
 <template>
-    <div class="main-container">
-        <headNav class="custom-header"></headNav>
+    <div>
+
+        <headNav></headNav>
         <router-view></router-view>
         <bottom></bottom>
     </div>
@@ -25,25 +26,6 @@ export default {
     mounted() {
         document.title = this.$route.meta.title && typeof this.$route.meta.title != 'undefined' ? this.$route.meta.title : this.settings.system_name
     }
+
 }
 </script>
-
-<style scoped>
-.custom-header {
-  height: 200px !important; /* Force la hauteur */
-  
-}
-.main-container {
- 
-    background-color:rgb(255, 255, 255);
-    
-  
-    
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    
-    min-height: 100vh; 
-}
-</style>

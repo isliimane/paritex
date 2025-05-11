@@ -31,16 +31,9 @@
     min-height: 50px !important;
     padding: 10px 25px !important;
 }
-.card .card-header h4 + .card-header-action .btn, .card .card-header h4 + .card-header-form .btn {
-    font-size: 12px;
-   
-    padding-left: 13px !important;
-    padding-right: 13px !important;
-  
-}     
-.body{
-    background: #dee8e3 !important;
-}
+.custom-control.custom-checkbox {
+    padding: 8px;
+}   
 textarea.form-control {
     min-height: 64px !important;
 }
@@ -122,10 +115,6 @@ textarea.form-control {
     padding-top: 90px;
 }
 
-.navbar .nav-link.nav-link-lg div {
-    margin-top: 3px;
-    color: #000 !important;
-}
 .main-sidebar,
 .navbar,
 .main-content,
@@ -230,7 +219,7 @@ ol {
 }
 
 #galleryModal .nav-pills .nav-item .nav-link.active {
-    background-color: rgba(103, 239, 157, 0.734) !important;
+    background-color: rgb(103 119 239 / 16%) !important;
 }
 .modal-title-footer {
     font-size: 12px;
@@ -301,7 +290,7 @@ table.topbar-setting-switcher tr td.no-padding-w30 {
 
 .img-thumbnail {
     padding: 0.25rem;
-    background-color: #14e274;
+    background-color: #f5f6fa;
     border: 1px solid #dee2e6;
     border-radius: 4px;
     max-width: 100%;
@@ -370,23 +359,8 @@ textarea.form-control.h-130 {
 }
 .select2-container--default .select2-results__option[aria-selected="true"] {
     /*background: var(--primary-bg) !important;*/
-    background: #00a24c !important;
-    color:#00a241  !important;
-}
-.badge.badge-primary {
-    background-color: #69c97f !important;
-    color: #e9ecef !important;
-}
-.nav-pills .nav-item .nav-link {
-    color: #10b034;
-    padding-left: 15px !important;
-    padding-right: 15px !important;
-}
-
-.nav-pills .nav-item .nav-link.active {
-    background: #00a24c !important;
-    color: #e9ecef !important;
-    box-shadow: none;
+    background: rgb(103 119 239 / 16%) !important;
+    color: var(--primary-color) !important;
 }
 .selectric {
     min-width: 248px;
@@ -2245,11 +2219,4 @@ span.name_clip {
     position: absolute;
     top: 16px;
     right: 26px;
-}
-.card .card-stats .card-stats-item .card-stats-amount-count {
-    line-height: 1;
-    margin-bottom: 12px;
-    font-size: 14px;
-    font-weight: 700;
-    color: #222020 !important;
 }
