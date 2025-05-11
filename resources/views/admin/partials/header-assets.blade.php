@@ -58,6 +58,7 @@ i.mdi { /* Material Design Icons */
         <link rel="stylesheet" href="{{ static_asset('admin/css/rtl.css') }}">
         <link rel="stylesheet" href="{{ static_asset('admin/css/yassine-rtl.css') }}">
     @endif
+    <link rel="stylesheet" href="{{ static_asset('admin/css/formulair.css') }}">
 
     <!-- Favicon -->
     @php

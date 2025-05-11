@@ -112,8 +112,3 @@
     </section>
 @endsection
 @include('admin.common.delete-ajax')
-@section('page-style')
-    
-    <link rel="stylesheet" href="{{ static_asset('admin/css/formulair.css') }}">
-    
-@endsection

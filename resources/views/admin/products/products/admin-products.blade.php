@@ -361,5 +361,4 @@
 @section('page-style')
     <link rel="stylesheet" href="{{ static_asset('admin/css/daterangepicker.css') }}">
     <link rel="stylesheet" href="{{ static_asset('admin/css/summernote-bs4.css') }}">
-    <link rel="stylesheet" href="{{ static_asset('admin/css/formulair.css') }}">
 @endsection

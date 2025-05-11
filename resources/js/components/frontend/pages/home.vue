@@ -2,7 +2,6 @@
 
   <div>
    <slider></slider>
-  
     <services v-if="settings.show_service_info_section == 1 "></services>
     <div v-for="(componentName, index) in supportedComponents" :key="index">
 

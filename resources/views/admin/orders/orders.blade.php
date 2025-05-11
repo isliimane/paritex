@@ -14,10 +14,9 @@
     $s              = isset($_GET['s']) ? $_GET['s'] : null;
     $q              = isset($_GET['q']) ? $_GET['q'] : null;
     $sl             = isset($_GET['sl']) ? $_GET['sl'] : null;
-@endphp  
+@endphp
 @section('main-content')
     <section class="section">
-        
         <div class="section-body">
             <div class="d-flex justify-content-between">
                 <div class="d-block">
@@ -204,7 +203,6 @@
 
 @section('page-style')
     <link rel="stylesheet" href="{{ static_asset('admin/css/daterangepicker.css') }}">
-    <link rel="stylesheet" href="{{ static_asset('admin/css/formulair.css') }}">
 @endsection
 @push('script')
     <script type="text/javascript" src="{{ static_asset('admin/js/daterangepicker.min.js') }}"></script>

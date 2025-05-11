@@ -6,7 +6,7 @@
 					<sidebar_categories :slider="true" :home="0"></sidebar_categories>
 				</div>
 				<!-- end fixedc menu -->
- 
+
 				<div class="col-lg-9">
 					<div v-if="sliders.length > 0" class="row">
 						<div :class="addons.includes('ishopet') ? 'col-lg-9' : 'col-lg-12'">
@@ -75,7 +75,6 @@ export default {
 			return this.$store.getters.getSliders;
 		},
 		banners() {
-		
 			return this.$store.getters.getSliderBanners;
 		},
 	},

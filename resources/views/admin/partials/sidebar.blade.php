@@ -5,8 +5,7 @@
 <div class="main-sidebar">
 <style>
 .main-sidebar {
-    background:rgb(255, 255, 255) !important; /* Fond noir */
-    
+    background: #fff !important;
   }
 .sidebar-menu .nav-link {
   color: #000000 !important;

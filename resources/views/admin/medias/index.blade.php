@@ -18,9 +18,9 @@
             <div class="d-flex justify-content-between">
                 <div class="d-block">
                     <h2 class="section-title">{{ __('Media Library') }}</h2>
-                
                     <p class="section-lead">
-                     {{ __('You have total') . ' ' . $medias->total() . ' ' . __('Medias') }}</p>
+                    {{ __('You have total') . ' ' . $medias->total() . ' ' . __('Medias') }}
+                    </p>
                 </div>
                 @if (hasPermission('media_create'))
                     <div class="text-right d-flex">
@@ -114,7 +114,7 @@
                                                         <a href="javascript:void(0)"
                                                            data-text="{{ __('Copied to Clipboard') }}"
                                                            data-url="{{ get_media($media->original_file, $media->storage) }}"
-                                                           class="dropdown-item {{ (hasPermission('media_delete') ? 'ml-2' : '') }} copy-to-clipboard btn btn-outline-info btn-circle" 
+                                                           class="dropdown-item {{ (hasPermission('media_delete') ? 'ml-2' : '') }} copy-to-clipboard btn btn-outline-info btn-circle">
                                                            <i class='bx bx-copy'></i>
                                                         </a>
                                                     </div>
@@ -146,8 +146,3 @@
     <!-- Main Content End -->
 @endsection
 @include('admin.common.delete-ajax')
-@section('page-style')
-    
-    <link rel="stylesheet" href="{{ static_asset('admin/css/formulair.css') }}">
-    
-@endsection
