@@ -121,15 +121,15 @@ class BrandController extends Controller
     {
         try {
             $term = trim($request->q);
-            $blogs = $this->brands->getActiveBrands([
+            $brands = $this->brands->getActiveBrands([
                 'q' => $term,
                 'limit' => 10
             ]);
-            $formatted_blogs = [];
-            foreach ($blogs as $blog) {
-                $formatted_blogs[] = ['id' => $blog->id, 'text' => $blog->getTranslation('title', \App::getLocale())];
+            $formatted_brands = [];
+            foreach ($brands as $brand) {
+                $formatted_brands[] = ['id' => $brand->id, 'text' => $brand->getTranslation('title', \App::getLocale())];
             }
-            return response()->json($formatted_blogs);
+            return response()->json($formatted_brands);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()]);
         }
