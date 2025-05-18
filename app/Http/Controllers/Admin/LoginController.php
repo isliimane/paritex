@@ -311,7 +311,6 @@ class LoginController extends Controller
             return response()->json([
                 'user'          => authUser(),
                 'reward'        => authUser()->reward,
-                'download_urls' => count($order->digitalProductOrders(1)) > 0,
             ]);
         } catch (\Exception $e) {
             return response()->json([

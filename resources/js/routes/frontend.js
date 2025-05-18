@@ -69,8 +69,7 @@ const reward = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/addons/rewards');
 const myWallet = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/user/wallet');
-const digitalProductOrders = () => import(/* webpackPrefetch: true */
-    '../components/frontend/pages/user/digital-product-orders');
+
 const error_404 = () => import(/* webpackPrefetch : true" */
     '../components/errors/not_found');
 export const routes = [
@@ -343,14 +342,7 @@ export const routes = [
                     title: 'Gift Voucher'
                 }
             },
-            {
-                path: '/user/digital-product-orders',
-                name: 'orders.digital.product',
-                component: digitalProductOrders,
-                meta: {
-                    title: 'Digital Product Orders'
-                }
-            },
+            
             {
                 path: '/user/notification',
                 name: 'notification',

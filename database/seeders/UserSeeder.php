@@ -143,7 +143,6 @@ class UserSeeder extends Seeder
             'order_view',
             'order_delete',
             'order_invoice',
-            'order_approve_offline_payment',
 
             'pickup_hub_create',
             'pickup_hub_read',
@@ -197,8 +196,6 @@ class UserSeeder extends Seeder
             'campaign_request_read',
             'campaign_request_approved',
 
-            'bulk_sms_read',
-            'send_bulk_sms',
 
             'subscriber_read',
             'subscriber_delete',
@@ -288,11 +285,6 @@ class UserSeeder extends Seeder
             'user_reward_read',
             'user_reward_update',
 
-            'offline_payment_read',
-            'offline_payment_create',
-            'offline_payment_update',
-            'offline_payment_delete',
-
             'service_read',
             'service_create',
             'service_update',
@@ -315,11 +307,6 @@ class UserSeeder extends Seeder
             'state_import_create',
             'city_import_create',
 
-            'addon_read',
-            'addon_update',
-
-            'font_update',
-            
             'warehouse_read',
             'warehouse_create',
             'warehouse_update',

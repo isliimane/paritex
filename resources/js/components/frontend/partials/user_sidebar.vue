@@ -29,11 +29,6 @@
                         {{ lang.order_history }}
                     </router-link>
                 </li>
-                <li v-if="download_url" :class="{active: current === 'digital_product_order_history'}">
-                    <router-link :to="{ name : 'orders.digital.product' }"><span
-                        class="mdi mdi-name mdi-cart-arrow-down"></span> {{ lang.digital_product_order }}
-                    </router-link>
-                </li>
                 <li v-if="settings.coupon_system == 1" :class="{active: current === 'gift_voucher'}">
                     <router-link :to="{ name : 'gift.voucher' }"><span class="mdi mdi-name mdi-wallet-giftcard"></span>
                         {{ lang.gift_voucher }}
@@ -136,7 +131,6 @@ export default {
             let url = this.getUrl('home/check-auth')
             axios.get(url).then((response) => {
                 this.$store.dispatch('user', response.data.user);
-                this.$store.commit('getOrderUrl', response.data.order_urls);
                 if (!this.authUser) {
                     this.$router.push({name: 'login'});
                 } else if (this.authUser.user_type == 'admin') {
@@ -145,11 +139,6 @@ export default {
                 if (response.data.reward) {
                     this.$store.commit('setTotalReward', response.data.reward);
                 }
-                if (response.data.download_urls)
-                {
-                    this.download_url = true;
-                }
-
             });
         },
         convertReward() {

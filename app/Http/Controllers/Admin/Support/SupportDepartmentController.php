@@ -17,9 +17,6 @@ class SupportDepartmentController extends Controller
 
     public function __construct(SupportDepartmentInterface $supportDepartment, LanguageInterface $languages)
     {
-        if(settingHelper('seller_system') != 1):
-            abort(403);
-        endif;
         $this->supportDepartment        = $supportDepartment;
         $this->languages                = $languages;
     }

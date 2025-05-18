@@ -57,13 +57,8 @@ class CreateProductsTable extends Migration
             //status and other featured
             $table->enum('status',['unpublished','published','trash'])->default('unpublished')->comment('');
             $table->tinyInteger('is_approved')->default(0)->comment('use for seller product approval purpose');
-            $table->tinyInteger('is_catalog')->default(0)->comment("if 1 can't added to cart only view");
-            $table->string('external_link')->nullable();
             $table->tinyInteger('is_featured')->default(0);
-            $table->tinyInteger('is_classified')->default(0);
             $table->tinyInteger('is_wholesale')->default(0);
-            $table->text('contact_info')->nullable();
-            $table->tinyInteger('is_digital')->default(0);
             $table->tinyInteger('is_refundable')->default(0);
             $table->tinyInteger('todays_deal')->default(0);
             $table->double('rating',8,2)->default(0.00);
@@ -77,8 +72,6 @@ class CreateProductsTable extends Migration
             $table->tinyInteger('cash_on_delivery')->default(0)->comment('0 not available, 1 available');
 
             $table->text('meta_image')->nullable();
-            $table->text('product_file')->nullable();
-            $table->unsignedBigInteger('product_file_id')->unsigned()->nullable();
             $table->string('meta_image_id')->nullable();
             $table->double('reward',20,3)->default(0.00);
 
@@ -120,13 +113,8 @@ class CreateProductsTable extends Migration
             'total_sale' => 0,
             'status' => 'published',
             'is_approved' => 1,
-            'is_catalog' => 0,
-            'external_link' => NULL,
             'is_featured' => 1,
-            'is_classified' => 0,
             'is_wholesale' => 0,
-            'contact_info' => '[]',
-            'is_digital' => 0,
             'is_refundable' => 0,
             'todays_deal' => 1,
             'rating' => 0,
@@ -137,8 +125,6 @@ class CreateProductsTable extends Migration
             'estimated_shipping_days' => '0',
             'cash_on_delivery' => 1,
             'meta_image' => '[]',
-            'product_file' => NULL,
-            'product_file_id' => NULL,
             'meta_image_id' => NULL,
             'reward' => 0,
             'is_deleted' => 0,

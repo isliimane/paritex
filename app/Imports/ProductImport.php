@@ -39,8 +39,6 @@ class ProductImport implements ToCollection, WithHeadingRow, WithChunkReading, S
                             'current_stock'         => $row['current_stock'],
                             'minimum_order_quantity'=> $row['minimum_order_quantity'],
                             'is_approved'           => $user_id == 1 ? 1 : 0,
-                            'is_catalog'            => $row['is_catalog'] ? : 0,
-                            'external_link'         => $row['external_link'],
                             'is_refundable'         => $row['is_refundable'] ? : 0,
                             'cash_on_delivery'      => $row['cash_on_delivery'] ? : 0,
                             'attribute_sets'        => [],
@@ -50,7 +48,6 @@ class ProductImport implements ToCollection, WithHeadingRow, WithChunkReading, S
                             'colors'                => [],
                             'selected_variants'     => [],
                             'selected_variants_ids' => [],
-                            'contact_info'          => [],
                         ]);
 
             ProductLanguage::create([
@@ -99,7 +96,6 @@ class ProductImport implements ToCollection, WithHeadingRow, WithChunkReading, S
             '*.video_url'               => 'required_with:video_provider',
             '*.current_stock'           => 'required',
             '*.minimum_order_quantity'  => 'required|numeric',
-            '*.external_link'           => 'required_with:is_catalog',
         ];
     }
 }

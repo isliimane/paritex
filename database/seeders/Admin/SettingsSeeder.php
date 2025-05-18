@@ -27,7 +27,6 @@ class SettingsSeeder extends Seeder
         //Preference Setting
         Setting::create(['title' => 'https',                                   'value' => 0,                                           'lang' => 'en']);
         Setting::create(['title' => 'maintenance_mode',                        'value' => 0,                                           'lang' => 'en']);
-        Setting::create(['title' => 'classified_product',                      'value' => 1,                                           'lang' => 'en']);
         Setting::create(['title' => 'wallet_system',                           'value' => 1,                                           'lang' => 'en']);
         Setting::create(['title' => 'coupon_system',                           'value' => 1,                                           'lang' => 'en']);
         Setting::create(['title' => 'pickup_point',                            'value' => 1,                                           'lang' => 'en']);
@@ -146,8 +145,6 @@ class SettingsSeeder extends Seeder
         Setting::create(['title' => 'header_contact_email',                    'value'  => 'support@website.com',                           'lang' => 'en']);
         Setting::create(['title' => 'language_switcher',                       'value'  => 1,                                          'lang' => 'en']);
         Setting::create(['title' => 'currency_switcher',                       'value'  => 1,                                          'lang' => 'en']);
-        Setting::create(['title' => 'topbar_play_store_link',                  'value'  => 1,                                          'lang' => 'en']);
-        Setting::create(['title' => 'topbar_app_store_link',                   'value'  => 1,                                          'lang' => 'en']);
         //Banner
         Setting::create(['title' => 'banner_link',                             'value'  => NULL,                                       'lang' => 'en']);
         Setting::create(['title' => 'banner_image',                            'value'  => null,                                       'lang' => 'en']);

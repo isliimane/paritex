@@ -29,8 +29,6 @@ class ProductPaginateResource extends ResourceCollection
                     'todays_deal'               => (int)$data->todays_deal,
                     'has_variant'               => (int)$data->has_variant,
                     'user_wishlist'             => (bool)$data->userWishlist,
-                    'is_catalog'                => (bool)$data->is_catalog,
-                    'is_classified'             => (bool)$data->is_classified,
                 ];
             }),
 

@@ -88,16 +88,7 @@ export default {
                 context.commit("getProductByCategory", response.data.products.data);
             })
         },
-        shopPageData(context) {
-            let url = this.state.url + '/home/shop-page?page=1';
-            axios.get(url).then((response) => {
-                context.commit("getShopCategories", response.data.categories);
-                context.commit("getShopBrands", response.data.brands);
-                context.commit("getShopAttributes", response.data.attributes);
-                context.commit("getShopColors", response.data.colors);
-                context.commit("getShopProducts", response.data.products);
-            })
-        },
+       
         dailyDeals(context,page) {
             let url = this.state.url + '/home/daily-deals?page='+page;
             axios.get(url).then((response) => {

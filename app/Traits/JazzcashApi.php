@@ -29,7 +29,7 @@ trait JazzcashApi
     public function createCharge($form_data)
     {
         //------------------------------------------------------
-        date_default_timezone_set('Asia/Karachi');
+        date_default_timezone_set('Europe/Paris');
         //ini_set('max_execution_time', 60); //60 seconds = 1 minutes
         //------------------------------------------------------
 

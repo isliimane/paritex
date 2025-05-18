@@ -14,6 +14,8 @@
 
     <!-- Icon -->
     <link rel="stylesheet" href="{{ static_asset('admin/boxicons/css/boxicons.css') }}">
+    <link rel="stylesheet" href="{{ static_asset('admin/css/yassine-admin.css') }}">
+
 </head>
 
 <body>

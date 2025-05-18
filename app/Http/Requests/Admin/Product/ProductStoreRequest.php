@@ -54,18 +54,9 @@ class ProductStoreRequest extends FormRequest
             'campaign_discount'         => 'required_with:campaign',
             'campaign_discount_type'    => 'required_with:campaign'
         ];
-
-        if (!in_array(1,[$request->is_classified,$request->is_catalog]))
-        {
             $rules['sku'] = 'required_without:has_variant|unique:product_stocks,sku';
-        }
-
-        if (!in_array(1,[$request->is_classified,$request->is_catalog,$request->is_digital]))
-        {
-            $rules['shipping_class_id'] = 'required';
             $rules['shipping_fee']      = 'nullable';
             $rules['shipping_type']     = 'nullable';
-        }
 
         return $rules;
     }

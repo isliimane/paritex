@@ -47,14 +47,14 @@
                                     <td>
                                         <div class="items-list">
                                             @foreach($value->attributeValue as $row)
-                                            <div class="ml-1 badge badge-pill badge-info item item">{{ $row->value }}</div>
+                                            <div class="ml-1 badge badge-pill badge-primary item item">{{ $row->value }}</div>
                                             @endforeach
                                         </div>
                                     </td>
                                     <td>
                                         <div class="items-list">
                                             @foreach($value->categories as $cat)
-                                            <div class="ml-1 badge badge-pill badge-info item">{{ $cat->getTranslation('title', app()->getLocale()) }}</div>
+                                            <div class="ml-1 badge badge-pill badge-primary item">{{ $cat->getTranslation('title', app()->getLocale()) }}</div>
                                             @endforeach
                                         </div>
                                     </td>

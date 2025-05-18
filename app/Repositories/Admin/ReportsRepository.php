@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Admin;
 
-use App\Models\CommissionHistory;
 use App\Models\Product;
 use App\Models\Search;
 use App\Models\Wallet;

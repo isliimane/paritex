@@ -51,26 +51,6 @@
                                                     </label>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td class="no-padding-w30 coookie-marign">{{ __('Play Store') }}</td>
-                                                <td>
-                                                    <label class="custom-switch mt-2">
-                                                        <input type="checkbox" name="" class="custom-switch-input status-change" value="setting-status-change/{{ 'topbar_play_store_link' }}" {{ settingHelper('topbar_play_store_link') == 1 ? 'checked' :
-                                                    ''}}>
-                                                        <span class="custom-switch-indicator"></span>
-                                                    </label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="no-padding-w30 coookie-marign">{{ __('App Store') }}</td>
-                                                <td>
-                                                    <label class="custom-switch mt-2">
-                                                        <input type="checkbox" name="" class="custom-switch-input status-change" value="setting-status-change/{{ 'topbar_app_store_link' }}" {{ settingHelper('topbar_app_store_link') == 1 ? 'checked' :
-                                                    ''}}>
-                                                        <span class="custom-switch-indicator"></span>
-                                                    </label>
-                                                </td>
-                                            </tr>
                                         </table>
                                     </div>
                                     <div class="text-md-right">
