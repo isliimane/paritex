@@ -20,7 +20,6 @@ use App\Http\Controllers\Admin\WalletController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\LanguageController;
 use App\Http\Controllers\Admin\ShippingController;
-use App\Http\Controllers\Admin\Blog\BlogController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\Setup\CacheController;
 use App\Http\Controllers\Admin\Setup\VatTaxController;
@@ -35,7 +34,6 @@ use App\Http\Controllers\Admin\Marketing\CouponController;
 use App\Http\Controllers\Admin\Product\CategoryController;
 use App\Http\Controllers\Admin\Setup\PreferenceController;
 use App\Http\Controllers\Admin\Setup\ThirdPartyController;
-use App\Http\Controllers\Admin\Blog\BlogCategoryController;
 use App\Http\Controllers\Admin\Marketing\BulkSMSController;
 use App\Http\Controllers\Admin\Product\AttributeController;
 use App\Http\Controllers\Admin\Setup\SocialLoginController;
@@ -154,7 +152,6 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 Route::delete('delete/categories/{id}', [CommonController::class, 'delete'])->name('category.delete')->middleware('PermissionCheck:category_delete');
 
                 Route::get('categories-by-ajax', [CategoryController::class, 'ajaxCategoryFilter'])->name('categories.by.ajax');
-                Route::get('blogs-by-ajax', [BlogController::class, 'ajaxBlogsFilter'])->name('blogs.by.ajax');
                 Route::get('brands-by-ajax', [BrandController::class, 'ajaxBrandsFilter'])->name('brands.by.ajax');
 
 
@@ -280,23 +277,6 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 Route::put('optimization-setting-update', [GeneralSettingsController::class, 'optimizationUpdate'])->name('admin.optimization.setting.update');
 
                 Route::get('/edit-info/{page_name}/{param1?}/{param2?}/{param3?}', [CommonController::class, 'editInfo'])->name('edit-info')->where('param1', '(.*)');
-
-                //blog
-                Route::get('blogs/{status?}', [BlogController::class, 'index'])->name('blogs')->middleware('PermissionCheck:blog_read');
-                Route::get('create-blog', [BlogController::class, 'create'])->name('blog.create')->middleware('PermissionCheck:blog_create');
-                Route::post('blog.store', [BlogController::class, 'store'])->name('blog.store')->middleware('PermissionCheck:blog_create');
-                Route::get('blog-edit/{id}', [BlogController::class, 'edit'])->name('blog.edit')->middleware('PermissionCheck:blog_update');
-                Route::get('blog-store/{id}', [BlogController::class, 'restore'])->name('blog.restore')->middleware('PermissionCheck:blog_restore');
-                Route::put('blog-update', [BlogController::class, 'update'])->name('blog.update')->middleware('PermissionCheck:blog_update');
-                Route::delete('delete/blogs/{id}', [CommonController::class, 'delete'])->name('blog.delete')->middleware('PermissionCheck:blog_delete');
-
-                //blog category
-                Route::get('blog/categories', [BlogCategoryController::class, 'index'])->name('blogs.categories')->middleware('PermissionCheck:blog_category_read');
-                Route::post('blog/categories/store', [BlogCategoryController::class, 'store'])->name('store.blog.categories')->middleware('PermissionCheck:blog_category_create');
-                Route::put('blog-category-status-change', [BlogCategoryController::class, 'statusChane'])->name('blog.category.status.change')->middleware('PermissionCheck:blog_category_update');
-                Route::get('blog-category/edit/{id}', [BlogCategoryController::class, 'edit'])->name('edit.blog.category')->middleware('PermissionCheck:blog_category_update');
-                Route::put('blog-category/update', [BlogCategoryController::class, 'update'])->name('admin.update.blog.category')->middleware('PermissionCheck:blog_category_update');
-                Route::delete('delete/blog_categories/{id}', [CommonController::class, 'delete'])->name('blog.category.delete')->middleware('PermissionCheck:blog_category_delete');
 
                 //Store Front
                 //Theme Options

@@ -6,7 +6,7 @@ use App\Utility\AppSettingUtility;
 use Carbon\Carbon;
 
 trait MetaGeneratorTrait {
-    public function generateMeta($product,$blog,$category,$brand): array
+    public function generateMeta($product,$category,$brand): array
     {
 
         $lang = languageCheck();
@@ -105,38 +105,7 @@ trait MetaGeneratorTrait {
             }
 
 
-        elseif (request()->route()->getName() == 'blog-details'){
-            $slug = request()->route()->parameter('slug');
-            $blog = $blog->blogDetails($slug);
-       
-            if ($blog)
-            {
-                $meta_data = [
-                    'title'             => strip_tags($blog->getTranslation('title',languageCheck())),
-                    'meta_title'        => $blog->getTranslation('meta_title',languageCheck()) != '' ? strip_tags($blog->getTranslation('meta_title',languageCheck())) : strip_tags(($blog->getTranslation('title',languageCheck()))),
-                    'meta_description'  => $blog->getTranslation('meta_description',languageCheck()) != ''? strip_tags($blog->getTranslation('meta_description',languageCheck())) : substr(strip_tags($blog->getTranslation('description',languageCheck())), 0,250),
-                    'meta_keywords'     => $blog->getTranslation('meta_keyword',languageCheck()),
-                    'meta_image'        => getFileLink('320x320', $blog->image),
-                    'meta_published_time' => $blog->created_at,
-                    'meta_section'      => 'Blog Details',
-                    'meta_url'          => url()->current(),
-                ];
-            }
-
-            else{
-                $meta_data = [
-                    'meta_title' => strtok(env('APP_NAME', 'Yoori - Ecommerce CMS Platform'), " "),
-                    'meta_description' => env('APP_NAME', 'Yoori - Ecommerce CMS Platform'),
-                    'meta_image' => getFileLink('320x320', $blog->image),
-                    'meta_keywords' => strtok(env('APP_NAME', 'Yoori - Ecommerce CMS Platform'), " ").', e-commerce',
-                    'meta_published_time' => date('Y-m-d H:i:s'),
-                    'meta_section' => 'Home Section',
-                    'meta_url' => url()->current(),
-                    'url_exception' => 1,
-                ];
-            }
-        }
-        elseif (request()->route()->getName() == 'category-by-slug' || request()->route()->getName() == 'brand-by-slug' || request()->route()->getName() == 'blog-details'){
+        elseif (request()->route()->getName() == 'category-by-slug' || request()->route()->getName() == 'brand-by-slug'){
             $slug = request()->route()->parameter('slug');
             if(request()->route()->getName() == 'category-by-slug'){
                 $details = $category->category($slug);

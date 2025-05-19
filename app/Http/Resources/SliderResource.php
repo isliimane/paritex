@@ -22,13 +22,6 @@ class   SliderResource extends JsonResource
         {
             $data['title'] = $this->brand->getTranslation('title',apiLanguage($request->lang));
         }
-        if($this->action_type == 'blog')
-        {
-            $data['title']                                  = $this->blog->getTranslation('title',apiLanguage($request->lang));
-            $data['url']                                    = route('api.post.details',$this->blog->id);
-//            $data['description']                          = $this->blog->getTranslation('long_description',apiLanguage($request->lang));
-            $data['background_image']                       = $this->blog->banner_img;
-        }
         return $data;
     }
 }

@@ -116,17 +116,6 @@ class UserSeeder extends Seeder
             'product_restore',
             'product_clone',
 
-            'blog_create',
-            'blog_read',
-            'blog_update',
-            'blog_delete',
-            'blog_restore',
-
-            'blog_category_create',
-            'blog_category_read',
-            'blog_category_update',
-            'blog_category_delete',
-
             'support_create',
             'support_read',
             'support_update',

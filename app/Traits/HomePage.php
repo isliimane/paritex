@@ -2,7 +2,6 @@
 
 namespace App\Traits;
 
-use App\Http\Resources\SiteResource\BlogResource;
 use App\Http\Resources\SiteResource\BrandResource;
 use App\Http\Resources\SiteResource\CampaignResource;
 use App\Http\Resources\SiteResource\ProductResource;
@@ -176,17 +175,6 @@ trait HomePage
                             $results = $this->keyDefine('offer_ending_banner', $key, $offer_end_sec_banner, $results);
                             $results = $this->keyDefine('offer_ending_banner_url', $key, $offer_end_sec_banner_url, $results);
                             $keys[] = 'offer_ending';
-                        }
-                        if ($set_key == 'latest_news') {
-                            $component_names[]=$set_key;
-                            if (in_array('blog', $keys)) {
-                                $position = array_search('blog', array_values($keys));
-                                $blogs = $results['blog-' . $position];
-                            } else {
-                                $blogs = BlogResource::collection($this->blog->homePageBlogs());
-                            }
-                            $results = $this->keyDefine('blog', $key, $blogs, $results);
-                            $keys[] = 'blog';
                         }
                         if ($set_key == 'popular_brands') {
                             $component_names[]=$set_key;

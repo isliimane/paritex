@@ -121,28 +121,6 @@ class RepositoryServiceProvider extends ServiceProvider{
             'App\Repositories\Admin\CurrencyRepository'
         );
 
-        //Blog
-        $this->app->bind(
-            'App\Repositories\Interfaces\Admin\Blog\BlogInterface',
-            'App\Repositories\Admin\Blog\BlogRepository'
-        );
-
-        //Blog Language
-        $this->app->bind(
-            'App\Repositories\Interfaces\Admin\Blog\BlogLanguageInterface',
-            'App\Repositories\Admin\Blog\BlogLanguageRepository'
-        );
-
-        //Blog Category
-        $this->app->bind(
-            'App\Repositories\Interfaces\Admin\Blog\BlogCategoryInterface',
-            'App\Repositories\Admin\Blog\BlogCategoryRepository'
-        );
-        //Blog Category
-        $this->app->bind(
-            'App\Repositories\Interfaces\Admin\Blog\BlogCategoryLanguageInterface',
-            'App\Repositories\Admin\Blog\BlogCategoryLanguageRepository'
-        );
         //Theme Options
         $this->app->bind(
             'App\Repositories\Interfaces\Admin\StoreFront\ThemeOptionsInterface',

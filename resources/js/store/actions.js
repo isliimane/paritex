@@ -1,14 +1,4 @@
 export default {
-    blogDetails(context, slug) {
-        let url = context.state.url + '/home/blog-details/' + slug;
-        axios.get(url).then((response) => {
-            context.commit("blogDetails", response.data.blog);
-            context.commit("getBlogCategories", response.data.categories);
-            context.commit("getBlogTags", response.data.tags);
-            context.commit("getRecentPosts", response.data.recent_posts);
-            context.commit("getBlogComments", response.data.comments);
-        })
-    },
     contactPage(context) {
         let url = context.state.url + '/home/contact-page';
         axios.get(url).then((response) => {

@@ -95,7 +95,6 @@
                                                                         <option value="product" {{ arrayCheck('action_type',$banner_contetns) && arrayCheck($key,$banner_contetns['action_type']) && $banner_contetns['action_type'][$key] == 'product' ? 'selected' : '' }}>{{__('Product')}}</option>
                                                                         <option value="category" {{ arrayCheck('action_type',$banner_contetns) && arrayCheck($key,$banner_contetns['action_type']) && $banner_contetns['action_type'][$key] == 'category' ? 'selected' : '' }}>{{__('Category')}}</option>
                                                                         <option value="brand" {{ arrayCheck('action_type',$banner_contetns) && arrayCheck($key,$banner_contetns['action_type']) && $banner_contetns['action_type'][$key] == 'brand' ? 'selected' : '' }}>{{__('Brand')}}</option>
-                                                                        <option value="blog" {{ arrayCheck('action_type',$banner_contetns) && arrayCheck($key,$banner_contetns['action_type']) && $banner_contetns['action_type'][$key] == 'blog' ? 'selected' : '' }}>{{__('Blog')}}</option>
                                                                         {{--                                                                        <option value="url" {{ isset($banner_contetns['action_type'][$key]) && $banner_contetns['action_type'][$key] == 'url' ? 'selected' : '' }}>{{__('URL')}}</option>--}}
                                                                     </select>
                                                                 </div>
@@ -146,26 +145,6 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div class="blogDiv" id="blog_{{ $content_count }}" style="
-                                                            {{ arrayCheck('action_type',$banner_contetns) && arrayCheck($key,$banner_contetns['action_type']) && $banner_contetns['action_type'][$key] == 'blog' ? '' : 'display:none' }}">
-                                                                <div class="form-group">
-                                                                    <label>{{ __('Action To') }}</label>
-                                                                    <select class="filter-blogs-by-ajax_{{ $content_count }} form-control"
-                                                                            name="blog_id_{{ $content_count }}[{{ $key }}]"
-                                                                            aria-hidden="true" id="blog_id">
-                                                                        @if(arrayCheck('action_to',$banner_contetns) && arrayCheck($key,$banner_contetns['action_to'][$key]))
-                                                                            @php
-                                                                                $blog = \App\Models\Blog::find($banner_contetns['action_to'][$key][$key]);
-                                                                            @endphp
-
-                                                                            @if($blog)
-                                                                                <option value="{{ $blog->id }}"
-                                                                                        selected>{{ $blog->getTranslation('title',app()->getLocale()) }}</option>
-                                                                            @endif
-                                                                        @endif
-                                                                    </select>
-                                                                </div>
-                                                            </div>
 
                                                             <div class="brandDiv" id="brand_{{ $content_count }}" style="{{
                                                                         arrayCheck('action_type',$banner_contetns) && arrayCheck($key,$banner_contetns['action_type']) && $banner_contetns['action_type'][$key] == 'brand' ? '' : 'display:none' }}">
@@ -277,7 +256,6 @@
                                                     <option value="product">{{__('Product')}}</option>
                                                     <option value="category">{{__('Category')}}</option>
                                                     <option value="brand">{{__('Brand')}}</option>
-                                                    <option value="blog">{{__('Blog')}}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -308,17 +286,6 @@
                                                         name="category_id_{{ $for_content }}[]" aria-hidden="true"
                                                         id="category_id_{{ $content_count }}">
                                                     <option value="">{{ __('Category') }}</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="blogDiv" id="blog_{{ $content_count }}" style="{{ old('action_type') ? (old('action_type') == 'blog' ? '' : 'display:none')
-                                                        : (isset($edit) ? ($edit->action_type == 'blog' ? '': 'display:none') : 'display:none')}}">
-                                            <div class="form-group">
-                                                <label>{{ __('Action To') }}</label>
-                                                <select class="filter-blogs-by-ajax_{{ $for_content }} form-control select2"
-                                                        name="blog_id_{{ $for_content }}[]"
-                                                        aria-hidden="true" id="blog_id">
-                                                    <option value="">{{ __('Blog') }}</option>
                                                 </select>
                                             </div>
                                         </div>

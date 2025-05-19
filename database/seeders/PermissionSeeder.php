@@ -96,8 +96,6 @@ class PermissionSeeder extends Seeder
             'campaign_product'      => ['read' => 'campaign_product_read','create'=> 'campaign_product_create','update'=> 'campaign_product_update','delete' => 'campaign_product_delete'],
             'subscriber'            => ['read' => 'subscriber_read','delete'=> 'subscriber_delete' ],
             'coupon'                => ['read' => 'coupon_read', 'create'   => 'coupon_create','update'                 => 'coupon_update', 'delete'            => 'coupon_delete'],
-            'blog'                  => ['read' => 'blog_read', 'create'=> 'blog_create', 'update' => 'blog_update', 'delete' => 'blog_delete' ,'restore'  => 'blog_restore'],
-            'blog_category'         => ['read' => 'blog_category_read', 'create' => 'blog_category_create', 'update'   => 'blog_category_update', 'delete'   => 'blog_category_delete'],
             'support'               => ['read' => 'support_read','create'        => 'support_create','update'          => 'support_update', 'delete'         => 'support_delete'],
             'support_department'    => ['read' => 'support_department_read', 'create' => 'support_department_create', 'update' => 'support_department_update','delete' => 'support_department_delete'],
             'reward_configuration'  => ['read' => 'reward_configuration_read','update' => 'reward_configuration_update','reward_setting_read' => 'reward_setting_read','reward_setting_create'=> 'reward_setting_create','reward_setting_update'=> 'reward_setting_update'],

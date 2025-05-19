@@ -1,10 +1,4 @@
 export default {
-    getBlogs(state) {
-        return state.blogs
-    },
-    getBlogDetails(state) {
-        return state.blogsDetails
-    },
     getContactPage(state) {
         return state.contact_page
     },
@@ -25,12 +19,6 @@ export default {
     },
     getCampaign(state) {
         return state.campaign
-    },
-    getBlogCategories(state) {
-        return state.blogCategories
-    },
-    getBlogTags(state) {
-        return state.blogTags
     },
     getShopCategories(state) {
         return state.shop_categories;
@@ -56,9 +44,6 @@ export default {
 
     getReplyForm(state) {
         return state.reply_form;
-    },
-    getBlogComments(state) {
-        return state.blog_comments;
     },
     getPageData(state) {
         return state.get_page_data;

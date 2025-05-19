@@ -1,7 +1,5 @@
 export default {
     state: {
-        blogs: {},
-        blogsDetails: {},
         contact_page: {},
         complaint_page: {},
         all_campaigns: {},
@@ -14,12 +12,6 @@ export default {
         daily_deals : {},
     },
     getters: {
-        getBlogs(state) {
-            return state.blogs;
-        },
-        getBlogDetails(state) {
-            return state.blogsDetails;
-        },
         getContactPage(state) {
             return state.contact_page;
         },
@@ -52,18 +44,6 @@ export default {
         },
     },
     actions: {
-        blogs(context) {
-            let url = this.state.url + '/home/blogs';
-            axios.get(url).then((response) => {
-                context.commit("getBlogs", response.data.blogs);
-            })
-        },
-        blogDetails(context, blogId) {
-            let url = this.state.url + '/home/blog-details/' + blogId;
-            axios.get(url).then((response) => {
-                context.commit("blogDetails", response.data);
-            })
-        },
         contactPage(context) {
             let url = this.state.url + '/home/contact-page';
             axios.get(url).then((response) => {
@@ -97,12 +77,6 @@ export default {
         },
     },
     mutations: {
-        getBlogs(state, data) {
-            return state.blogs = data;
-        },
-        blogDetails(state, data) {
-            return state.blogsDetails = data;
-        },
         getContactPage(state, data) {
             return state.contact_page = data;
         },

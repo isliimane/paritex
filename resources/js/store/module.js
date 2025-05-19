@@ -3,8 +3,6 @@ import actions from './actions';
 import mutations from './mutation';
 const getDefaultState = () => {
     return {
-        blogs: {},
-        blogsDetails: {},
         contact_page: '',
         complaint_page: '',
         all_campaigns: [],
@@ -15,8 +13,6 @@ const getDefaultState = () => {
         campaign_products: [],
         campaign_brands:[],
         campaign_store:[],
-        blogCategories:{},
-        blogTags:{},
         shop_categories : {},
         shop_brands : {},
         shop_colors : {},
@@ -26,7 +22,6 @@ const getDefaultState = () => {
         product_details: [],
         product_images: {},
         reply_form : {},
-        blog_comments : {},
         language_product : {},
         related_products : {},
         compare_list : {},

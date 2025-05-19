@@ -241,29 +241,6 @@ class CreatePermissionsTable extends Migration
                 ])
             ],
             [
-                'attribute' => 'blog',
-                'created_at' => $now,
-                'updated_at' => $now,
-                "keywords" => json_encode([
-                    'read' => "blog_read",
-                    'create' => "blog_create",
-                    'update' => "blog_update",
-                    'delete' => "blog_delete",
-                    'restore' => "blog_restore"
-                ])
-            ],
-            [
-                'attribute' => 'blog_category',
-                'created_at' => $now,
-                'updated_at' => $now,
-                "keywords" => json_encode([
-                    'read' => "blog_category_read",
-                    'create' => "blog_category_create",
-                    'update' => "blog_category_update",
-                    'delete' => "blog_category_delete"
-                ])
-            ],
-            [
                 'attribute' => 'support',
                 'created_at' => $now,
                 'updated_at' => $now,

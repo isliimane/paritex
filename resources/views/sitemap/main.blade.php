@@ -20,11 +20,6 @@
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
-    <url>
-        <loc>{{ url('') . '/blogs' }}</loc>
-        <changefreq>daily</changefreq>
-        <priority>0.9</priority>
-    </url>
     @foreach ($pages as $page)
         <url>
             <loc>{{ url('') . '/page/' . $page->link }}</loc>
@@ -37,14 +32,6 @@
         <url>
             <loc>{{ url('') . '/product/' . $product->slug }}</loc>
             <lastmod>{{ $product->created_at->tz('UTC')->toAtomString() }}</lastmod>
-            <changefreq>daily</changefreq>
-            <priority>0.9</priority>
-        </url>
-    @endforeach
-    @foreach ($blogs as $blog)
-        <url>
-            <loc>{{ url('') . '/blog/' . $blog->slug }}</loc>
-            <lastmod>{{ $blog->created_at->tz('UTC')->toAtomString() }}</lastmod>
             <changefreq>daily</changefreq>
             <priority>0.9</priority>
         </url>

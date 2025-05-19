@@ -13,7 +13,6 @@ use App\Http\Resources\SiteResource\ShopPaginateResource;
 use App\Http\Resources\SiteResource\VideoPaginateResource;
 use App\Http\Resources\SiteResource\WishlistResource;
 use App\Repositories\Admin\Page\PageRepository;
-use App\Repositories\Interfaces\Admin\Blog\BlogInterface;
 use App\Repositories\Interfaces\Admin\CurrencyInterface;
 use App\Repositories\Interfaces\Admin\LanguageInterface;
 use App\Repositories\Interfaces\Admin\Marketing\CampaignInterface;
@@ -41,13 +40,11 @@ class FrontendController extends Controller
 
     protected $product;
     protected $review;
-    protected $blog;
 
-    public function __construct(ProductInterface $product, ReviewInterface $review, BlogInterface $blog)
+    public function __construct(ProductInterface $product, ReviewInterface $review)
     {
         $this->product = $product;
         $this->review = $review;
-        $this->blog = $blog;
     }
 
     public function home(MediaInterface $media, CategoryInterface $category,ProductInterface $product, BrandInterface $brand, CampaignInterface $campaign,Request $request): \Illuminate\Http\JsonResponse

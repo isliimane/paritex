@@ -1,10 +1,4 @@
 export default {
-    getBlogs(state, data) {
-        return state.blogs = data;
-    },
-    blogDetails(state, data) {
-        return state.blogsDetails = data;
-    },
     getContactPage(state, data) {
         return state.contact_page = data;
     },
@@ -67,13 +61,6 @@ export default {
         return state.campaign_brands.push(data);
     },
 
-    getBlogCategories(state, data) {
-        return state.blogCategories = data;
-    },
-    getBlogTags(state, data) {
-        return state.blogTags = data;
-    },
-
     getDailyDeals(state, data) {
         return state.daily_deals = data;
     },
@@ -85,9 +72,6 @@ export default {
     },
     getReplyForm(state, data) {
         return state.reply_form = data;
-    },
-    getBlogComments(state, data) {
-        return state.blog_comments = data;
     },
     getPagedData(state, data) {
         return state.get_page_data = data;

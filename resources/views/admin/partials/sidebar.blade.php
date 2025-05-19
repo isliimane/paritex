@@ -300,25 +300,6 @@
             @if(hasPermission('all_page_read'))
                 <li class="@yield('other_page')"><a class="nav-link" href="{{route('other.pages')}}"><i class="bx bx-news"></i><span>{{ __('Pages') }}</span></a></li>
             @endif
-            <!-- @if(hasPermission('blog_read') || hasPermission('blog_category_read'))
-                <li class="nav-item dropdown @yield('blogs_active')">
-                    <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
-                        <i class="bx bxs-news"></i>
-                        <span>{{ __('Blog') }}</span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        @if(hasPermission('blog_read'))
-                            <li class="@yield('blog_post')"><a class="nav-link"
-                                                               href="{{ route('blogs') }}">{{ __('All Post') }}</a></li>
-                        @endif
-                        @if(hasPermission('blog_category_read'))
-                            <li class="@yield('blog_category')"><a class="nav-link"
-                                                                   href="{{ route('blogs.categories') }}">{{ __('Post Category') }}</a>
-                            </li>
-                        @endif
-                    </ul>
-                </li>
-            @endif -->
                 @if(hasPermission('support_read') || hasPermission('support_department_read'))
                     <li class="nav-item dropdown @yield('support_active')">
                         <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">

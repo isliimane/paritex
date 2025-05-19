@@ -20,7 +20,6 @@
                 {
                     productByAjax(i);
                     categoryByAjax(i);
-                    blogAjax(i);
                 }
             }
         }
@@ -98,15 +97,6 @@
             getContent(type, div_area, content_number, for_content)
 
         });
-        /*$(document).on('change','.action_type',function (){
-            let is_mobile = $('.mobile_home').val();
-            let count = $(this).data('count');
-            if(is_mobile == 1){
-                categoryByAjax(count);
-                blogAjax(count);
-            }
-        });*/
-
         $(document).on('click', '.remove-menu-row', function (e){
            e.preventDefault();
            var type = $(this).attr('data-type');
@@ -224,7 +214,6 @@
                     });
                     $('body, html').animate({scrollTop: $('.' + newlyAdded).offset().top}, 1000);
                     categoryByAjax(content_number);
-                    blogAjax(content_number);
                     /*else {
                         $('.select2').select2();
                     }*/

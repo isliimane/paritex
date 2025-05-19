@@ -501,16 +501,6 @@ label.upload-image {
 	overflow-y: auto;
 }
 
-.blog-detail {
-	height: 300px;
-	width: 835px;
-}
-
-.blog-detail-topbar {
-	height: 10px;
-	width: 100px;
-}
-
 .simmer_div {
 	display: inline-block;
 }
@@ -1682,10 +1672,6 @@ img.shimmer.de-margin {
 	padding-bottom: 15px;
 }
 
-.sg-blog-section .VueCarousel-slide {
-	padding-right: 10px;
-}
-
 .campaign-section .VueCarousel-slide,
 .sg-brand-shop .VueCarousel-slide,
 .sg-feature-shop .VueCarousel-slide,
@@ -1828,10 +1814,6 @@ section.categories-section.top .VueCarousel-slide a:last-child {
 
 .category-slider.mrg-none {
 	margin-left: unset;
-}
-
-.blog-pad {
-	padding-right: 10px;
 }
 
 .shop-pad {

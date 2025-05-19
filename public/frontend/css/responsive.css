@@ -358,9 +358,7 @@
 		max-width: 50%;
 		margin-bottom: 0;
 	}
-	.sg-blog-section.list-view-tab .col-lg-3 {
-		width: 100%;
-	}
+	
 	/* section.sg-seller-product .list-view-tab .seller-product-grid-view {
     width: 40%;
 	} */
@@ -879,9 +877,6 @@
 		width: 220px;
 	}
 	.track-order {
-		width: 100%;
-	}
-	.sg-blog-section.list-view-tab .col-lg-3 {
 		width: 100%;
 	}
 	.daily-deals .list-view-tab .grid-6 > li,
@@ -1418,21 +1413,13 @@
 		margin-right: 0;
 		margin-bottom: 0;
 	}
-	.blog-header.justify-content-between {
-		display: block !important;
-	}
+	
 	.sg-sitebar {
 		margin-bottom: 30px;
 	}
 	blockquote {
 		padding: 0;
 		margin-bottom: 20px;
-	}
-	.blog-list li {
-		padding-left: 20px;
-	}
-	.blog-list li::before {
-		left: 5px;
 	}
 	.sg-category-content.sg-filter .d-flex.justify-content-between {
 		display: block !important;
@@ -1491,9 +1478,6 @@
 	section.brand-section .slick-list,
 	section.categories-section .slick-list {
 		margin-right: -15px;
-	}
-	section.sg-blog-section .slick-list {
-		margin-right: -10px;
 	}
 	.yoori--cookies {
 		display: none;
@@ -1903,9 +1887,6 @@
 	.list-view-tab .post {
 		display: block;
 	}
-	.blog-details .entry-title {
-		font-size: 16px;
-	}
 	.sg-category-content .sg-countdown {
 		min-width: 200px;
 	}
@@ -1926,16 +1907,11 @@
 	.products-details-info .sg-countdown ul li {
 		padding: 8px 15px;
 	}
-	.blog-header .right-content {
-		justify-content: space-between;
-	}
+	
 	.filter-tabs {
 		display: none;
 	}
-	.blog-header .sg-search {
-		width: 100%;
-	}
-
+	
 	/* 05-06-22 */
 	.video--thumb {
 		max-width: 295px;
@@ -2148,27 +2124,9 @@
 		font-size: 14px;
 		margin-bottom: 0;
 	}
-	.title.blog-header h1 {
-		margin-bottom: 15px;
-	}
-	.title.blog-header {
-		border-bottom: 0;
-	}
+	
 	.title a {
 		font-size: 12px;
-	}
-	.blog-header .right-content {
-		display: block;
-	}
-	.blog-header .right-content .select {
-		margin-bottom: 20px;
-	}
-	.blog-header .right-content .d-flex {
-		justify-content: space-between;
-	}
-	.blog-header .sg-search {
-		margin-inline-start: 0;
-		margin-top: 15px;
 	}
 	.comment-list .children {
 		margin-left: 15px;

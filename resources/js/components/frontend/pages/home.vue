@@ -15,7 +15,6 @@
                  :best_selling_product="componentName == 'best_selling_product' && homeResults[index] ? homeResults[index].data : []"
                  :offer_ending_products="componentName == 'offer_ending' && homeResults[index] ? homeResults[index].data : []"
                  :custom_products="componentName == 'custom_products' && homeResults[index] ? homeResults[index].data : []"
-                 :blogs="componentName == 'blog' && homeResults[index] ? homeResults[index].data : []"
                  :brands="componentName == 'brands' && homeResults[index] ? homeResults[index].data :[] "
                  :download_section="componentName == 'download_section' && homeResults[index] ? homeResults[index].data : [] "
                  :category_sec_banner="componentName == 'gadget_product' && homeResults[index] ? homeResults[index].banner : null "
@@ -46,7 +45,6 @@ import custom_products from "../homepage/custom_product";
 import gadget_product from "../homepage/gadget_product";
 import best_selling_product from "../homepage/best_selling_product";
 import offer_ending from "../homepage/offer_ending";
-import blog from "../homepage/blog";
 import viewed_product from "../homepage/viewed_product";
 import subscribe from "../homepage/subscribe";
 import deal from "../homepage/article";
@@ -78,7 +76,6 @@ export default {
     gadget_product: gadget_product,
     best_selling_product: best_selling_product,
     offer_ending: offer_ending,
-    blog: blog,
     custom_products: custom_products,
     viewed_product: viewed_product,
     subscribe: subscribe,
@@ -181,10 +178,6 @@ export default {
               this.supportedComponents.push('offer_ending');
           }
 
-          if (keys[i] == "latest_news") {
-              this.results.push({key: 'blog', data: {}});
-              this.supportedComponents.push('blog');
-          }
           if (keys[i] == "popular_brands") {
               this.results.push({key: 'brands', data: {}});
               this.supportedComponents.push('brands');
@@ -284,11 +277,6 @@ export default {
         }
         if (component[0] == 'offer_ending') {
           this.dataReplace('offer_ending', home_component);
-          this.scroll_continue = true;
-          this.scroller_key++;
-        }
-        if (component[0] == 'blog') {
-          this.dataReplace('blog', home_component[components[i]]);
           this.scroll_continue = true;
           this.scroller_key++;
         }

@@ -1,7 +1,7 @@
 @extends('admin.partials.master')
 
 @section('title')
-    {{ __('Blog Categories') }}
+    {{ __('Support Department') }}
 @endsection
 @section('support_active')
     active

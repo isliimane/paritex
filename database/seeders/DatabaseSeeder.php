@@ -13,7 +13,6 @@ use App\Models\PickupHub;
 use App\Models\Subscriber;
 use App\Models\TicketReplay;
 use App\Models\RewardDetails;
-use Database\Seeders\Admin\BlogSeeder;
 use Database\Seeders\Product\ProductLanguageSeeder;
 use Database\Seeders\Product\ProductSeeder;
 use Database\Seeders\Product\ProductStockSeeder;
@@ -32,7 +31,6 @@ use Database\Seeders\Admin\LanguageSeeder;
 use Database\Seeders\Admin\SettingsSeeder;
 use Database\Seeders\Admin\TimeZoneSeeder;
 use Database\Seeders\Admin\AttributeSeeder;
-use Database\Seeders\Admin\BlogCategorySeeder;
 use Database\Seeders\Admin\LanguageConfigSeeder;
 use Cartalyst\Sentinel\Laravel\Facades\Activation;
 use Database\Seeders\Admin\Addon\OtpSmsTemplateSeeder;
@@ -63,7 +61,6 @@ class DatabaseSeeder extends Seeder
       //  $this->call(AttributeSeeder::class);
       //  $this->call(BrandSeeder::class);
 //        $this->call(CategorySeeder::class);
-//        $this->call(BlogCategorySeeder::class);
 //        $this->call(SupportDepartmentSeeder::class);
         $this->call(PageSeeder::class);
 //        $this->call(CouponSeeder::class);
@@ -73,8 +70,6 @@ class DatabaseSeeder extends Seeder
 //        $this->call(CampaignSeeder::class);
 //        $this->call(ProductSeeder::class);
 //        $this->call(ProductLanguageSeeder::class);
-//        $this->call(BlogSeeder::class);
-//        $this->call(BlogLanguageSeeder::class);
 //        $this->call(ProductStockSeeder::class);
 //        $this->call(AddonSeeder::class);
         //factory
@@ -107,7 +102,6 @@ class DatabaseSeeder extends Seeder
 //        }
 
 //        Coupon::factory(1)->create();
-//        Blog::factory(10)->create();
 //        PickupHub::factory(3)->create();
 //        PickupHubLanguage::factory(3)->create();
 

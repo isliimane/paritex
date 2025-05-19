@@ -12,7 +12,6 @@ use App\Http\Resources\SiteResource\ViewedProductResource;
 use App\Models\Currency;
 use App\Models\Media;
 use App\Repositories\Interfaces\Admin\AddonInterface;
-use App\Repositories\Interfaces\Admin\Blog\BlogInterface;
 use App\Repositories\Interfaces\Admin\CurrencyInterface;
 use App\Repositories\Interfaces\Admin\LanguageInterface;
 use App\Repositories\Interfaces\Admin\Page\PageInterface;
@@ -41,7 +40,7 @@ class HomeController extends Controller
     use HomePage, MetaGeneratorTrait, ResetPasswordTrait, ImageTrait, ApiReturnFormatTrait;
 
     public function index(LanguageInterface $language, CurrencyInterface $currency, WishlistInterface $wishlist, CartInterface $cart, CategoryInterface $category, SliderInterface $slider, BannerInterface $banner,
-                          ServiceInterface  $service, ProductInterface $product, BlogInterface $blog, BrandInterface $brand, AddonInterface $addon, PageInterface $page, $email = null, $resetCode = null)
+                          ServiceInterface  $service, ProductInterface $product, BrandInterface $brand, AddonInterface $addon, PageInterface $page, $email = null, $resetCode = null)
     {
 ///Si l'application est en mode application et que l'utilisateur est connecté, il est redirigé vers son tableau de bord.
         if (isAppMode()) {
@@ -61,7 +60,7 @@ class HomeController extends Controller
                 $this->resetPassword($email, $resetCode);
             }
 
-            $meta = $this->generateMeta($product, $blog, $category, $brand);
+            $meta = $this->generateMeta($product, $category, $brand);
 
             if (array_key_exists('url_exception', $meta) && $meta['url_exception'] == 1) {
                 return redirect('page-not-found');
@@ -193,7 +192,6 @@ class HomeController extends Controller
             'subscription_section' => settingHelper('show_subscription_section'),
             'copyright' => settingHelper('copyright', languageCheck()),
             'about_description' => settingHelper('about_description', languageCheck()),
-            'article_section' => settingHelper('show_blog_section'),
             'recent_viewed' => settingHelper('show_recent_viewed_products'),
             'category_Section' => settingHelper('show_categories_section'),
             'article' => settingHelper('home_page_article'),

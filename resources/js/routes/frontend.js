@@ -3,10 +3,6 @@ const home = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/home');
 const about = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/about');
-const allBlogs = () => import(/* webpackPrefetch: true */
-    '../components/frontend/pages/blogs');
-const blogDetails = () => import(/* webpackPrefetch: true */
-    '../components/frontend/pages/blog_details');
 const brands = () => import(/* webpackPrefetch: true */
     '../components/frontend/pages/brands');
 const campaignDetails = () => import(/* webpackPrefetch: true */
@@ -267,27 +263,6 @@ export const routes = [
                 },
                 name: 'search.product',
                 component: filterProducts
-            },
-            {
-                path: '/blogs',
-                name: 'blogs',
-                component: allBlogs,
-                meta: {
-                    title: 'All Blogs'
-                }
-            },
-            {
-                path: '/category-blogs/:slug',
-                name: 'category.blogs',
-                component: allBlogs
-            },
-            {
-                path: '/blog/:slug',
-                name: 'blog.details',
-                component: blogDetails,
-                meta: {
-                    title: 'Blog Details'
-                }
             },
             {
                 path: '/cart',

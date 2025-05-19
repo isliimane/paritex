@@ -50,10 +50,7 @@ class SliderRepository implements SliderInterface {
                     $request['link'] = $request['category_id'];
                 }else if(array_key_exists('brand_id',$request) && $request['action_type'] == 'brand'){
                     $request['link'] = $request['brand_id'];
-                }else if(array_key_exists('blog_id',$request) && $request['action_type'] == 'blog'){
-                    $request['link'] = $request['blog_id'];
-                }
-                else if(array_key_exists('slider_url',$request) && $request['action_type'] == 'url'){
+                }else if(array_key_exists('slider_url',$request) && $request['action_type'] == 'url'){
                     $request['link'] = $request['slider_url'];
                 }
             endif;
@@ -85,10 +82,7 @@ class SliderRepository implements SliderInterface {
                     $request['link'] = $request['category_id'];
                 }else if(array_key_exists('brand_id',$request) && $request['action_type'] == 'brand'){
                     $request['link'] = $request['brand_id'];
-                }else if(array_key_exists('blog_id',$request) && $request['action_type'] == 'blog'){
-                    $request['link'] = $request['blog_id'];
-                }
-                else if(array_key_exists('slider_url',$request) && $request['action_type'] == 'url'){
+                }else if(array_key_exists('slider_url',$request) && $request['action_type'] == 'url'){
                     $request['link'] = $request['slider_url'];
                 }
             endif;

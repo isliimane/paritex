@@ -10,7 +10,6 @@ use App\Http\Controllers\Admin\RegisterController;
 use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\WalletController;
 use App\Http\Controllers\Site\AddressController;
-use App\Http\Controllers\Site\BlogController;
 use App\Http\Controllers\Site\CartController;
 use App\Http\Controllers\Site\CompareController;
 use App\Http\Controllers\Site\FrontendController;
@@ -151,14 +150,12 @@ Route::middleware(['XSS', 'isInstalled'])->group(function () {
     //vue js redirect by laravel route
     Route::get('/{anypath}', [HomeController::class, 'index'])->where('path', '*')->name('home.page');
     Route::get('user/{anypath}', [HomeController::class, 'index'])->where('path', '*')->middleware('loginCheck');
-    Route::get('/blog/{slug}', [HomeController::class, 'index'])->where('path', '*')->name('blog-details');
     Route::get('/campaign/{slug}', [HomeController::class, 'index'])->where('path', '*')->name('campaign.details');
     Route::get('/category/{slug}', [HomeController::class, 'index'])->where('path', '*')->name('category-by-slug');
     Route::get('/best-selling/products', [HomeController::class, 'index'])->where('path', '*')->name('best.selling.products.list');
     Route::get('/offer/products', [HomeController::class, 'index'])->where('path', '*')->name('offer.products.list');
     Route::get('/brand/{slug}', [HomeController::class, 'index'])->where('path', '*')->name('brand-by-slug');
     Route::get('/gadget-products/{slug}', [HomeController::class, 'index'])->where('path', '*')->name('category-by-slug.gadget');
-    Route::get('/category-blogs/{slug}', [HomeController::class, 'index'])->where('path', '*')->name('category.blogs');
     Route::get('/product/{slug}', [HomeController::class, 'index'])->where('path', '*')->name('product-details');
     Route::get('/get-invoice/{code}', [HomeController::class, 'index'])->where('path', '*')->name('get.invoice');
     Route::get('/product-by-search/{searchKey}', [HomeController::class, 'index'])->where('path', '*')->name('product.by.search');
@@ -195,16 +192,6 @@ Route::middleware(['XSS', 'isInstalled'])->group(function () {
     Route::get('home/remove-compare_product/{id}', [CompareController::class, 'removeCompareProduct'])->name('product.remove.compareList');
     Route::get('home/add-to-compare/{id}', [CompareController::class, 'addToCompare'])->name('product.addToCompare');
 
-    Route::get('/home/blogs', [BlogController::class, 'blogs'])->name('front.blogs');
-    Route::get('/home/blog-details/{slug}', [BlogController::class, 'blogDetails'])->name('blog.details');
-    Route::post('/store/blog-comment', [BlogController::class, 'storeComment'])->name('blog.comment');
-    Route::post('store/blog-comment-reply', [BlogController::class, 'storeCommentReply'])->name('blog.comment.reply');
-    Route::get('load/blog-comments/{id}', [BlogController::class, 'loadBlogComments'])->name('blog.comments');
-    Route::get('load/blog-categories', [BlogController::class, 'loadBlogCategories'])->name('blog.categories');
-    Route::post('blog/like-comments', [BlogController::class, 'likeBlogComments'])->name('blog.like.comments');
-    Route::post('blog/unlike-comments', [BlogController::class, 'unlikeBlogComments'])->name('blog.unlike.comments');
-    Route::post('blog/like-reply', [BlogController::class, 'likeBlogReply'])->name('blog.like.reply');
-    Route::post('blog/unlike-reply', [BlogController::class, 'unlikeBlogReply'])->name('blog.unlike.reply');
     Route::post('track-order', [FrontendController::class, 'trackOrder'])->name('track.order');
     Route::get('home/brands', [FrontendController::class, 'brands'])->name('brands.all');
     Route::get('home/offer-products', [ProductController::class, 'productByOffer'])->name('offer.products');
@@ -280,7 +267,6 @@ Route::middleware(['XSS', 'isInstalled'])->group(function () {
     Route::group(['prefix' => 'sitemap'], function () {
 
         Route::get('products.xml', [SitemapController::class, 'products'])->name('products.sitemap');
-        Route::get('blogs.xml', [SitemapController::class, 'blogs'])->name('blogs.sitemap');
         Route::get('categories.xml', [SitemapController::class, 'categories'])->name('categories.sitemap');
         Route::get('brands.xml', [SitemapController::class, 'brands'])->name('brands.sitemap');
         Route::get('pages.xml', [SitemapController::class, 'pages'])->name('pages.sitemap');

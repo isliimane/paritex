@@ -16,7 +16,7 @@
                     <div class="alert alert-light alert-has-icon p-0 mb-0">
                         <div class="alert-icon pl-2"><i class="bx bx-bulb"></i></div>
                         <small id="passwordHelpBlock" class="form-text">
-                            {{__('If you want to use others web link like (https://www.google.com/maps,https://www.facebook.com/profile) then insert link, otherwise insert just slug ("/all-blogs")')}}
+                            {{__('If you want to use others web link like (https://www.google.com/maps,https://www.facebook.com/profile) then insert link, otherwise insert just slug ("/products")')}}
                         </small>
                     </div>
                 </div>
@@ -252,15 +252,6 @@
                                                class="custom-switch-input">
                                         <span class="custom-switch-indicator"></span>
                                         <span class="custom-switch-description">{{ __('Subscription Section') }}</span>
-                                    </label>
-                                </div>
-                                <div class="form-group row mt-2">
-                                    <label class="custom-switch">
-                                        <input type="checkbox" value="1" name="show_blog_section"
-                                               {{ settingHelper('show_blog_section') == 1 ? 'checked' :  '' }}
-                                               class="custom-switch-input">
-                                        <span class="custom-switch-indicator"></span>
-                                        <span class="custom-switch-description">{{ __('Article') }}</span>
                                     </label>
                                 </div>
                                 <div class="form-group row mt-2">

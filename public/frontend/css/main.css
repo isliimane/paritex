@@ -7105,9 +7105,6 @@ h1.entry-title {
 	display: flex;
 }
 
-.sg-blog-section.list-view-tab .col-lg-3 {
-	width: 50%;
-}
 
 .list-view-tab .entry-thumbnail {
 	min-width: 280px;
@@ -7215,56 +7212,10 @@ blockquote span {
 	line-height: 20px;
 }
 
-.blog-details .post {
-	margin-bottom: 0;
-	border: 0;
-}
-
-.blog-details .entry-header {
-	margin-bottom: 30px;
-}
-
-.blog-details .entry-title {
-	font-size: 20px;
-}
-
-.blog-details .entry-content {
-	border: 0;
-	padding: 0;
-}
-
-.blog-details .entry-content p {
-	color: #666;
-	line-height: 30px;
-	margin-bottom: 30px;
-}
-
 .entry-content h4 {
 	font-size: 16px;
 	margin-bottom: 20px;
 	color: var(--theme-color);
-}
-
-.blog-list {
-	margin-bottom: 30px;
-}
-
-.blog-list li {
-	margin-bottom: 10px;
-	position: relative;
-	padding-left: 65px;
-	color: #666;
-}
-
-.blog-list li:before {
-	position: absolute;
-	content: "";
-	left: 45px;
-	top: 8px;
-	width: 7px;
-	height: 7px;
-	background-color: #000;
-	border-radius: 100%;
 }
 
 .inner-thumb {
@@ -7385,11 +7336,6 @@ blockquote span {
 	padding: 0.475rem 0.75rem;
 }
 
-.blog-header .right-content {
-	display: flex;
-	justify-content: space-between;
-}
-
 .sg-seller-product .right-content .d-flex span.me-3 {
 	padding: 0 0 0 40px;
 	width: 78%;
@@ -7406,36 +7352,6 @@ blockquote span {
 	background-position: right 9px center;
 }
 
-.blog-header .form-control {
-	margin-bottom: 0;
-	height: 43px;
-}
-
-.blog-header .sg-search {
-	margin-inline-start: 10px;
-	min-width: 300px;
-}
-
-.blog-header .title h1 {
-	align-self: center;
-}
-
-.blog-header form {
-	position: relative;
-}
-
-.blog-header form button {
-	position: absolute;
-	top: -1px;
-	right: -1px;
-	border: 0;
-	height: 100%;
-	color: #fff;
-	width: 45px;
-	font-size: 20px;
-	border-radius: 0px 4px 4px 0px;
-	background-color: var(--theme-color);
-}
 
 /* recent-product */
 
@@ -9023,7 +8939,6 @@ section.sg-seller-product .list-view-tab .seller-product-grid-view {
 	display: none;
 }
 
-section.sg-blog-section .slick-list,
 section.brand-section .slick-list,
 section.categories-section .slick-list,
 section.products-section .slick-list {

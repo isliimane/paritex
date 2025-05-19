@@ -11,7 +11,6 @@ use App\Models\ServiceLanguage;
 use App\Models\Wishlist;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
-use App\Models\Blog;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\PickupHub;
@@ -24,7 +23,6 @@ use App\Models\CampaignLanguage;
 use App\Models\CategoryLanguage;
 use App\Models\PickupHubLanguage;
 use App\Models\SupportDepartment;
-use App\Models\BlogCategoryLanguage;
 use App\Models\SupportDepartmentLanguages;
 use App\Repositories\Interfaces\UserInterface;
 use App\Repositories\Interfaces\Admin\CommonInterface;
@@ -60,21 +58,9 @@ class CommonRepository implements CommonInterface{
             elseif($table == 'categories'):
                 CategoryLanguage::where('category_id',$id)->delete();
                 DB::table($table)->delete($id);
-            elseif($table == 'blog_categories'):
-                BlogCategoryLanguage::where('blog_category_id',$id)->delete();
-                DB::table($table)->delete($id);
             elseif($table == 'pages'):
                 PageLanguage::where('page_id',$id)->delete();
                 DB::table($table)->delete($id);
-            elseif($table == 'blogs'):
-                $blog = Blog::withTrashed()->find($id);
-                if($blog->status == 'trash'):
-                    $blog->forceDelete();
-                else:
-                    $blog->status = 'trash';
-                    $blog->save();
-                    Blog::find($id)->delete();
-                endif;
             elseif($table == 'products'):
                 $product = Product::withTrashed()->find($id);
                 Wishlist::where('product_id',$id)->delete();

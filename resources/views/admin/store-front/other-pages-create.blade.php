@@ -44,7 +44,7 @@
                                     <div class="alert alert-light alert-has-icon p-0 mb-0">
                                         <div class="alert-icon pl-2"><i class="bx bx-bulb"></i></div>
                                         <small id="passwordHelpBlock" class="form-text">
-                                            {{__('If you want to use others web link like (https://www.google.com/maps,https:/, www.facebook.com/profile) then insert link, otherwise insert just slug ("blogs,products,brands")')}}
+                                            {{__('If you want to use others web link like (https://www.google.com/maps,https:/, www.facebook.com/profile) then insert link, otherwise insert just slug ("products,brands")')}}
                                         </small>
                                     </div>
                                 </div>

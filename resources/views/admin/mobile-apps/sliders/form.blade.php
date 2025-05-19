@@ -44,7 +44,6 @@
                                             <option value="product" {{ isset($edit) ?($edit->action_type == 'product' ? 'selected' : '') : ''}}>{{__('Product')}}</option>
                                             <option value="category" {{ isset($edit) ?($edit->action_type == 'category' ? 'selected' : '') : ''}}>{{__('Category')}}</option>
                                             <option value="brand" {{ isset($edit) ?($edit->action_type == 'brand' ? 'selected' : '') : ''}}>{{__('Brand')}}</option>
-                                            <option value="blog" {{ isset($edit) ?($edit->action_type == 'blog' ? 'selected' : '') : ''}}>{{__('Blog')}}</option>
                                             <option value="url" {{ isset($edit) ?($edit->action_type == 'url' ? 'selected' : '') : ''}}>{{__('URL')}}</option>
                                         </select>
                                     </div>
@@ -91,24 +90,6 @@
                                                 @if($category)
                                                     <option value="{{ $category->id }}"
                                                             selected>{{ $category->getTranslation('title',app()->getLocale()) }}</option>
-                                                @endif
-                                            @endif
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="blogDiv" style="{{ old('action_type') ? (old('action_type') == 'blog' ? '' : 'display:none')
-                                                        : (isset($edit) ? ($edit->action_type == 'blog' ? '': 'display:none') : 'display:none')}}">
-                                    <div class="form-group">
-                                        <label for="blog">{{ __('Action To') }}</label>
-                                        <select class="filter-blogs-by-ajax form-control" name="blog_id"
-                                                aria-hidden="true" id="blog_id">
-                                            @if(isset($edit) && $edit->action_type == 'blog')
-                                                @php
-                                                    $blog = \App\Models\Blog::find($edit->link);
-                                                @endphp
-                                                @if($blog)
-                                                    <option value="{{ $blog->id }}"
-                                                            selected>{{ $blog->getTranslation('title',app()->getLocale()) }}</option>
                                                 @endif
                                             @endif
                                         </select>

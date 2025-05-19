@@ -222,7 +222,6 @@ class PageRepository implements PageInterface
         unset($request['status']);
 
         $request['show_subscription_section']       = $request->has('show_subscription_section') ? 1 : 0;
-        $request['show_blog_section']               = $request->has('show_blog_section') ? 1 : 0;
         $request['show_service_info_section']       = $request->has('show_service_info_section') ? 1 : 0;
         $request['show_recent_viewed_products']     = $request->has('show_recent_viewed_products') ? 1 : 0;
         $request['show_categories_section']         = $request->has('show_categories_section') ? 1 : 0;
@@ -283,10 +282,6 @@ class PageRepository implements PageInterface
                         if ($url == 'brand')
                         {
                             $banner_action_id = 'brand_id_' . $content_number;
-                        }
-                        if ($url == 'blog')
-                        {
-                            $banner_action_id = 'blog_id_' . $content_number;
                         }
                         if ($url == 'url')
                         {
@@ -350,7 +345,6 @@ class PageRepository implements PageInterface
         $data = new \Illuminate\Http\Request();
         $data->setMethod('POST');
         $data->request->add(['show_subscription_section'    => $request->has('show_subscription_section') ? 1 : 0]);
-        $data->request->add(['show_blog_section'            => $request->has('show_blog_section') ? 1 : 0]);
         $data->request->add(['show_service_info_section'    => $request->has('show_service_info_section') ? 1 : 0]);
         $data->request->add(['show_recent_viewed_products'  => $request->has('show_recent_viewed_products') ? 1 : 0]);
         $data->request->add(['show_categories_section'      => $request->has('show_categories_section') ? 1 : 0]);

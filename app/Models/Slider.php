@@ -29,10 +29,6 @@ class Slider extends Model
     {
         return $this->belongsTo(Brand::class,'link');
     }
-    public function blog()
-    {
-        return $this->belongsTo(Blog::class,'link');
-    }
 
     public function getSliderBgImageAttribute()
     {

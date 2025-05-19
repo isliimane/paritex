@@ -41,22 +41,6 @@ class AddIndexKeysToTables extends Migration
             $table->index(['color_id', 'name', 'lang']);
         });
 
-        Schema::table('blog_categories', function (Blueprint $table) {
-            $table->index(['slug', 'status']);
-        });
-
-        Schema::table('blogs', function (Blueprint $table) {
-            $table->index(['user_id', 'status']);
-        });
-
-        Schema::table('blog_languages', function (Blueprint $table) {
-            $table->index(['blog_id', 'lang']);
-        });
-
-        Schema::table('blog_category_languages', function (Blueprint $table) {
-            $table->index(['blog_category_id', 'lang']);
-        });
-
         Schema::table('products', function (Blueprint $table) {
             $table->index(['category_id', 'user_id', 'slug']);
         });

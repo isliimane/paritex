@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Blog;
 use App\Models\Page;
 use App\Models\User;
 use App\Models\Brand;
@@ -14,33 +13,26 @@ class SitemapController extends Controller
 {
     public function index(){
         $products = Product::all();
-        $blogs = Blog::all();
         $categories = Category::all();
         $brands = Brand::all();
         $pages = Page::all();
 
-        return response()->view('sitemap.main', compact('pages','products','blogs','categories', 'brands'))->header('Content-Type', 'text/xml');
+        return response()->view('sitemap.main', compact('pages','products','categories', 'brands'))->header('Content-Type', 'text/xml');
     }
 
     public function links(){
         $products = Product::all();
-        $blogs = Blog::all();
         $categories = Category::all();
         $brands = Brand::all();
         $pages = Page::all();
 
-        return response()->view('sitemap.links', compact('pages','products','blogs','categories', 'brands'));
+        return response()->view('sitemap.links', compact('pages','products','categories', 'brands'));
     }
 
     public function products()
     {
         $products = Product::all();
         return response()->view('sitemap.product-details', compact('products'))->header('Content-Type', 'text/xml');
-    }
-    public function blogs()
-    {
-        $blogs = Blog::all();
-        return response()->view('sitemap.blog', compact('blogs'))->header('Content-Type', 'text/xml');
     }
     public function categories()
     {

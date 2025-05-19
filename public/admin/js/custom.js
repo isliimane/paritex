@@ -1010,7 +1010,6 @@ jQuery(function ($) {
                 // productByAjax();
                 $(".categoryDiv").hide();
                 $(".brandDiv").hide();
-                $(".blogDiv").hide();
                 $(".urlDiv").hide();
                 $(".productDiv").show();
                 $(".otherDiv").show();
@@ -1019,14 +1018,12 @@ jQuery(function ($) {
                 $(".productDiv").hide();
                 $(".brandDiv").hide();
                 $(".urlDiv").hide();
-                $(".blogDiv").hide();
                 $(".categoryDiv").show();
                 $(".otherDiv").show();
             } else if (value == "brand") {
                 $(".productDiv").hide();
                 $(".urlDiv").hide();
                 $(".brandDiv").show();
-                $(".blogDiv").hide();
                 $(".otherDiv").show();
                 $(".categoryDiv").hide();
             } else if (value == "url") {
@@ -1034,16 +1031,7 @@ jQuery(function ($) {
                 $(".urlDiv").show();
                 $(".otherDiv").hide();
                 $(".brandDiv").hide();
-                $(".blogDiv").hide();
                 $(".categoryDiv").hide();
-            } else if (value == "blog") {
-                // blogAjax();
-                $(".productDiv").hide();
-                $(".urlDiv").hide();
-                $(".otherDiv").show();
-                $(".brandDiv").hide();
-                $(".categoryDiv").hide();
-                $(".blogDiv").show();
             }
         });
 

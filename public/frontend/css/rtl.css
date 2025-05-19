@@ -350,18 +350,6 @@ div#shipping_accordion .accordion-body .text-end {
 	max-width: 74%;
 }
 
-/* Blog pages */
-.blog-header form button {
-	left: -1px;
-	border-radius: 4px 0px 0px 4px;
-	right: auto;
-}
-.blog-header .right-content select.form-control {
-	padding: 6px 15px 6px 35px;
-}
-.sg-blog-section .slick-slider.slick-initialized {
-	margin-left: 1px;
-}
 
 /* Login and SignUp Page RTL Style */
 .form-checkbox .form-group label,
@@ -369,9 +357,6 @@ div#shipping_accordion .accordion-body .text-end {
 	text-align: right;
 }
 
-.search-form.blog-search input {
-	padding-inline: 15px 90px;
-}
 
 .sg-yoori-purchase-btn {
 	bottom: 105px;
@@ -591,9 +576,6 @@ a.a-expander-header.a-declarative.a-expander-inline-header.prodDet-heading-align
 		margin-left: 0px;
 	}
 
-	.blog-header.title h1 {
-		margin-bottom: 15px;
-	}
 	.sg-yoori-purchase-btn {
 		bottom: 140px;
 	}
@@ -668,10 +650,6 @@ a.a-expander-header.a-declarative.a-expander-inline-header.prodDet-heading-align
 		text-align: right;
 	}
 
-	.blog-header .sg-search {
-		margin-inline-start: 0;
-		margin-top: 12px;
-	}
 
 	.product-details-description .customer-reviews {
 		margin-bottom: 30px;

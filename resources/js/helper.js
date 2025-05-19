@@ -36,7 +36,6 @@ export default Vue.mixin({
             },
             errors: [],
             converted_reward: '',
-            blog_like_loading: false,
             search_products: [],
             stock: [],
             btn_disabled: false,
@@ -152,52 +151,7 @@ export default Vue.mixin({
             }
             return false;
         },
-        likeReply(id, comment_id) {
-            let data = {
-                id: id,
-                comment_id: comment_id,
-            };
-            this.blog_like_loading = true;
-
-            let url = this.getUrl('blog/like-reply');
-            axios.post(url, data).then((response) => {
-                this.blog_like_loading = false;
-                if (response.data.error) {
-                    toastr.error(response.data.error, this.lang.success);
-                } else {
-                    this.comment.comment_replies = response.data.comment.comment_replies;
-
-                    if (response.data.success) {
-                        toastr.success(response.data.success, this.lang.Success + ' !!');
-                    }
-                }
-            }).catch((error) => {
-                this.blog_like_loading = false;
-            });
-        },
-        unLike(id, comment_id) {
-            let data = {
-                id: id,
-                comment_id: comment_id,
-            };
-            this.blog_like_loading = true;
-
-            let url = this.getUrl('blog/unlike-reply');
-            axios.post(url, data).then((response) => {
-                this.blog_like_loading = false;
-                if (response.data.error) {
-                    toastr.error(response.data.error, this.lang.Error + ' !!');
-                } else {
-                    this.comment.comment_replies = response.data.comment.comment_replies;
-
-                    if (response.data.success) {
-                        toastr.success(response.data.success, this.lang.Success + ' !!');
-                    }
-                }
-            }).catch((error) => {
-                this.blog_like_loading = false;
-            });
-        },
+        
         resetForm() {
             this.product_form.rating = 0;
             this.product_form.title = '';
