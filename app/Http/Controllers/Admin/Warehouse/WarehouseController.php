@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Admin\Warehouse;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\WarehouseRequest;
+use App\Http\Requests\CreateWarehouseRequest;
+use App\Http\Requests\UpdateWarehouseRequest;
 use App\Repositories\Interfaces\Admin\LanguageInterface;
 use App\Repositories\Interfaces\Admin\Warehouse\WarehouseInterface;
 use Brian2694\Toastr\Facades\Toastr;
@@ -35,7 +36,7 @@ class WarehouseController extends Controller
         return view('admin.warehouses.index', compact('warehouses', 'staffs', 'search'));
     }
 
-    public function store(WarehouseRequest $request)
+    public function store(CreateWarehouseRequest $request)
     {
         if (config('app.demo_mode')) {
             Toastr::info(__('This function is disabled in demo server.'), __('Demo Mode'));
@@ -64,7 +65,7 @@ class WarehouseController extends Controller
         return view('admin.warehouses.edit', compact('warehouse_lang', 'languages', 'lang', 'staffs'));
     }
 
-    public function update(WarehouseRequest $request)
+    public function update(UpdateWarehouseRequest $request)
     {
         if (config('app.demo_mode')) {
             Toastr::info(__('This function is disabled in demo server.'), __('Demo Mode'));

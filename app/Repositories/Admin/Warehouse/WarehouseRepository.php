@@ -17,8 +17,8 @@ class WarehouseRepository implements WarehouseInterface
             $warehouse->code = $request->code;
             $warehouse->phone = $request->phone;
             $warehouse->user_id = $request->user_id;
-            $warehouse->number_of_shelves = $request->number_of_shelves;
-            $warehouse->columns_per_shelf = $request->columns_per_shelf;
+            // $warehouse->number_of_shelves = $request->number_of_shelves;
+            // $warehouse->columns_per_shelf = $request->columns_per_shelf;
             $warehouse->storage_capacity = $request->storage_capacity;
             $warehouse->status = 1;
             $warehouse->save();
@@ -90,8 +90,6 @@ class WarehouseRepository implements WarehouseInterface
         $warehouse->code = $request->code;
         $warehouse->phone = $request->phone;
         $warehouse->user_id = $request->user_id;
-        $warehouse->number_of_shelves = $request->number_of_shelves;
-        $warehouse->columns_per_shelf = $request->columns_per_shelf;
         $warehouse->storage_capacity = $request->storage_capacity;
         $warehouse->save();
 
