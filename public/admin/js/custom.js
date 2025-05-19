@@ -672,28 +672,11 @@ jQuery(function ($) {
             });
         });
 
-        $('.digital-product').on('click', function () {
-            if ($(this).is(':checked')) {
-                $('.shipping-days').addClass('d-none');
-                $('.digital-product-div').removeClass('d-none');
-            } else {
-                $('.shipping-days').removeClass('d-none');
-                $('.digital-product-div').addClass('d-none');
-            }
-        })
         $('.bank-payment').on('click', function () {
             if ($(this).is(':checked')) {
                 $('.bank-payment-details').removeClass('d-none');
             } else {
                 $('.bank-payment-details').addClass('d-none');
-            }
-        })
-
-        $('.catalog-product').on('click', function () {
-            if ($(this).is(':checked')) {
-                $('.external-link').removeClass('d-none');
-            } else {
-                $('.external-link').addClass('d-none');
             }
         })
 

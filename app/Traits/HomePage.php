@@ -263,7 +263,6 @@ trait HomePage
                     'tax'                   => $cart->retail_tax > 0 ? $cart->retail_tax : $cart->tax,
                     'current_stock'         => $cart->current_stock,
                     'min_quantity'          => $cart->min_quantity,
-                    'is_digital_product'    => $cart->product->is_digital,
                     'variant'               => nullCheck($cart->variant),
                     'is_buy_now'            => (bool)$cart->is_buy_now,
                 ];

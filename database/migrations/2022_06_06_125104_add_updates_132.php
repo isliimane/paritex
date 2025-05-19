@@ -29,21 +29,6 @@ class AddUpdates132 extends Migration
             $user->save();
         }
 
-        $permission = Permission::where('attribute','pos_system')->first();
-
-        if (!$permission)
-        {
-            $value = [
-                'read'                  => 'pos_order',
-                'update'                => 'pos_config_update',
-            ];
-
-            Permission::create([
-                'attribute' => "pos_system",
-                'keywords' => $value,
-            ]);
-
-        }
 
         if (config('app.demo_mode'))
         {

@@ -6,7 +6,7 @@
     active
 @endsection
 @section('title')
-    {{ __('Admin Product Sale') }}
+    {{ __('Products Sales') }}
 @endsection
 @php
     $c                = isset($_GET['c']) ? $_GET['c'] : null;
@@ -96,12 +96,12 @@
                                                         <img
                                                             src="{{ get_media($product->thumbnail['image_40x40'], $product->thumbnail['storage']) }}"
                                                             alt="{{ $product->name }}"
-                                                            class="mr-3 rounded">
+                                                            class="mr-3 rounded" width="100">
                                                     @else
                                                         <img
                                                             src="{{ static_asset('images/default/default-image-40x40.png') }}"
                                                             alt="{{ $product->getTranslation('name',\App::getLocale()) }}"
-                                                            class="mr-3 rounded">
+                                                            class="mr-3 rounded" width="100">
                                                     @endif
                                                 </div>
 

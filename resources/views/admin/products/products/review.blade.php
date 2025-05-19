@@ -35,6 +35,7 @@
                                         <th>{{ __('review_image') }}</th>
                                         <th>{{__('Rating')}}</th>
                                         <th>{{__('comment')}}</th>
+                                        <th>{{ __('Option') }}</th>
                                     </tr>
 
                                     @foreach ($reviews as $key => $review)

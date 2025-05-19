@@ -25,9 +25,6 @@
         <input type="hidden" class="confirm_btn" value="{{ __('yes_do_it') }}">
         <input type="hidden" class="product_alert_danger" value="{{ __('product_disabled') }}">
         <input type="hidden" class="product_alert_success" value="{{ __('product_enabled') }}">
-        <input type="hidden" class="package_danger" value="{{ __('package_disabled') }}">
-        <input type="hidden" class="package_success" value="{{ __('package_enabled') }}">
-        <input type="hidden" class="package_purchase_alert" value="{{ __('package_purchase_alert') }}">
         @yield('modal')
         <div class="overlayText d-none">
             <div>

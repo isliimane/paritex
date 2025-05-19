@@ -53,7 +53,6 @@
                                         <th>#</th>
                                         <th>{{ __('Order Code') }}</th>
                                         <th>{{ __('Product') }}</th>
-                                        <th>{{ __('Shop Name') }}</th>
                                         <th>{{ __('Admin Approval') }}</th>
                                         <th>{{ __('Refund Status') }}</th>
                                         <th>{{ __('Options') }}</th>
@@ -74,9 +73,6 @@
                                                     @endif
                                                 </td>
                                             @endif
-                                            <td>
-                                                {{__('admin')}} 
-                                            </td>
                                             <td class=" {{$refund->admin_approval == 'pending' ? 'text-warning' : ($refund->admin_approval == 'approved' ? 'text-success' : 'text-danger')}}">
                                                 {{ ucfirst($refund->admin_approval)}}
                                             </td>

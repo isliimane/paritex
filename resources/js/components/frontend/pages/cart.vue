@@ -68,10 +68,7 @@
                               -
                             </span>
                           </td>
-                          <td v-if="cart.is_digital_product == 1">
-                            1
-                          </td>
-                          <td width="10%" v-else>
+                          <td width="10%">
                             <div class="product-quantity">
                               <div class="quantity" data-trigger="spinner">
                                 <a class="btn pull-left" @click="cartMinus(index)"
@@ -169,7 +166,6 @@ export default {
       disable: false,
       is_shimmer: false,
       coupon_list: [],
-      shipping_classes: [],
     }
   },
   mounted() {
@@ -205,7 +201,6 @@ export default {
           this.$Progress.finish();
           let checkouts = response.data.checkouts;
           let coupons = response.data.coupons;
-          this.shipping_classes = response.data.shipping_classes;
           this.parseData(this.cartList, checkouts, coupons);
         }
       })

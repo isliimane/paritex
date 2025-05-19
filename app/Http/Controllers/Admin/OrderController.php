@@ -116,6 +116,9 @@ class OrderController extends Controller
     public function invoiceDownload($id)
     {
         try {
+            // $order  = $this->order->get($id);
+            // $order['font_name'] = $this->order->commonSetting();
+            // return view('admin.orders.invoice', compact('order'));
 
             $this->order->invoiceDownload($id);
 

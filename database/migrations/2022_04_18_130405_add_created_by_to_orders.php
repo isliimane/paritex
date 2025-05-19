@@ -19,7 +19,7 @@ class AddCreatedByToOrders extends Migration
             $table->unsignedBigInteger('created_by')->after('delivery_hero_assign_at')->nullable();
         });
 
-        DB::unprepared("ALTER TABLE `users` MODIFY COLUMN `user_type` enum('admin','staff','seller','customer','delivery_hero','walk_in')
+        DB::unprepared("ALTER TABLE `users` MODIFY COLUMN `user_type` enum('admin','staff','customer','delivery_hero','walk_in')
                         DEFAULT  'customer'");
     }
 

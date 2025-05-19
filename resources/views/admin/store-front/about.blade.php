@@ -25,18 +25,6 @@
                                         @csrf
                                         @method('put')
                                         <div class="form-group">
-                                            <div class="row gutters-sm imagecheck-margin">
-                                                <div class="col-6 col-sm-4">
-                                                    <label class="imagecheck mb-4">
-                                                        <input name="footer_theme" type="checkbox" id="footer_theme1" value="footer_theme1" class="footer_theme1 imagecheck-input"  @if(old('footer_theme') ? old('footer_theme') : settingHelper('footer_theme') == 'footer_theme1') checked @endif/>
-                                                        <div class="imagecheck-figure theme">
-                                                            <img src="{{ static_asset('images/default/footer_1.png') }}" class="imagecheck-image imagecheck-height">
-                                                        </div>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
                                             <label for="footer_logo">{{ __('Footer Logo') }} {{__('(89X33)')}}</label>
                                             <div class="form-group">
                                                 <input type="file" id="footer_logo" class="custom-file-input image_pick file-select" accept="image/*" data-image-for="footer_logo" name="footer_logo" id="customFile"

@@ -81,9 +81,7 @@ export default {
     getAllWishlists(state) {
         return state.allWishlist;
     },
-    getShop(state) {
-        return state.get_shop
-    },
+   
     getUserWishlist(state) {
         return state.wishlist_products;
     },
@@ -152,9 +150,6 @@ export default {
     },
     getRewards(state) {
         return state.rewards;
-    },
-    getOrderUrl(state) {
-        return state.order_urls;
     },
     getInvoices(state) {
         return state.invoices;

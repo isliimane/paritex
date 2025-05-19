@@ -22,7 +22,6 @@ class OrderResource extends ResourceCollection
                     'total_payable'         => $data->order->retail_total_payable > 0 ? $data->order->retail_total_payable : $data->order->total_payable,
                     'order_id'              => $data->order_id,
                     'code'                  => $data->order->code,
-                    'product_file_id'       => $data->product->product_file_id,
                     'image'                 => getFileLink('40x40',@$data->product->thumbnail),
                     'is_deleted'            => $data->order->is_deleted,
                     'payment_type'          => $data->order->payment_type,

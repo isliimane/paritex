@@ -1,7 +1,7 @@
 .daterangepicker {
   position: absolute;
   color: inherit;
-  background-color: #11b297;
+  background-color: #fff;
   border-radius: 4px;
   border: 1px solid #ddd;
   width: 278px;
@@ -16,7 +16,7 @@
   font-size: 15px;
   line-height: 1em;
 }
- 
+
 .daterangepicker:before, .daterangepicker:after {
   position: absolute;
   display: inline-block;
@@ -184,13 +184,13 @@
 }
 
 .daterangepicker td.off, .daterangepicker td.off.in-range, .daterangepicker td.off.start-date, .daterangepicker td.off.end-date {
-  background-color: #b62424;
+  background-color: #fff;
   border-color: transparent;
   color: #999;
 }
 
 .daterangepicker td.in-range {
-  background-color: #186d92;
+  background-color: #ebf4f8;
   border-color: transparent;
   color: #000;
   border-radius: 0;
@@ -244,7 +244,7 @@
 .daterangepicker select.hourselect, .daterangepicker select.minuteselect, .daterangepicker select.secondselect, .daterangepicker select.ampmselect {
   width: 50px;
   margin: 0 auto;
-  background: #ce8787;
+  background: #eee;
   border: 1px solid #eee;
   padding: 2px;
   outline: 0;
@@ -326,7 +326,7 @@
 }
 
 .daterangepicker .ranges li:hover {
-  background-color: #151c3f;
+  background-color: #eee;
 }
 
 .daterangepicker .ranges li.active {

@@ -33,6 +33,8 @@ use App\Traits\HomePage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 
+use App\Repositories\Admin\Support\SupportDepartmentRepository;
+
 class FrontendController extends Controller
 {
     use HomePage;
@@ -95,6 +97,22 @@ class FrontendController extends Controller
             ]);
         }
     }
+    public function departments(SupportDepartmentRepository $departmentRepository): \Illuminate\Http\JsonResponse
+        {
+            try {
+                $departments = $departmentRepository->all()->with('supportDepartmentLanguages')->get();
+                
+                return response()->json([
+                    'success' => true,
+                    'data' => $departments
+                ]);
+            } catch (\Exception $e) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ], 500);
+            }
+        }
 
 
     public function page(Request $request,PageRepository $pageRepository): \Illuminate\Http\JsonResponse
@@ -150,32 +168,6 @@ class FrontendController extends Controller
         try {
             $data = [
                 'products' => new ProductPaginateResource($this->product->dailyDeals($request->paginate))
-            ];
-            return response()->json($data);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage()
-            ]);
-        }
-    }
-    public function giftIdea(Request $request): \Illuminate\Http\JsonResponse
-    {
-        try {
-            $data = [
-                'products' => new ProductPaginateResource($this->product->giftIdea($request->paginate))
-            ];
-            return response()->json($data);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage()
-            ]);
-        }
-    }
-    public function businessIdea(Request $request): \Illuminate\Http\JsonResponse
-    {
-        try {
-            $data = [
-                'products' => new ProductPaginateResource($this->product->businessIdea($request->paginate))
             ];
             return response()->json($data);
         } catch (\Exception $e) {
@@ -269,6 +261,9 @@ class FrontendController extends Controller
             'email' => 'required',
             'subject' => 'required',
             'message' => 'required',
+            'support_department_id' => "required", // Added for department dropdown
+            'priority'=> "required"
+
         ]);
         try {
             $data = [

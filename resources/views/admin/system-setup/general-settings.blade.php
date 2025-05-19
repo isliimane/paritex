@@ -96,45 +96,6 @@
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <label for="purchase_code">{{ __('Purchase Code') }} *</label>
-                                            <input type="text" id="purchase_code" name="purchase_code"
-                                                   value="{{ old('purchase_code') ? old('purchase_code') : (!config('app.demo_mode') ? settingHelper('purchase_code') : '') }}"
-                                                   class="form-control" required>
-                                            @if ($errors->has('purchase_code'))
-                                                <div class="invalid-feedback">
-                                                    <p>{{ $errors->first('purchase_code') }}</p>
-                                                </div>
-                                            @endif
-                                        </div>
-                                        @php
-                                            $timezone = '';
-                                            $default_timezone = \App\Utility\AppSettingUtility::settings()->where('title','default_time_zone')->first();
-                                            if ($default_timezone && $default_timezone->timezone)
-                                            {
-                                                $timezone = $default_timezone->timezone;
-                                            }
-                                        @endphp
-                                        <div class="form-group">
-                                            <label for="default_time_zone"
-                                                   class="form-control-label">{{ __('Time Zone') }}</label>
-                                            <select class="timezone-by-ajax form-control select2" name="default_time_zone" id="default_time_zone" required>
-                                                <option value="">{{ __('Select Time Zone') }}</option>
-
-                                                @if($timezone)
-                                                <option value="{{ $timezone->timezone }}"
-                                                            selected>{{ $timezone->gmt_offset > 0 ? "(UTC +$timezone->gmt_offset)".' '.$timezone->timezone : $timezone->gmt_offset }}</option>
-                                                @endif
-
-                                            </select>
-                                            @if ($errors->has('default_time_zone'))
-                                                <div class="invalid-feedback">
-                                                    {{ $errors->first('default_time_zone') }}
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
                                             <label for="default_language">{{ __('Default Language') }}</label>
                                             <select class="form-control selectric" name="default_language"
                                                     id="default_language">

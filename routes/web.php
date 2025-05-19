@@ -95,7 +95,6 @@ Route::middleware(['XSS', 'isInstalled'])->group(function () {
             Route::get('profile-orders', [OrderController::class, 'profileOrder'])->name('user.profile');
             Route::get('order-list', [OrderController::class, 'orderList'])->name('user.order.list');
             
-            Route::get('digital-product-order-list', [OrderController::class, 'digitalProductOrders'])->name('user.digital.product.orders');
             Route::get('remove-order/{id}', [OrderController::class, 'removeOrder'])->name('remove.order');
             Route::get('cancel-order/{id}', [OrderController::class, 'cancelOrder'])->name('cancel.order');
             Route::post('product-review-store', [ProductController::class, 'storeReview'])->name('review.store');
@@ -177,14 +176,13 @@ Route::middleware(['XSS', 'isInstalled'])->group(function () {
     Route::get('sidebar/categories', [HomeController::class, 'sidebarCategories']);
     Route::get('home/contact-page', [FrontendController::class, 'contactPage'])->name('home.contact');
     Route::get('home/complaint-page', [FrontendController::class, 'complaintPage'])->name('home.complaint');
+    Route::get('home/departments', [FrontendController::class, 'departments'])->name('home.departments');
     Route::get('home/others-page/{slug}', [FrontendController::class, 'page'])->name('page');
     Route::get('home/campaign-lists', [FrontendController::class, 'campaigns'])->name('campaign.list');
     Route::get('home/campaign-products', [ProductController::class, 'campaignProducts'])->name('front.campaign.products');
     Route::get('home/campaign-brands', [ProductController::class, 'campaignBrands'])->name('campaign.brands');
     Route::get('home/categories', [FrontendController::class, 'categories'])->name('front.categories');
     Route::get('home/daily-deals', [FrontendController::class, 'dailyDeals'])->name('daily.deals');
-    Route::get('home/gift-idea', [FrontendController::class, 'giftIdea'])->name('gift.idea');
-    Route::get('home/business-idea', [FrontendController::class, 'businessIdea'])->name('business.idea');
     Route::get('checkout-page', [FrontendController::class, 'checkout'])->name('checkout.page');
     Route::get('home/product-details/{slug}', [ProductController::class, 'productDetails'])->name('product.details');
     Route::get('home/product-reviews/{id}', [ProductController::class, 'reviews'])->name('product.reviews');
@@ -275,7 +273,6 @@ Route::middleware(['XSS', 'isInstalled'])->group(function () {
     Route::get('set-default-language/{lang}', [LanguageController::class, 'setDefaultLanguage'])->name('set.default.language');
     //    Route::get('user/complete-recharge', [WalletController::Class, 'walletStore']);
     Route::match(['get', 'post'], 'user/complete-recharge', [WalletController::class, 'walletStore'])->name('wallet.complete.recharge');
-    Route::get('file-download/{product_file}', [HomeController::class, 'fileDownload'])->name('file.download')->middleware('signed');
     Route::get('change-exchange-rate/{code}', [HomeController::class, 'changeCurrencyRate'])->name('change.currency.rate');
     //
     //Report Route

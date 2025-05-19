@@ -78,7 +78,7 @@
                 <span>{{ priceFormat(productDetails.price) }} </span>
               </div>
               <div class="product-stock-delivery"
-                   v-if="productDetails.special_discount_check > 0 || (productType() && productDetails.is_digital != 1 && productDetails.stock_visibility != 'hide_stock')">
+                   v-if="productDetails.special_discount_check > 0 || (productDetails.stock_visibility != 'hide_stock')">
                 
                 <div v-if="productDetails.special_discount_check > 0" class="sg-countdown">
                   <ul class="countdown">
@@ -101,7 +101,7 @@
                   </ul>
                 </div>
                 <div
-                    v-if="productType() && productDetails.is_digital != 1 && productDetails.stock_visibility != 'hide_stock'">
+                    v-if="productDetails.stock_visibility != 'hide_stock'">
                   <div class="stock-in" v-if="stockFind().stock > 0">
                     <span class="mdi mdi-check-circle-outline"></span>
                     <div class="text-left">
@@ -171,8 +171,7 @@
                    v-html="productDetails.short_description">
               </div>
               <!-- product-offer -->
-              <div class="product-details-totalPrice product-border"
-                   v-if="productDetails.is_digital != 1 && productDetails.is_catalog != 1 && productDetails.is_classified != 1">
+              <div class="product-details-totalPrice product-border">
                 <div class="count-quantity" data-trigger="spinner">
                   <a class="btn pull-left" href="javascript:void(0);" data-spin="down" @click="cartMinus">
                     <span class="mdi mdi-name mdi-minus"></span>
@@ -183,7 +182,7 @@
                     <span class="mdi mdi-name mdi-plus"></span>
                   </a>
                 </div>
-                <div class="product-cart sg-quantity" v-if="productType()">
+                <div class="product-cart sg-quantity">
                   <div class="buttons d-flex align-items-center">
                     <a href="javascript:void(0);" class="btn btn-primary"
                        @click="addToCart(productDetails.minimum_order_quantity)">
@@ -204,7 +203,7 @@
                     </a>
                   </div>
                 </div>
-                <div class="product-cart sg-quantity custom-sg-quantity" v-if="productType()">
+                <div class="product-cart sg-quantity custom-sg-quantity">
                   <ul class="global-list d-flex">
                     <li v-if="checkCompare()">
                       <a href="javascript:void(0)" @click="removeCompare">
@@ -250,50 +249,9 @@
                 </div>
               </div>
 
-              <div v-if="productDetails.is_catalog != 1 && productDetails.is_classified == 1 && productDetails.contact_info" class="product-details-query mt-3 product-border">
-                  <p>{{ lang.contact_to_more_info }}</p>
-                  <table class="table table-bordered">
-                    <tbody>
-                    <tr v-if="productDetails.contact_info.contact_name">
-                      <td>{{ lang.name }}</td>
-                      <td>{{ productDetails.contact_info.contact_name }}</td>
-                    </tr>
-                    <tr v-if="productDetails.contact_info.phone_no">
-                      <td>{{ lang.phone }}</td>
-                      <td
-                      ><a :href="'tel' + productDetails.contact_info.phone_no">{{
-                          productDetails.contact_info.phone_no
-                        }}</a></td
-                      >
-                    </tr>
-                    <tr v-if="productDetails.contact_info.email">
-                      <td>{{ lang.email }}</td>
-                      <td
-                      ><a :href="'mailto' + productDetails.contact_info.email">{{
-                          productDetails.contact_info.email
-                        }}</a></td
-                      >
-                    </tr>
-                    <tr v-if="productDetails.contact_info.address">
-                      <td>{{ lang.address }}</td>
-                      <td>{{ productDetails.contact_info.address }}</td>
-                    </tr>
-                    <tr v-if="productDetails.contact_info.others">
-                      <td>{{ lang.others_info }}</td>
-                      <td v-html="productDetails.contact_info.others"></td>
-                    </tr>
-                    </tbody>
-                  </table>
-              </div>
               <!-- product-details -->
-
-              <div class="buttons" v-else-if="productDetails.is_catalog == 1 && productDetails.external_link">
-                <a target="_blank" :href="productDetails.external_link"
-                   class="btn btn-primary btn-block">{{ lang.see_details }}</a>
-              </div>
-
               <div class="product-details-policy product-border mt-4"
-                   v-if="productDetails.is_catalog != 1 && productDetails.is_digital == 0 && productDetails.estimated_shipping_days && productDetails.estimated_shipping_days != 0">
+                   v-if="productDetails.estimated_shipping_days && productDetails.estimated_shipping_days != 0">
                 <div class="related-product-shop">
                   <div class="related-product-thumb text-center">
                     <img :src="getUrl('public/images/custom/delivery-truck.svg')" alt="Delivery" class="img-fluid"/>
@@ -1091,9 +1049,6 @@ export default {
         this.product_form.quantity = this.productDetails.minimum_order_quantity;
         toastr.warning(this.lang.please_order_minimum_of + this.productDetails.minimum_order_quantity + " " + this.lang.Quantity, this.lang.Warning + " !!");
       }
-    },
-    productType() {
-      return !(this.productDetails.is_catalog == 1 || this.productDetails.is_classified == 1);
     },
     submitReview() {
       if (this.product_form.rating == 0) {

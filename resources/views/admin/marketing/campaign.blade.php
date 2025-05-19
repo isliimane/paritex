@@ -92,11 +92,6 @@
                                         </td>
                                         <td>
                                             @if(hasPermission('campaign_product_read'))
-                                            <a href="{{ route('campaign.product.requests',$value->id) }}"
-                                                class="btn btn-outline-primary btn-circle"
-                                                data-toggle="tooltip" title="" data-original-title="{{ __('Campaign Request') }}">
-                                                 <i class="bx bx-sync"></i>
-                                             </a>
                                              <a href="{{ route('campaign.products',$value->id) }}"
                                                 class="btn btn-outline-info btn-circle"
                                                 data-toggle="tooltip" title="" data-original-title="{{ __('Products') }}">

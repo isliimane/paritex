@@ -224,20 +224,6 @@
                             @endif
 
 
-                            @if(settingHelper('pay_later_system') == 1 && authUser())
-                                <li>
-                                    <div class="input-checkbox">
-                                        <input type="radio" id="pay_later"
-                                               value="pay_later" name="payment">
-                                        <label for="pay_later">
-                                            <img src="{{ url('public/images/payment-method/paylater.svg') }}"
-                                                 alt="pay_later"
-                                                 width="90" class="img-fluid">
-                                            {{ __('pay_later') }}
-                                        </label>
-                                    </div>
-                                </li>
-                            @endif
                             @if(!$check_cod)
                                 <li>
                                     <div class="input-checkbox">

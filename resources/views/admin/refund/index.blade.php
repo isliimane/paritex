@@ -59,7 +59,6 @@
                                         <th>#</th>
                                         <th>{{ __('Order Code') }}</th>
                                         <th>{{ __('Product') }}</th>
-                                        <th>{{ __('Shop') }}</th>
                                         <th>{{ __('Admin Approval') }}</th>
                                         <th>{{ __('Refund Status') }}</th>
                                         @if (hasPermission('refund_approve') || hasPermission('refund_reject') || hasPermission('refund_process'))
@@ -82,9 +81,6 @@
                                                     @endif
                                                 </td>
                                             @endif
-                                            <td>
-                                                <span class="badge badge-warning">{{__('Admin Product')}}</span>
-                                            </td>
                                             <td class=" {{$refund->admin_approval == 'pending' ? 'text-warning' : ($refund->admin_approval == 'approved' ? 'text-success' : 'text-danger')}}">
                                                 {{ ucfirst($refund->admin_approval)}}
                                             </td>

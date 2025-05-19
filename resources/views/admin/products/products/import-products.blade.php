@@ -59,7 +59,7 @@
                                 <li>{{ __('Uploaded File type must be') }}: .xlsx {{ __('or') }} .xls {{ __('or') }} .csv</li>
                                 <li>{{ __('The file must contain') }}: name, category_id, price, unit, current_stock, minimum_order_quantity</li>
                                 <li>price {{__('and')}} purchase_cost {{__('must be numeric')}}</li>
-                                <li>{{ __('Optional columns those can be added') }}: brand_id, slug, barcode, sku, tags, video_provider, video_url, is_approved, is_catalog, external_link, is_refundable, cash_on_delivery, short_description, description</li>
+                                <li>{{ __('Optional columns those can be added') }}: brand_id, slug, barcode, sku, tags, video_provider, video_url, is_approved, is_refundable, cash_on_delivery, short_description, description</li>
 
                                 <a href="{{route('admin.import.sample','product')}}" target="_blank">
                                     <span class="nk-menu-icon"><i class="bx bx-download"></i></span>

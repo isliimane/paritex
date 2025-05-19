@@ -6,7 +6,7 @@
           <div class="col-md-4 col-lg-3 filter_area" v-if="lengthCounter(productList) > 0">
             <div class="sg-sitebar new-shop-sitebar">
               <div class="accordion" id="accordionExample">
-                <div class="accordion-item" v-if="!category_routes.includes(form.route)">
+                <div class="accordion-item" v-if="categories.length && !category_routes.includes(form.route)">
                   <div class="accordion-header" id="ac1">
                     <button class="accordion-button" @click="category = !category" :class="{ collapsed: !category }"
                             type="button" data-bs-toggle="collapse" data-bs-target="#category" aria-expanded="true"
@@ -62,7 +62,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="accordion-item" v-if="form.route != 'product.by.brand'">
+                <div class="accordion-item" v-if="form.route != 'product.by.brand' && brands.data && brands.data.length>0">
                   <div class="accordion-header" id="ac4">
                     <button class="accordion-button" @click="brand = !brand" :class="{ collapsed: !brand }"
                             type="button" data-bs-toggle="collapse" data-bs-target="#brand_collapse"
@@ -84,7 +84,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="accordion-item">
+                <div class="accordion-item" v-if="isLicenseVerified">
                   <div class="accordion-header" id="ac3">
                     <button class="accordion-button" @click="price = !price" :class="{ collapsed: !price }"
                             type="button" data-bs-toggle="collapse" data-bs-target="#price_collapse"
@@ -135,7 +135,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="accordion-item" v-if="settings.color == 1">
+                <div class="accordion-item" v-if="settings.color == 1 && colors.data.length">
                   <div class="accordion-header" id="ac5">
                     <button class="accordion-button" @click="color = !color" :class="{ collapsed: !color }"
                             type="button" data-bs-toggle="collapse" data-bs-target="#collapse5" aria-expanded="false"
@@ -423,9 +423,10 @@ export default {
     },
     categories() {
       return this.$store.getters.getShopCategories;
-    },
+    }, 
     brands() {
       let bnd = this.$store.getters.getShopBrands;
+      console.log("bnd store getters:", this.$store.getters.getShopBrands);
       this.brand_last_page = bnd.last_page
       return bnd
     },
@@ -504,6 +505,9 @@ export default {
 
       return page;
     },
+    isLicenseVerified() {
+      return (this.authUser && this.authUser.user_type === 'admin') || (this.authUser && this.authUser.user_type === 'customer' && this.authUser.license_verified);
+    }
   },
   methods: {
     loadCategories() {
@@ -530,9 +534,13 @@ export default {
     },
     loadBrands() {
       // this.brand_page++;
+      console.log("load brands");
+      
       let url = this.url + "/home/load-brands?page=" + this.brand_page;
+      console.log(url);
       this.loading = true;
       axios.get(url).then((response) => {
+      console.log(response);
         if (response.data.error) {
           toastr.error(response.data.error, this.lang.Error + " !!");
         } else {
@@ -548,6 +556,8 @@ export default {
           }
           this.brands.next_page_url = response.data.brands.next_page_url;
         }
+      }).catch((error) => {
+       console.log(error);
       });
     },
     categoryAttributes(category) {

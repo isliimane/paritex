@@ -26,7 +26,9 @@ export default {
         document.title = this.$route.meta.title && typeof this.$route.meta.title != 'undefined' ? this.$route.meta.title : this.settings.system_name
     }
 }
+
 </script>
+
 
 <style scoped>
 .main-container {

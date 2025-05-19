@@ -15,7 +15,7 @@
             <div class="row">
               <div class="col-md-4">
                 <router-link :to="{ name : 'order.history' }">
-                  <div class="card text-center profile-card d-flex justify-center profile-card-red">
+                  <div class="card text-center profile-card d-flex justify-center profile-card-custom-color">
                     <div class="profile-card-title mb-3">{{ lang.total_order }}</div>
                     <h3 class="text-white ">{{ profileOrders ? profileOrders.total : 0 }}</h3>
                   </div>
@@ -23,7 +23,7 @@
               </div>
               <div class="col-md-4">
                 <router-link :to="{name : 'cart'}">
-                  <div class="card text-center profile-card d-flex justify-center profile-card-gray">
+                  <div class="card text-center profile-card d-flex justify-center profile-card-custom-color">
                     <div class="profile-card-title mb-3">{{ lang.product_cart }}</div>
                     <h3 class="text-white"> {{ carts ? carts.length : 0 }}</h3>
                   </div>
@@ -31,7 +31,7 @@
               </div>
               <div class="col-md-4">
                 <router-link :to="{ name : 'wishlist' }">
-                  <div class="card text-center profile-card d-flex justify-center profile-card-green">
+                  <div class="card text-center profile-card d-flex justify-center profile-card-custom-color">
                     <div class="profile-card-title mb-3">{{ lang.product_you_love }}</div>
                     <h3 class="text-white">{{ wishlists }}</h3>
                   </div>
