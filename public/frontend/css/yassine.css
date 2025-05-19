@@ -150,11 +150,17 @@
     top: -1px;
     margin-left: 2px;
 }
-/* .footer-section{
+.footer-section{
     background-color: rgb(52 133 41 / 10%) !important;
 }
 .footer-logo {
-    border-bottom: 1px solid #348529;
+    position: relative;
+    left: -25px;
+    top: -20px;
+    /* border-bottom: 1px solid #348529; */
+    border-bottom: 0px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
 }
 .footer-widget{
     color: #444444;
@@ -164,9 +170,35 @@
 }
 .footer-widget ul li a{
     color: #444444;
-} */
+}
 
 .form-group > label {
     font-weight: 500;
     font-size: 14px;
   }
+
+.gift_idea{
+    background: #eaf3e9;
+    padding: 5px;
+    border-radius: 5px;
+}
+.subscribe-section{
+    background: #eaf3e9;
+    
+}
+.subscribe-text .icon span, .subscribe-text .text{
+    color: #444;
+}
+.footer-bottom-content{
+   border-top: 1px solid #c8c8c8;
+}
+.categorie-sm .categorie-menu-content ul.global-list li.sm-last-item a{
+    color: #fff;
+}
+
+.profile-thumb img{
+    box-shadow: 0 4px 8px hsl(0deg 0% 0% / 5%);
+}
+.profile-card-custom-color{
+    background-color: rgb(225 34 3 / 50%);
+}

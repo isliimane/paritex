@@ -57,7 +57,10 @@ i.mdi { /* Material Design Icons */
     @if ($locale_language->text_direction == 'rtl')
         <link rel="stylesheet" href="{{ static_asset('admin/css/rtl.css') }}">
         <link rel="stylesheet" href="{{ static_asset('admin/css/yassine-rtl.css') }}">
+       
     @endif
+     
+    <link rel="stylesheet" href="{{ static_asset('admin/css/yassine-admin.css') }}">
 
     <!-- Favicon -->
     @php

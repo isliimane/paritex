@@ -72,8 +72,7 @@
               </li>
               <li>
                 <router-link :class="{ has_compare: compareList > 0 }" :to="{ name: 'compare.list' }"
-                >{{ lang.compare }} <span v-if="compareList > 0">({{ compareList }})</span></router-link
-                >
+                >{{ lang.compare }} <span v-if="compareList > 0">({{ compareList }})</span></router-link>
               </li>
             </ul>
           </div>

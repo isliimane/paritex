@@ -1,6 +1,6 @@
 <template>
     <div class="main-container">
-        <headNav class="custom-header"></headNav>
+        <headNav></headNav>
         <router-view></router-view>
         <bottom></bottom>
     </div>
@@ -29,10 +29,6 @@ export default {
 </script>
 
 <style scoped>
-.custom-header {
-  height: 200px !important; /* Force la hauteur */
-  
-}
 .main-container {
  
     background-color:rgb(255, 255, 255);

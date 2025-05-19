@@ -9,7 +9,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('warehouses', function (Blueprint $table) {
-            $table->integer('storage_capacity')->nullable()->after('columns_per_shelf');
+            $table->integer('storage_capacity')->nullable();
         });
     }
 
