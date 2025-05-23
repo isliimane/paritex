@@ -156,15 +156,6 @@
                                                     </div>
                                                     <p class="title">{{ __('weekly_best_product') }}</p>
                                                 </div>
-                                                <div class="card builder add-home-content" data-type="latest_news" data-area="home-content">
-                                                    <div class="card-overlay">
-                                                        <a href="#"><i class="eicon-plus"></i></a>
-                                                    </div>
-                                                    <div class="icon">
-                                                        <i class="eicon-single-post"></i>
-                                                    </div>
-                                                    <p class="title">{{ __("Latest News") }}</p>
-                                                </div>
 
                                                 <div class="card builder add-home-content" data-type="popular_brands" data-area="home-content">
                                                     <div class="card-overlay">

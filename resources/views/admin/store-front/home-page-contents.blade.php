@@ -681,23 +681,6 @@
             </div>
         </div>
     </div>
-@elseif($type == 'latest_news')
-    <div class="drag-brop-menu content-{{ $content_count }}">
-        <div class="menu-item card" data-id="{{  $content_count }}">
-            <div class="card-header d-flex justify-content-between border-0">
-                <a href="javaScript:void(0)" class="d-flex"><i class="bx bx-menu move"></i>
-                    <h4>{{ __("Latest News") }}</h4>
-                </a>
-
-                <button type="button" onclick="$(this).parent().parent().remove()"
-                        class="btn remove-menu-row">
-                    <i class="bx bx-trash"></i></button>
-            </div>
-            <input type="hidden" name="content_numbers[]" value="{{ $content_count }}">
-            <input type="hidden" name="contents[]" class="section_name" value="latest_news">
-            <input type="hidden" name="latest_news_{{ $content_count }}[]" value="{{ $content_count }}">
-        </div>
-    </div>
 @elseif($type == 'popular_brands')
     <div class="drag-brop-menu content-{{ $content_count }}">
         <div class="menu-item card" data-id="{{  $content_count }}">

@@ -207,7 +207,7 @@ class PageRepository implements PageInterface
                     unset($request[$banner]);
                 elseif ($content == 'campaign' || $content == 'popular_category' || $content == 'top_category' ||
                     $content == 'best_selling_products' || $content == 'popular_brands' ||
-                    $content == 'todays_deal' || $content == 'flash_deal' || $content == 'latest_news' ||
+                    $content == 'todays_deal' || $content == 'flash_deal' ||
                     $content == 'latest_product' || $content == 'custom_products'):
                     $home_page_contents[$key][$content] = $request->$requested_content;
                 endif;
@@ -329,7 +329,7 @@ class PageRepository implements PageInterface
                     unset($request[$banner]);
                 elseif ($content == 'campaign' || $content == 'popular_category' || $content == 'top_category' ||
                     $content == 'best_selling_products' || $content == 'popular_brands' ||
-                    $content == 'todays_deal' || $content == 'flash_deal' || $content == 'latest_news'
+                    $content == 'todays_deal' || $content == 'flash_deal'
                     || $content == 'latest_product' || $content == 'custom_products'):
                     $home_page_contents[$key][$content] = $request->$requested_content;
                 endif;
