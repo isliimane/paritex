@@ -30,6 +30,8 @@ class CustomerImport implements ToCollection, WithHeadingRow, WithChunkReading, 
                 'phone'      => $row['phone'] != '' ? str_replace(' ','',$row['phone']) : '',
                 'gender'     => $row['gender'],
                 'password'   => $row['password'] ? bcrypt($row['password']) : $this->generate_random_string(10),
+                'license_no'     => $row['license_no'] != '' ? $row['license_no'] : '',
+                'license_verified'     => $row['license_verified'] != '' ? $row['license_verified'] : '',                
                 'permissions'=> [],
                 'images'     => [],
             ]);
@@ -52,7 +54,7 @@ class CustomerImport implements ToCollection, WithHeadingRow, WithChunkReading, 
             '*.phone'      => 'required_without:email|unique:users|min:4|max:20',
             '*.email'      => 'required_without:phone|unique:users|email|max:50',
             '*.password'   => 'required|min:6|max:32',
-            '*.gender'     => 'in:male,female,others',
+            '*.gender'     => 'in:male,female',
         ];
     }
 

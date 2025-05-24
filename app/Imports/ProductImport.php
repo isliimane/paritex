@@ -48,6 +48,8 @@ class ProductImport implements ToCollection, WithHeadingRow, WithChunkReading, S
                             'colors'                => [],
                             'selected_variants'     => [],
                             'selected_variants_ids' => [],
+                            'is_wholesale'          => 1,
+
                         ]);
 
             ProductLanguage::create([
