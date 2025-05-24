@@ -1,7 +1,10 @@
 @charset "UTF-8";
 :root {
-    --primary-color: #348529;
-    --primary-color-rgb: 52 133 41;
+    /*--primary-color: #348529;*/
+    --primary-color: #18230F;
+    
+    /*--primary-color-rgb: 52 133 41;*/
+    --primary-color-rgb: 24 35 15;
 
     --primary-font: 'Inter', sans-serif;
     /* --primary-bg: linear-gradient(to right, #0068e1, #003471); */
@@ -117,7 +120,7 @@ a.dropdown-item:focus, a.dropdown-item:active, a.dropdown-item.active{
 /* sidebar */
 
 
-.main-sidebar {
+.main-sidebar, #sidebar-wrapper {
     background: #fff;
   }
   .main-sidebar .sidebar-brand{

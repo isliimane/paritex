@@ -52,4 +52,7 @@ return [
         'RAZORPAY_KEY' => "",
         'RAZORPAY_SECRET' => ""
     ],
+    'firebase' => [
+    'credentials' => env('FIREBASE_FILE'),
+],
 ];

@@ -10,7 +10,9 @@
 /storage/*.key
 /storage
 /vendor
+/config/*.json
 .env
+.env.prod
 composer.lock
 .env.backup
 .phpunit.result.cache
