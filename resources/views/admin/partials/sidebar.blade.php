@@ -4,10 +4,13 @@
 
 <div class="main-sidebar">
     <aside id="sidebar-wrapper">
-        <div class="sidebar-brand sidebar-brand-sm py-3">
-            <a href="{{ route('dashboard') }}">{{ settingHelper('system_short_name') != '' ? settingHelper('system_short_name',app()->getLocale()) :  "Paritex" }}</a>
+        <div class="sidebar-brand sidebar-brand-sm pt-1 pb-3">
+            <a href="{{ route('dashboard') }}">
+            <img
+                        src="{{($logo != [] && is_file_exists($logo['image_100x38'])) ? static_asset($logo['image_100x38']) : static_asset('images/default/logo3.png') }}"
+                        alt="Logo"></a>
         </div>
-        <div class="sidebar-brand py-3">
+        <div class="sidebar-brand pt-1 pb-3">
             <a href="{{ route('dashboard') }}">
                 <img
                         src="{{($logo != [] && is_file_exists($logo['image_100x38'])) ? static_asset($logo['image_100x38']) : static_asset('images/default/logo3.png') }}"
@@ -56,19 +59,23 @@
                             @if(hasPermission('product_create'))
                                 <li class="@yield('wholesale_product_create')">
                                     <a class="nav-link"
-                                    href="{{ route('wholesale.product.create') }}">{{ __('Add New Product') }}</a>
+                                    href="{{ route('product.create') }}">{{ __('Add New Product') }}</a>
+                                </li>
+                                <li class="@yield('wholesale_product_create')">
+                                    <a class="nav-link"
+                                    href="{{ route('wholesale.product.create') }}">{{ __('Add Wholesale Product') }}</a>
                                 </li>
                             @endif
-                            <li class="@yield('wholesale_products')">
+                             <li class="@yield('products')">
                                 <a class="nav-link"
-                                    href="{{ route('wholesale.products') }}">{{ __('All Products') }}</a>
+                                    href="{{ route('products') }}">{{ __('All Products') }}</a>
                             </li>
-                            @if(hasPermission('wholesale_product_setting'))
+                            <!-- @if(hasPermission('wholesale_product_setting'))
                                 <li class="@yield('wholesale_setting')">
                                     <a class="nav-link"
                                     href="{{ route('wholesale.setting') }}">{{ __('Wholesale Setting') }}</a>
                                 </li>
-                            @endif
+                            @endif -->
                         @endif
                         @if(hasPermission('product_read'))
                             <li class="@yield('product_review')"><a class="nav-link"
@@ -146,7 +153,7 @@
                 <li class="nav-item dropdown @yield('delivery_hero_active')">
                     <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown"><i
                                 class='bx bx-cycling'></i>
-                        <span>{{ __('Delivery Mans') }}</span>
+                        <span>{{ __('Delivery Men') }}</span>
                     </a>
                     <ul class="dropdown-menu">
                         @if(hasPermission('delivery_hero_create'))
@@ -159,31 +166,31 @@
                                                                    href="{{ route('delivery.hero') }}">{{ __('Delivery Man') }}</a>
                             </li>
                         @endif
-                        @if(hasPermission('delivery_hero_commission_history'))
-                            <li class="@yield('delivery_hero_commission_history')"><a class="nav-link"
-                                                                                      href="{{ route('delivery_hero.commission.history') }}">{{ __('Commission History') }}</a>
-                            </li>
-                        @endif
-                        @if(hasPermission('delivery_hero_deposit_history'))
-                            <li class="@yield('deposit_history')"><a class="nav-link"
-                                                                     href="{{ route('delivery_hero.deposit.history') }}">{{ __('Deposit History') }}</a>
-                            </li>
-                        @endif
-                        @if(hasPermission('delivery_hero_collection_history'))
-                            <li class="@yield('collection_history')"><a class="nav-link"
-                                                                        href="{{ route('collection.history') }}">{{ __('Collection History') }}</a>
-                            </li>
-                        @endif
+                        <!--@if(hasPermission('delivery_hero_commission_history'))-->
+                        <!--    <li class="@yield('delivery_hero_commission_history')"><a class="nav-link"-->
+                        <!--                                                              href="{{ route('delivery_hero.commission.history') }}">{{ __('Commission History') }}</a>-->
+                        <!--    </li>-->
+                        <!--@endif-->
+                        <!--@if(hasPermission('delivery_hero_deposit_history'))-->
+                        <!--    <li class="@yield('deposit_history')"><a class="nav-link"-->
+                        <!--                                             href="{{ route('delivery_hero.deposit.history') }}">{{ __('Deposit History') }}</a>-->
+                        <!--    </li>-->
+                        <!--@endif-->
+                        <!--@if(hasPermission('delivery_hero_collection_history'))-->
+                        <!--    <li class="@yield('collection_history')"><a class="nav-link"-->
+                        <!--                                                href="{{ route('collection.history') }}">{{ __('Collection History') }}</a>-->
+                        <!--    </li>-->
+                        <!--@endif-->
                         @if(hasPermission('delivery_hero_cancel_request'))
                             <li class="@yield('cancel_request')"><a class="nav-link"
                                                                     href="{{ route('cancel.request') }}">{{ __('Cancel Orders') }}</a>
                             </li>
                         @endif
-                        @if(hasPermission('delivery_hero_configuration_read'))
-                            <li class="@yield('configuration')"><a class="nav-link"
-                                                                   href="{{ route('configuration') }}">{{ __('Configuration') }}</a>
-                            </li>
-                        @endif
+                        <!--@if(hasPermission('delivery_hero_configuration_read'))-->
+                        <!--    <li class="@yield('configuration')"><a class="nav-link"-->
+                        <!--                                           href="{{ route('configuration') }}">{{ __('Configuration') }}</a>-->
+                        <!--    </li>-->
+                        <!--@endif-->
                     </ul>
                 </li>
             @endif
@@ -617,7 +624,7 @@
                     <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
                         <i class="bx bx-store"></i>
                         <span>{{ __('Warehouses') }}</span>
-                    </a>
+                    </a>de
                     <ul class="dropdown-menu">
                         @if(hasPermission('warehouse_read'))
                             <li class="@yield('warehouse')"><a class="nav-link"

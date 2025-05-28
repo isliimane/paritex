@@ -64,7 +64,7 @@
                                                 </label>
                                             </td>
                                         </tr>
-                                        <tr id="">
+                                        <!-- <tr id="">
                                             <td>{{ __('Send OTP') }}</td>
                                             <td width="300">
                                                 <label class="custom-switch mt-2 {{ hasPermission('delivery_hero_configuration_update') ? '' : 'cursor-not-allowed' }}">
@@ -74,7 +74,7 @@
                                                     <span class="custom-switch-indicator"></span>
                                                 </label>
                                             </td>
-                                        </tr>
+                                        </tr> -->
                                         </tbody>
                                     </table>
                                 </div>

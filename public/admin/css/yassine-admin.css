@@ -126,6 +126,9 @@ a.dropdown-item:focus, a.dropdown-item:active, a.dropdown-item.active{
   .main-sidebar .sidebar-brand{
     line-height: 0;
   }
+  .sidebar-brand img {
+    max-width: 60px;
+}
   .sidebar-menu .nav-link {
     color: #444 !important;
     transition: all 0.2s ease;
