@@ -28,16 +28,6 @@ class PaymentGatewayRequest extends FormRequest
 
             'stripe_key'                 => 'required_if:payment_method,stripe',
             'stripe_secret'              => 'required_if:payment_method,stripe',
-
-            'sslcommerz_id'              => 'required_if:payment_method,sslcommerz',
-            'sslcommerz_password'        => 'required_if:payment_method,sslcommerz',
-
-            'jazz_cash_merchant_id'      => 'required_if:payment_method,JazzCash',
-            'jazz_cash_password'         => 'required_if:payment_method,JazzCash',
-            'jazz_cash_integrity_salt'   => 'required_if:payment_method,JazzCash',
-
-            'razorpay_key'               => 'required_if:payment_method,razorpay',
-            'razorpay_secret'            =>  'required_if:payment_method,razorpay',
         ];
     }
 }

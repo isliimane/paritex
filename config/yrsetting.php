@@ -111,72 +111,14 @@ return [
         'stripe_key',
         'stripe_secret',
     ],
-    'is_sslcommerz_activated' => [
-        'sslcommerz_id',
-        'sslcommerz_password'
-    ],
-    'is_sslcommerz_sandbox_mode_activated' => [
-        'sslcommerz_id',
-        'sslcommerz_password'
-    ],
-    'is_jazz_cash_activated' => [
-        'jazz_cash_merchant_id',
-        'jazz_cash_password',
-        'jazz_cash_integrity_salt',
-    ],
-    'is_razorpay_activated' => [
-        'razorpay_key',
-        'razorpay_secret',
-    ],
-    'is_mollie_activated' => [
-        'mollie_api_key',
-    ],
-
-    'is_paystack_activated' => [
-        'paystack_secret_key',
-        'paystack_public_key',
-    ],
-    'is_flutterwave_activated' => [
-        'flutterwave_secret_key',
-        'flutterwave_public_key',
-    ],
-    'is_mercado_pago_activated' => [
-        'mercadopago_access_key',
-        'mercadopago_key',
-    ],
-    'is_mid_trans_activated' => [
-        'mid_trans_client_id',
-        'mid_trans_server_key',
-    ],
-    'is_telr_activated' => [
-        'telr_store_id',
-        'telr_auth_key',
-    ],
+  
     'is_google_pay_activated' => [
         'google_pay_merchant_name',
         'google_pay_merchant_id',
         'google_pay_gateway',
         'google_pay_gateway_merchant_id',
     ],
-    'is_amarpay_activated' => [
-        'amrapay_store_id',
-        'amarpay_signature_key'
-    ],
-    'is_amarpay_sandbox_mode_activated' => [
-        'amrapay_store_id',
-        'amarpay_signature_key'
-    ],
-    'is_iyzico_activated' => [
-        'iyzico_api_key',
-        'iyzico_secret_key'
-    ],
-    'is_iyzico_sandbox_enabled' => [
-        'iyzico_api_key',
-        'iyzico_secret_key'
-    ],
-    'is_skrill_activated' => [
-        'skrill_merchant_email'
-    ],
+   
     'is_facebook_pixel_activated' => [
         'facebook_pixel_id',
     ],

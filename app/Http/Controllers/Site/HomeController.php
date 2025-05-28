@@ -177,14 +177,8 @@ class HomeController extends Controller
         }
 
         $ngn_exchange_rate = 1;
-        $is_paystack_activated = settingHelper('is_paystack_activated') == 1;
-        $is_flutterwave_activated = settingHelper('is_flutterwave_activated') == 1;
-        $is_mollie_activated = settingHelper('is_mollie_activated') == 1;
 
         $euro = AppSettingUtility::currencies()->where('code', 'EUR')->first();
-        if (!$euro):
-            $is_mollie_activated = 0;
-        endif;
 
         $settings = [
             'light_logo' => settingHelper('light_logo') != [] && @is_file_exists(settingHelper('light_logo')['image_138x52']) ? get_media(@settingHelper('light_logo')['image_138x52'], @settingHelper('light_logo')['storage']) : static_asset('images/default/logo.png'),
@@ -220,13 +214,7 @@ class HomeController extends Controller
             'full_width_menu_background' => settingHelper('full_width_menu_background'),
             'is_paypal_activated' => settingHelper('is_paypal_activated'),
             'is_stripe_activated' => settingHelper('is_stripe_activated'),
-            'is_razorpay_activated' => settingHelper('is_razorpay_activated'),
-            'is_sslcommerz_activated' => settingHelper('is_sslcommerz_activated'),
-            'is_jazz_cash_activated' => settingHelper('is_jazz_cash_activated'),
-            'is_paystack_activated' => $is_paystack_activated,
-            'is_flutterwave_activated' => $is_flutterwave_activated,
             'ngn_exchange_rate' => $ngn_exchange_rate,
-            'is_mollie_activated' => $is_mollie_activated,
             'reward_convert_rate' => settingHelper('reward_convert_rate'),
             'refund_with_shipping_cost' => settingHelper('refund_with_shipping_cost'),
             'refund_request_time' => settingHelper('refund_request_time'),
@@ -236,8 +224,6 @@ class HomeController extends Controller
             'footer_logo' => settingHelper('footer_logo') != [] && @is_file_exists(settingHelper('footer_logo')['image_89x33']) ? get_media(settingHelper('footer_logo')['image_89x33'], settingHelper('footer_logo')['storage']) : static_asset('images/default/logo-89x33.png'),
             'text_direction' => session()->has('text_direction') ? session()->get('text_direction') : 'ltl',
             'demo_mode' => config('app.demo_mode'),
-            'ssl_sandbox' => settingHelper('is_sslcommerz_sandbox_mode_activated'),
-            'razor_key' => settingHelper('razorpay_key'),
             'paypal_key' => settingHelper('paypal_client_id'),
             'current_version' => settingHelper('current_version'),
             'shipping_cost' => settingHelper('shipping_fee_type'),
@@ -245,25 +231,16 @@ class HomeController extends Controller
             'default_country' => settingHelper('default_country') ? (int)settingHelper('default_country') : 19,
             'menu_background_color' => settingHelper('menu_background_color'),
             'pushar_activated' => settingHelper('is_pusher_notification_active') == 1,
-            'flw_public_key' => settingHelper('flutterwave_public_key'),
-            'paystack_pk' => settingHelper('paystack_public_key'),
             'refund_sticker' => settingHelper('refund_sticker') != [] && @is_file_exists(settingHelper('refund_sticker')['image_45x45'], settingHelper('refund_sticker')['storage']) ? get_media(@settingHelper('refund_sticker')['image_45x45'], settingHelper('refund_sticker')['storage']) : static_asset('images/others/policy-icon.svg'),
             'refund_protection_title' => settingHelper('refund_protection_title', $lang),
             'refund_protection_sub_title' => settingHelper('refund_protection_sub_title', $lang),
             'tax_type' => settingHelper('vat_type') && settingHelper('vat_type') == 'after_tax' ? 'after_tax' : 'before_tax',
             'vat_and_tax_type' => settingHelper('vat_and_tax_type'),
-            'is_mercado_pago_activated' => settingHelper('is_mercado_pago_activated'),
-            'is_mid_trans_activated' => (bool)settingHelper('is_mid_trans_activated'),
-            'mid_trans_client_id' => settingHelper('mid_trans_client_id'),
-            'is_telr_activated' => (bool)settingHelper('is_telr_activated'),
             'is_google_pay_activated' => (bool)settingHelper('is_google_pay_activated'),
             'google_pay_merchant_name' => settingHelper('google_pay_merchant_name') ?: 'Example Merchant',
             'google_pay_merchant_id' => settingHelper('google_pay_merchant_id') ?: '0123456789',
             'google_pay_gateway' => settingHelper('google_pay_gateway') ?: 'example',
             'google_pay_gateway_merchant_id' => settingHelper('google_pay_gateway_merchant_id') ?: 'exampleGatewayMerchantId',
-            'is_amarpay_activated' => (bool)settingHelper('is_amarpay_activated'),
-            'is_skrill_activated' => (bool)settingHelper('is_skrill_activated'),
-            'is_iyzico_activated' => (bool)settingHelper('is_iyzico_activated'),
             'no_of_decimals' => (int)settingHelper('no_of_decimals'),
             'disable_otp' => (bool)settingHelper('disable_otp_verification'),
             'disable_guest' => (bool)settingHelper('disable_guest_checkout'),

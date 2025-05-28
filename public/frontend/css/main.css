@@ -170,7 +170,6 @@ button,
 .btn.btn-primary:hover,
 .order-summary .btn.btn-primary:hover,
 #payment_buttons .btn.btn-primary:hover,
-.razorpay-payment-button:hover,
 .sg-card .btn:hover,
 button.gpay-card-info-container.black:hover,
 .gpay-card-info-animation-container.black:hover,
@@ -191,16 +190,6 @@ button.gpay-card-info-container.black:hover,
 	opacity: 0.5;
 }
 
-.razor_parent {
-	position: relative;
-}
-
-.razorpay-payment-button {
-	bottom: 0px;
-	left: 0;
-	z-index: 99;
-	width: 100%;
-}
 
 /* .btn span {
 	margin-right: 10px;
@@ -220,34 +209,13 @@ button.gpay-card-info-container.black:hover,
 	background-color: var(--primary-color);
 }
 
-#paystack_modal .payButton {
-	top: 265px !important;
-	right: 0 !important;
-	height: 38px;
-	width: 100% !important;
-	border-radius: 4px;
-	background: #011b33;
-	text-transform: uppercase;
-	color: #fff;
-	font-size: 13px;
-	font-weight: 600;
-	border: 1px solid transparent;
-}
 
 .pay_stack {
 	background: #011b33 !important;
 	border: 1px solid #011b33 !important;
 }
 
-.flutter_wave {
-	background: #ff9b00 !important;
-	border: 1px solid #ff9b00 !important;
-}
 
-#paystack_modal .payButton.overlay_btn {
-	opacity: 0.5;
-	pointer-events: none;
-}
 .order-summary h6,
 .payment-option h6 {
 	font-size: 16px;
@@ -263,8 +231,7 @@ button.gpay-card-info-container.black:hover,
 }
 
 .order-summary .btn.btn-primary,
-#payment_buttons .btn.btn-primary,
-.razorpay-payment-button {
+#payment_buttons .btn.btn-primary {
 	width: 100%;
 	font-size: 12px !important;
 	padding: 0.75rem 0.75rem;
@@ -373,9 +340,6 @@ button.gpay-card-info-container.black.long.en iframe,
 	padding: 14px 7px;
 	border-radius: 4px 4px 0 0;
 	margin-bottom: 0;
-}
-.order-summary .sm-fixed-bottom .razorpay-payment-button {
-	border-radius: 0 0 4px 4px;
 }
 
 .form-control,

@@ -1,7 +1,7 @@
 <template>
   <li>
     <div class="input-checkbox">
-      <input type="radio" :value="value" @change="$parent.razorPayRemove"
+      <input type="radio" :value="value" @change="$parent.paymentChanged"
              v-model="$parent.payment_form.payment_type"
              :id="value" name="radio">
       <label :for="value">

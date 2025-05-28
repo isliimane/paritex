@@ -5253,30 +5253,10 @@ label.upload-image {
 	opacity: 0.5;
 }
 
-.razor_parent {
-	position: relative;
-}
-
-.razorpay-payment-button {
-	bottom: 0px;
-	left: 0;
-	z-index: 99;
-}
 
 .order-total.sm-fixed-bottom p {
     display: flex;
     justify-content: space-between;
-}
-.razorpay-payment-button {
-	font-size: 12px !important;
-	padding: 0.75rem 0.75rem;
-	border-radius: 3px;
-	line-height: 24px;
-	text-transform: uppercase;
-	color: #fff;
-	background-color: #333333;
-	border: 1px solid #333333;
-	transition: 500ms;
 }
 .order-summary.paymentCustom {
     margin-top: 25px;
@@ -5301,8 +5281,7 @@ label.upload-image {
 .payment-method .peymentToggler {
     padding: 0 12px;
 }
-.payment-method .btn.btn-primary,
-.payment-method .razorpay-payment-button {
+.payment-method .btn.btn-primary {
     width: 100%;
 }
 label.labelSTL {

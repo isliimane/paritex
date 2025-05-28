@@ -48,10 +48,6 @@ return [
         'client_secret' => env('TWITTER_CLIENT_SECRET'), //Twitter Secret,
         'redirect'      => env('TWITTER_CALLBACK_URL'),
     ],
-    'razorpay' => [
-        'RAZORPAY_KEY' => "",
-        'RAZORPAY_SECRET' => ""
-    ],
     'firebase' => [
     'credentials' => env('FIREBASE_FILE'),
 ],

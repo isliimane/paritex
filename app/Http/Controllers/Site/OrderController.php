@@ -282,11 +282,8 @@ class OrderController extends Controller
                     'indian_currency'   => $currency->currencyByCode('INR'),
                     'offline_methods'   => [],
 
-                    'jazz_data'         => $this->jazzCashPayment(),
                     'check_cod'         => $check_code ?? true,
                     'xof'               => $currency->currencyByCode('XOF'),
-                    'jazz_url'          => config('jazz_cash.TRANSACTION_POST_URL'),
-                    'mid_trans_token'   => $this->generateMidTransToken($orders),
                 ];
             }
             else{
@@ -309,13 +306,6 @@ class OrderController extends Controller
         try {
             $request_data = $request->all();
 
-            if ($request->payment_type == 'amarpay')
-            {
-                $request_data['guest'] = $request->opt_a;
-                $request_data['trx_id'] = $request->opt_b;
-                $request_data['code'] = $request->opt_c;
-                $request_data['token'] = $request->opt_d;
-            }
 
             $order = $order->completeOrder($request_data, authUser());
 

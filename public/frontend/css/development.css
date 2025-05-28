@@ -1932,9 +1932,6 @@ section.categories-section.top .VueCarousel-slide a:last-child {
 	border-radius: unset;
 }
 
-.api .razorpay-payment-button {
-	display: none;
-}
 
 .add-to-cart {
 	display: flex;

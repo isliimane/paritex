@@ -29,48 +29,11 @@
                   <payment_method v-if="settings.is_stripe_activated == 1"
                                   :value="'stripe'" :label="lang.pay_with_stripe" :image="getUrl('public/images/payment-method/stripe.svg')">
                   </payment_method>
-                  <payment_method v-if="settings.is_sslcommerz_activated == 1  && checkCurrency('BDT')"
-                                  :value="'ssl_commerze'" :label="lang.pay_with_sSLCOMMERZE" :image="getUrl('public/images/payment-method/sslcommerze.svg')">
-                  </payment_method>
-                
-                  <payment_method v-if="settings.is_razorpay_activated == 1  && checkCurrency('INR')"
-                                  :value="'razor_pay'" :label="lang.pay_with_razorpay" :image="getUrl('public/images/payment-method/razorpay.svg')">
-                  </payment_method>
-                  <payment_method v-if="settings.is_jazz_cash_activated == 1  && checkCurrency('PKR')"
-                                  :value="'jazz_cash'" :label="lang.pay_with_jazzCash" :image="getUrl('public/images/payment-method/jazzCash.svg')">
-                  </payment_method>
-                  <payment_method v-if="settings.is_mollie_activated == 1"
-                                  :value="'mollie'" :label="lang.pay_with_mollie" :image="getUrl('public/images/payment-method/mollie.svg')">
-                  </payment_method>
-                  <payment_method v-if="settings.is_paystack_activated == 1 && checkCurrency('NGN')"
-                                  :value="'paystack'" :label="lang.pay_with_paystack" :image="getUrl('public/images/payment-method/paystack.svg')">
-                  </payment_method>
-                  <payment_method v-if="settings.is_flutterwave_activated == 1 && checkCurrency('NGN')"
-                                  :value="'flutter_wave'" :label="lang.pay_with_flutter" :image="getUrl('public/images/payment-method/fw.svg')">
-                  </payment_method>
-                  <payment_method v-if="settings.is_mercado_pago_activated == 1 && checkCurrency('MXN')"
-                                  :value="'mercadopago'" :label="lang.pay_with_mercadopago" :image="getUrl('public/images/payment-method/mercado-pago.svg')">
-                  </payment_method>
-                  <payment_method v-if="settings.is_mid_trans_activated == 1 && checkCurrency('IDR')"
-                                  :value="'mid_trans'" :label="lang.pay_with_mid_trans" :image="getUrl('public/images/payment-method/midtrans.svg')">
-                  </payment_method>
-                  <payment_method v-if="settings.is_telr_activated"
-                                  :value="'telr'" :label="lang.pay_with_telr" :image="getUrl('public/images/payment-method/telr.svg')">
-                  </payment_method>
+                 
                   <payment_method v-if="settings.is_google_pay_activated"
                                   :value="'google_pay'" :label="lang.pay_with_google_pay" :image="getUrl('public/images/payment-method/google_pay.svg')">
                   </payment_method>
                 
-                  <payment_method v-if="settings.is_amarpay_activated && checkCurrency('BDT')"
-                                  :value="'amarpay'" :label="lang.pay_with_amarpay" :image="getUrl('public/images/payment-method/amarpay.svg')">
-                  </payment_method>
-                  <payment_method v-if="settings.is_skrill_activated "
-                                  :value="'skrill'" :label="lang.pay_with_skrill" :image="getUrl('public/images/payment-method/skrill.svg')">
-                  </payment_method>
-                  <payment_method v-if="settings.is_iyzico_activated"
-                                  :value="'iyzico'" :label="lang.pay_with_iyzico" :image="getUrl('public/images/payment-method/iyzico.svg')">
-                  </payment_method>
-                 
                   <payment_method v-if="payment_form.total > 0 && !code && !check_cod"
                                   :value="'cash_on_delivery'" :label="lang.cash_on_delivery" :image="getUrl('public/images/payment-method/cash.svg')">
                   </payment_method>
@@ -125,7 +88,6 @@
                   <input type="hidden" name="trx_id" :value="trx_id">
                   <input type="hidden" name="payment_type" :value="payment_form.payment_type">
                   <input type="hidden" name="amount" :value="payment_form.total">
-                  <div ref="razor_pay"></div>
                   <payment_details
                       :sub_total="payment_form.sub_total"
                       :tax="payment_form.tax"
@@ -150,10 +112,6 @@
 
 
                 <a href="javascript:void(0)" @click="payment" class="btn btn-primary w-100"
-                   v-if="payment_form.payment_type == 'ssl_commerze' ">
-                  {{ lang.pay_now }}</a>
-
-                <a href="javascript:void(0)" @click="payment" class="btn btn-primary w-100"
                    v-show="!loading"
                    v-if="payment_form.payment_type == 'cash_on_delivery' || payment_form.payment_type == 'pay_later'">{{
                     lang.confirm
@@ -163,48 +121,14 @@
                                 :code="code" :amount="payment_form.total" :offline_method="offline_method"
                                 :loading="loading"></offline_method>
 
-                <a href="javascript:void(0)" @click="payment"
-                   class="btn btn-primary w-100" v-if="payment_form.payment_type == 'mollie'"> {{ lang.pay_now }}</a>
-
-                <a href="javascript:void(0)" @click="payment"
-                   class="btn btn-primary w-100" v-if="payment_form.payment_type == 'telr'"> {{ lang.pay_now }}</a>
-                <a href="#" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#paystack_modal"
-                   v-if="payment_form.payment_type == 'paystack' ">
-                  {{ lang.pay_now }}</a>
-                <midtrans v-if="payment_form.payment_type == 'mid_trans'" :amount="payment_form.total" :mid_token="mid_trans_token" :trx_id="trx_id" :code="code"></midtrans>
-                <flutter_wave v-if="settings.is_flutterwave_activated == 1" :trx_id="trx_id" :code="code"
-                              :amount="payment_form.total" :type="payment_form.payment_type" ref="flutter_wave"></flutter_wave>
-
-                <a href="javascript:void(0)" @click="payment"
-                   class="btn btn-primary w-100"
-                   v-if="payment_form.payment_type == 'mercadopago'">
-                  {{ lang.pay_now }}</a>
-
                 <google_pay v-if="payment_form.payment_type == 'google_pay'" :trx_id="trx_id" :code="code"
                             :amount="payment_form.total"></google_pay>
 
-                <a href="javascript:void(0)" @click="payment"
-                   class="btn btn-primary"
-                   v-if="payment_form.payment_type == 'amarpay'">
-                  {{ lang.pay_now }}</a>
 
               
-                <a href="javascript:void(0)" @click="payment"
-                   class="btn btn-primary"
-                   v-if="payment_form.payment_type == 'skrill'">
-                  {{ lang.pay_now }}</a>
               
                 <paypal v-if="settings.is_paypal_activated == 1 && settings.paypal_key && payment_form.payment_type == 'paypal'" :trx_id="trx_id" :code="code"
                         :amount="payment_form.total" :payment_type="payment_form.payment_type" :type="'order'"></paypal>
-
-                <form name="jsform" :action="jazz_url" method="get">
-                  <input v-for="(value,name) in jazz_data" :key="name" type="hidden" :name="name"
-                         :value="value">
-                  <button type="submit" class="btn btn-primary w-100"
-                          v-show="!loading"
-                          v-if="payment_form.payment_type == 'jazz_cash'">{{ lang.pay_now }}
-                  </button>
-                </form>
               </div>
 
             </div>
@@ -212,22 +136,6 @@
         </div><!-- /.row -->
       </div>
     </section><!-- /.shopping-cart -->
-    <div class="modal fade" id="paystack_modal" tabindex="-1" aria-labelledby="paystack_modal"
-         aria-hidden="true">
-      <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">{{ lang.pay_with_paystack }}</h5>
-            <button type="button" class="close modal_close" data-bs-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <paystack v-if="settings.is_paystack_activated == 1" :trx_id="trx_id" :paystack_key="settings.paystack_pk"
-                    :ngn_exchange_rate="settings.ngn_exchange_rate" :code="code" :amount="payment_form.total"
-                    :type="payment_form.payment_type"></paystack>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -236,10 +144,7 @@
 import shimmer from "../partials/shimmer";
 import paypal from "../payment_partials/paypal";
 import offline_method from "../payment_partials/offline_method";
-import paystack from "../payment_partials/paystack";
-import Flutter_wave from "../payment_partials/flutter_wave";
 import payment_details from "../partials/payment_details";
-import midtrans from "../payment_partials/midtrans";
 import google_pay from "../payment_partials/google_pay";
 import apple_pay from "../payment_partials/apple_pay";
 import gdpr_page from "../partials/gdpr_page";
@@ -252,17 +157,10 @@ export default {
       offline_methods: [],
       indian_currency: {},
       check_cod: false,
-      razor_laod: false,
       ssl: {
         name: null,
         email: null,
         phone: null,
-      },
-      razor_form: {
-        name: null,
-        email: null,
-        phone: null,
-        description: null,
       },
       trx_id: '',
       offline_method: {
@@ -271,23 +169,19 @@ export default {
         image: '',
         instructions: '',
       },
-      jazz_data: [],
-      jazz_url: '',
       wallet_loading: false,
       code: typeof this.$route.params.code != 'undefined' ? this.$route.params.code : '',
       loading: false,
       offline_modal: false,
       showStripeModal: false,
-      mid_trans_token: '',
       xof: '',
       agreement: '',
       offline_method_file: '',
     }
   },
   components: {
-    Payment_method,
-    Flutter_wave, google_pay,apple_pay,
-    shimmer, paypal, offline_method, paystack, payment_details, midtrans,gdpr_page
+    Payment_method, google_pay,apple_pay,
+    shimmer, paypal, offline_method, payment_details,gdpr_page
   },
   mounted() {
     this.takeOrders();
@@ -328,9 +222,6 @@ export default {
           this.indian_currency = response.data.indian_currency;
           this.xof = response.data.xof;
           this.offline_methods = response.data.offline_methods;
-          this.jazz_data = response.data.jazz_data;
-          this.jazz_url = response.data.jazz_url;
-          this.mid_trans_token = response.data.mid_trans_token;
           if (response.data.check_cod) {
             this.check_cod = response.data.check_cod;
           }
@@ -372,44 +263,7 @@ export default {
         }
       })
     },
-    integrateRazorPay() {
-      this.razorPayRemove();
-      if (this.settings.is_razorpay_activated == 1 && this.indian_currency) {
-        alert(true);
-        let myScript = document.createElement('script');
-
-        myScript.setAttribute('type', 'text/javascript');
-        myScript.setAttribute('language', 'javascript');
-        myScript.setAttribute('data-key', this.settings.razor_key);
-        myScript.setAttribute('data-amount', this.round(this.payment_form.total * 100 * this.indian_currency.exchange_rate));
-        myScript.setAttribute('data-name', this.settings.system_name);
-        myScript.setAttribute('data-description', 'Razorpay');
-        myScript.setAttribute('data-image', this.settings.dark_logo);
-        myScript.setAttribute('data-prefill.name', '');
-        myScript.setAttribute('data-prefill.email', '');
-        myScript.setAttribute('data-prefill.address', '');
-        myScript.setAttribute('data-theme.color', this.settings.menu_background_color);
-        myScript.setAttribute('src', this.getUrl('public/frontend/js/razor_pay_checkout.js'));
-        // Append script
-        this.$refs.razor_pay.insertAdjacentElement('afterend', myScript);
-      }
-
-    },
-    razorPayRemove() {
-      $('.razor_pay').removeClass('d-none');
-
-      var razorKeys = document.querySelectorAll('.razorpay-payment-button');
-
-      for (let i = 0; i < razorKeys.length; i++) {
-        razorKeys[i].style.display = "none";
-      }
-
-      this.offline_method.name = '';
-      this.offline_method.image = '';
-      this.offline_method.instructions = '';
-    },
     offlineCheck(offline) {
-      this.razorPayRemove();
       this.offline_method.id = offline.id;
       this.offline_method.name = offline.name;
       this.offline_method.image = offline.image;
@@ -476,22 +330,8 @@ export default {
         }).catch((error) => {
           this.loading = false;
         });
-      } else if (payment_type == 'paystack') {
-        return this.$refs.paystack.payStack();
       }else if (payment_type == 'stripe') {
         return window.location.href = this.getUrl('stripe/redirect?trx_id=' + this.trx_id + '&code=' + this.$route.params.code);
-      }else if (payment_type == 'ssl_commerze') {
-        return window.location.href = this.getUrl('get/ssl-response?payment_type=ssl_commerze&code=' + this.$route.params.code + '&trx_id=' + this.trx_id);
-      }else if (payment_type == 'mollie') {
-        return window.location.href = this.getUrl('mollie/payment?code='+this.$route.params.code+'&trx_id='+this.trx_id);
-      }else if (payment_type == 'telr') {
-        return window.location.href = this.getUrl('telr/redirect?code='+this.$route.params.code+'&trx_id='+this.trx_id);
-      }else if (payment_type == 'mercadopago') {
-        return window.location.href = this.getUrl('mercadopago/redirect?code='+this.$route.params.code+'&trx_id='+this.trx_id);
-      }else if (payment_type == 'amarpay') {
-        return window.location.href = this.getUrl('amarpay/redirect?code='+this.$route.params.code+'&trx_id='+this.trx_id);
-      }else if (payment_type == 'skrill') {
-        return window.location.href = this.getUrl('skrill/redirect?code='+ this.$route.params.code+'&trx_id='+ this.trx_id);
       }
     },
     checkCurrency(code){

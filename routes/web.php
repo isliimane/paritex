@@ -235,27 +235,8 @@ Route::middleware(['XSS', 'isInstalled'])->group(function () {
     Route::get('set/text-direction/{dir}', [HomeController::class, 'textDirection'])->name('set.text-direction');
     Route::post('search/product', [ProductController::class, 'searchProduct'])->name('search.product');
     Route::get('summernote/clean', [HomeController::class, 'summernoteClean'])->name('summernote.clean');
-    Route::get('jazz/redirect', [PaymentController::class, 'jazzCashPayment'])->name('jazz.redirect');
     Route::get('stripe/redirect', [PaymentController::class, 'stripeRedirect']);
 
-    Route::get('mollie/payment', [PaymentController::class, 'mollieRedirect'])->name('mollie.payment');
-    Route::get('mollie/recharge-payment', [PaymentController::class, 'rechargeWithMollie'])->name('mollie.recharge.payment');
-    Route::get('mollie/success', [PaymentController::class, 'mollieSuccess'])->name('mollie.success');
-    Route::get('mollie/recharge-success', [PaymentController::class, 'mollieRechargeSuccess'])->name('mollie.recharge.success');
-    Route::post('fw-verify', [PaymentController::class, 'verifyFW']);
-    Route::get('mercadopago/redirect', [PaymentController::class, 'mercadoPago']);
-    Route::get('telr/redirect', [PaymentController::class, 'telrRedirect']);
-    Route::get('skrill/redirect', [PaymentController::class, 'skrillRedirect']);
-    Route::get('iyzico/redirect', [PaymentController::class, 'iyzicoRedirect']);
-
-
-
-    Route::get('mercadopago/redirect/wallet', [WalletController::class, 'mercadoPago']);
-    Route::get('skrill/redirect/wallet', [WalletController::class, 'skrillRedirect']);
-
-    Route::get('iyzico/redirect/wallet', [WalletController::class, 'iyzicoRedirect']);
-    Route::get('iyzico/callback/wallet', [WalletController::class, 'retrieveIyzico'])->name('iyzico.callback.wallet');
-    Route::get('telr/redirect/wallet', [WalletController::class, 'telrRedirect']);
     Route::post('delete-file', [HomeController::class, 'deleteFile'])->name('delete.file')->middleware('loginCheck');
     Route::get('set-default-language/{lang}', [LanguageController::class, 'setDefaultLanguage'])->name('set.default.language');
     //    Route::get('user/complete-recharge', [WalletController::Class, 'walletStore']);

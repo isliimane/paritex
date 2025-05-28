@@ -12,7 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        'user/complete-order','user/complete-order/*','get/ssl-response','invoice/*','/user/recharge-wallet','/user/recharge-wallet/*','paystack/initialize','user/complete-recharge','user/complete-recharge*',
+        'user/complete-order','user/complete-order/*','get/ssl-response','invoice/*','/user/recharge-wallet','/user/recharge-wallet/*','user/complete-recharge','user/complete-recharge*',
         'my-wallet','payment',
     ];
 }

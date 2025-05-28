@@ -68,19 +68,7 @@
                                     </div>
                                 </li>
                             @endif
-                            @if(settingHelper('is_amarpay_activated') == 1)
-                                <li>
-                                    <div class="input-checkbox">
-                                        <input type="radio" value="amarpay" id="paypal" name="payment">
-                                        <label for="paypal">
-                                            <img src="{{ url('public/images/payment-method/paypal.svg') }}"
-                                                 alt="paypal"
-                                                 class="img-fluid">
-                                            {{ __('pay_with_payPal') }}
-                                        </label>
-                                    </div>
-                                </li>
-                            @endif
+                         
                             @if(settingHelper('is_stripe_activated') == 1)
                                 <li>
                                     <div class="input-checkbox">
@@ -94,135 +82,7 @@
                                     </div>
                                 </li>
                             @endif
-                            @if(settingHelper('is_sslcommerz_activated') == 1)
-                                <li>
-                                    <div class="input-checkbox">
-                                        <input type="radio" name="payment"
-                                               id="ssl_commerze" value="ssl_commerze">
-                                        <label for="ssl_commerze">
-                                            <img src="{{ url('public/images/payment-method/sslcommerze.svg') }}"
-                                                 alt="ssl_commerze"
-                                                 width="90">
-                                            {{ __('pay_with_sSLCOMMERZE') }}
-                                        </label>
-                                    </div>
-                                </li>
-                            @endif
-                            @if(settingHelper('is_razorpay_activated') == 1)
-                                <li>
-                                    <div class="input-checkbox">
-                                        <input type="radio" id="razor_pay" value="razor_pay"
-                                               @change="integrateRazorPay" name="payment">
-                                        <label for="razor_pay">
-                                            <img src="{{ url('public/images/payment-method/razorpay.svg') }}"
-                                                 alt="razor_pay"
-                                                 width="90"
-                                                 class="img-fluid">
-                                            {{ __('pay_with_razorpay') }}
-                                        </label>
-                                    </div>
-                                </li>
-                            @endif
-                            @if(settingHelper('is_jazz_cash_activated') == 1)
-                                <li>
-                                    <div class="input-checkbox">
-                                        <input type="radio" id="jazzCash" value="jazz_cash"
-                                               name="payment">
-                                        <label for="jazzCash">
-                                            <img src="{{ url('public/images/payment-method/jazzCash.svg') }}"
-                                                 alt="jazzCash"
-                                                 width="90"
-                                                 class="img-fluid">
-                                            {{ __('pay_with_jazzCash') }}
-                                        </label>
-                                    </div>
-                                </li>
-                            @endif
-                            @if(settingHelper('is_mollie_activated') == 1)
-                                <li>
-                                    <div class="input-checkbox">
-                                        <input type="radio" id="mollie" value="mollie"
-                                               name="payment">
-                                        <label for="mollie">
-                                            <img src="{{ url('public/images/payment-method/mollie.svg') }}"
-                                                 alt="mollie"
-                                                 width="90"
-                                                 class="img-fluid">
-                                            {{ __('pay_with_mollie') }}
-                                        </label>
-                                    </div>
-                                </li>
-                            @endif
-                            @if($paystack_activated)
-                                <li>
-                                    <div class="input-checkbox">
-                                        <input type="radio" id="paystack" value="paystack"
-                                               name="payment">
-                                        <label for="paystack">
-                                            <img src="{{ url('public/images/payment-method/paystack.svg') }}"
-                                                 alt="paystack"
-                                                 width="90"
-                                                 class="img-fluid">
-                                            {{ __('pay_with_paystack') }}
-                                        </label>
-                                    </div>
-                                </li>
-                            @endif
-                            @if($fw_activated)
-                                <li>
-                                    <div class="input-checkbox">
-                                        <input type="radio" id="flutter_wave" value="flutter_wave"
-                                               name="payment">
-                                        <label for="flutter_wave">
-                                            <img src="{{ url('public/images/payment-method/fw.svg') }}"
-                                                 alt="flutter_wave"
-                                                 width="90"
-                                                 class="img-fluid">
-                                            {{ __('pay_with_flutter') }}
-                                        </label>
-                                    </div>
-                                </li>
-                            @endif
-                            @if(settingHelper('is_amarpay_activated') == 1)
-                                <li>
-                                    <div class="input-checkbox">
-                                        <input type="radio" value="amarpay" id="amarpay" name="payment">
-                                        <label for="amarpay">
-                                            <img src="{{ url('public/images/payment-method/amarpay.svg') }}"
-                                                 alt="paypal"
-                                                 class="img-fluid">
-                                            {{ __('pay_with_amarpay') }}
-                                        </label>
-                                    </div>
-                                </li>
-                            @endif
-                            @if(settingHelper('is_skrill_activated') == 1)
-                                <li>
-                                    <div class="input-checkbox">
-                                        <input type="radio" value="skrill" id="skrill" name="skrill">
-                                        <label for="skrill">
-                                            <img src="{{ url('public/images/payment-method/skrill.svg') }}"
-                                                 alt="paypal"
-                                                 class="img-fluid">
-                                            {{ __('pay_with_amarpay') }}
-                                        </label>
-                                    </div>
-                                </li>
-                            @endif
-                            @if(settingHelper('is_iyzico_activated') == 1)
-                                <li>
-                                    <div class="input-checkbox">
-                                        <input type="radio" value="iyzico" id="iyzico" name="iyzico">
-                                        <label for="iyzico">
-                                            <img src="{{ url('public/images/payment-method/iyzico.svg') }}"
-                                                 alt="paypal"
-                                                 class="img-fluid">
-                                            {{ __('pay_with_amarpay') }}
-                                        </label>
-                                    </div>
-                                </li>
-                            @endif
-
+                           
 
                             @if(!$check_cod)
                                 <li>
@@ -328,19 +188,7 @@
                                     <a href="{{ url("stripe/redirect?trx_id=$trx_id&payment_mode=api&code=$code&token=$token&curr=$currency")  }}"
                                        class="btn btn-primary paymentBTNFixed payment_btns d-none stripe_btn"> {{ __('pay_now') }}</a>
 
-                                    <a href="{{ url("get/ssl-response?payment_type=ssl_commerze&code=$code&trx_id=$trx_id&payment_mode=api&token=$token") }}"
-                                       class="btn btn-primary paymentBTNFixed payment_btns d-none ssl_commerze_btn"> {{ __('pay_now') }}</a>
-                                    <a href="{{ url("amarpay/redirect?payment_type=amarpay&&code=$code&trx_id=$trx_id&payment_mode=api&token=$token") }}"
-                                       class="btn btn-primary paymentBTNFixed payment_btns d-none amarpay_btn"> {{ __('pay_now') }}</a>
-                                    <a href="javascript:void(0)"
-                                       class="btn btn-primary paymentBTNFixed payment_btns d-none paystack_btn">{{ __('pay_now') }}</a>
 
-                                    <a href="{{ url("mollie/payment?code=$code&trx_id=$trx_id&payment_mode=api&token=$token") }}"
-                                       class="btn btn-primary paymentBTNFixed payment_btns d-none mollie_btn"> {{ __('pay_now') }}</a>
-
-                                    <a href="#"
-                                       class="btn btn-primary paymentBTNFixed payment_btns d-none flutter_wave_btn"
-                                       data-toggle="modal" data-target="#fw_modal">{{ __('pay_now') }}</a>
 
                                     <button id="cod_n_pay_later_submit" type="button"
                                             class="btn btn-primary paymentBTNFixed d-none payment_btns confirm_btn form_submit">{{ __('confirm') }}</button>
@@ -360,24 +208,12 @@
 
                                 <div class="mx-auto w_40 payment_btns d-none paypal_btn"
                                      id="paypal-button-container"></div>
-                                <form name="jsform" class="d-none jazz_cash_btn payment_btns" action="{{ $jazz_url }}"
-                                      method="POST">
-                                    @foreach($jazz_data as $key=> $data)
-                                        <input type="hidden" name="{{ $key }}"
-                                               value="{{ $data }}">
-                                    @endforeach
-                                    <button type="submit"
-                                            class="btn btn-primary paymentBTNFixed jazz_btn">{{ __('pay_now') }}
-                                    </button>
-                                </form>
 
                                 <form action="{{ $action_url }}" method="post">@csrf
                                     <input type="hidden" name="trx_id" value="{{ $trx_id }}">
                                     <input type="hidden" name="code" value="{{ $code }}">
                                     <input type="hidden" name="token" value="{{ $token }}">
-                                    <input type="hidden" name="payment_type" value="razor_pay">
                                     <input type="hidden" name="amount" value="{{ $orders->sum('total_payable') }}">
-                                    <div id="razor_pay_btn_append"></div>
                                 </form>
                             </div>
                         </div>
@@ -443,52 +279,6 @@
         </div>
     </div>
 </div>
-<!--Flutterwave -->
-@php
-    $action_url = authUser() ? url("api/complete-order?trx_id=$trx_id&code=$code&payment_type=flutter_wave") : url("api/complete-order?trx_id=$trx_id&code=$code&payment_type=flutter_wave&guest=1");
-@endphp
-<div class="modal fade" id="fw_modal" tabindex="-1" aria-labelledby="fw_modal"
-     aria-hidden="true">
-    <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">{{ __('pay_with_flutter') }}</h5>
-                <button type="button" class="close modal_close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <div class="modal-body">
-                <form method="POST" action="https://checkout.flutterwave.com/v3/hosted/pay">
-                    <div class="row">
-                        <input type="hidden" name="public_key" value="{{ settingHelper('flutterwave_public_key') }}"/>
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <input type="text" name="customer[name]" class="form-control"
-                                       placeholder="{{ __('name') }}" required/>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <input type="email" name="customer[email]" class="form-control"
-                                   placeholder="{{ __('email') }}" required/>
-                        </div>
-                        <input type="hidden" name="tx_ref"/>
-                        <input type="hidden" name="amount"
-                               value="{{ round($orders->sum('total_payable') * $ngn_exchange_rate) }}"/>
-                        <input type="hidden" name="currency" value="NGN"/>
-                        <input type="hidden" name="meta[token]" value="54"/>
-                        <input type="hidden" name="redirect_url" value="{{ $action_url }}"/>
-                    </div>
-                    <div class="col-lg-12 text-center">
-                        <button type="submit" id="start-payment-button" class="btn btn-primary flutter_wave">
-                            {{ __('pay') }} {{ get_price($orders->sum('total_payable'),$currency) }}
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 <input type="hidden" class="total_amount" value="{{ $orders->sum('total_payable') }}">
@@ -496,8 +286,6 @@
 <input type="hidden" class="code" value="{{ $code }}">
 <input type="hidden" class="url" value="{{ url('/') }}">
 <input type="hidden" class="auth_user" value="{{ authUser() }}">
-<input type="hidden" class="is_sslcommerz_sandbox_mode_activated"
-       value="{{ settingHelper('is_sslcommerz_sandbox_mode_activated') == 1 }}">
 <input type="hidden" class="payment_success_url" value="{{ route('api.payment.success') }}">
 <input type="hidden" id="stripe_key" value="{{ settingHelper('stripe_key') }}">
 
@@ -509,7 +297,6 @@
     window.trx_id = $('.trx_id').val();
     window.code = $('.code').val();
     window.user = $('.auth_user').val();
-    window.ssl_sandobx_activated = $('.is_sslcommerz_sandbox_mode_activated').val();
     window.token = '{{ $token }}';
 </script>
 <script type="text/javascript" src="{{ static_asset('admin/js/popper.min.js') }}"></script>
@@ -523,31 +310,8 @@
     <script src="{{ static_asset('frontend/js/paypal.js') }}"></script>
 @endif
 
-@if($paystack_activated)
-    <script src="https://js.paystack.co/v2/inline.js"></script>
-@endif
 
 <script type="text/javascript" src="{{ static_asset('admin/js/toastr.min.js') }}"></script>
-
-@if(settingHelper('is_razorpay_activated') == 1)
-    <script>
-        let myScript = document.createElement('script');
-
-        myScript.setAttribute('type', 'text/javascript');
-        myScript.setAttribute('language', 'javascript');
-        myScript.setAttribute('data-key', '{{ settingHelper('razorpay_key') }}');
-        myScript.setAttribute('data-amount', {{ round($orders->sum('total_payable') * 100 * $indian_currency->exchange_rate) }});
-        myScript.setAttribute('data-name', '{{ settingHelper('system_name') }}');
-        myScript.setAttribute('data-description', 'Razorpay');
-        myScript.setAttribute('data-image', '{{ $dark_logo }}');
-        myScript.setAttribute('data-prefill.name', '');
-        myScript.setAttribute('data-prefill.email', '');
-        myScript.setAttribute('data-prefill.address', '');
-        myScript.setAttribute('data-theme.color', '{{ settingHelper('menu_background_color') }}');
-        myScript.setAttribute('src', '{{ static_asset('frontend/js/razor_pay_checkout.js') }}');
-        document.getElementById('razor_pay_btn_append').insertAdjacentElement('afterend', myScript);
-    </script>
-@endif
 <script>
     let ref = reference();
     (function ($) {
@@ -557,7 +321,6 @@
             $(document).on('change', 'input[name="payment"]', function () {
                 let val = $(this).val();
 
-                $('.razorpay-payment-button').addClass('d-none');
                 $('.payment_btns').addClass('d-none');
                 $('.div_btns').removeClass('d-none');
 
@@ -575,8 +338,6 @@
                 }
                 if (val == 'cash_on_delivery' || val == "pay_later" || val == "wallet") {
                     $('.confirm_btn').removeClass('d-none');
-                } else if (val == 'razor_pay') {
-                    $('.razorpay-payment-button').show().removeClass('d-none');
                 }
                 if (val) {
                     $('.disable_btn').hide();
@@ -639,46 +400,6 @@
                 })
             });
 
-            $(document).on('click', '.paystack_btn', function () {
-                let key = "{{ settingHelper('paystack_public_key') }}";
-                let amount = $('.total_amount').val() * parseFloat('{{ $ngn_exchange_rate }}') * 100;
-                const paystack = new PaystackPop();
-                paystack.newTransaction({
-                    key: key,
-                    amount: parseFloat(amount).toFixed(2),
-                    email: 'yoori@spagreen.net',
-                    channels: ['card', 'bank', 'ussd', 'mobile_money'],
-                    currency: 'GHS',
-                    reference: ref,
-                    onSuccess: (transaction) => {
-                        let id = '{{ authId() }}';
-                        let guest = 0;
-                        if (id && id > 0) {
-                            guest = 1;
-                        }
-
-                        $.ajax({
-                            url: '{{ url("api/complete-order") }}',
-                            method: 'POST',
-                            data: {
-                                trx_id: "{{ $trx_id }}",
-                                code: "{{ $code }}",
-                                token: "{{ $token }}",
-                                payment_type: 'paystack',
-                                ref: transaction.reference,
-                                guest: guest,
-                            },
-                            success: function (response) {
-                                window.location.href = $('.payment_success_url').val();
-                            }
-                        })
-
-                    },
-                    onCancel: () => {
-                        // user closed popup
-                    }
-                });
-            });
 
         });
     })(jQuery);

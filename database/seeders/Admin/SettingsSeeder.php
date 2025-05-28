@@ -241,25 +241,6 @@ class SettingsSeeder extends Seeder
         Setting::create(['title' => 'is_stripe_activated',                     'value'  => 1,                                          'lang' => 'en']);
         Setting::create(['title' => 'is_stripe_sandbox_mode_activated',        'value'  => 0,                                          'lang' => 'en']);
 
-        //SSLCOMMERZ Setting
-        Setting::create(['title' => 'sslcommerz_id',                           'value'  => 'ecomm621c6cee01086',                       'lang' => 'en']);
-        Setting::create(['title' => 'sslcommerz_password',                     'value'  => 'ecomm621c6cee01086@ssl',                   'lang' => 'en']);
-        Setting::create(['title' => 'is_sslcommerz_activated',                 'value'  => 1,                                          'lang' => 'en']);
-        Setting::create(['title' => 'is_sslcommerz_sandbox_mode_activated',    'value'  => 0,                                          'lang' => 'en']);
-
-        //JazzCash Setting
-        Setting::create(['title' => 'jazz_cash_merchant_id',                    'value'  => 'MC34318',                                 'lang' => 'en']);
-        Setting::create(['title' => 'jazz_cash_password',                       'value'  => '8h484tw2t8',                              'lang' => 'en']);
-        Setting::create(['title' => 'jazz_cash_integrity_salt',                 'value'  => 'w218xv9215',                              'lang' => 'en']);
-        Setting::create(['title' => 'is_jazz_cash_activated',                   'value'  => 1,                                          'lang' => 'en']);
-
-
-        //Razorpay Setting
-        Setting::create(['title' => 'razorpay_key',                            'value'  => 'rzp_test_0TxiJynxZFTbwx',                  'lang' => 'en']);
-        Setting::create(['title' => 'razorpay_secret',                         'value'  => '3WTWGfrzVjwTcVMgzy8phSpJ',                 'lang' => 'en']);
-        Setting::create(['title' => 'is_razorpay_activated',                   'value'  => 1,                                          'lang' => 'en']);
-
-
         //Mobile Apps APIs Settings
         Setting::create(['title' => 'api_server_url',                          'value'  => 'http://yoori-laravel.test/api',            'lang' => 'en']);
         Setting::create(['title' => 'api_key_app',                             'value'  => null,                                       'lang' => 'en']);
@@ -338,20 +319,6 @@ class SettingsSeeder extends Seeder
         Setting::create(['title' => 'zoom_level',                                 'value'  => '15',                                                 'lang' => 'en']);
         Setting::create(['title' => 'map_api_key',                                 'value' => 'AIzaSyAuuA4DQxB6an7im3zbYXUMT7EatgTjNuU',            'lang' => 'en']);
         Setting::create(['title' => 'longitude',                                   'value' => '90.368709',                                           'lang' => 'en']);
-
-        Setting::create(['title' => 'is_mollie_activated',                          'value'  => '1',                                                 'lang' => 'en']);
-        Setting::create(['title' => 'mollie_api_key',                               'value'  => 'test_NB2BVwR8rekUbtQvenmb9nCvVVRwNJ',               'lang' => 'en']);
-        Setting::create(['title' => 'mollie_partner_id',                             'value' => '15292639',                                           'lang' => 'en']);
-        Setting::create(['title' => 'mollie_profile_id',                             'value' => 'pfl_kFwynTXZc9',                                      'lang' => 'en']);
-
-        Setting::create(['title' => 'is_paystack_activated',                        'value'  => '1',                                                 'lang' => 'en']);
-            Setting::create(['title' => 'paystack_secret_key',                          'value'  => 'pk_test_0c22c8b86d1c70fc97d85caaa57c460efde7c9fc',   'lang' => 'en']);
-        Setting::create(['title' => 'paystack_public_key',                          'value'  => 'sk_test_95d06017a0e7dc907708c44c33ee0dd06c43c9b2',    'lang' => 'en']);
-
-        Setting::create(['title' => 'is_flutterwave_activated',                      'value'  => '1',                                                 'lang' => 'en']);
-        Setting::create(['title' => 'flutterwave_secret_key',                        'value'  => 'FLWSECK_TEST-9c0006c90876625527cbe75cac4f8769-X',   'lang' => 'en']);
-        Setting::create(['title' => 'flutterwave_public_key',                        'value'  => 'FLWPUBK_TEST-30c136d283b2f91b21544ce83c611307-X',    'lang' => 'en']);
-
 
 
 

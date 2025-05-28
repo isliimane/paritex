@@ -2212,9 +2212,6 @@ span.name_clip {
     color: red;
     font-weight: 700;
 }
-.api .razorpay-payment-button {
-    display: none;
-}
 .card .btn-press {
     position: absolute;
     top: 16px;

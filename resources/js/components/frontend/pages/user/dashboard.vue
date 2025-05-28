@@ -171,7 +171,7 @@
                     <ul class="global-list grid-3">
                       <li v-if="settings.is_paypal_activated == 1">
                         <div class="input-checkbox">
-                          <input type="radio" value="paypal" @change="razorPayRemove"
+                          <input type="radio" value="paypal" @change="paymentChanged"
                                  v-model="payment_form.payment_type"
                                  id="paypal" name="radio">
                           <label for="paypal">
@@ -183,7 +183,7 @@
                       </li>
                       <li v-if="settings.is_stripe_activated == 1">
                         <div class="input-checkbox">
-                          <input type="radio" id="stripe" @change="razorPayRemove" value="stripe"
+                          <input type="radio" id="stripe" @change="paymentChanged" value="stripe"
                                  v-model="payment_form.payment_type" name="radio">
                           <label for="stripe">
                             <img :src="getUrl('public/images/payment-method/stripe.svg')" :alt="payment_form.payment_type"
@@ -192,92 +192,10 @@
                           </label>
                         </div>
                       </li>
-                      <li v-if="settings.is_sslcommerz_activated == 1 && checkCurrency('BDT')">
-                        <div class="input-checkbox">
-                          <input type="radio" name="radio" @change="razorPayRemove"
-                                 v-model="payment_form.payment_type"
-                                 id="ssl_commerze" value="ssl_commerze">
-                          <label for="ssl_commerze">
-                            <img :src="getUrl('public/images/payment-method/sslcommerze.svg')"
-                                 :alt="payment_form.payment_type" width="90">
-                            {{ lang.pay_with_sSLCOMMERZE }}
-                          </label>
-                        </div>
-                      </li>
-                      <li v-if="settings.is_razorpay_activated == 1  && checkCurrency('INR')">
-                        <div class="input-checkbox">
-                          <input type="radio" id="razor_pay" value="razor_pay"
-                                 v-model="payment_form.payment_type" @change="integrateRazorPay"
-                                 name="radio">
-                          <label for="razor_pay">
-                            <img :src="getUrl('public/images/payment-method/razorpay.svg')" :alt="payment_form.payment_type"
-                                 width="90"
-                                 class="img-fluid">
-                            {{ lang.pay_with_razorpay }}
-                          </label>
-                        </div>
-                      </li>
-                      <li v-if="settings.is_jazz_cash_activated == 1  && checkCurrency('PKR')">
-                        <div class="input-checkbox">
-                          <input type="radio" id="jazzCash" @change="razorPayRemove" value="jazz_cash"
-                                 v-model="payment_form.payment_type" name="radio">
-                          <label for="jazzCash">
-                            <img :src="getUrl('public/images/payment-method/jazzCash.svg')" :alt="payment_form.payment_type"
-                                 width="90"
-                                 class="img-fluid">
-                            {{ lang.pay_with_jazzCash }}
-                          </label>
-                        </div>
-                      </li>
-                      <li v-if="settings.is_paystack_activated == 1 && checkCurrency('NGN')">
-                        <div class="input-checkbox">
-                          <input type="radio" id="paystack" @change="razorPayRemove" value="paystack"
-                                 v-model="payment_form.payment_type" name="radio">
-                          <label for="paystack">
-                            <img :src="getUrl('public/images/payment-method/paystack.svg')" :alt="payment_form.payment_type"
-                                 width="90"
-                                 class="img-fluid">
-                            {{ lang.pay_with_paystack }}
-                          </label>
-                        </div>
-                      </li>
-                      <li v-if="settings.is_flutterwave_activated == 1  && checkCurrency('NGN')">
-                        <div class="input-checkbox">
-                          <input type="radio" id="flutter_wave" @change="razorPayRemove" value="flutter_wave"
-                                 v-model="payment_form.payment_type" name="radio">
-                          <label for="flutter_wave">
-                            <img :src="getUrl('public/images/payment-method/fw.svg')" :alt="payment_form.payment_type"
-                                 width="90"
-                                 class="img-fluid">
-                            {{ lang.pay_with_flutter }}
-                          </label>
-                        </div>
-                      </li>
-                      <li v-if="settings.is_mollie_activated == 1">
-                        <div class="input-checkbox">
-                          <input type="radio" id="mollie" @change="razorPayRemove" value="mollie"
-                                 v-model="payment_form.payment_type" name="radio">
-                          <label for="mollie">
-                            <img :src="getUrl('public/images/payment-method/mollie.svg')" :alt="payment_form.payment_type"
-                                 width="90"
-                                 class="img-fluid">
-                            {{ lang.pay_with_mollie }}
-                          </label>
-                        </div>
-                      </li>
-                      <li v-if="settings.is_mercado_pago_activated == 1 && checkCurrency('MXN')">
-                        <div class="input-checkbox">
-                          <input type="radio" id="mercadopago" @change="razorPayRemove" value="mercadopago"
-                                 v-model="payment_form.payment_type" name="radio">
-                          <label for="mercadopago">
-                            <img :src="getUrl('public/images/payment-method/mercado-pago.svg')"
-                                 :alt="payment_form.payment_type"
-                                 width="90" class="img-fluid">{{ lang.pay_with_mercadopago }}</label>
-                        </div>
-                      </li>
+                 
                       <li v-if="settings.is_google_pay_activated">
                         <div class="input-checkbox">
-                          <input type="radio" id="google_pay" @change="razorPayRemove" value="google_pay"
+                          <input type="radio" id="google_pay" @change="paymentChanged" value="google_pay"
                                  v-model="payment_form.payment_type" name="radio">
                           <label for="google_pay">
                             <img :src="getUrl('public/images/payment-method/google_pay.svg')"
@@ -285,54 +203,8 @@
                                  width="90" class="img-fluid">{{ lang.pay_with_google_pay }}</label>
                         </div>
                       </li>
-                      <li v-if="settings.is_amarpay_activated && checkCurrency('BDT')">
-                        <div class="input-checkbox">
-                          <input type="radio" id="amarpay" @change="razorPayRemove" value="amarpay"
-                                 v-model="payment_form.payment_type" name="radio">
-                          <label for="amarpay">
-                            <img :src="getUrl('public/images/payment-method/amarpay.svg')"
-                                 :alt="payment_form.payment_type"
-                                 width="90" class="img-fluid">{{ lang.pay_with_amarpay }}</label>
-                        </div>
-                      </li>
-                      <li v-if="settings.is_skrill_activated">
-                        <div class="input-checkbox">
-                          <input type="radio" id="skrill" @change="razorPayRemove" value="skrill"
-                                 v-model="payment_form.payment_type" name="radio">
-                          <label for="skrill">
-                            <img :src="getUrl('public/images/payment-method/skrill.svg')"
-                                 :alt="payment_form.payment_type"
-                                 width="90" class="img-fluid">{{ lang.pay_with_skrill }}</label>
-                        </div>
-                      </li>
-                      <li v-if="settings.is_iyzico_activated">
-                        <div class="input-checkbox">
-                          <input type="radio" id="iyzico" @change="razorPayRemove" value="iyzico"
-                                 v-model="payment_form.payment_type" name="radio">
-                          <label for="iyzico">
-                            <img :src="getUrl('public/images/payment-method/iyzico.svg')"
-                                 :alt="payment_form.payment_type"
-                                 width="90" class="img-fluid">{{ lang.pay_with_iyzico }}</label>
-                        </div>
-                      </li>
-                      <li v-if="settings.is_mid_trans_activated && checkCurrency('IDR')">
-                        <div class="input-checkbox">
-                          <input type="radio" id="mid_trans" @change="razorPayRemove" value="mid_trans"
-                                 v-model="payment_form.payment_type" name="radio">
-                          <label for="mid_trans">
-                            <img :src="getUrl('public/images/payment-method/midtrans.svg')" :alt="payment_form.payment_type"
-                                 width="90" class="img-fluid">{{ lang.pay_with_mid_trans }}</label>
-                        </div>
-                      </li>
-                      <li v-if="settings.is_telr_activated">
-                        <div class="input-checkbox">
-                          <input type="radio" id="telr" @change="razorPayRemove" value="telr"
-                                 v-model="payment_form.payment_type" name="radio">
-                          <label for="telr">
-                            <img :src="getUrl('public/images/payment-method/telr.svg')" :alt="payment_form.payment_type"
-                                 width="90" class="img-fluid">{{ lang.pay_with_telr }}</label>
-                        </div>
-                      </li>
+                      
+                     
                       <li v-if="addons.includes('offline_payment')" v-for="(offline,index) in offline_methods"
                           :key="index">
                         <div class="input-checkbox">
@@ -364,69 +236,16 @@
                     <a :href="getUrl('stripe/redirect?amount='+ form.total+'&type=wallet')" class="btn btn-primary w-100"
                        v-if="payment_form.payment_type == 'stripe' ">{{ lang.pay_now }}</a>
 
-                    <a :href="getUrl('get/ssl-response?amount='+ form.total+'&type=wallet')" class="btn btn-primary w-100"
-                       v-if="payment_form.payment_type == 'ssl_commerze' ">{{ lang.pay_now }}</a>
 
                     <a href="javascript:void(0)" class="btn btn-primary w-100" data-bs-toggle="modal"
                        data-bs-target="#offline"
                        v-if="offline_method.name">{{ lang.pay_now }}</a>
-                    <a href="#" class="btn btn-primary w-100" data-bs-toggle="modal"
-                       data-bs-target="#paystack_modal" @click="payment_component_load = true"
-                       v-if="payment_form.payment_type == 'paystack' ">
-                      {{ lang.pay_now }}</a>
 
-                    <a href="#" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#fw_modal"
-                       v-if="payment_form.payment_type == 'flutter_wave' ">
-                      {{ lang.pay_now }}</a>
-
-                    <a :href="getUrl('mollie/recharge-payment?amount=' + form.total)" class="btn btn-primary w-100"
-                       v-if="payment_form.payment_type == 'mollie'">{{ lang.pay_now }}</a>
-                    <a :href="getUrl('mercadopago/redirect/wallet?amount='+form.total)"
-                       class="btn btn-primary w-100"
-                       v-if="payment_form.payment_type == 'mercadopago'">
-                      {{ lang.pay_now }}</a>
-
-                    <a :href="getUrl('amarpay/redirect?amount='+form.total+'&type=wallet&payment_type=amarpay')"
-                       class="btn btn-primary w-100"
-                       v-if="payment_form.payment_type == 'amarpay'">
-                      {{ lang.pay_now }}</a>
+                 
 
                     <google_pay v-if="payment_form.payment_type == 'google_pay'" :trx_id="trx_id" :code="code" :type="wallet_recharge"
                                 :amount="form.total"></google_pay>
 
-                    <a :href="getUrl('skrill/redirect?amount='+form.total+'&type=wallet&payment_type=skrill')"
-                       class="btn btn-primary w-100"
-                       v-if="payment_form.payment_type == 'skrill'">
-                      {{ lang.pay_now }}</a>
-
-                    <a :href="getUrl('iyzico/redirect/wallet?amount='+form.total)"
-                       class="btn btn-primary w-100"
-                       v-if="payment_form.payment_type == 'iyzico'">
-                      {{ lang.pay_now }}</a>
-
-                    <a :href="getUrl('telr/redirect/wallet?amount='+form.total)"
-                       class="btn btn-primary w-100" v-if="payment_form.payment_type == 'telr'"> {{ lang.pay_now }}</a>
-
-                    <midtrans v-if="payment_form.payment_type == 'mid_trans'" :amount="form.total" :type="wallet_recharge"></midtrans>
-
-                    <form name="jsform" :action="jazz_url" method="get">
-                      <input v-for="(value,name) in jazz_data" :key="name" type="hidden" :name="name"
-                             :value="value">
-                      <button type="submit" class="btn btn-primary w-100"
-                              v-show="!loading"
-                              v-if="payment_form.payment_type == 'jazz_cash'">{{ lang.pay_now }}
-                      </button>
-                    </form>
-
-                    <form :action="getUrl('user/recharge-wallet')" method="post"
-                          v-show="payment_form.payment_type == 'razor_pay'">
-                      <input type="hidden" name="_token" :value="token">
-                      <input type="hidden" name="payment_type" :value="payment_form.payment_type">
-                      <input type="hidden" name="amount" :value="form.total">
-                      <div ref="razor_pay">
-
-                      </div>
-                    </form>
                   </div>
                 </div>
               </div>
@@ -479,24 +298,7 @@
         </div>
       </div>
     </div>
-    <div class="modal fade" id="paystack_modal" tabindex="-1" aria-labelledby="paystack_modal"
-         aria-hidden="true">
-      <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">{{ lang.pay_with_paystack }}</h5>
-            <button type="button" class="close modal_close" data-bs-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <paystack v-if="payment_component_load" :trx_id="trx_id" :transaction_type="'wallet_recharge'"
-                    :paystack_key="settings.paystack_pk" :ngn_exchange_rate="settings.ngn_exchange_rate" :code="code"
-                    :amount="form.total" :type="payment_form.payment_type"></paystack>
-        </div>
-      </div>
-    </div>
-    <flutter_wave :trx_id="trx_id" :code="code" :transaction_type="'wallet_recharge'" :amount="form.total"
-                  :type="payment_form.payment_type" ref="flutter_wave"></flutter_wave>
+  
   </div>
 </template>
 
@@ -504,10 +306,7 @@
 import orders from "./../../partials/orders";
 import user_sidebar from "../../partials/user_sidebar";
 import shimmer from "../../partials/shimmer";
-import paystack from "../../payment_partials/paystack";
-import Flutter_wave from "../../payment_partials/flutter_wave";
 import google_pay from "../../payment_partials/google_pay";
-import midtrans from "../../payment_partials/midtrans";
 import paypal from "../../payment_partials/paypal";
 
 
@@ -527,16 +326,7 @@ export default {
         email: null,
         phone: null,
       },
-
-      razor_form: {
-        name: null,
-        email: null,
-        phone: null,
-        description: null,
-      },
       loading: false,
-      jazz_data: [],
-      jazz_url: '',
       offline_method: {
         id: '',
         name: '',
@@ -550,7 +340,7 @@ export default {
     }
   },
   components: {
-    user_sidebar, orders, shimmer, paystack, Flutter_wave,google_pay,midtrans,paypal
+    user_sidebar, orders, shimmer,google_pay,paypal
   },
   mounted() {
     this.getProfileOrders();
@@ -650,63 +440,20 @@ export default {
           this.$Progress.finish();
           this.indian_currency = response.data.indian_currency;
           this.offline_methods = response.data.offline_methods;
-          this.jazz_data = response.data.jazz_data;
-          this.jazz_url = response.data.jazz_url;
         }
       })
     },
-    integrateRazorPay() {
-      this.razorPayRemove();
-      if (this.payment_form.payment_type == 'razor_pay' && this.indian_currency) {
-        var razorKeys = document.querySelectorAll('.razorpay-payment-button');
-
-        for (let i = 0; i < razorKeys.length; i++) {
-          razorKeys[i].style.display = "none";
-        }
-
-        let myScript = document.createElement('script');
-
-        myScript.setAttribute('type', 'text/javascript');
-        myScript.setAttribute('language', 'javascript');
-        myScript.setAttribute('data-key', this.settings.razor_key);
-        myScript.setAttribute('data-amount', parseInt(this.form.total * 100 * this.indian_currency.exchange_rate));
-        myScript.setAttribute('data-name', 'Yoori');
-        myScript.setAttribute('data-description', 'Rozerpay');
-        myScript.setAttribute('data-image', this.settings.dark_logo);
-        myScript.setAttribute('data-prefill.name', 'name');
-        myScript.setAttribute('data-prefill.email', 'email');
-        myScript.setAttribute('data-prefill.address', 'address');
-        myScript.setAttribute('data-theme.color', '#ff7529');
-        myScript.setAttribute('src', this.getUrl('public/frontend/js/razor_pay_checkout.js'));
-
-        // Append script
-        this.$refs.razor_pay.insertAdjacentElement('afterend', myScript);
-      }
-      if (this.payment_form.payment_type == 'ssl_commerze') {
-        var ssl_keys = document.getElementById('sslczPayBtn');
-        if (ssl_keys) {
-          ssl_keys.setAttribute("endpoint", this.getUrl('user/recharge-wallet?payment_type=ssl_commerze&amount=' + this.form.total));
-        }
-      }
-
-    },
-    razorPayRemove() {
-      var razorKeys = document.querySelectorAll('.razorpay-payment-button');
-
-      for (let i = 0; i < razorKeys.length; i++) {
-        razorKeys[i].style.display = "none";
-      }
-
+    paymentChanged() {
       this.offline_method.name = '';
       this.offline_method.image = '';
       this.offline_method.instructions = '';
     },
     removeData() {
       this.payment_form.payment_type = '';
-      this.razorPayRemove();
+      this.paymentChanged();
     },
     offlineCheck(offline) {
-      this.razorPayRemove();
+      this.paymentChanged();
       this.offline_method.id = offline.id;
       this.offline_method.name = offline.name;
       this.offline_method.image = offline.image;

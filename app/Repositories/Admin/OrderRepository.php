@@ -639,21 +639,6 @@ class OrderRepository implements OrderInterface
         {
             $payment_details = $this->methodCheck($data, $orders,$user);
 
-            if ($data['payment_type'] == 'mollie')
-            {
-                if ($payment_details['status'] != 'paid')
-                {
-                    return __('transaction_cant_be_completed');
-                }
-            }
-
-            if ($data['payment_type'] == 'paystack')
-            {
-                if ($payment_details['status'] != 'success')
-                {
-                    return __('transaction_cant_be_completed');
-                }
-            }
 
             foreach ($carts as $cart):
                 $product = $this->product->get($cart->product_id);
