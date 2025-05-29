@@ -32,7 +32,7 @@ export default {
   props : ['sub_total','tax','discount_offer','shipping_tax','coupon_discount','total'],
   computed: {
     isLicenseVerified() {
-          return (this.authUser && this.authUser.user_type === 'admin') || (this.authUser && this.authUser.user_type === 'customer' && this.authUser.license_verified);
+          return (this.authUser && this.authUser.user_type == 'admin') || (this.authUser && this.authUser.user_type == 'customer' && this.authUser.license_verified);
     }
   },
   mounted() {

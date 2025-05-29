@@ -200,7 +200,7 @@ export default {
       return this.$store.state.module.shimmer
     },
     isLicenseVerified() {
-          return (this.authUser && this.authUser.user_type === 'admin') || (this.authUser && this.authUser.user_type === 'customer' && this.authUser.license_verified);
+          return (this.authUser && this.authUser.user_type == 'admin') || (this.authUser && this.authUser.user_type == 'customer' && this.authUser.license_verified);
     }
   },
   methods: {
@@ -270,7 +270,7 @@ export default {
       this.offline_method.instructions = offline.instructions;
     },
     payment(wallet) {
-      if (!this.isLicenseVerified) {
+      if (!(this.authUser && this.authUser.user_type == 'admin') || (this.authUser && this.authUser.user_type == 'customer' && this.authUser.license_verified)) {
         toastr.error(this.lang.verify_license_to_continue, this.lang.Error + ' !!');
         return;
       }

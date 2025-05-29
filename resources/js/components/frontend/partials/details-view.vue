@@ -760,7 +760,7 @@ export default {
       return carts;
     },
     isLicenseVerified() {
-          return (this.authUser && this.authUser.user_type === 'admin') || (this.authUser && this.authUser.user_type === 'customer' && this.authUser.license_verified);
+          return (this.authUser && this.authUser.user_type == 'admin') || (this.authUser && this.authUser.user_type == 'customer' && this.authUser.license_verified);
     }
   },
   methods: {
@@ -992,8 +992,7 @@ export default {
       }
     },
     addToCart(min_qty, buy, is_buy_now) {
-      let license_verified = this.authUser.license_verified;
-      if(license_verified == 0){
+      if(!(this.authUser && this.authUser.user_type == 'admin') || (this.authUser && this.authUser.user_type == 'customer' && this.authUser.license_verified)){
           toastr.error(this.lang.verify_license_to_continue, this.lang.Error + ' !!');
           return;
       }
