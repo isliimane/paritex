@@ -139,8 +139,6 @@
 							<li ><img :src="getUrl('public/images/payment-method/master-card.svg')" alt="master_card_pay_banner" class="img-fluid footer-payment-icon" /></li>
 							<li ><img :src="getUrl('public/images/payment-method/american-express.svg')" alt="american_express_pay_banner" class="img-fluid footer-payment-icon" /> </li>
 							<li ><img :src="getUrl('public/images/payment-method/paypal.svg')" alt="paypal_payment_banner" class="img-fluid footer-payment-icon" /></li>
-							<li ><img :src="getUrl('public/images/payment-method/apple-pay.svg')" alt="apple_pay_banner" class="img-fluid footer-payment-icon" /></li>
-							<li ><img :src="getUrl('public/images/payment-method/amazon-pay.svg')" alt="amazon_pay_banner" class="img-fluid footer-payment-icon" /></li>
 							<li v-if="settings.after_pay_banner"><img :src="getUrl('public/images/payment-method/after-pay.svg')" alt="after_pay_banner" class="img-fluid footer-payment-icon" /></li>
 							<li v-if="settings.payment_method_banner" class="full-payment-img"><img :src="settings.payment_method_banner" alt="payment_method_banner" class="img-fluid footer-payment-icon" /></li>
 						</ul>

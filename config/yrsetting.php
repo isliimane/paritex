@@ -112,13 +112,6 @@ return [
         'stripe_secret',
     ],
   
-    'is_google_pay_activated' => [
-        'google_pay_merchant_name',
-        'google_pay_merchant_id',
-        'google_pay_gateway',
-        'google_pay_gateway_merchant_id',
-    ],
-   
     'is_facebook_pixel_activated' => [
         'facebook_pixel_id',
     ],

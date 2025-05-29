@@ -66,13 +66,6 @@ class WalletController extends Controller
     {
         $paymentController = new paymentController($order);
         $user_id =  authId();
-        if ($request->payment_type == 'google_pay') {
-            $payment_details = [
-                'name' => '',
-                'postal_code' => '',
-            ];
-            $data['payment_type']      = 'google_pay';
-        }
         $paymentController->storeWallet($request, $user_id, $wallet, $payment_details, $data);
     }
 

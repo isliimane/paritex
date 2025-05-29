@@ -30,9 +30,6 @@
                                   :value="'stripe'" :label="lang.pay_with_stripe" :image="getUrl('public/images/payment-method/stripe.svg')">
                   </payment_method>
                  
-                  <payment_method v-if="settings.is_google_pay_activated"
-                                  :value="'google_pay'" :label="lang.pay_with_google_pay" :image="getUrl('public/images/payment-method/google_pay.svg')">
-                  </payment_method>
                 
                   <payment_method v-if="payment_form.total > 0 && !code && !check_cod"
                                   :value="'cash_on_delivery'" :label="lang.cash_on_delivery" :image="getUrl('public/images/payment-method/cash.svg')">
@@ -120,12 +117,6 @@
                 <offline_method v-if="offline_methods.length > 0 && !code && addons.includes('offline_payment')" :trx_id="trx_id"
                                 :code="code" :amount="payment_form.total" :offline_method="offline_method"
                                 :loading="loading"></offline_method>
-
-                <google_pay v-if="payment_form.payment_type == 'google_pay'" :trx_id="trx_id" :code="code"
-                            :amount="payment_form.total"></google_pay>
-
-
-              
               
                 <paypal v-if="settings.is_paypal_activated == 1 && settings.paypal_key && payment_form.payment_type == 'paypal'" :trx_id="trx_id" :code="code"
                         :amount="payment_form.total" :payment_type="payment_form.payment_type" :type="'order'"></paypal>
@@ -145,8 +136,6 @@ import shimmer from "../partials/shimmer";
 import paypal from "../payment_partials/paypal";
 import offline_method from "../payment_partials/offline_method";
 import payment_details from "../partials/payment_details";
-import google_pay from "../payment_partials/google_pay";
-import apple_pay from "../payment_partials/apple_pay";
 import gdpr_page from "../partials/gdpr_page";
 import Payment_method from "../payment_partials/payment_method";
 
@@ -180,7 +169,7 @@ export default {
     }
   },
   components: {
-    Payment_method, google_pay,apple_pay,
+    Payment_method,
     shimmer, paypal, offline_method, payment_details,gdpr_page
   },
   mounted() {

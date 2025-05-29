@@ -70,26 +70,6 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="no-padding-w30 coookie-marign">{{ __('Apple-Pay Payment Method banner') }}</td>
-                                                <td>
-                                                    <label class="custom-switch mt-2">
-                                                        <input type="checkbox" name="" value="setting-status-change/{{ 'apple_pay_banner' }}" {{ settingHelper('apple_pay_banner') == 1 ? 'checked' : ''}} class="custom-switch-input
-                                                    status-change">
-                                                        <span class="custom-switch-indicator"></span>
-                                                    </label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="no-padding-w30 coookie-marign">{{ __('Amazon-Pay Payment Method banner') }}</td>
-                                                <td>
-                                                    <label class="custom-switch mt-2">
-                                                        <input type="checkbox" name="" value="setting-status-change/{{ 'amazon_pay_banner' }}" {{ settingHelper('amazon_pay_banner') == 1 ? 'checked' : ''}} class="custom-switch-input
-                                                    status-change">
-                                                        <span class="custom-switch-indicator"></span>
-                                                    </label>
-                                                </td>
-                                            </tr>
-                                            <tr>
                                                 <td class="no-padding-w30 coookie-marign">{{ __('After-Pay Payment Method banner') }}</td>
                                                 <td>
                                                     <label class="custom-switch mt-2">

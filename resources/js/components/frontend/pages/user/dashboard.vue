@@ -193,18 +193,6 @@
                         </div>
                       </li>
                  
-                      <li v-if="settings.is_google_pay_activated">
-                        <div class="input-checkbox">
-                          <input type="radio" id="google_pay" @change="paymentChanged" value="google_pay"
-                                 v-model="payment_form.payment_type" name="radio">
-                          <label for="google_pay">
-                            <img :src="getUrl('public/images/payment-method/google_pay.svg')"
-                                 :alt="payment_form.payment_type"
-                                 width="90" class="img-fluid">{{ lang.pay_with_google_pay }}</label>
-                        </div>
-                      </li>
-                      
-                     
                       <li v-if="addons.includes('offline_payment')" v-for="(offline,index) in offline_methods"
                           :key="index">
                         <div class="input-checkbox">
@@ -242,10 +230,6 @@
                        v-if="offline_method.name">{{ lang.pay_now }}</a>
 
                  
-
-                    <google_pay v-if="payment_form.payment_type == 'google_pay'" :trx_id="trx_id" :code="code" :type="wallet_recharge"
-                                :amount="form.total"></google_pay>
-
                   </div>
                 </div>
               </div>
@@ -306,7 +290,6 @@
 import orders from "./../../partials/orders";
 import user_sidebar from "../../partials/user_sidebar";
 import shimmer from "../../partials/shimmer";
-import google_pay from "../../payment_partials/google_pay";
 import paypal from "../../payment_partials/paypal";
 
 
@@ -340,7 +323,7 @@ export default {
     }
   },
   components: {
-    user_sidebar, orders, shimmer,google_pay,paypal
+    user_sidebar, orders, shimmer,paypal
   },
   mounted() {
     this.getProfileOrders();

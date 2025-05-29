@@ -82,21 +82,6 @@
                             @endif
                           
                          
-{{--                            @if(settingHelper('is_google_pay_activated'))--}}
-{{--                                <li>--}}
-{{--                                    <div class="input-checkbox">--}}
-{{--                                        <input type="radio" id="google_pay" value="google_pay"--}}
-{{--                                              name="payment">--}}
-{{--                                        <label for="google_pay">--}}
-{{--                                            <img src="{{ url('public/images/payment-method/google_pay.svg') }}"--}}
-{{--                                                 alt="google_pay"--}}
-{{--                                                 width="90"--}}
-{{--                                                 class="img-fluid">--}}
-{{--                                            {{ __('pay_with_google_pay') }}</label>--}}
-{{--                                    </div>--}}
-{{--                                </li>--}}
-{{--                            @endif--}}
-                        
                         </ul>
                     </div>
                 </div>
