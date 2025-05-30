@@ -115,6 +115,31 @@
                 </li>
             @endif
 
+            @if(hasPermission('warehouse_read'))
+                <li class="nav-item dropdown @yield('warehouse_active')">
+                    <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
+                        <i class="bx bx-store"></i>
+                        <span>{{ __('Warehouses') }}</span>
+                    </a>de
+                    <ul class="dropdown-menu">
+                        @if(hasPermission('warehouse_read'))
+                            <li class="@yield('warehouse')"><a class="nav-link"
+                                                               href="{{ route('warehouse.index') }}">{{ __('All Warehouses') }}</a>
+                            </li>
+                        @endif
+                        @if(hasPermission('warehouse_transfer_read'))
+                            <li class="@yield('warehouse_transfers')"><a class="nav-link"
+                                                               href="{{ route('transfers.index') }}">{{ __('Transfers') }}</a>
+                            </li>
+                        @endif
+                        @if(hasPermission('stock_movement_read'))
+                            <li class="@yield('stock_movements')"><a class="nav-link"
+                                                               href="{{ route('stock-movements.index') }}">{{ __('Stock Movements') }}</a>
+                            </li>
+                        @endif
+                    </ul>
+                </li>
+            @endif
 
             @if(hasPermission('customer_read') || hasPermission('user_reward_read'))
                 <li class="nav-item dropdown @yield('customers')">
@@ -448,7 +473,7 @@
                             <li class="@yield('gdpr')"><a class="nav-link"
                                                           href="{{ route('gdpr') }}">{{ __('GDPR') }}</a></li>
                         @endif
-                        @if(hasPermission('facebook_service_update'))
+                        <!-- @if(hasPermission('facebook_service_update'))
                             <li class="@yield('facebook_services')">
                                 <a class="nav-link"
                                    href="{{ route('settings.facebook.services') }}">{{ __('Facebook Pixel') }}</a>
@@ -459,7 +484,7 @@
                                 <a class="nav-link"
                                    href="{{ route('settings.google.services') }}">{{ __('Google Services') }}</a>
                             </li>
-                        @endif
+                        @endif -->
                         @if(hasPermission('slider_read'))
                             <li class="@yield('slider_active')">
                                 <a class="nav-link" href="{{ route('sliders.index') }}"><span>{{ __('Slider') }}</span>
@@ -481,7 +506,8 @@
                     </ul>
                 </li>
             @endif
-            @if(hasPermission('language_read') || hasPermission('language_create') || hasPermission('language_update') || hasPermission('general_setting_update') || hasPermission('preference_setting_update') || hasPermission('email_setting_update') || hasPermission('currency_setting_update') || hasPermission('vat_tax_setting_update') || hasPermission('storage_setting_update') || hasPermission('cache_update') || hasPermission('miscellaneous_setting_update') || hasPermission('admin_panel_setting_update') || hasPermission('third_party_update'))
+            <!-- hasPermission('storage_setting_update') || hasPermission('email_setting_update') || hasPermission('language_read') || hasPermission('language_create') || hasPermission('language_update')-->
+            @if(hasPermission('general_setting_update') || hasPermission('preference_setting_update') || hasPermission('currency_setting_update') || hasPermission('vat_tax_setting_update') || hasPermission('cache_update') || hasPermission('miscellaneous_setting_update') || hasPermission('admin_panel_setting_update') || hasPermission('third_party_update'))
                 <li class="nav-item dropdown @yield('setup')">
                     <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown"><i
                                 class="bx bx-slider-alt"></i><span>{{__('System Setup')}}</span></a>
@@ -496,16 +522,16 @@
                                                                        href="{{ route('preference') }}">{{ __('Preference') }}</a>
                             </li>
                         @endif
-                        @if(hasPermission('email_setting_update'))
+                        <!-- @if(hasPermission('email_setting_update'))
                             <li class="@yield('email_setting_active')"><a class="nav-link"
                                                                           href="{{ route('email.setting') }}">{{ __('Email Setting') }}</a>
                             </li>
-                        @endif
-                        @if(hasPermission('language_read'))
+                        @endif -->
+                        <!-- @if(hasPermission('language_read'))
                             <li class="@yield('languages')"><a class="nav-link"
                                                                href="{{ route('language') }}">{{ __('Languages') }}</a>
                             </li>
-                        @endif
+                        @endif -->
                         @if(hasPermission('currency_setting_update'))
                             <li class="@yield('currency_active')"><a class="nav-link"
                                                                      href="{{ route('currency') }}">{{ __('Currency') }}</a>
@@ -516,17 +542,17 @@
                                                                     href="{{ route('vat.tax') }}">{{ __('VAT & Tax') }}</a>
                             </li>
                         @endif
-                        @if(hasPermission('storage_setting_update'))
+                        <!-- @if(hasPermission('storage_setting_update'))
                             <li class="@yield('storage_setting_active')"><a class="nav-link"
                                                                             href="{{ route('storage.setting') }}">{{ __('Storage') }}</a>
                             </li>
-                        @endif
-                        @if(hasPermission('google_service_update'))
+                        @endif -->
+                        <!-- @if(hasPermission('google_service_update'))
                             <li class="@yield('google_recaptcha_active')"><a
                                         href="{{ route('settings.google.recaptcha') }}"
                                         class="nav-link">{{ __('Google reCaptcha') }}</a>
                             </li>
-                        @endif
+                        @endif -->
                         @if(hasPermission('admin_panel_setting_update'))
                             <li class="@yield('white_level')"><a class="nav-link"
                                                                  href="{{ route('admin.panel.setting') }}">{{ __('Admin Panel Setting') }}</a>
@@ -534,12 +560,12 @@
                         @endif
 
 
-                        @if(hasPermission('pusher_notification_update'))
+                        <!-- @if(hasPermission('pusher_notification_update'))
                             <li class="@yield('pusher_notification')">
                                 <a class="nav-link"
                                    href="{{ route('settings.pusher.notification') }}">{{ __('Pusher Notification') }}</a>
                             </li>
-                        @endif
+                        @endif -->
                     </ul>
                 </li>
             @endif
@@ -551,7 +577,7 @@
                 </li>
             @endif
 
-            @if(hasPermission('android_setting_update') || hasPermission('ios_setting_update') || hasPermission('app_config_update') || hasPermission('ads_config_update')
+            <!-- @if(hasPermission('android_setting_update') || hasPermission('ios_setting_update') || hasPermission('app_config_update') || hasPermission('ads_config_update')
                 || hasPermission('api_setting_update') || hasPermission('api_key_read_all') || hasPermission('api_key_read')
                  || hasPermission('api_key_update') || hasPermission('api_key_delete') || hasPermission('all_page_read'))
                 <li class="nav-item dropdown @yield('mobile_apps')">
@@ -605,8 +631,8 @@
                         </li>
                     </ul>
                 </li>
-            @endif
-                    <li class="nav-item dropdown @yield('addon_utility')">
+            @endif -->
+                    <!-- <li class="nav-item dropdown @yield('addon_utility')">
                         <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown"><i
                                     class="bx bx-extension"
                                     aria-hidden="true"></i><span>{{ __('Addons') }}</span></a>
@@ -618,32 +644,7 @@
                                                                      href="{{ route('admin.available.addons') }}">{{ __('Available Addons') }}</a>
                             </li>
                         </ul>
-                    </li> 
-            @if(hasPermission('warehouse_read'))
-                <li class="nav-item dropdown @yield('warehouse_active')">
-                    <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
-                        <i class="bx bx-store"></i>
-                        <span>{{ __('Warehouses') }}</span>
-                    </a>de
-                    <ul class="dropdown-menu">
-                        @if(hasPermission('warehouse_read'))
-                            <li class="@yield('warehouse')"><a class="nav-link"
-                                                               href="{{ route('warehouse.index') }}">{{ __('All Warehouses') }}</a>
-                            </li>
-                        @endif
-                        @if(hasPermission('warehouse_transfer_read'))
-                            <li class="@yield('warehouse_transfers')"><a class="nav-link"
-                                                               href="{{ route('transfers.index') }}">{{ __('Transfers') }}</a>
-                            </li>
-                        @endif
-                        @if(hasPermission('stock_movement_read'))
-                            <li class="@yield('stock_movements')"><a class="nav-link"
-                                                               href="{{ route('stock-movements.index') }}">{{ __('Stock Movements') }}</a>
-                            </li>
-                        @endif
-                    </ul>
-                </li>
-            @endif
+                    </li>  -->
         </ul>
     </aside>
 </div>

@@ -176,8 +176,6 @@ class HomeController extends Controller
             $popup_modal['popup_image'] = getFileLink('270x260', settingHelper('popup_image'));
         }
 
-        $ngn_exchange_rate = 1;
-
         $euro = AppSettingUtility::currencies()->where('code', 'EUR')->first();
 
         $settings = [
@@ -213,7 +211,6 @@ class HomeController extends Controller
             'full_width_menu_background' => settingHelper('full_width_menu_background'),
             'is_paypal_activated' => settingHelper('is_paypal_activated'),
             'is_stripe_activated' => settingHelper('is_stripe_activated'),
-            'ngn_exchange_rate' => $ngn_exchange_rate,
             'reward_convert_rate' => settingHelper('reward_convert_rate'),
             'refund_with_shipping_cost' => settingHelper('refund_with_shipping_cost'),
             'refund_request_time' => settingHelper('refund_request_time'),

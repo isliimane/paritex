@@ -37,7 +37,7 @@
                         <a class="nav-link @yield('gdpr')" href="{{ route('gdpr') }}">{{ __('GDPR') }}</a>
                     </li>
                 @endif
-                @if(hasPermission('facebook_service_update'))
+                <!-- @if(hasPermission('facebook_service_update'))
                     <li class="nav-item"><a href="{{ route('settings.facebook.services') }}"
                                             class="nav-link @yield('facebook_services')">{{ __('Facebook Pixel') }}</a>
                     </li>
@@ -46,7 +46,7 @@
                     <li class="nav-item"><a href="{{ route('settings.google.services') }}"
                                             class="nav-link @yield('google_services')">{{ __('Google Service') }}</a>
                     </li>
-                @endif
+                @endif -->
             </ul>
         </div>
     </div>

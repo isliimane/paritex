@@ -27,7 +27,7 @@
                                 <form action="{{ route('footer.page.update') }}" method = "POST" id="url-short" data-url="{{ route('footer.page.update') }}">
                                     @csrf
                                     <div class="card-body p-0  mb-4">
-                                        <div class="form-inline">
+                                        <!-- <div class="form-inline">
                                             <div class="alert-body w-100 p-4">
                                                 <div class="alert alert-light alert-has-icon p-0 mb-0">
                                                     <div class="alert-icon pl-2"><i class="bx bx-bulb"></i></div>
@@ -36,7 +36,7 @@
                                                     </small>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="form-inline">
                                             <div class="drag-brop-menu" id="drag-brop-menu">
                                             @if(@settingHelper('useful_links'))

@@ -69,7 +69,7 @@
                                                     </label>
                                                 </td>
                                             </tr>
-                                            <tr>
+                                            <!-- <tr>
                                                 <td class="no-padding-w30 coookie-marign">{{ __('After-Pay Payment Method banner') }}</td>
                                                 <td>
                                                     <label class="custom-switch mt-2">
@@ -78,7 +78,7 @@
                                                         <span class="custom-switch-indicator"></span>
                                                     </label>
                                                 </td>
-                                            </tr>
+                                            </tr> -->
                                         </table>
 
                                         <div class="form-group">

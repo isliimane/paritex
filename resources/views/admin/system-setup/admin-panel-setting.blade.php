@@ -101,7 +101,7 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group seo-image-positoin">
+                                <!-- <div class="form-group seo-image-positoin">
                                     <label for="">{{ __('Copyright Text') }}</label>
                                     <div class="form-group row mb-12">
                                         <div class="col-sm-12 col-md-12">
@@ -109,7 +109,7 @@
                                                       name="admin_panel_copyright_text">{{ old('admin_panel_copyright_text') ? old('admin_panel_copyright_text') : settingHelper('admin_panel_copyright_text', $lang) }}</textarea>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="text-md-right">
                                     <button class="btn btn-outline-primary" id="save-btn">{{ __('Update') }}</button>
                                 </div>

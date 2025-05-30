@@ -50,7 +50,7 @@
                                                     <input type="url" class="form-control" value="{{old('facebook_link') ? old('facebook_link') : settingHelper('facebook_link')}}" name="facebook_link" placeholder="https://" />
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+                                            <!-- <div class="form-group">
                                                 <label></label>
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
@@ -60,7 +60,7 @@
                                                     </div>
                                                     <input type="url" class="form-control" value="{{old('twitter_link') ? old('twitter_link') : settingHelper('twitter_link')}}" name="twitter_link" placeholder="https://" />
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <div class="form-group">
                                                 <label></label>
                                                 <div class="input-group">

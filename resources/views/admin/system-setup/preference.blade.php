@@ -33,7 +33,7 @@
                                         <tr>
                                             <th colspan="2">{{ __('System') }}</th>
                                         </tr>
-                                        <tr>
+                                        <!-- <tr>
                                                 <td>{{ __('HTTPS Activation') }}
                                                     <div class="invalid-feedback">
                                                         {{ __('N.B: Make sure you have SSL Installed before activating HTTPS') }}
@@ -78,10 +78,10 @@
                                                     </label>
                                                 @endif
                                             </td>
-                                        </tr>
-                                        <tr>
+                                        </tr> -->
+                                        <!-- <tr>
                                             <th colspan="2">{{ __('Business Related') }}</th>
-                                        </tr>
+                                        </tr> -->
                                         <tr>
                                             <td>{{ __('Wallet System Activation') }}</td>
                                             <td width="300">
