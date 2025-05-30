@@ -31,9 +31,9 @@
                   </payment_method>
                  
                 
-                  <payment_method v-if="payment_form.total > 0 && !code && !check_cod"
+                  <!-- <payment_method v-if="payment_form.total > 0 && !code && !check_cod"
                                   :value="'cash_on_delivery'" :label="lang.cash_on_delivery" :image="getUrl('public/images/payment-method/cash.svg')">
-                  </payment_method>
+                  </payment_method> -->
                   <li v-if="!code && addons.includes('offline_payment')"
                       v-for="(offline,index) in offline_methods" :key="index">
                     <div class="input-checkbox">

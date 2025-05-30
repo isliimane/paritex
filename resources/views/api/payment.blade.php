@@ -98,25 +98,6 @@
                                 </li>
                             @endif
 
-                            @if(in_array('offline_payment',$addons))
-                                @foreach($offline_methods as $offline)
-                                    <li>
-                                        <div class="input-checkbox">
-                                            <input type="radio" data-id="{{ $offline->id }}"
-                                                   data-value="{{$offline->getTranslation('name',app()->getLocale())}}"
-                                                   data-instructions="{{ $offline->getTranslation('instructions',app()->getLocale()) }}"
-                                                   id="offline_{{$offline->id}}"
-                                                   value="offline_method" name="payment">
-                                            <label for="offline_{{$offline->id}}">
-                                                <img src="{{ $offline->image }}"
-                                                     alt="{{ $offline->getTranslation('name',app()->getLocale()) }}"
-                                                     class="img-fluid">
-                                                {{ $offline->getTranslation('name',app()->getLocale()) }}
-                                            </label>
-                                        </div>
-                                    </li>
-                                @endforeach
-                            @endif
                         </ul>
 
                         @if(authUser() && authUser()->balance >= $orders->sum('total_payable') && settingHelper('wallet_system') == 1)
