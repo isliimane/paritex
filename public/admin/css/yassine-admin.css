@@ -171,12 +171,6 @@ a.dropdown-item:focus, a.dropdown-item:active, a.dropdown-item.active{
     color: var(--primary-color) !important;
   }
 
-  
-  /* Séparateur entre les éléments du menu */
-  .sidebar-menu li {
-    /* border-bottom: 1px solid rgba(0, 0, 0, 0.05); */
-  }
-  
   .sidebar-menu li:last-child {
     border-bottom: none;
   }
