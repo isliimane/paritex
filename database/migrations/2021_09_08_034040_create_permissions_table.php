@@ -389,8 +389,6 @@ class CreatePermissionsTable extends Migration
                     'cache' => "cache_update",
                     'miscellaneous' => "miscellaneous_setting_update",
                     'Admin Panel Setting Update' => "admin_panel_setting_update",
-                    'Facebook Service' => "facebook_service_update",
-                    'Google Service' => "google_service_update",
                     'Pusher Notification' => "pusher_notification_update"
                 ])
             ],
@@ -434,18 +432,6 @@ class CreatePermissionsTable extends Migration
                     'create' => "role_create",
                     'update' => "role_update",
                     'delete' => "role_delete"
-                ])
-            ],
-            [
-                'attribute' => 'api_key',
-                'created_at' => $now,
-                'updated_at' => $now,
-                "keywords" => json_encode([
-                    'create'  => "api_key_create",
-                    'read' => "api_key_read",
-                    'update' => "api_key_update",
-                    'delete' => "api_key_delete",
-                    'read_all' => "api_key_read_all",
                 ])
             ],
             [

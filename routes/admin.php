@@ -34,16 +34,12 @@ use App\Http\Controllers\Admin\Marketing\CouponController;
 use App\Http\Controllers\Admin\Product\CategoryController;
 use App\Http\Controllers\Admin\Setup\PreferenceController;
 use App\Http\Controllers\Admin\Setup\ThirdPartyController;
-use App\Http\Controllers\Admin\Marketing\BulkSMSController;
 use App\Http\Controllers\Admin\Product\AttributeController;
 use App\Http\Controllers\Admin\Setup\SocialLoginController;
 use App\Http\Controllers\Admin\Marketing\CampaignController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
-use App\Http\Controllers\Admin\MobileApps\AppIntroController;
-use App\Http\Controllers\Admin\Setup\EmailSettingsController;
 use App\Http\Controllers\Admin\Setup\MiscellaneousController;
 use App\Http\Controllers\Admin\Marketing\SubscriberController;
-use App\Http\Controllers\Admin\MobileApps\MobileAppsController;
 use App\Http\Controllers\Admin\Setup\GeneralSettingsController;
 use App\Http\Controllers\Admin\Setup\StorageSettingsController;
 use App\Http\Controllers\Admin\StoreFront\StoreFrontController;
@@ -208,11 +204,6 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 Route::put('update-social-login', [SocialLoginController::class, 'socialLoginUpdate'])->name('social.login.update')->middleware('PermissionCheck:social_login_setting_update');
                 Route::put('admin-social-login-status-change', [SocialLoginController::class, 'update'])->name('admin.social-login.status.change')->middleware('PermissionCheck:social_login_setting_update');
 
-                //email setting
-                Route::get('email-setting', [EmailSettingsController::class, 'index'])->name('email.setting')->middleware('PermissionCheck:email_setting_update');
-                Route::put('email-setting-update', [EmailSettingsController::class, 'update'])->name('admin.email.setting.update');
-                Route::post('send.test.email', [EmailSettingsController::class, 'sendTestMail'])->name('send.test.email');
-
                 //currency
                 Route::get('currency', [CurrencyController::class, 'index'])->name('currency')->middleware('PermissionCheck:currency_setting_update');
                 Route::post('currency-store', [CurrencyController::class, 'store'])->name('admin.setting.currency.store');
@@ -249,7 +240,7 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 Route::put('admin-panel/setting-update', [AdminPanelSettingController::class, 'update'])->name('admin.panel.setting.update');
 
                 //fonts
-                Route::get('admin-panel/fonts', [FontController::class, 'index'])->name('admin.get.fonts');
+                // Route::get('admin-panel/fonts', [FontController::class, 'index'])->name('admin.get.fonts');
                 Route::post('admin-panel/add-font', [FontController::class, 'addFont'])->name('admin.add.font');
                 Route::get('admin-panel/edit-font/{id}', [FontController::class, 'editFont'])->name('admin.edit.font');
                 Route::post('admin-panel/update-font', [FontController::class, 'updateFont'])->name('admin.update.font');
@@ -261,8 +252,6 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 Route::put('third-party-update', [ThirdPartyController::class, 'thirdParty'])->name('third.party.setting.update');
                 Route::put('third-party-status-change', [ThirdPartyController::class, 'update'])->name('third.party.status.change');
 
-                Route::get("settings/facebook-services", [ThirdPartyController::class, 'facebookService'])->name('settings.facebook.services')->middleware('PermissionCheck:facebook_service_update');
-                Route::get("settings/google-services", [ThirdPartyController::class, 'googleService'])->name('settings.google.services')->middleware('PermissionCheck:google_service_update');
                 Route::get("settings/google-recaptcha", [ThirdPartyController::class, 'googleRecaptcha'])->name('settings.google.recaptcha')->middleware('PermissionCheck:google_service_update');
                 Route::get("settings/pusher-notification", [ThirdPartyController::class, 'pusherNotification'])->name('settings.pusher.notification')->middleware('PermissionCheck:pusher_notification_update');
 
@@ -441,14 +430,6 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 });
 
 
-                //Addon Route
-                Route::group(['prefix' => 'addons'], function () {
-                    Route::get('installed', [AddonController::class, 'installAddons'])->name('admin.installed.addon');
-                    Route::get('available', [AddonController::class, 'availableAddons'])->name('admin.available.addons');
-                    Route::post('new-install', [AddonController::class, 'installNewAddon'])->name('install.new.addon');
-                });
-                Route::put('addon-status-change', [AddonController::class, 'statusChange'])->name('addon.status.change');
-
                 //order
                 Route::group(['prefix' => 'orders'], function () {
                     Route::get('/', [OrderController::class, 'index'])->name('orders')->middleware('PermissionCheck:order_read');
@@ -473,33 +454,6 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 Route::get('pickup-hub-edit/{id}', [PickupHubController::class, 'edit'])->name('pickup.hub.edit')->middleware('PermissionCheck:pickup_hub_update');
                 Route::put('pickup-hub-update', [PickupHubController::class, 'update'])->name('pickup.hub.update')->middleware('PermissionCheck:pickup_hub_update');
                 Route::delete('delete/pickup_hubs/{id}', [CommonController::class, 'delete'])->name('support.pickup-hub.delete')->middleware('PermissionCheck:pickup_hub_delete');
-
-                //Mobile Apps
-                Route::get('api-setting', [MobileAppsController::class, 'apiSetting'])->name('apis.settings');
-                Route::resource('api-keys', \App\Http\Controllers\ApiKeyController::class)->except('destroy');
-                Route::delete('delete/api_keys/{service}', [CommonController::class, 'delete'])->name('services.destroy')->middleware('PermissionCheck:service_delete');
-                Route::get('android-setting', [MobileAppsController::class, 'androidSetting'])->name('android.settings')->middleware('PermissionCheck:android_setting_update');
-                Route::get('download-link-setting', [MobileAppsController::class, 'downloadLink'])->name('download.link.settings')->middleware('PermissionCheck:download_link_update');
-                Route::get('ios-setting', [MobileAppsController::class, 'iosSetting'])->name('ios.settings')->middleware('PermissionCheck:ios_setting_update');
-                Route::get('app-config-setting', [MobileAppsController::class, 'appConfigSetting'])->name('app.config.settings')->middleware('PermissionCheck:app_config_update');
-                Route::get('ads-config-setting', [MobileAppsController::class, 'adsConfigSetting'])->name('ads.config.settings')->middleware('PermissionCheck:ads_config_update');
-                Route::put('api-setting-update', [MobileAppsController::class, 'apiUpdate'])->name('mobile.apps.settings.update');
-                Route::get('mobile-slider-setting', [MobileAppsController::class, 'sliderSettings'])->name('mobile.slider.settings');
-                Route::get('mobile-banner-settings',[MobileAppsController::class, 'mobileBanner'])->name('mobile.banner.settings');
-                Route::get('mobile-gdpr-settings',[MobileAppsController::class, 'mobileGdpr'])->name('mobile.gdpr.settings');
-                Route::get('create-mobile-slider', [MobileAppsController::class, 'createSlider'])->name('create.mobile.slider');
-                Route::get('edit-mobile-slider/{id}', [MobileAppsController::class, 'editSlider'])->name('edit.mobile.slider');
-                Route::put('mobile-slider-update', [MobileAppsController::class, 'apiUpdate'])->name('mobile.slider.update');
-                Route::get('mobile-home-screen', [MobileAppsController::class, 'homePageBuilder'])->name('mobile.home.page');
-                Route::post('mobile-home-page-update', [MobileAppsController::class, 'updateMobileHomeContent'])->name('mobile.home.page.update');
-
-                //App Intro  Settings
-                Route::get('app-intro-setting', [AppIntroController::class, 'index'])->name('app.intro.settings');
-                Route::post('app-intro-setting-store', [AppIntroController::class, 'store'])->name('app.intro.store');
-                Route::get('app-intro-edit/{id}', [AppIntroController::class, 'edit'])->name('app.intro.edit');
-                Route::put('app-intro-update', [AppIntroController::class, 'update'])->name('app.intro.update');
-                Route::put('app-intro-status-change', [AppIntroController::class, 'statusChange'])->name('app.intro.status.change');
-                Route::delete('delete/app_intros/{id}', [CommonController::class, 'delete'])->name('app.intro.delete');
 
                 //Slider Routes...
                 Route::get('sliders', [SliderController::class, 'index'])->name('sliders.index')->middleware('PermissionCheck:slider_read');

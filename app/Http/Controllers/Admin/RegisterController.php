@@ -7,7 +7,6 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Traits\SendMailTrait;
-use App\Traits\SmsSenderTrait;
 use App\Traits\SendNotification;
 use App\Utility\AppSettingUtility;
 use Illuminate\Support\Facades\DB;
@@ -20,7 +19,7 @@ use Sentinel;
 
 class RegisterController extends Controller
 {
-    use SmsSenderTrait,SendMailTrait,SendNotification;
+    use SendMailTrait,SendNotification;
 
     public function register()
     {
@@ -40,25 +39,6 @@ class RegisterController extends Controller
             
             if ($request->phone) {
                 $request['phone'] = str_replace(' ','',$request->phone);
-                
-                if (settingHelper('disable_otp_verification') != 1)
-                {
-                    $req = RegistrationRequest::where('phone',$request->phone)->first();
-                    if (!$req)
-                    {
-                        return response()->json([
-                            'error' => __('Verification Code Needed To Verify')
-                        ]);
-                    }
-
-                    if ($request->otp != $req->otp) {
-                        return response()->json([
-                            'error' => __('OTP Doesnt Match')
-                        ]);
-                    }
-                    RegistrationRequest::where('phone',$request->phone)->delete();
-                }
-
                 $request['password'] = '123456';
                 $sellerData = Sentinel::registerAndActivate($request->all());
             }
@@ -111,60 +91,4 @@ class RegisterController extends Controller
         }
     }
 
-    public function registerByPhone(Request $request): \Illuminate\Http\JsonResponse
-    {
-        $request->validate([
-            'first_name'    => 'required',
-            'last_name'     => 'required',
-            'phone'         => 'required',
-        ]);
-        try {
-            $request['phone'] = str_replace(' ','',$request->phone);
-
-            $req = RegistrationRequest::where('phone',$request->phone)->first();
-
-            if ($req && Carbon::parse($req->created_at)->addMinutes(2) >= Carbon::now())
-            {
-                return response()->json([
-                    'error' => __('Verification Code was Already Sent')
-                ]);
-            }
-
-            $user = User::where('phone', $request->phone)->first();
-            RegistrationRequest::where('phone',$request->phone)->delete();
-
-            if ($user) {
-                return response()->json([
-                    'error' => __('This Phone Number is Already Registered')
-                ]);
-            }
-            $otp = rand(10000, 99999);
-           if ($request->phone && addon_is_activated('otp_system')):
-                $sms_templates  = AppSettingUtility::smsTemplates();
-                $sms_template   = $sms_templates->where('tab_key','signup')->first();
-                $sms_body       = str_replace('{otp}', $otp, @$sms_template->sms_body);
-               $query = $this->send($request->phone, $sms_body, @$sms_template->template_id);
-               if (is_string($query))
-               {
-                   return response()->json([
-                       'error' => __('Something went wrong')
-                   ]);
-               }
-                if (!$query):
-                    return response()->json([
-                        'error' => __('Unable to send otp')
-                    ]);
-                endif;
-            endif;
-            $request['otp'] = $otp;
-            RegistrationRequest::create($request->all());
-            return response()->json([
-                'data' => __('OTP Send Successfully')
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage()
-            ]);
-        }
-    }
 }

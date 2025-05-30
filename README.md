@@ -1,1 +1,1 @@
-YOORI - Laravel Vue Multi-Vendor PWA eCommerce CMS
+Paritex eCommerce B2B.

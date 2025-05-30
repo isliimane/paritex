@@ -147,8 +147,6 @@ class PermissionSeeder extends Seeder
                 'cache'                 => 'cache_update',
                 'miscellaneous'         => 'miscellaneous_setting_update',
                 'Admin Panel Setting Update'    => 'admin_panel_setting_update',
-                'Facebook Service'      => 'facebook_service_update',
-                'Google Service'        => 'google_service_update',
                 'Pusher Notification'   => 'pusher_notification_update'
             ],
             'chat_messenger'        => [
@@ -173,27 +171,6 @@ class PermissionSeeder extends Seeder
                 'create'                => 'role_create',
                 'update'                =>  'role_update',
                 'delete'                =>'role_delete'
-            ],
-            'mobile_apps'           => [
-                'setting_update'        => 'api_setting_update',
-                'android_setting'       => 'android_setting_update',
-                'ios_setting'           => 'ios_setting_update',
-                'app_config'            => 'app_config_update',
-                'ads_config'            => 'ads_config_update',
-                'download_link'         => 'download_link_update'
-            ],
-            'mobile_app_intro'      => [
-                'read'                  => 'mobile_app_intro_read',
-                'create'                => 'mobile_app_intro_create',
-                'update'                => 'mobile_app_intro_update',
-                'delete'                =>'mobile_app_intro_delete'
-            ],
-
-            'Video Shopping'        => [
-                'read'                  => 'video_shopping_read',
-                'create'                => 'video_shopping_create',
-                'update'                => 'video_shopping_update',
-                'delete'                => 'video_shopping_delete'
             ],
             'warehouse'        => [
                 'read'                  => 'warehouse_read',

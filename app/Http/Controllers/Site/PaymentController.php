@@ -236,17 +236,4 @@ class PaymentController extends Controller
 
 
 
-
-
-    public function getAddress($billing_address): \Iyzipay\Model\Address
-    {
-        $billingAddress = new \Iyzipay\Model\Address();
-        $billingAddress->setContactName($billing_address ? $billing_address['name'] : 'Yoori Customer');
-        $billingAddress->setCity($billing_address ? $billing_address['city'] : 'Istanbul');
-        $billingAddress->setCountry($billing_address ? $billing_address['country'] : "Turkey");
-        $billingAddress->setAddress($billing_address ? $billing_address['address'] : "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1");
-        $billingAddress->setZipCode($billing_address ? $billing_address['postal_code'] : "34742");
-        return $billingAddress;
-    }
-
 }

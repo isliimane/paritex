@@ -13,7 +13,7 @@
             <h1>{{ lang.sign_in }}</h1>
             <p>{{ lang.sign_continue_shopping }}</p>
             <form class="ragister-form" name="ragister-form" @submit.prevent="login">
-              <div class="form-group" v-if="optionTo=='phone'">
+              <div class="form-group">
                 <span class="mdi mdi-name mdi-email-outline"></span>
                 <input type="email" v-model="form.email" class="form-control mb-1"
                        :class="{ 'error_border' : errors.email }"
@@ -21,23 +21,7 @@
               </div>
               <span class="validation_error" v-if="errors.email">{{ errors.email[0] }}</span>
 
-              <div v-if="optionTo=='email'">
-                <telePhone @phone_no="getNumber" :phone_error="errors.phone ? errors.phone[0] : null"></telePhone>
-
-              </div>
-              <span class="validation_error" v-if="errors.phone">{{ errors.phone[0] }}</span>
-
-              <div class="form-group mb-3 text-end" v-if="addons.includes('otp_system') && !otp_field">
-                <a href="javaScript:void(0)" class="btn sign-in-option" @click="loginOptions(optionTo)">{{
-                    optionTo == 'email' ? lang.use_email_instead : lang.use_phone_instead
-                  }}</a>
-              </div>
-              <div class="form-group mt-4" v-if="otp_field">
-                <span class="mdi mdi-name mdi-lock-outline"></span>
-                <input type="text" v-model="phoneForm.otp" class="form-control"
-                       :placeholder="lang.enter_your_otp">
-              </div>
-              <div class="form-group" :class="{ 'mt-4' : !addons.includes('otp_system') }" v-if="optionTo=='phone'">
+              <div class="form-group mt-4">
                 <span class="mdi mdi-name mdi-lock-outline"></span>
                 <input type="password" v-model="form.password" class="form-control"
                        :class="{ 'error_border' : errors.password }"
@@ -45,7 +29,7 @@
               </div>
               <span class="validation_error" v-if="errors.password">{{ errors.password[0] }}</span>
 
-              <div class="middle-content d-flex" v-if="optionTo == 'phone'">
+              <div class="middle-content d-flex">
                 <div class="form-group remember">
                   <input type="checkbox" name="remember" v-model="form.remember" value="1"
                          id="remember">
@@ -56,45 +40,16 @@
                 </router-link>
               </div>
               <div v-if="settings.is_recaptcha_activated == 1" class="g-recaptcha mb-2"
-                   :class="optionTo == 'email' ? 'd-none': ''" data-callback="myCallback"
+                   data-callback="myCallback"
                    :data-sitekey="settings.recaptcha_Site_key"></div>
 
               <loading_button v-if="loading" :class_name="'btn'"></loading_button>
               <button type="submit" v-else class="btn">{{ buttonText }}</button>
 
-              <div v-if="settings.demo_mode && !loading" class="d-flex justify-content-between mb-3">
-                <button type="button" href="javascript:void(0)" @click="copyLoginInfo('admin@spagreen.net')"
-                        class="btn copy_btn">Admin
-                </button>
-                <button type="button" href="javascript:void(0)" @click="copyLoginInfo('customer@spagreen.net')"
-                        class="btn copy_btn">Customer
-                </button>
-                <button type="button" href="javascript:void(0)" @click="copyLoginInfo('staff@spagreen.net')"
-                        class="btn copy_btn">Staff
-                </button>
-              </div>
-
               <p>{{ lang.don_have_an_account }}
                 <router-link :to="{ name : 'register' }">{{ lang.sign_up }}</router-link>
               </p>
-              <div class="continue-with"
-                   v-if="settings.is_facebook_login_activated == 1 || settings.is_google_login_activated == 1 || settings.is_twitter_login_activated == 1">
-                <p>{{ lang.or_continue_with }}</p>
-              </div>
-              <ul class="global-list">
-                <li v-if="settings.is_facebook_login_activated == 1"><a class="facebook"
-                                                                        href="javascript:void(0)"
-                                                                        @click="loginWithSocial('fb')"><span
-                    class="mdi mdi-name mdi-facebook"></span>{{ lang.facebook }}</a></li>
-                <li v-if="settings.is_twitter_login_activated == 1"><a class="twitter"
-                                                                       href="javascript:void(0)"
-                                                                       @click="loginWithSocial('twitter')"><span
-                    class="mdi mdi-name mdi-twitter"></span>{{ lang.twitter }}</a></li>
-                <li v-if="settings.is_google_login_activated == 1"><a class="google"
-                                                                      href="javascript:void(0)"
-                                                                      @click="loginWithSocial('google')"><span
-                    class="mdi mdi-name mdi-google"></span>{{ lang.google }}</a></li>
-              </ul>
+             
             </form>
           </div>
 
@@ -123,13 +78,7 @@ export default {
         remember: 0,
         captcha: '',
       },
-      phoneForm: {
-        phone: '',
-        otp: '',
-      },
-      otp_field: false,
       loading: false,
-      optionTo: 'phone',
       buttonText: 'Sign In',
       social_login_active: false
     }
@@ -141,11 +90,9 @@ export default {
     if (this.settings.is_recaptcha_activated == 1) {
       this.captcha();
     }
-    this.loginOptions();
   },
   watch: {
     lang() {
-      this.loginOptions();
     }
   },
   computed: {
@@ -161,7 +108,7 @@ export default {
       if (direct_login == 'direct_login') {
         this.form.captcha = '1';
       } else {
-        if (this.settings.is_recaptcha_activated == 1 && this.optionTo == 'phone') {
+        if (this.settings.is_recaptcha_activated == 1) {
           let captcha = window.captcha;
 
           if (captcha) {
@@ -177,21 +124,6 @@ export default {
       });
       this.$store.commit('getCountCompare', true);
 
-      if (direct_login != 'direct_login') {
-        if (this.optionTo == 'phone') {
-          form = this.form;
-        } else if (this.optionTo == 'email' && !this.otp_field) {
-          if (!this.settings.disable_otp)
-          {
-            url = this.getUrl('get-otp');
-          }
-          form = this.phoneForm;
-        } else if (this.otp_field) {
-          url = this.getUrl('submit-otp');
-          form = this.phoneForm;
-        }
-      }
-
       this.loading = true;
 
       axiosWithCredentials.post(url, form).then((response) => {
@@ -205,10 +137,6 @@ export default {
           window.captcha = '';
           this.errors = [];
 
-          if (this.optionTo == 'email' && !this.otp_field && direct_login != 'direct_login' && !this.settings.disable_otp) {
-            this.otp_field = true;
-            this.buttonText = this.lang.sign_in;
-          } else {
             if (this.loginRedirect) {
               this.$router.push({name: this.loginRedirect});
             } else {
@@ -228,7 +156,7 @@ export default {
             this.$store.dispatch('user', response.data.user);
             this.$store.dispatch('compareList', response.data.compare_list);
             this.$store.dispatch('wishlists', response.data.wishlists);
-          }
+          
         }
       }).catch((error) => {
         this.loading = false;
@@ -263,39 +191,6 @@ export default {
         this.social_login_active = false;
         toastr.error('Something Went Wrong, Please Try Again', this.lang.Error + ' !!');
       })
-    },
-    loginOptions(optionTo) {
-      this.errors = [];
-      if (optionTo) {
-        if (optionTo == 'phone') {
-          if (this.settings.disable_otp)
-          {
-            this.buttonText = this.lang.sign_in;
-          }
-          else{
-            this.buttonText = this.lang.get_oTP;
-          }
-          this.optionTo = 'email';
-        } else {
-          this.buttonText = this.lang.sign_in;
-          this.optionTo = 'phone';
-        }
-      } else {
-        if (this.addons.includes('otp_system')) {
-          this.optionTo = 'email';
-          if (this.settings.disable_otp)
-          {
-            this.buttonText = this.lang.sign_in;
-          }
-          else{
-            this.buttonText = this.lang.get_oTP;
-          }
-        } else {
-          this.buttonText = this.lang.sign_in;
-          this.optionTo = 'phone';
-        }
-      }
-
     },
     captcha() {
       const script = document.createElement("script")

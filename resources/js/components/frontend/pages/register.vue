@@ -8,8 +8,7 @@
           </div>
           <div class="form-content">
             <h1>{{ lang.sign_up }} </h1>
-            <p v-if="otp  && !settings.disable_otp">{{ lang.enter_to_complete_registration }}</p>
-            <p v-else>{{ lang.sign_to_continue_shopping }}</p>
+            <p>{{ lang.sign_to_continue_shopping }}</p>
             <form class="ragister-form" name="ragister-form" @submit.prevent="register">
               <div>
                 <div class="form-group">
@@ -35,91 +34,39 @@
                          :placeholder="lang.license_no"/>
                 </div>
                 <span class="validation_error" v-if="errors.license_no">{{ errors.license_no[0] }}</span>
-                <div class="form-group" v-if="optionTo == 'phone'">
+                <div class="form-group">
                   <span class="mdi mdi-name mdi-email-outline"></span>
                   <input type="email" v-model="form.email" class="form-control mb-0"
                          :class="{ 'error_border mb-0' : errors.email }" :placeholder="lang.email"/>
                 </div>
                 <span class="validation_error"
-                      v-if="errors.email && optionTo == 'phone'">{{ errors.email[0] }}</span>
-
-                <div v-if="optionTo == 'email' && addons.includes('otp_system')">
-                  <!--                                    <vue-tel-input v-bind="bindProps" class="form-control phone_intl"-->
-                  <!--                                                   :class="{ 'error_border mb-0' : errors.phone }"-->
-                  <!--                                                   v-model="form.phone"></vue-tel-input>-->
-                  <telePhone @phone_no="getNumber" @country_id="setCountry" :phone_error="errors.phone ? errors.phone[0] : null"></telePhone>
-
-                  <span class="validation_error" v-if="errors.phone">{{ errors.phone[0] }}</span>
-                </div>
-                <div v-if="addons.includes('otp_system')" class="form-group text-end mb-3">
-                  <a href="javascript:void(0)" class="btn sign-in-option"
-                     @click="loginOptions(optionTo)">{{
-                      optionTo == 'email' ? lang.use_email_instead : lang.use_phone_instead
-                    }}</a>
-                </div>
-                <div class="form-group" v-if="optionTo == 'phone'"
-                     :class="{ 'mt-4' : !addons.includes('otp_system') }">
+                      v-if="errors.email">{{ errors.email[0] }}</span>
+                <div class="form-group mt-4">
                   <span class="mdi mdi-name mdi-lock-outline"></span>
                   <input type="password" v-model="form.password" class="form-control"
                          :class="{ 'error_border' : errors.password }" :placeholder="lang.Password"/>
                 </div>
                 <span class="validation_error"
-                      v-if="errors.password && optionTo == 'phone'">{{ errors.password[0] }}</span>
-                <div class="form-group" v-if="optionTo == 'phone'"
-                     :class="{ 'mt-4' : !addons.includes('otp_system') }">
+                      v-if="errors.password">{{ errors.password[0] }}</span>
+                <div class="form-group mt-4">
                   <span class="mdi mdi-name mdi-lock-outline"></span>
                   <input type="password" v-model="form.password_confirmation" class="form-control"
                          :class="{ 'error_border' : errors.password_confirmation }" :placeholder="lang.password_confirmation"/>
                 </div>
                 <span class="validation_error"
-                      v-if="errors.password_confirmation && optionTo == 'phone'">{{ errors.password_confirmation[0] }}</span>
+                      v-if="errors.password_confirmation">{{ errors.password_confirmation[0] }}</span>
               </div>
-              <div class="form-group mt-4" v-if="addons.includes('otp_system') && otp && !settings.disable_otp">
-                <span class="mdi mdi-name mdi-lock-outline"></span>
-                <input type="text" v-model="form.otp" class="form-control otp mb-0"
-                       :class="{ 'error_border' : errors.otp }" :placeholder="lang.enter_oTP"/>
-              </div>
-              <div v-if="addons.includes('otp_system') && otp">
-                <p class="count_down_timer" v-if="!settings.disable_otp">
-                  <span v-if="otp && (minute >=0 && second >= 0)">0{{ minute }}:{{ second }}</span>
-                  <span @click="registerByPhone" v-else>{{ lang.otp_request }}</span>
-                </p>
-              </div>
-
               <gdpr_page ref="customer_agreement" :agreements="settings.customer_agreement"></gdpr_page>
 
-              <button type="submit" class="btn" v-if="otp && !loading"
-                      :class="{ 'disable_btn' : form.otp.length != 5 && !settings.disable_otp }">{{ lang.sign_up }}
-              </button>
-
-              <button type="submit" class="btn" v-else-if="optionTo == 'phone' && !loading">
+              <button type="submit" class="btn" v-if="!loading">
                 {{ lang.sign_up }}
               </button>
               <loading_button v-if="loading" :class_name="'btn'"></loading_button>
-              <button type="button" @click="registerByPhone" class="btn"
-                      v-else-if="optionTo == 'email' && !otp">{{ lang.get_oTP }}
-              </button>
+             
               <p>{{ lang.have_an_account }}
                 <router-link :to="{ name : 'login' }">{{ lang.sign_in }}</router-link>
               </p>
-              <div class="continue-with"
-                   v-if="settings.is_facebook_login_activated == 1 || settings.is_google_login_activated == 1 || settings.is_twitter_login_activated == 1">
-                <p>{{ lang.or_continue_with }}</p>
-              </div>
-              <ul class="global-list">
-                <li v-if="settings.is_facebook_login_activated == 1"><a class="facebook"
-                                                                        href="javascript:void(0)"
-                                                                        @click="loginWithSocial('fb')"><span
-                    class="mdi mdi-name mdi-facebook"></span>{{ lang.facebook }}</a></li>
-                <li v-if="settings.is_twitter_login_activated == 1"><a class="twitter"
-                                                                       href="javascript:void(0)"
-                                                                       @click="loginWithSocial('twitter')"><span
-                    class="mdi mdi-name mdi-twitter"></span>{{ lang.twitter }}</a></li>
-                <li v-if="settings.is_google_login_activated == 1"><a class="google"
-                                                                      href="javascript:void(0)"
-                                                                      @click="loginWithSocial('google')"><span
-                    class="mdi mdi-name mdi-google"></span>{{ lang.google }}</a></li>
-              </ul>
+              
             </form>
             <!-- /.contact-form -->
           </div>
@@ -154,19 +101,16 @@ export default {
         phone: '',
         address: '',
         phone_no: '',
-        otp: '',
         user_type: this.$route.params.type,
         country_id: '',
         license_no: ''
       },
-      optionTo: 'phone',
       social_login_active: false,
       loading: false,
-      buttonText: 'Get OTP',
+      buttonText: 'Sign Up',
       phone_no: '',
       minute: 1,
       second: 60,
-      otp: '',
       agreement: '',
       country_code: []
     }
@@ -179,7 +123,6 @@ export default {
   },
 
   mounted() {
-    this.loginOptions();
       console.log(this.form.user_type,this.$route.params.type);
   },
   computed: {
@@ -208,10 +151,6 @@ export default {
       }
       this.loading = true;
       let url = this.getUrl('register');
-      this.form.real_otp = this.otp;
-      if (this.form.real_otp != this.otp) {
-        toastr.error(this.lang.OTP_doesnt_match, this.lang.Error + ' !!');
-      }
       axios.post(url, this.form).then((response) => {
         this.loading = false;
         if (response.data.error) {
@@ -328,57 +267,6 @@ export default {
         // The AuthCredential type that was used.
         const credential = GoogleAuthProvider.credentialFromError(error);
         // ...
-      });
-    },
-    loginOptions(optionTo) {
-      if (optionTo) {
-        if (optionTo == 'phone') {
-          if (this.settings.disable_otp) {
-            this.otp = true;
-          }
-          this.buttonText = 'Get OTP';
-          this.optionTo = 'email';
-        } else {
-          this.buttonText = 'Sign Up';
-          this.optionTo = 'phone';
-        }
-      } else {
-        if (this.addons.includes('otp_system')) {
-          this.optionTo = 'email';
-          if (this.settings.disable_otp) {
-            this.otp = true;
-          }
-          this.buttonText = 'Get OTP';
-        } else {
-          this.buttonText = 'Sign Up';
-          this.optionTo = 'phone';
-        }
-      }
-    },
-    registerByPhone() {
-      this.form.email = null;
-      if (!this.$refs.customer_agreement.checkAgreements()) {
-        return toastr.info(this.lang.accept_terms, this.lang.Error + ' !!');
-      }
-      let url = this.getUrl('register/by-phone');
-
-      this.loading = true;
-      axios.post(url, this.form).then((response) => {
-        this.loading = false;
-        if (response.data.error) {
-          toastr.error(response.data.error, this.lang.Error + ' !!');
-        } else {
-          toastr.success(response.data.data, this.lang.Success + ' !!');
-          this.errors = [];
-          this.otp = true;
-          this.countDownTimer();
-        }
-      }).catch((error) => {
-        this.loading = false;
-        this.$Progress.fail();
-        if (error.response && error.response.status == 422) {
-          this.errors = error.response.data.errors;
-        }
       });
     },
     getNumber(number) {

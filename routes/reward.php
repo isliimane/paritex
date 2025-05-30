@@ -1,6 +1,5 @@
 <?php
 
-//otp settings
 use App\Http\Controllers\Admin\Addons\RewardSystemController;
 use Illuminate\Support\Facades\Route;
 

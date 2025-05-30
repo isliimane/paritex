@@ -19,12 +19,6 @@ class ThirdPartyController extends Controller
         $this->settings     = $settings;
     }
 
-    public function facebookService(){
-        return view('admin.system-setup.facebook-service');
-    }
-    public function googleService(){
-        return view('admin.system-setup.google-service');
-    }
     public function googleRecaptcha()
     {
         return view('admin.system-setup.google-recaptcha');

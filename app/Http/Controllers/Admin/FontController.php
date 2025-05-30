@@ -16,11 +16,11 @@ class FontController extends Controller
     public function __construct(FontInterface $font){
         $this->font = $font;
     }
-    public function index()
-    {
-        $font = $this->font->paginate();
-        return view('admin.system-setup.pdf-font',compact('font'));
-    }
+    // public function index()
+    // {
+    //     $font = $this->font->paginate();
+    //     return view('admin.system-setup.pdf-font',compact('font'));
+    // }
 
     public function addFont(Request $request)
     {

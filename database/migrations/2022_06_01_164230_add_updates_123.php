@@ -18,12 +18,6 @@ class AddUpdates123 extends Migration
             $table->unsignedBigInteger('seller_id')->nullable()->after('id');
         });
 
-        $permission = ['video_shopping_read', 'video_shopping_create', 'video_shopping_update', 'video_shopping_delete'];
-
-        $superAdmin = User::find(1);
-        $old_permissions = $superAdmin->permissions;
-        $superAdmin->permissions = array_merge($old_permissions, $permission);
-        $superAdmin->save();
 
     }
 

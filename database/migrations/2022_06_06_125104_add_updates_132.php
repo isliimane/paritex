@@ -37,7 +37,7 @@ class AddUpdates132 extends Migration
             if ($title)
             {
                 $title->update([
-                    'value' => 'SpaGreen Creative'
+                    'value' => 'Paritex'
                 ]);
 
 
@@ -45,7 +45,7 @@ class AddUpdates132 extends Migration
             else{
                 Setting::create([
                     'title' => 'pos_invoice_title',
-                    'value' => 'SpaGreen Creative',
+                    'value' => 'Paritex',
                 ]);
             }
 
@@ -98,13 +98,13 @@ class AddUpdates132 extends Migration
             if ($power)
             {
                 $power->update([
-                    'value' => 'for any query please call powered by SpaGreen'
+                    'value' => 'for any query please call powered by Paritex'
                 ]);
             }
             else{
                 Setting::create([
                     'title' => 'pos_invoice_powered_by',
-                    'value' => 'for any query please call powered by SpaGreen',
+                    'value' => 'for any query please call powered by Paritex',
                 ]);
             }
         }

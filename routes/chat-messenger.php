@@ -1,6 +1,5 @@
 <?php
 
-//otp settings
 use App\Http\Controllers\Admin\ChatMessengerController;
 use Illuminate\Support\Facades\Route;
 

@@ -1806,7 +1806,7 @@ div.material-icon-picker input[type="text"] {
     place-content: center;
     font-size: 18px;
 }
-.yoori__signup--form {
+.paritex__signup--form {
     display: flex;
     align-items: center;
     border: 1px solid #ddd;
@@ -1905,14 +1905,14 @@ span.country__code--flag img {
     margin-top: -3px;
 }
 
-.yoori__signup--form input.number {
+.paritex__signup--form input.number {
     border: none;
     height: 30px;
     width: 100%;
     color: #333;
     font-size: 13px;
 }
-.yoori__signup--form input:focus {
+.paritex__signup--form input:focus {
     outline: none !important;
     text-decoration: none !important;
     box-shadow: none !important;

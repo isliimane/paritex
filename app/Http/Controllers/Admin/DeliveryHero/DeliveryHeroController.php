@@ -143,11 +143,6 @@ class DeliveryHeroController extends Controller
         else:
             $request["delivery_hero_send_mail"] = 0;
         endif;
-        if($request->has('delivery_hero_OTP')):
-            $request['delivery_hero_OTP'] = 1;
-        else:
-            $request['delivery_hero_OTP'] = 0;
-        endif;
         DB::beginTransaction();
         try {
             $this->settings->update($request);

@@ -120,7 +120,7 @@
                     <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
                         <i class="bx bx-store"></i>
                         <span>{{ __('Warehouses') }}</span>
-                    </a>de
+                    </a>
                     <ul class="dropdown-menu">
                         @if(hasPermission('warehouse_read'))
                             <li class="@yield('warehouse')"><a class="nav-link"
@@ -302,7 +302,7 @@
                 @endif
             @endif
 
-            @if(hasPermission('campaign_read') || hasPermission('subscriber_read') || hasPermission('coupon_read') || hasPermission('campaign_request_read') || hasPermission('otp_setting_read') || hasPermission('sms_template_read'))
+            @if(hasPermission('campaign_read') || hasPermission('subscriber_read') || hasPermission('coupon_read') || hasPermission('campaign_request_read'))
                 <li class="nav-item dropdown @yield('marketing_active')">
                     <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
                         <i class="bx bx-paper-plane"></i>
@@ -473,18 +473,7 @@
                             <li class="@yield('gdpr')"><a class="nav-link"
                                                           href="{{ route('gdpr') }}">{{ __('GDPR') }}</a></li>
                         @endif
-                        <!-- @if(hasPermission('facebook_service_update'))
-                            <li class="@yield('facebook_services')">
-                                <a class="nav-link"
-                                   href="{{ route('settings.facebook.services') }}">{{ __('Facebook Pixel') }}</a>
-                            </li>
-                        @endif
-                        @if(hasPermission('google_service_update'))
-                            <li class="@yield('google_services')">
-                                <a class="nav-link"
-                                   href="{{ route('settings.google.services') }}">{{ __('Google Services') }}</a>
-                            </li>
-                        @endif -->
+                        
                         @if(hasPermission('slider_read'))
                             <li class="@yield('slider_active')">
                                 <a class="nav-link" href="{{ route('sliders.index') }}"><span>{{ __('Slider') }}</span>
@@ -522,16 +511,7 @@
                                                                        href="{{ route('preference') }}">{{ __('Preference') }}</a>
                             </li>
                         @endif
-                        <!-- @if(hasPermission('email_setting_update'))
-                            <li class="@yield('email_setting_active')"><a class="nav-link"
-                                                                          href="{{ route('email.setting') }}">{{ __('Email Setting') }}</a>
-                            </li>
-                        @endif -->
-                        <!-- @if(hasPermission('language_read'))
-                            <li class="@yield('languages')"><a class="nav-link"
-                                                               href="{{ route('language') }}">{{ __('Languages') }}</a>
-                            </li>
-                        @endif -->
+                       
                         @if(hasPermission('currency_setting_update'))
                             <li class="@yield('currency_active')"><a class="nav-link"
                                                                      href="{{ route('currency') }}">{{ __('Currency') }}</a>
@@ -545,12 +525,6 @@
                         <!-- @if(hasPermission('storage_setting_update'))
                             <li class="@yield('storage_setting_active')"><a class="nav-link"
                                                                             href="{{ route('storage.setting') }}">{{ __('Storage') }}</a>
-                            </li>
-                        @endif -->
-                        <!-- @if(hasPermission('google_service_update'))
-                            <li class="@yield('google_recaptcha_active')"><a
-                                        href="{{ route('settings.google.recaptcha') }}"
-                                        class="nav-link">{{ __('Google reCaptcha') }}</a>
                             </li>
                         @endif -->
                         @if(hasPermission('admin_panel_setting_update'))
@@ -577,74 +551,6 @@
                 </li>
             @endif
 
-            <!-- @if(hasPermission('android_setting_update') || hasPermission('ios_setting_update') || hasPermission('app_config_update') || hasPermission('ads_config_update')
-                || hasPermission('api_setting_update') || hasPermission('api_key_read_all') || hasPermission('api_key_read')
-                 || hasPermission('api_key_update') || hasPermission('api_key_delete') || hasPermission('all_page_read'))
-                <li class="nav-item dropdown @yield('mobile_apps')">
-                    <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown"><i
-                                class="bx bxl-flutter"></i>
-                        @if(isAppMode())
-                            <span>{{ __('app_setting') }}</span>
-                        @else
-                            <span>{{ __('Mobile App') }}</span>
-                        @endif
-                    </a>
-                    <ul class="dropdown-menu">
-                        @if(hasPermission('api_setting_update'))
-                            <li class="@yield('apis_settings_active')"><a class="nav-link"
-                                                                          href="{{ route('apis.settings') }}">{{ __('APIs Setting') }}</a>
-                            </li>
-                        @endif
-
-                        @if(hasPermission('android_setting_update'))
-                            <li class="@yield('android_settings_active')"><a class="nav-link"
-                                                                             href="{{ route('android.settings') }}">{{ __('Android Setting') }}</a>
-                            </li>
-                        @endif
-                        @if(hasPermission('ios_setting_update'))
-                            <li class="@yield('ios_settings_active')"><a class="nav-link"
-                                                                         href="{{ route('ios.settings') }}">{{ __('iOS Setting') }}</a>
-                            </li>
-                        @endif
-                        {{--   @if(hasPermission('mobile_app_intro_read'))
-                               <li class="@yield('app_intro_settings_active')"><a class="nav-link"
-                                                                                  href="{{ route('app.intro.settings') }}">{{ __('App Intro') }}</a>
-                               </li>
-                           @endif--}}
-                        @if(hasPermission('download_link_update'))
-                            <li class="@yield('download_link_settings_active')"><a class="nav-link"
-                                                                                   href="{{ route('download.link.settings') }}">{{ __('Download Link') }}</a>
-                            </li>
-                        @endif
-                        @if(hasPermission('android_setting_update'))
-                            <li class="@yield('mobile_slider_active')"><a class="nav-link"
-                                                                          href="{{ route('mobile.slider.settings') }}">{{ __('Slider') }}</a>
-                            </li>
-                        @endif
-                        @if(hasPermission('android_setting_update'))
-                            <li class="@yield('home_page_setting_active')"><a class="nav-link"
-                                                                              href="{{ route('mobile.home.page') }}">{{ __('home_screen_builder') }}</a>
-                            </li>
-                        @endif
-                        <li class="@yield('gdpr_settings_active')"><a class="nav-link"
-                                                                      href="{{ route('mobile.gdpr.settings') }}">{{ __('GDPR') }}</a>
-                        </li>
-                    </ul>
-                </li>
-            @endif -->
-                    <!-- <li class="nav-item dropdown @yield('addon_utility')">
-                        <a href="javaScript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown"><i
-                                    class="bx bx-extension"
-                                    aria-hidden="true"></i><span>{{ __('Addons') }}</span></a>
-                        <ul class="dropdown-menu">
-                            <li class="@yield('installed_addon')"><a class="nav-link"
-                                                                     href="{{ route('admin.installed.addon') }}">{{ __('Installed Addons') }}</a>
-                            </li>
-                            <li class="@yield('available_addon')"><a class="nav-link"
-                                                                     href="{{ route('admin.available.addons') }}">{{ __('Available Addons') }}</a>
-                            </li>
-                        </ul>
-                    </li>  -->
         </ul>
     </aside>
 </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="yoori__signup--form" :class="{ 'error_border' : phone_error }">
+  <div class="paritex__signup--form" :class="{ 'error_border' : phone_error }">
     <div class="country__code--config" @click.stop="activeDropDown">
       <div class="country__code--config-details">
           <span class="country__code--flag">

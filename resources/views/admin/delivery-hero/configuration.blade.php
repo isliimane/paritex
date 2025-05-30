@@ -64,17 +64,7 @@
                                                 </label>
                                             </td>
                                         </tr>
-                                        <!-- <tr id="">
-                                            <td>{{ __('Send OTP') }}</td>
-                                            <td width="300">
-                                                <label class="custom-switch mt-2 {{ hasPermission('delivery_hero_configuration_update') ? '' : 'cursor-not-allowed' }}">
-                                                    <input type="checkbox" name="delivery_hero_OTP"
-                                                           {{ hasPermission('delivery_hero_configuration_update') ? '' : 'disabled' }}
-                                                           class="custom-switch-input" {{ settingHelper('delivery_hero_OTP') == 1 ? 'checked' : ''}} />
-                                                    <span class="custom-switch-indicator"></span>
-                                                </label>
-                                            </td>
-                                        </tr> -->
+                                       
                                         </tbody>
                                     </table>
                                 </div>

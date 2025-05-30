@@ -12,7 +12,6 @@ class AddOnResource extends JsonResource
             'id'                    => $this->id,
             'name'                  => nullCheck($this->name),
             'addon_identifier'      => nullCheck($this->addon_identifier),
-            'purchase_code'         => nullCheck($this->purchase_code),
             'version'               => nullCheck($this->version),
             'status'                => (bool)$this->status,
             'image'                 => $this->image ? get_media($this->image) : static_asset('images/default/default-image-40x40.png')
@@ -49,13 +48,7 @@ class AddOnResource extends JsonResource
                 'show_price_table' => (bool)settingHelper('wholesale_price_variations_show')
             ];
         }
-        elseif ($this->addon_identifier == 'ers_system')
-        {
-            $addons['data'] = [
-                'dealer_id' => empty(!settingHelper('ers_api_dealer_id')) ? settingHelper('ers_api_dealer_id') : 'sms01',
-                'token' => empty(!settingHelper('ers_api_token')) ? settingHelper('ers_api_token') : 'fa14767d-ebcf-4407-84f5-c441b013b0a1',
-            ];
-        }
+       
         else{
             $addons['data'] = NULL;
         }

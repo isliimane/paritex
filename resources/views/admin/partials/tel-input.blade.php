@@ -3,7 +3,7 @@
     $default_country = count($countries) > 0 ? $countries->where('id', $country_id)->first() : null;
 @endphp
 <label>{{ $label }}</label>
-<div class="yoori__signup--form">
+<div class="paritex__signup--form">
     <div class="country__code--config">
         @if($default_country)
             <div class="country__code--config-details">

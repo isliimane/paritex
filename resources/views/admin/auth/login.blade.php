@@ -5,14 +5,14 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
     <title>{{ __('Login') }}
-        | {{ settingHelper('admin_panel_title') != '' ?  settingHelper('admin_panel_title') : __('Yoori') }}</title>
+        | {{ settingHelper('admin_panel_title') != '' ?  settingHelper('admin_panel_title') : __('Paritex') }}</title>
 
     <!-- General CSS Files -->
     <link rel="stylesheet" href="{{ static_asset('admin/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ static_asset('admin/css/toastr.min.css') }}">
 
     <!-- Template CSS -->
-    <link rel="stylesheet" href="{{ static_asset('admin/css/yoori.css') }}">
+    <link rel="stylesheet" href="{{ static_asset('admin/css/paritex.css') }}">
     <link rel="stylesheet" href="{{ static_asset('admin/css/style.css') }}">
     <link rel="stylesheet" href="{{ static_asset('admin/css/custom.css') }}">
     <link rel="stylesheet" href="{{ static_asset('admin/css/yassine-admin.css') }}">
@@ -78,7 +78,7 @@
                                 <div class="form-group">
                                     <!-- <label for="email">{{__('Email')}}</label> -->
                                     <input id="email" type="email" class="form-control"
-                                           value="{{config('app.demo_mode') ? request()->path() == 'admin/login' ? 'admin@spagreen.net' : (request()->path() == 'seller/login' ? 'seller@spagreen.net' : old('email')) : ''}}"
+                                           value="{{config('app.demo_mode') ? 'admin@paritex.com' : ''}}"
                                            name="email" tabindex="1"
                                            required autofocus
                                            placeholder="{{__('Email')}}">

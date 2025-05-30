@@ -7,7 +7,7 @@
     <meta name="keyword" content="{{ settingHelper('keyword') }}" />
     <meta name="article" content="{{ settingHelper('article') }}" />
     <meta name="language" content="{{ settingHelper('default_language') }}" />
-    <title>@yield('title') | {{ settingHelper('admin_panel_title') != '' ?  settingHelper('admin_panel_title') : __('Yoori') }}</title>
+    <title>@yield('title') | {{ settingHelper('admin_panel_title') != '' ?  settingHelper('admin_panel_title') : __('Paritex') }}</title>
 @php
     $logo = settingHelper('og_image');
 @endphp
@@ -47,7 +47,7 @@ i.mdi { /* Material Design Icons */
     <link rel="stylesheet" href="{{ static_asset('admin/css/components.css') }}">
     <link rel="stylesheet" href="{{ static_asset('admin/css/style.css') }}?version={{ settingHelper('current_version') }}">
     <link rel="stylesheet" href="{{ static_asset('admin/css/bootstrap-colorpicker.min.css') }}">
-    <link rel="stylesheet" href="{{ static_asset('admin/css/yoori.css') }}">
+    <link rel="stylesheet" href="{{ static_asset('admin/css/paritex.css') }}">
     <link rel="stylesheet" href="{{ static_asset('fonts/inter/css.css') }}">
     <!-- <link rel="stylesheet" href="{{ static_asset('admin/css/formulair.css') }}"> -->
 

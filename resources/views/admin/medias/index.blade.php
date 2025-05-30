@@ -30,11 +30,11 @@
                                     <i class="bx bx-plus"></i>{{ __('Upload File') }}</a>
                             </div>
                         @endif
-                        <div class="buttons add-button setting">
+                        <!-- <div class="buttons add-button setting">
                             <a href="{{ route('storage.setting') }}" class="btn btn-icon icon-left btn-outline-primary"
                                data-toggle="tooltip" data-original-title="{{ __('Storage Configuration') }}">
                                 <i class="bx bx-cog"></i></a>
-                        </div>
+                        </div> -->
                     </div>
                 @endif
             </div>

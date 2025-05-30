@@ -2,10 +2,10 @@
 
 $path = env('APP_URL').'/public';
 return [
-    'name' => env('APP_NAME', 'Yoori PWA'),
+    'name' => env('APP_NAME', 'Paritex'),
     'manifest' => [
-        'name' => env('APP_NAME', 'Yoori PWA'),
-        'short_name' => env('APP_NAME', 'Yoori PWA'),
+        'name' => env('APP_NAME', 'Paritex'),
+        'short_name' => env('APP_NAME', 'Paritex'),
         'scope' => '/',
         'start_url' => '/',
         'background_color' => '#ffffff',

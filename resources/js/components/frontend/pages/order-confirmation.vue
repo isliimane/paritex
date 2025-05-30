@@ -70,11 +70,11 @@
                                     </td>
                                     <td>
                                         <ul class="global-list">
-                                            <li>YOORI12345678910</li>
-                                            <li>Gopal Talukder</li>
-                                            <li>gopal@gmail.com</li>
+                                            <li>PR-12345678910</li>
+                                            <li>Lorem ipsum</li>
+                                            <li>lorem@gmail.com</li>
                                             <li>Concord Shopping Complex,</li>
-                                            <li>Lake City, Khilkhet, Dhaka-1229</li>
+                                            <li>Paris</li>
                                         </ul>
                                     </td>
                                     <td>

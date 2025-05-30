@@ -1,5 +1,5 @@
 /*theme switcher*/
-.sg-yoori-switcher {
+.sg-paritex-switcher {
     position: fixed;
     right: -244px;
     top: 158px;
@@ -11,10 +11,10 @@
     -webkit-transition: 0.3s ease-in-out;
     transition: 0.3s ease-in-out;
 }
-.sg-yoori-switcher.active {
+.sg-paritex-switcher.active {
     right: 0;
 }
-.sg-yoori-switcher .sg-yoori-switcher-close {
+.sg-paritex-switcher .sg-paritex-switcher-close {
     position: absolute;
     font-size: 24px;
     top: 30px;
@@ -37,25 +37,25 @@
     -webkit-transition: 0.3s ease-in-out;
     transition: 0.3s ease-in-out;
 }
-.sg-yoori-switcher .sg-yoori-switcher-close i {
+.sg-paritex-switcher .sg-paritex-switcher-close i {
     -webkit-animation: spin-infinity 12s linear infinite;
     animation: spin-infinity 12s linear infinite;
 }
-.sg-yoori-switcher-inner {
+.sg-paritex-switcher-inner {
     position: relative;
     padding: 25px 0 30px;
     background: #fff;
     border-radius: 0 2px 2px 0;
 }
-.sg-yoori-switcher-inner .panel-group {
+.sg-paritex-switcher-inner .panel-group {
     padding: 0 30px;
 }
-.sg-yoori-switcher-inner .panel-title {
+.sg-paritex-switcher-inner .panel-title {
     position: relative;
     margin-bottom: 12px;
     z-index: 0;
 }
-.sg-yoori-switcher-inner .panel-title:after {
+.sg-paritex-switcher-inner .panel-title:after {
     position: absolute;
     content: "";
     left: 0;
@@ -65,7 +65,7 @@
     background: #ebebeb;
     z-index: -1;
 }
-.sg-yoori-switcher-inner .title {
+.sg-paritex-switcher-inner .title {
     display: inline-block;
     padding-right: 10px;
     color: #333333;
@@ -74,7 +74,7 @@
     margin-bottom: 0;
     border-bottom: none;
 }
-.sg-yoori-switcher-inner .btn-purchase {
+.sg-paritex-switcher-inner .btn-purchase {
     font-weight: 500;
     display: -webkit-box;
     display: flex;
@@ -88,10 +88,10 @@
     background: #82b440;
     border-radius: 25px;
 }
-.sg-yoori-switcher-inner .btn-purchase:hover {
+.sg-paritex-switcher-inner .btn-purchase:hover {
     background: #7aa93c;
 }
-.sg-yoori-switcher-inner .btn-purchase .purchase-icon {
+.sg-paritex-switcher-inner .btn-purchase .purchase-icon {
     display: -webkit-box;
     display: flex;
     height: 35px;
@@ -104,7 +104,7 @@
     background: #fff;
     border-radius: 50%;
 }
-.sg-yoori-switcher-inner .btn-purchase .purchase-icon svg {
+.sg-paritex-switcher-inner .btn-purchase .purchase-icon svg {
     height: 20px;
     width: 20px;
 }
@@ -226,40 +226,40 @@
     margin-left: 5px;
 }
 @media screen and (min-width: 1500px) {
-    .sg-yoori-switcher {
+    .sg-paritex-switcher {
         top: 120px;
     }
 }
 @media screen and (min-width: 1700px) {
-    .sg-yoori-switcher {
+    .sg-paritex-switcher {
         top: 140px;
     }
 }
 @media screen and (max-width: 991px) {
-    .sg-yoori-switcher {
+    .sg-paritex-switcher {
         top: 120px;
     }
-    .sg-yoori-switcher .sg-yoori-switcher-close {
+    .sg-paritex-switcher .sg-paritex-switcher-close {
         top: 50px;
     }
 }
 
 @media screen and (min-height: 565px) {
-    .sg-yoori-switcher-inner.custom-scrollbar {
+    .sg-paritex-switcher-inner.custom-scrollbar {
         overflow: visible;
     }
 }
 @media screen and (max-height: 655px) {
-    .sg-yoori-switcher {
+    .sg-paritex-switcher {
         top: 98px;
         bottom: 0;
         height: 100%;
         border-radius: 0;
     }
-    .sg-yoori-switcher .sg-yoori-switcher-close {
+    .sg-paritex-switcher .sg-paritex-switcher-close {
         top: 50px;
     }
-    .sg-yoori-switcher-inner {
+    .sg-paritex-switcher-inner {
         position: absolute;
         left: 0;
         top: 0;
@@ -268,10 +268,10 @@
         width: 100%;
         padding: 0;
     }
-    .sg-yoori-switcher-inner .panel-group:first-child {
+    .sg-paritex-switcher-inner .panel-group:first-child {
         margin-top: 25px;
     }
-    .sg-yoori-switcher-inner .panel-group:last-child {
+    .sg-paritex-switcher-inner .panel-group:last-child {
         margin-bottom: 30px;
     }
 }
@@ -296,7 +296,7 @@
         transform: rotate(1turn);
     }
 }
-.sg-yoori-purchase-btn {
+.sg-paritex-purchase-btn {
     position: fixed;
     left: 20px;
     bottom: 20px;
@@ -305,13 +305,13 @@
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.3);
     z-index: 70;
 }
-.sg-yoori-purchase {
+.sg-paritex-purchase {
     position: relative;
     height: 75px;
     width: 75px;
 }
-.sg-yoori-purchase,
-.sg-yoori-purchase .em-logo {
+.sg-paritex-purchase,
+.sg-paritex-purchase .em-logo {
     display: -webkit-box;
     display: flex;
     -webkit-box-align: center;
@@ -319,7 +319,7 @@
     -webkit-box-pack: center;
     justify-content: center;
 }
-.sg-yoori-purchase .em-logo {
+.sg-paritex-purchase .em-logo {
     position: absolute;
     left: -16px;
     bottom: -2px;
@@ -328,23 +328,23 @@
     background: #6c9635;
     border-radius: 50%;
 }
-.sg-yoori-purchase .em-logo svg {
+.sg-paritex-purchase .em-logo svg {
     height: 18px;
     width: 18px;
     -webkit-animation: flip 10s ease-in-out infinite;
     animation: flip 10s ease-in-out infinite;
 }
-.sg-yoori-purchase-price {
+.sg-paritex-purchase-price {
     font-size: 35px;
     margin-top: 3px;
     color: #fff;
 }
-.sg-yoori-purchase-price,
-.sg-yoori-purchase-price > span {
+.sg-paritex-purchase-price,
+.sg-paritex-purchase-price > span {
     font-family: Arial, Helvetica, sans-serif;
     display: inline-block;
 }
-.sg-yoori-purchase-price > span {
+.sg-paritex-purchase-price > span {
     font-size: 14px;
     margin: 6px -10px 0 0;
     vertical-align: top;
@@ -378,10 +378,10 @@
 /*end theme switcher*/
 
 /* -----Color-Switcher Style Start----- */
-.sg-yoori-switcher.active .color-switcher {
+.sg-paritex-switcher.active .color-switcher {
     right: 0;
 }
-.sg-yoori-switcher.active .sg-yoori-switcher-close {
+.sg-paritex-switcher.active .sg-paritex-switcher-close {
     left: -136px;
 }
 .color-switcher {
@@ -537,13 +537,13 @@ a.btn-rtl {
 
 
 @media (max-width: 991px) {
-    .sg-yoori-purchase-btn {
+    .sg-paritex-purchase-btn {
         bottom: 65px;
     }
 }
 
 @media (max-width: 767px) {
-    .sg-yoori-switcher {
+    .sg-paritex-switcher {
         display: none;
     }
 }
@@ -564,7 +564,7 @@ a.btn-rtl {
     .color-switch input[type="color"] {
         max-width: 190px;
     }
-    .sg-yoori-switcher.active .sg-yoori-switcher-close {
+    .sg-paritex-switcher.active .sg-paritex-switcher-close {
         left: -50px;
     }
     .color-switcher-title {

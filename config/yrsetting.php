@@ -71,39 +71,6 @@ return [
         'payment_agreement'
     ],
 
-    'is_twilio_sms_activated' => [
-        'twilio_sms_sid',
-        'twilio_sms_auth_token',
-//                               'twilio_sms_verify_sid',
-        'valid_twilio_sms_number',
-    ],
-    'is_fast_2_activated' => [
-        'fast_2_auth_key',
-        'fast_2_entity_id',
-        'fast_2_route',
-        'fast_2_language',
-        'fast_2_sender_id',
-    ],
-    'is_spagreen_sms_activated' => [
-        'spagreen_sms_api_key',
-        'spagreen_secret_key',
-    ],
-    'is_mimo_sms_activated' => [
-        'mimo_username',
-        'mimo_sms_password',
-        'mimo_sms_sender_id',
-
-    ],
-    'is_nexmo_sms_activated' => [
-        'nexmo_sms_key',
-        'nexmo_sms_secret_key',
-    ],
-    'is_ssl_wireless_sms_activated' => [
-        'ssl_sms_api_token',
-        'ssl_sms_sid',
-        'ssm_sms_url',
-    ],
-
     'is_paypal_activated' => [
         'paypal_client_id',
     ],

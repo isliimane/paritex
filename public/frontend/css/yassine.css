@@ -202,3 +202,11 @@
 .profile-card-custom-color{
     background-color: rgb(225 34 3 / 50%);
 }
+.footer-top .social ul li a{
+    color: #444;
+    border: none;
+    border-radius: 50%;
+}
+.footer-top .social ul li a:hover {
+    color: var(--primary-color);
+}

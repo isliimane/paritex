@@ -1,6 +1,5 @@
 <?php
 
-//otp settings
 use App\Http\Controllers\Admin\CommonController;
 use App\Http\Controllers\Admin\DeliveryHero\DeliveryHeroController;
 use App\Http\Controllers\Admin\UserController;

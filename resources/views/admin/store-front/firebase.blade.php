@@ -24,44 +24,6 @@
                             <h4>{{ __('Firebase') }} <small>({{ __('required_for_social') }})</small></h4>
                         </div>
                         <div class="card-body col-md-10 middle">
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="form-group">
-                                        <label class="custom-switch mt-2">
-                                            <input type="checkbox"
-                                                   name="custom-switch-checkbox"
-                                                   value="admin-social-login-status-change/{{ 'is_google_login_activated' }}"
-                                                   class="custom-switch-input status-change" {{ settingHelper('is_google_login_activated') == 1 ? 'checked' : ''}} />
-                                            <span class="custom-switch-indicator"></span>
-                                            <span class="custom-switch-description">{{ __('Google') }}</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="form-group">
-                                        <label class="custom-switch mt-2">
-                                            <input type="checkbox"
-                                                   name="custom-switch-checkbox"
-                                                   value="admin-social-login-status-change/{{ 'is_facebook_login_activated' }}"
-                                                   class="custom-switch-input status-change" {{ settingHelper('is_facebook_login_activated') == 1 ? 'checked' : ''}} />
-                                            <span class="custom-switch-indicator"></span>
-                                            <span class="custom-switch-description">{{ __('Facebook') }}</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="form-group">
-                                        <label class="custom-switch mt-2">
-                                            <input type="checkbox"
-                                                   name="custom-switch-checkbox"
-                                                   value="admin-social-login-status-change/{{ 'is_twitter_login_activated' }}"
-                                                   class="custom-switch-input status-change" {{ settingHelper('is_twitter_login_activated') == 1 ? 'checked' : ''}} />
-                                            <span class="custom-switch-indicator"></span>
-                                            <span class="custom-switch-description">{{ __('Twitter') }}</span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
                             <form action="{{ route('update.website.seo')}}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 @method('put')

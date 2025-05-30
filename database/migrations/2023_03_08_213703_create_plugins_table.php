@@ -24,7 +24,6 @@ class CreatePluginsTable extends Migration
             $table->string('tags')->nullable();
             $table->string('plugin_identifier');
             $table->string('directory');
-            $table->string('purchase_code')->nullable();
             $table->string('version');
             $table->string('required_cms_version');
             $table->boolean('status')->default(0);

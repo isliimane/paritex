@@ -194,8 +194,8 @@ export default {
       let menu_color = document.getElementById('colorPicker-bg');
       let menu_text_color = document.getElementById('colorPicker-m-text');
 
-      $(".sg-yoori-switcher-close").on("click", (function (t) {
-        $(".sg-yoori-switcher").toggleClass("active");
+      $(".sg-paritex-switcher-close").on("click", (function (t) {
+        $(".sg-paritex-switcher").toggleClass("active");
       }));
 
       if (localStorage.getItem('primary-color')) {

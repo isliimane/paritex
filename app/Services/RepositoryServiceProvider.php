@@ -191,17 +191,6 @@ class RepositoryServiceProvider extends ServiceProvider{
             'App\Repositories\Admin\ReportsRepository'
         );
 
-         //Mobile Apps
-         $this->app->bind(
-            'App\Repositories\Interfaces\Admin\MobileApps\AppIntroInterface',
-            'App\Repositories\Admin\MobileApps\AppIntroRepository'
-        );
-
-        $this->app->bind(
-            'App\Repositories\Interfaces\Admin\MobileApps\AppIntroLanguageInterface',
-            'App\Repositories\Admin\MobileApps\AppIntroLanguageRepository'
-        );
-
         $this->app->bind(
             'App\Repositories\Interfaces\Admin\AddonInterface',
             'App\Repositories\Admin\AddonRepository'
@@ -285,11 +274,6 @@ class RepositoryServiceProvider extends ServiceProvider{
         $this->app->bind(
             'App\Repositories\Interfaces\Admin\Slider\BannerInterface',
             'App\Repositories\Admin\Slider\BannerRepository'
-        );
-        //api_key
-        $this->app->bind(
-            'App\Repositories\Interfaces\Admin\ApiKeyInterface',
-            'App\Repositories\Admin\ApiKeyRepository'
         );
         //font
         $this->app->bind(

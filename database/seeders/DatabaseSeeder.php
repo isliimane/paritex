@@ -33,7 +33,6 @@ use Database\Seeders\Admin\TimeZoneSeeder;
 use Database\Seeders\Admin\AttributeSeeder;
 use Database\Seeders\Admin\LanguageConfigSeeder;
 use Cartalyst\Sentinel\Laravel\Facades\Activation;
-use Database\Seeders\Admin\Addon\OtpSmsTemplateSeeder;
 
 
 class DatabaseSeeder extends Seeder
@@ -109,7 +108,6 @@ class DatabaseSeeder extends Seeder
 
 
         //addon
-//        $this->call(OtpSmsTemplateSeeder::class);
         $this->call(CountrySeeder::class);
 //        $this->call(StateSeeder::class);
 //        $this->call(CitySeeder::class);

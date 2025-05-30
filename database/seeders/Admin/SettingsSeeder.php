@@ -19,7 +19,7 @@ class SettingsSeeder extends Seeder
 
         //General setting
         Setting::create(['title' => 'default_language',                        'value' => 'en',                                        'lang' => 'en']);
-        Setting::create(['title' => 'system_name',                             'value' => 'Yoori e-Commerce CMS',                      'lang' => 'en']);
+        Setting::create(['title' => 'system_name',                             'value' => 'Paritex e-Commerce B2B',                      'lang' => 'en']);
         Setting::create(['title' => 'default_time_zone',                       'value' => 'Asia/Dhaka',                                'lang' => 'en']);
         Setting::create(['title' => 'default_currency',                        'value' => 1,                                           'lang' => 'en']);
         Setting::create(['title' => 'favicon',                                 'value' => 'a:14:{s:17:"originalImage_url";s:39:"images/icon/20211030175341-favicon8.png";s:15:"image_16x16_url";s:46:"images/icon/20211030175341-favicon-16x1626.png";s:15:"image_32x32_url";s:45:"images/icon/20211030175341-favicon-32x322.png";s:15:"image_57x57_url";s:45:"images/icon/20211030175341-favicon-57x576.png";s:15:"image_60x60_url";s:46:"images/icon/20211030175341-favicon-60x6023.png";s:15:"image_72x72_url";s:45:"images/icon/20211030175341-favicon-72x725.png";s:15:"image_76x76_url";s:45:"images/icon/20211030175341-favicon-76x761.png";s:15:"image_96x96_url";s:45:"images/icon/20211030175341-favicon-96x965.png";s:17:"image_114x114_url";s:48:"images/icon/20211030175341-favicon-114x11422.png";s:17:"image_120x120_url";s:48:"images/icon/20211030175341-favicon-120x12012.png";s:17:"image_144x144_url";s:48:"images/icon/20211030175341-favicon-144x14429.png";s:17:"image_152x152_url";s:48:"images/icon/20211030175341-favicon-152x15250.png";s:17:"image_180x180_url";s:47:"images/icon/20211030175341-favicon-180x1803.png";s:17:"image_192x192_url";s:48:"images/icon/20211030175341-favicon-192x19217.png";}', 'lang' => 'en']);
@@ -38,7 +38,7 @@ class SettingsSeeder extends Seeder
         Setting::create(['title' => 'smtp_mail_host',                          'value'  => 'smtp.mailtrap.io',                         'lang' => 'en']);
         Setting::create(['title' => 'smtp_mail_port',                          'value'  => '2525',                                      'lang' => 'en']);
         Setting::create(['title' => 'smtp_mail_address',                       'value'  => 'ex4useonly@gmail.com',                     'lang' => 'en']);
-        Setting::create(['title' => 'smtp_name',                               'value'  => 'YOORI',                                    'lang' => 'en']);
+        Setting::create(['title' => 'smtp_name',                               'value'  => 'Paritex',                                    'lang' => 'en']);
         Setting::create(['title' => 'smtp_mail_username',                      'value'  => '9cd87755deaf57',                           'lang' => 'en']);
         Setting::create(['title' => 'smtp_mail_password',                      'value'  => '0cc311fe2978ef',                           'lang' => 'en']);
         Setting::create(['title' => 'smtp_mail_encryption_type',               'value'  => 'tls',                                      'lang' => 'en']);
@@ -46,7 +46,7 @@ class SettingsSeeder extends Seeder
         Setting::create(['title' => 'sendgrid_mail_host',                      'value'  => 'smtp.sendgrid.net',                        'lang' => 'en']);
         Setting::create(['title' => 'sendgrid_mail_port',                      'value'  => '587',                                      'lang' => 'en']);
         Setting::create(['title' => 'sendgrid_mail_address',                   'value'  => 'ex4useonly@gmail.com',                                       'lang' => 'en']);
-        Setting::create(['title' => 'sendgrid_name',                           'value'  => 'yoori',                                    'lang' => 'en']);
+        Setting::create(['title' => 'sendgrid_name',                           'value'  => 'Paritex',                                    'lang' => 'en']);
         Setting::create(['title' => 'sendgrid_mail_username',                  'value'  => 'apikey',                                   'lang' => 'en']);
         Setting::create(['title' => 'sendgrid_mail_password',                  'value'  => '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',             'lang' => 'en']);
         Setting::create(['title' => 'sendgrid_mail_encryption_type',           'value'  => 'tls',                                      'lang' => 'en']);
@@ -56,7 +56,7 @@ class SettingsSeeder extends Seeder
         Setting::create(['title' => 'mailgun_mail_host',                       'value'  => 'smtp.mailgun.org',                         'lang' => 'en']);
         Setting::create(['title' => 'mailgun_mail_port',                       'value'  => '587',                                      'lang' => 'en']);
         Setting::create(['title' => 'mailgun_mail_address',                    'value'  => 'ex4useonly@gmail.com',                     'lang' => 'en']);
-        Setting::create(['title' => 'mailgun_name',                            'value'  => 'yoori',                                    'lang' => 'en']);
+        Setting::create(['title' => 'mailgun_name',                            'value'  => 'Paritex',                                    'lang' => 'en']);
         Setting::create(['title' => 'mailgun_mail_username',                   'value'  => 'postmaster@sandbox1c585606ebde4674a70a41195656d3ca.mailgun.org',                      'lang' => 'en']);
         Setting::create(['title' => 'mailgun_mail_password',                   'value'  => '7dd5cd5b45c3bb402bd7b999f0e8b750-1831c31e-c1f5f9c5',                                  'lang' => 'en']);
         Setting::create(['title' => 'mailgun_mail_encryption_type',            'value'  => 'tls',                                      'lang' => 'en']);
@@ -154,9 +154,7 @@ class SettingsSeeder extends Seeder
         Setting::create(['title' => 'header_menu',                             'value'  => 'a:7:{i:0;a:2:{s:5:"label";s:4:"Home";s:3:"url";s:1:"/";}i:1;a:2:{s:5:"label";s:8:"Products";s:3:"url";s:9:"/products";}i:2;a:2:{s:5:"label";s:10:"Categories";s:3:"url";s:11:"/categories";}i:3;a:2:{s:5:"label";s:6:"Brands";s:3:"url";s:7:"/brands";}i:4;a:2:{s:5:"label";s:9:"Campaigns";s:3:"url";s:10:"/campaigns";}i:5;a:5:{s:5:"label";s:5:"Pages";s:3:"url";s:18:"javascript:void(0)";i:0;a:2:{s:5:"label";s:8:"About Us";s:3:"url";s:11:"/page/about";}i:2;a:2:{s:5:"label";s:10:"Contact Us";s:3:"url";s:8:"/contact";}}}', 'lang' => 'en']);
         //Footer About
         Setting::create(['title' => 'footer_theme',                            'value'  => 'footer_theme1',                            'lang' => 'en']);
-        Setting::create(['title' => 'about_description',                       'value'  => '<p><span style="font-family: Poppins, Helvetica, sans-serif;"><font color="#767676"><b>Yoori&nbsp;</b></font></span><span style="color: rgb(102, 102, 102); font-family: Roboto, Helvetica, sans-serif;">being the trusted online shop in over the world aims to provide a trouble-free shopping experience for the people of the world but is also providing ample opportunity for international online shopping from yoori.&nbsp;</span><span style="font-size: 0.875rem; font-family: Roboto, Helvetica, sans-serif;"><font color="#767676"><span style="font-weight: bolder;">Yoori&nbsp;</span></font></span><span style="font-size: 0.875rem; color: rgb(102, 102, 102); font-family: Roboto, Helvetica, sans-serif;">being the trusted online shop in over the world aims to provide a trouble-free shopping experience for the people of the world but is also providing ample opportunity for international online shopping from yoori.&nbsp;</span>',                                       'lang' => 'en']);
-        Setting::create(['title' => 'play_store_link',                         'value'  => 'https://play.google.com/store/apps/developer?id=SpaGreen+Creative',                                       'lang' => 'en']);
-        Setting::create(['title' => 'apple_store_link',                        'value'  => 'https://apps.apple.com/au/developer/spagreen-creative/id1502207090',                                       'lang' => 'en']);
+        Setting::create(['title' => 'about_description',                       'value'  => '<p><span style="font-family: Poppins, Helvetica, sans-serif;"><font color="#767676"><b>Paritex&nbsp;</b></font></span><span style="color: rgb(102, 102, 102); font-family: Roboto, Helvetica, sans-serif;">being the trusted online shop in over the world aims to provide a trouble-free shopping experience for the people of the world but is also providing ample opportunity for international online shopping from Paritex.&nbsp;</span><span style="font-size: 0.875rem; font-family: Roboto, Helvetica, sans-serif;"><font color="#767676"><span style="font-weight: bolder;">Paritex&nbsp;</span></font></span><span style="font-size: 0.875rem; color: rgb(102, 102, 102); font-family: Roboto, Helvetica, sans-serif;">being the trusted online shop in over the world aims to provide a trouble-free shopping experience for the people of the world but is also providing ample opportunity for international online shopping from Paritex.&nbsp;</span>',                                       'lang' => 'en']);
         Setting::create(['title' => 'footer_logo',                             'value'  => 'a:10:{s:7:"storage";s:5:"local";s:14:"original_image";s:45:"images/icon/20220208093316-footer_logo491.png";s:12:"image_100x38";s:0:"";s:11:"image_89x33";s:50:"images/icon/20220208093316-footer_logo-89x3344.png";s:12:"image_118x45";s:0:"";s:11:"image_48x25";s:0:"";s:11:"image_50x40";s:0:"";s:13:"image_900x300";s:0:"";s:12:"image_105x75";s:0:"";s:11:"image_72x72";s:59:"images/icon/20220208093316image_small_twofooter_logo422.png";}',                                       'lang' => 'en']);
         Setting::create(['title' => 'show_social_links',                       'value' => 1,                                           'lang' => 'en']);
 
@@ -166,7 +164,7 @@ class SettingsSeeder extends Seeder
         Setting::create(['title' => 'footer_contact_address',                  'value'  => 'Concord Shopping Complex, Lake City, Khilkhet, Dhaka-1229',                                       'lang' => 'en']);
 
         //Copyright
-        Setting::create(['title' => 'copyright',                               'value'  => "©Yoori by SpaGreen Creative 2022, All Rights Reserved.",                                       'lang' => 'en']);
+        Setting::create(['title' => 'copyright',                               'value'  => "Paritex by Paritex Team 2025, All Rights Reserved.",                                       'lang' => 'en']);
 
         //Footer Menu
         Setting::create(['title' => 'footer_menu',                             'value'  => 'a:6:{i:0;a:2:{s:5:"label";s:4:"Home";s:3:"url";s:1:"/";}i:1;a:2:{s:5:"label";s:14:"All Categories";s:3:"url";s:10:"categories";}i:2;a:2:{s:5:"label";s:10:"All Brands";s:3:"url";s:6:"brands";}i:3;a:2:{s:5:"label";s:12:"All Products";s:3:"url";s:8:"products";}i:4;a:2:{s:5:"label";s:9:"Campaigns";s:3:"url";s:9:"campaigns";}}',                                       'lang' => 'en']);
@@ -184,50 +182,6 @@ class SettingsSeeder extends Seeder
         //Payment Methods
         Setting::create(['title' => 'payment_method_banner',                   'value'  => '',                                       'lang' => 'en']);
 
-
-        //OTP System
-        Setting::create(['title' => 'active_sms_provider',                     'value'  => 'spagreen',                                       'lang' => 'en']);
-
-        //Twilio Credential
-        Setting::create(['title' => 'sms_method',                              'value'  => 'twilio',                                   'lang' => 'en']);
-        Setting::create(['title' => 'twilio_sms_sid',                          'value'  => null,                                       'lang' => 'en']);
-        Setting::create(['title' => 'twilio_sms_auth_token',                   'value'  => null,                                       'lang' => 'en']);
-        Setting::create(['title' => 'valid_twilio_sms_number',                 'value'  => null,                                       'lang' => 'en']);
-        Setting::create(['title' => 'is_twilio_sms_activated',                 'value'  => 0,                                          'lang' => 'en']);
-
-        //Fast 2SMS Credential
-        Setting::create(['title' => 'fast_2_auth_key',                         'value'  => null,                                       'lang' => 'en']);
-        Setting::create(['title' => 'fast_2_entity_id',                        'value'  => null,                                       'lang' => 'en']);
-        Setting::create(['title' => 'fast_2_route',                            'value'  => 'dlt_manual',                               'lang' => 'en']);
-        Setting::create(['title' => 'fast_2_language',                         'value'  => 'english',                                  'lang' => 'en']);
-        Setting::create(['title' => 'fast_2_sender_id',                        'value'  => null,                                       'lang' => 'en']);
-        Setting::create(['title' => 'is_fast_2_activated',                     'value'  => 0,                                          'lang' => 'en']);
-
-        //Spagreen Credential
-        Setting::create(['title' => 'spagreen_url',                            'value'  => null,                                       'lang' => 'en']);
-        Setting::create(['title' => 'spagreen_sms_api_key',                    'value'  => 'bed780abc0260925',                                       'lang' => 'en']);
-        Setting::create(['title' => 'spagreen_secret_key',                     'value'  => 'ed566d8d',                                       'lang' => 'en']);
-        Setting::create(['title' => 'is_spagreen_sms_activated',               'value'  => 1,                                          'lang' => 'en']);
-
-        //MIMO Credential
-        Setting::create(['title' => 'mimo_username',                           'value'  => null,                                       'lang' => 'en']);
-        Setting::create(['title' => 'mimo_sms_password',                       'value'  => null,                                       'lang' => 'en']);
-        Setting::create(['title' => 'mimo_sms_sender_id',                      'value'  => null,                                       'lang' => 'en']);
-        Setting::create(['title' => 'is_mimo_sms_activated',                   'value'  => 0,                                          'lang' => 'en']);
-
-        //Nexmo Credential
-        Setting::create(['title' => 'nexmo_sms_key',                           'value'  => null,                                       'lang' => 'en']);
-        Setting::create(['title' => 'nexmo_sms_secret_key',                    'value'  => null,                                       'lang' => 'en']);
-        Setting::create(['title' => 'type',                                    'value'  => 'nexmo',                                    'lang' => 'en']);
-        Setting::create(['title' => 'is_nexmo_sms_activated',                  'value'  => 0,                                          'lang' => 'en']);
-
-        //SSL Wireless Credential
-        Setting::create(['title' => 'ssl_sms_api_token',                       'value'  => null,                                       'lang' => 'en']);
-        Setting::create(['title' => 'ssl_sms_sid',                             'value'  => null,                                       'lang' => 'en']);
-        Setting::create(['title' => 'ssm_sms_url',                             'value'  => null,                                       'lang' => 'en']);
-        Setting::create(['title' => 'is_ssl_wireless_sms_activated',           'value'  => 0,                                          'lang' => 'en']);
-
-
         //payment Gateway Paypal Setting
         Setting::create(['title' => 'payment_method',                          'value'  => 'paypal',                                   'lang' => 'en']);
         Setting::create(['title' => 'paypal_client_id',                        'value'  => 'AZxyKxJo_Ogc7jYDellCuEogwYbkFVdIXYGmCajwgbkBe-Wodlls8jplUzZAmXHxxmxhWB9xJq1L79V1',                                       'lang' => 'en']);
@@ -242,7 +196,7 @@ class SettingsSeeder extends Seeder
         Setting::create(['title' => 'is_stripe_sandbox_mode_activated',        'value'  => 0,                                          'lang' => 'en']);
 
         //Mobile Apps APIs Settings
-        Setting::create(['title' => 'api_server_url',                          'value'  => 'http://yoori-laravel.test/api',            'lang' => 'en']);
+        Setting::create(['title' => 'api_server_url',                          'value'  => 'http://paritex.test/api',            'lang' => 'en']);
         Setting::create(['title' => 'api_key_app',                             'value'  => null,                                       'lang' => 'en']);
 
         //Android Settings
@@ -266,12 +220,6 @@ class SettingsSeeder extends Seeder
         Setting::create(['title' => 'intro_skippable',                         'value'  => 0,                                          'lang' => 'en']);
         Setting::create(['title' => 'mandatory_login',                         'value'  => 0,                                          'lang' => 'en']);
 
-        //Ads Config Settings
-        Setting::create(['title' => 'admob_app_id',                             'value'  => null,                                      'lang' => 'en']);
-        Setting::create(['title' => 'admob_banner_ads_id',                      'value'  => null,                                      'lang' => 'en']);
-        Setting::create(['title' => 'admob_interstitial_ads_id',                'value'  => null,                                      'lang' => 'en']);
-        Setting::create(['title' => 'admob_native_ads_id',                      'value'  => null,                                      'lang' => 'en']);
-        Setting::create(['title' => 'ads_enable',                               'value'  => 0,                                         'lang' => 'en']);
 
         //Delivery Hero Configuration
         Setting::create(['title' => 'delivery_hero_payment_type',               'value'  => 'delivery_hero_salary',                   'lang' => 'en']);
@@ -284,7 +232,7 @@ class SettingsSeeder extends Seeder
         //Reward Configuration
         Setting::create(['title' => 'reward_convert_rate',                      'value'  => 10,                                       'lang' => 'en']);
 
-        Setting::create(['title' => 'admin_panel_copyright_text',                'value' => "©Yoori by SpaGreen Creative 2022, All Rights Reserved.",                                       'lang' => 'en']);
+        Setting::create(['title' => 'admin_panel_copyright_text',                'value' => "Paritex by Paritex Team 2025, All Rights Reserved.",                                       'lang' => 'en']);
 
         //Shipping Configuration
         Setting::create(['title' => 'shipping_fee_type',                        'value'  => 'product_base',                           'lang' => 'en']);
@@ -292,7 +240,7 @@ class SettingsSeeder extends Seeder
         Setting::create(['title' => 'shipping_fee_admin_product',               'value'  => null,                                     'lang' => 'en']);
 
         //home page sections
-        Setting::create(['title' => 'home_page_contents',                       'value'   => 'a:13:{i:0;a:1:{s:8:"campaign";a:2:{i:0;s:1:"1";i:1;s:1:"2";}}i:1;a:1:{s:16:"popular_category";a:8:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"8";i:3;s:1:"3";i:4;s:1:"4";i:5;s:1:"5";i:6;s:1:"6";i:7;s:1:"7";}}i:2;a:1:{s:21:"best_selling_products";a:1:{i:0;s:1:"3";}}i:3;a:1:{s:12:"top_category";a:7:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"8";i:3;s:1:"4";i:4;s:1:"5";i:5;s:1:"6";i:6;s:2:"10";}}i:4;a:1:{s:11:"todays_deal";s:1:"5";}i:5;a:1:{s:16:"category_section";a:3:{s:8:"category";s:1:"5";s:6:"banner";s:0:"";s:10:"banner_url";s:26:"http://yoori-laravel.test/";}}i:6;{s:11:"latest_news";a:1:{i:0;s:1:"8";}}i:8;a:1:{s:10:"flash_deal";s:1:"9";}i:9;a:1:{s:14:"popular_brands";a:1:{i:0;s:2:"10";}}i:10;a:1:{s:17:"offer_ending_soon";a:2:{s:6:"banner";s:0:"";s:10:"banner_url";s:0:"";}}i:11;a:1:{s:21:"best_selling_products";a:1:{i:0;s:2:"12";}}i:12;a:1:{s:16:"download_section";a:3:{s:4:"text";s:13:"download here";s:8:"sub_text";s:18:"download from here";s:6:"banner";s:0:"";}}}',                                     'lang' => 'en']);
+        Setting::create(['title' => 'home_page_contents',                       'value'   => 'a:13:{i:0;a:1:{s:8:"campaign";a:2:{i:0;s:1:"1";i:1;s:1:"2";}}i:1;a:1:{s:16:"popular_category";a:8:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"8";i:3;s:1:"3";i:4;s:1:"4";i:5;s:1:"5";i:6;s:1:"6";i:7;s:1:"7";}}i:2;a:1:{s:21:"best_selling_products";a:1:{i:0;s:1:"3";}}i:3;a:1:{s:12:"top_category";a:7:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"8";i:3;s:1:"4";i:4;s:1:"5";i:5;s:1:"6";i:6;s:2:"10";}}i:4;a:1:{s:11:"todays_deal";s:1:"5";}i:5;a:1:{s:16:"category_section";a:3:{s:8:"category";s:1:"5";s:6:"banner";s:0:"";s:10:"banner_url";s:26:"http://paritex.test/";}}i:6;{s:11:"latest_news";a:1:{i:0;s:1:"8";}}i:8;a:1:{s:10:"flash_deal";s:1:"9";}i:9;a:1:{s:14:"popular_brands";a:1:{i:0;s:2:"10";}}i:10;a:1:{s:17:"offer_ending_soon";a:2:{s:6:"banner";s:0:"";s:10:"banner_url";s:0:"";}}i:11;a:1:{s:21:"best_selling_products";a:1:{i:0;s:2:"12";}}i:12;a:1:{s:16:"download_section";a:3:{s:4:"text";s:13:"download here";s:8:"sub_text";s:18:"download from here";s:6:"banner";s:0:"";}}}',                                     'lang' => 'en']);
         Setting::create(['title' => 'show_service_info_section',               'value'    => 1,                                           'lang' => 'en']);
         Setting::create(['title' => 'show_subscription_section',               'value'    => 1,                                           'lang' => 'en']);
 
@@ -319,52 +267,5 @@ class SettingsSeeder extends Seeder
         Setting::create(['title' => 'zoom_level',                                 'value'  => '15',                                                 'lang' => 'en']);
         Setting::create(['title' => 'map_api_key',                                 'value' => 'AIzaSyAuuA4DQxB6an7im3zbYXUMT7EatgTjNuU',            'lang' => 'en']);
         Setting::create(['title' => 'longitude',                                   'value' => '90.368709',                                           'lang' => 'en']);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//         DB::statement("INSERT INTO `settings` (`lang`, `title`, `value`, `created_at`, `updated_at`) VALUES
-// ('en', 'system_name', 'Yoori e-Commerce CMS', '2021-10-23 03:44:10', '2021-10-23 03:44:10'),
-// ('en', 'default_time_zone', 'Asia/Dhaka', '2021-10-23 03:44:10', '2021-10-23 03:44:10'),
-// ('en', 'default_language', 'en', '2021-10-23 03:44:10', '2021-10-23 03:44:10'),
-// ('en', 'default_currency', 1, '2021-10-23 03:44:10', '2021-10-23 03:44:10'),
-// ('en', 'favicon', 'a:14:{s:17:\"originalImage_url\";s:39:\"images/icon/20211030175341-favicon8.png\";s:15:\"image_16x16_url\";s:46:\"images/icon/20211030175341-favicon-16x1626.png\";s:15:\"image_32x32_url\";s:45:\"images/icon/20211030175341-favicon-32x322.png\";s:15:\"image_57x57_url\";s:45:\"images/icon/20211030175341-favicon-57x576.png\";s:15:\"image_60x60_url\";s:46:\"images/icon/20211030175341-favicon-60x6023.png\";s:15:\"image_72x72_url\";s:45:\"images/icon/20211030175341-favicon-72x725.png\";s:15:\"image_76x76_url\";s:45:\"images/icon/20211030175341-favicon-76x761.png\";s:15:\"image_96x96_url\";s:45:\"images/icon/20211030175341-favicon-96x965.png\";s:17:\"image_114x114_url\";s:48:\"images/icon/20211030175341-favicon-114x11422.png\";s:17:\"image_120x120_url\";s:48:\"images/icon/20211030175341-favicon-120x12012.png\";s:17:\"image_144x144_url\";s:48:\"images/icon/20211030175341-favicon-144x14429.png\";s:17:\"image_152x152_url\";s:48:\"images/icon/20211030175341-favicon-152x15250.png\";s:17:\"image_180x180_url\";s:47:\"images/icon/20211030175341-favicon-180x1803.png\";s:17:\"image_192x192_url\";s:48:\"images/icon/20211030175341-favicon-192x19217.png\";}', '2021-10-22 21:44:10', '2021-10-30 05:53:41'),
-// ('en', 'default_storage', 'local', '2021-11-02 04:23:10', '2021-11-02 04:23:10'),
-// ('en', 'aws_access_key_id', 'AKIAVYWNX47HQQEHWEQO', '2021-11-02 04:23:10', '2021-11-02 04:23:10'),
-// ('en', 'aws_secret_access_key', '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', '2021-11-02 04:23:10', '2021-11-02 04:23:10'),
-// ('en', 'aws_default_region', 'ap-south-1', '2021-11-02 04:23:10', '2021-11-02 04:23:10'),
-// ('en', 'aws_bucket', 'demo11223', '2021-11-02 04:23:10', '2021-11-02 04:23:10'),
-// ('en', 'image_optimization', '0', '2021-11-02 04:23:10', '2021-11-02 04:23:10'),
-// ('en', 'image_optimization_percentage', '90', '2021-11-02 04:23:10', '2021-11-02 04:23:10'),
-// ('en', 'pagination', '12', '2021-10-23 03:44:10', '2021-10-23 03:44:10'),
-// ('en', '', '20', '2021-10-23 03:44:10', '2021-10-23 03:44:10'),
-// ('en', 'index_form_paginate', '10', '2021-10-23 03:44:10', '2021-10-23 03:44:10'),
-// ('en', 'media_paginate', '32', '2021-10-23 03:44:10', '2021-10-23 03:44:10')");
     }
 }

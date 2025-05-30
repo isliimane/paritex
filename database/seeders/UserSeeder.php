@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
         $superAdmin = User::create([
             'first_name'        => 'Super',
             'last_name'         => 'Admin',
-            'email'             => 'admin@spagreen.net',
+            'email'             => 'admin@paritex.com',
             'permissions'       => $this->superAdminPermissions(),
             'password'          => bcrypt(123456),
             'user_type'         => 'admin'
@@ -34,10 +34,10 @@ class UserSeeder extends Seeder
         Activation::complete($superAdmin, $activation->code);
         $superAdminRole->users()->attach($superAdmin);
 
-        $deliveryHero   = User::create([ 'first_name' => 'Delivery', 'last_name'    => 'Hero', 'email' => 'deliveryhero@dspagreen.net', 'phone' => '01737000001', 'permissions' => [], 'password' => bcrypt(123456), 'user_type' => "delivery_hero" ]);
-        $customer       = User::create([ 'first_name' => 'Customer', 'last_name'    => 'Hero', 'email' => 'customeheror@spagreen.net', 'phone' => '01737000012', 'permissions' => [], 'password' => bcrypt(123456), 'user_type' => "customer" ]);
-        $walkCustomer   = User::create([ 'first_name' => 'Walking', 'last_name'     => 'Customer', 'email' => 'walkingcustomer@spagreen.net', 'phone' => '01737000012', 'permissions' => [], 'password' => bcrypt(123456), 'user_type' => "customer" ]);
-        $staff          = User::create([ 'first_name' => 'Staff', 'last_name'       => 'Hero', 'email' => 'staff@spagreen.net', 'phone' => '01737000002', 'permissions' => $this->superAdminPermissions(), 'password' => bcrypt(123456), 'user_type' => "staff" ]);
+        $deliveryHero   = User::create([ 'first_name' => 'Delivery', 'last_name'    => 'Hero', 'email' => 'deliveryhero@dparitex.com', 'phone' => '01737000001', 'permissions' => [], 'password' => bcrypt(123456), 'user_type' => "delivery_hero" ]);
+        $customer       = User::create([ 'first_name' => 'Customer', 'last_name'    => 'Hero', 'email' => 'customeheror@paritex.com', 'phone' => '01737000012', 'permissions' => [], 'password' => bcrypt(123456), 'user_type' => "customer" ]);
+        $walkCustomer   = User::create([ 'first_name' => 'Walking', 'last_name'     => 'Customer', 'email' => 'walkingcustomer@paritex.com', 'phone' => '01737000012', 'permissions' => [], 'password' => bcrypt(123456), 'user_type' => "customer" ]);
+        $staff          = User::create([ 'first_name' => 'Staff', 'last_name'       => 'Hero', 'email' => 'staff@paritex.com', 'phone' => '01737000002', 'permissions' => $this->superAdminPermissions(), 'password' => bcrypt(123456), 'user_type' => "staff" ]);
 
         DeliveryHero::factory()->create(['user_id' => 3]);
         $activation = Activation::create($deliveryHero);
@@ -151,15 +151,7 @@ class UserSeeder extends Seeder
             'cache_update',
             'miscellaneous_setting_update',
             'admin_panel_setting_update',
-            'facebook_service_update',
-            'google_service_update',
             'pusher_notification_update',
-
-            'otp_setting_read',
-            'otp_setting_update',
-
-            'sms_template_read',
-            'sms_template_update',
 
             'payment_gateway_read',
             'payment_gateway_update',
@@ -228,11 +220,6 @@ class UserSeeder extends Seeder
             'app_config_update',
             'ads_config_update',
             'download_link_update',
-
-            'mobile_app_intro_read',
-            'mobile_app_intro_create',
-            'mobile_app_intro_update',
-            'mobile_app_intro_delete',
 
             'delivery_hero_read',
             'delivery_hero_create',

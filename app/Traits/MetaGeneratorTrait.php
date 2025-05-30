@@ -91,10 +91,10 @@ trait MetaGeneratorTrait {
             }
             else{
                 $meta_data = [
-                    'meta_title' => strtok(env('APP_NAME', 'Yoori - Ecommerce CMS Platform'), " "),
-                    'meta_description' => env('APP_NAME', 'Yoori - Ecommerce CMS Platform'),
+                    'meta_title' => strtok(env('APP_NAME', 'Paritex - Ecommerce B2B Platform'), " "),
+                    'meta_description' => env('APP_NAME', 'Paritex - Ecommerce B2B Platform'),
                     'meta_image' => $system_og_image,
-                    'meta_keywords' => strtok(env('APP_NAME', 'Yoori - Ecommerce CMS Platform'), " ").', e-commerce',
+                    'meta_keywords' => strtok(env('APP_NAME', 'Paritex - Ecommerce B2B Platform'), " ").', e-commerce',
                     'meta_published_time' => date('Y-m-d H:i:s'),
                     'meta_section' => 'Home Section',
                     'meta_url' => url()->current(),
@@ -137,10 +137,10 @@ trait MetaGeneratorTrait {
             }
             else{
                 $meta_data = [
-                    'meta_title' => strtok(env('APP_NAME', 'Yoori - Ecommerce CMS Platform'), " "),
-                    'meta_description' => env('APP_NAME', 'Yoori - Ecommerce CMS Platform'),
+                    'meta_title' => strtok(env('APP_NAME', 'Paritex - Ecommerce B2B Platform'), " "),
+                    'meta_description' => env('APP_NAME', 'Paritex - Ecommerce B2B Platform'),
                     'meta_image' => $system_og_image,
-                    'meta_keywords' => strtok(env('APP_NAME', 'Yoori - Ecommerce CMS Platform'), " ").', e-commerce',
+                    'meta_keywords' => strtok(env('APP_NAME', 'Paritex - Ecommerce B2B Platform'), " ").', e-commerce',
                     'meta_published_time' => date('Y-m-d H:i:s'),
                     'meta_section' => 'Home Section',
                     'meta_url' => url()->current(),
@@ -165,10 +165,10 @@ trait MetaGeneratorTrait {
         else{
 
             $meta_data = [
-                'meta_title' => strtok(env('APP_NAME', 'Yoori - Ecommerce CMS Platform'), " "),
-                'meta_description' => env('APP_NAME', 'Yoori - Ecommerce CMS Platform'),
+                'meta_title' => strtok(env('APP_NAME', 'Paritex - Ecommerce B2B Platform'), " "),
+                'meta_description' => env('APP_NAME', 'Paritex - Ecommerce B2B Platform'),
                 'meta_image' => $system_og_image,
-                'meta_keywords' => strtok(env('APP_NAME', 'Yoori - Ecommerce CMS Platform'), " ").', e-commerce',
+                'meta_keywords' => strtok(env('APP_NAME', 'Paritex - Ecommerce B2B Platform'), " ").', e-commerce',
                 'meta_published_time' => date('Y-m-d H:i:s'),
                 'meta_section' => 'Home Section',
                 'meta_url' => url()->current(),

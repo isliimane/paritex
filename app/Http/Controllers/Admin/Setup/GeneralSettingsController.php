@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin\Setup;
 
 use Illuminate\Support\Facades\Http;
 use stdClass;
-use App\Traits\UpdateTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -20,7 +19,6 @@ use App\Repositories\Interfaces\Admin\ShippingInterface;
 
 class GeneralSettingsController extends Controller
 {
-    use UpdateTrait;
     private $lanuages;
     private $settings;
     private $currencies;
@@ -84,44 +82,6 @@ class GeneralSettingsController extends Controller
     public function systemName(Request $request)
     {
         return settingHelper($request->title,$request->lang);
-    }
-
-
-    public function downloadUpdate(Request $request): \Illuminate\Http\JsonResponse
-    {
-        try {
-            if (config('app.demo_mode'))
-            {
-                return response()->json([
-                    'message' => __('This function is disabled in demo server.'),
-                    'type' => __('Error') . ' !',
-                    'class' => 'danger',
-                ]);
-            }
-
-            $update = $this->downloadUpdateFile($request->all());
-
-            if (is_string($update))
-            {
-                return response()->json([
-                    'message' => $update,
-                    'type' => __('Error') . ' !',
-                    'class' => 'danger',
-                ]);
-            }
-
-            return response()->json([
-                'type' => __('Success') . ' !',
-                'class' => 'success',
-                'message' => __('Update Successfully')
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'type' => __('Error') . ' !',
-                'class' => 'danger',
-                'message' => $e->getMessage()
-            ]);
-        }
     }
 
     public function currencyChange($id,UserInterface $user): \Illuminate\Http\RedirectResponse

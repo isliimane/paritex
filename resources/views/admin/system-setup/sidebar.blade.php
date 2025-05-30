@@ -8,9 +8,7 @@
                 @if(hasPermission('preference_setting_update'))
                 <li class="nav-item"><a href="{{ route('preference') }}" class="nav-link @yield('preference')">{{ __('Preference') }}</a></li>
                 @endif
-                <!-- @if(hasPermission('email_setting_update'))
-                <li class="nav-item"><a href="{{ route('email.setting') }}" class="nav-link @yield('email.setting')">{{ __('Email Setting') }}</a></li>
-                @endif -->
+           
                 @if(hasPermission('currency_setting_update'))
                 <li class="nav-item"><a href="{{ route('currency') }}" class="nav-link @yield('currency')">{{ __('Currency') }}</a></li>
                 @endif

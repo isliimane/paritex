@@ -107,7 +107,7 @@ class AddUpdates130 extends Migration
 //        Currency::insert([ 'name' => 'Indian Rupee', 'symbol' => '₹', 'code' => 'INR', 'exchange_rate' => '75.52', 'status' => 1]);
 //        Currency::insert([ 'name' => 'EURO', 'symbol' => '€', 'code' => 'EUR', 'exchange_rate' => '1.05', 'status' => 1]);
         Setting::insert(['title' => 'default_country', 'value'  => '19', 'lang' => 'en']);
-        Setting::insert(['title' => 'refund_protection_title', 'value'  => 'Yoori eCommerce Refund Protection', 'lang' => 'en']);
+        Setting::insert(['title' => 'refund_protection_title', 'value'  => 'Paritex Refund Protection', 'lang' => 'en']);
         Setting::insert(['title' => 'refund_protection_sub_title', 'value'  => '30 Days cash back Guarantee', 'lang' => 'en']);
         Setting::insert(['title' => 'refund_policy_agreement', 'value'  => 'refund-policy', 'lang' => 'en']);
     }

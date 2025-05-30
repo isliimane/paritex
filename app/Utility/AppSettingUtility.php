@@ -6,7 +6,6 @@ use App\Models\Addon;
 use App\Models\Currency;
 use App\Models\Language;
 use App\Models\Setting;
-use App\Models\SmsTemplate;
 use Illuminate\Support\Facades\Cache;
 
 class AppSettingUtility
@@ -23,12 +22,7 @@ class AppSettingUtility
             return Setting::all();
         });
     }
-    public static function smsTemplates()
-    {
-        return Cache::rememberForever('smsTemplates', function (){
-            return SmsTemplate::all();
-        });
-    }
+   
     public static function addons()
     {
         return Cache::rememberForever('addons', function (){

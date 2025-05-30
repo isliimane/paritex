@@ -198,8 +198,6 @@ trait HomePage
                             }
                             $download_section['text'] = $item['text'];
                             $download_section['sub_text'] = $item['sub_text'];
-                            $download_section['apple_store'] = settingHelper('apple_store_link');
-                            $download_section['play_store'] = settingHelper('play_store_link');
 
                             $results = $this->keyDefine('download_section', $key, $download_section, $results);
                             $keys[] = 'download_section';

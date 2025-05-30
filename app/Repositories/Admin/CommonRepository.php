@@ -18,7 +18,6 @@ use App\Traits\ImageTrait;
 use App\Models\OrderDetail;
 use App\Models\BrandLanguage;
 use App\Models\CampaignProduct;
-use App\Models\AppIntroLanguage;
 use App\Models\CampaignLanguage;
 use App\Models\CategoryLanguage;
 use App\Models\PickupHubLanguage;
@@ -112,9 +111,6 @@ class CommonRepository implements CommonInterface{
                 endif;
                 DB::table($table)->delete($id);
 
-            elseif($table == 'app_intros'):
-                AppIntroLanguage::where('app_intro_id',$id)->delete();
-                DB::table($table)->delete($id);
             elseif($table == 'campaign_products'):
                 $campaign_product = CampaignProduct::findOrFail($id);
 

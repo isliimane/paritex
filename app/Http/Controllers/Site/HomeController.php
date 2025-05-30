@@ -100,7 +100,7 @@ class HomeController extends Controller
                 'settings' => $this->settingsData($page),
                 'languages' => settingHelper('language_switcher') == 1 ? $language->activeLanguages() : [],
                 'currencies' => $currency->activeCurrency(),
-                'user' => authUser() ? authUser()->makeHidden(['is_user_banned', 'permissions', 'newsletter_enable', 'otp', 'firebase_auth_id', 'created_at', 'updated_at', 'images', 'image_id']) : [],
+                'user' => authUser() ? authUser()->makeHidden(['is_user_banned', 'permissions', 'newsletter_enable', 'firebase_auth_id', 'created_at', 'updated_at', 'images', 'image_id']) : [],
                 'active_language' => $language->getByLocale($lang),
                 'active_currency' => $active_currency,
                 'default_currency' => $default_currency ?: [
@@ -149,7 +149,6 @@ class HomeController extends Controller
         $footer_data = settingData(['footer_contact_phone', 'footer_contact_email', 'footer_contact_address']);
         $currency_setting = settingData(['decimal_separator', 'currency_symbol_format']);
         $header_data = settingData(['default_language', 'system_name', 'default_currency', 'header_contact_phone', 'header_contact_email', 'language_switcher', 'currency_switcher', 'header_contact_number']);
-        $store_links = settingData(['play_store_link', 'apple_store_link']);
         $other_data = settingData(['is_google_login_activated', 'is_facebook_login_activated', 'is_twitter_login_activated']);
         $recaptcha = settingData(['is_recaptcha_activated', 'recaptcha_Site_key']);
         $modules = settingData(['color', 'pickup_point', 'wallet_system', 'coupon_system']);
@@ -233,11 +232,10 @@ class HomeController extends Controller
             'tax_type' => settingHelper('vat_type') && settingHelper('vat_type') == 'after_tax' ? 'after_tax' : 'before_tax',
             'vat_and_tax_type' => settingHelper('vat_and_tax_type'),
             'no_of_decimals' => (int)settingHelper('no_of_decimals'),
-            'disable_otp' => (bool)settingHelper('disable_otp_verification'),
             'disable_guest' => (bool)settingHelper('disable_guest_checkout'),
             'active_color' => settingHelper('menu_active_color') ?: '#000000',
         ];
-        return array_merge($settings, $other_data, $store_links, $header_data, $menu, $footer_data, $social_links, $stripe, $currency_setting, $popup_modal, $recaptcha, $modules, $agreements, $map);
+        return array_merge($settings, $other_data, $header_data, $menu, $footer_data, $social_links, $stripe, $currency_setting, $popup_modal, $recaptcha, $modules, $agreements, $map);
     }
 
     public function defaultAssets(): array
@@ -362,12 +360,6 @@ class HomeController extends Controller
         }
     }
 
-    public function getDb()
-    {
-        $path = base_path('public/sql/yoori.sql');
-        $sql = file_get_contents($path);
-        DB::unprepared($sql);
-    }
 
     public function deleteFile(Request $request, ProductInterface $productInterface): \Illuminate\Http\JsonResponse
     {

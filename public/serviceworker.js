@@ -1,4 +1,4 @@
-var staticCacheName = "yoori-pwa-" + new Date().getTime();
+var staticCacheName = "paritex-pwa-" + new Date().getTime();
 
 var filesToCache = [
     '/images/ico/apple-icon-72x72.png',
@@ -38,7 +38,7 @@ self.addEventListener('activate', event => {
         caches.keys().then(cacheNames => {
             return Promise.all(
                 cacheNames
-                    .filter(cacheName => (cacheName.startsWith("yoori-pwa-")))
+                    .filter(cacheName => (cacheName.startsWith("paritex-pwa-")))
                     .filter(cacheName => (cacheName !== staticCacheName))
                     .map(cacheName => caches.delete(cacheName))
             );

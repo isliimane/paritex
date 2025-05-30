@@ -88,8 +88,8 @@
                                                                  aria-labelledby="heading_{{ $permission->id }}"
                                                                  data-parent="#staffRoleForm">
                                                                 <div class="card-body">
-                                                                    @if($permission->attribute != 'refund' && $permission->attribute != 'reward_configuration' && $permission->attribute != 'otp_system'
-                                                                                                                && $permission->attribute != 'chat_messenger' && $permission->attribute != 'mobile_apps' && $permission->attribute != 'mobile_app_intro'
+                                                                    @if($permission->attribute != 'refund' && $permission->attribute != 'reward_configuration'
+                                                                                                                && $permission->attribute != 'chat_messenger'
                                                                                                                 && $permission->attribute != 'coupon')
                                                                         @foreach ($permission->keywords as $key => $keyword)
                                                                             <div class="custom-control custom-checkbox">
@@ -119,9 +119,8 @@
                                                                             </div>
                                                                         @endforeach
                                                                     @elseif(($permission->attribute == 'wholesale_product' && addon_is_activated('wholesale')) || ($permission->attribute == 'refund' && addon_is_activated('refund'))
-                                                            || ($permission->attribute == 'reward_configuration' && addon_is_activated('reward')) || ($permission->attribute == 'otp_system' && addon_is_activated('otp_system'))
+                                                            || ($permission->attribute == 'reward_configuration' && addon_is_activated('reward'))
                                                             || ($permission->attribute == 'chat_messenger' && addon_is_activated('chat_messenger'))
-                                                            || ($permission->attribute == 'mobile_apps'  || $permission->attribute == 'mobile_app_intro')
                                                             || ($permission->attribute == 'coupon' && settingHelper('coupon_system') == 1))
                                                                         @foreach ($permission->keywords as $k => $keyword)
                                                                             <div class="custom-control custom-checkbox">

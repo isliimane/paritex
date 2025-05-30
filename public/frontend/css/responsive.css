@@ -1448,7 +1448,7 @@
 	.quick-view-slider {
 		margin-bottom: 30px;
 	}
-	.sg-yoori-purchase-btn {
+	.sg-paritex-purchase-btn {
 		bottom: 80px;
 	}
 
@@ -1479,7 +1479,7 @@
 	section.categories-section .slick-list {
 		margin-right: -15px;
 	}
-	.yoori--cookies {
+	.paritex--cookies {
 		display: none;
 	}
 	.subscribe-image {
@@ -1763,7 +1763,7 @@
 }
 
 	/* chat and purchase */
-	.sg-yoori-purchase-btn,
+	.sg-paritex-purchase-btn,
 	.tawk-min-container .tawk-button-circle.tawk-button-large,
 	#q0bthe7lvh9o1662027228874.widget-visible {
 		display: none !important;

@@ -8,11 +8,8 @@ interface AddonInterface{
 
     public function all();
 
-    public function install($request);
 
     public function paginate($limit);
-
-    public function statusChange($request);
 
     public function activePlugin();
 

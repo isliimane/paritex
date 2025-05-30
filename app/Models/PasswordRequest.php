@@ -9,5 +9,5 @@ class PasswordRequest extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id','otp'];
+    protected $fillable = ['user_id'];
 }

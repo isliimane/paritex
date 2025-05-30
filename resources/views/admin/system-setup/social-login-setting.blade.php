@@ -149,64 +149,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade {{ old('social_login')  == 'twitter' ? 'show active' : ''}}" id="twitter" role="tabpane5" aria-labelledby="twitter-tab">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4>{{ __('Twitter Login Credential') }}</h4>
-                                </div>
-                                <div class="card-body col-md-10 middle">
-                                    <div class="col-12">
-                                        <div class="row">
-                                            <div class="form-group">
-                                                <label class="custom-switch mt-2">
-                                                    <input type="checkbox"
-                                                           name="custom-switch-checkbox"
-                                                           value="admin-social-login-status-change/{{ 'is_twitter_login_activated' }}"
-                                                           class="custom-switch-input status-change" {{ settingHelper('is_twitter_login_activated') == 1 ? 'checked' : ''}} />
-                                                    <span class="custom-switch-indicator"></span>
-                                                    <span class="custom-switch-description">{{ __('Activate') }}</span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <form action="{{ route('social.login.update') }}" method="post" enctype="multipart/form-data">
-                                        @method('put')
-                                        @csrf
-                                        <div class="form-group">
-                                            <label for="twitter_client_id">{{ __('Client ID') }}</label>
-                                            <input type="hidden" name="social_login"  value="twitter">
-                                            <input type="text" class="form-control" id="twitter_client_id" name="twitter_client_id" value="{{ old('twitter_client_id') ? old('twitter_client_id') : (config('app.demo_mode') ? Str::of(settingHelper('twitter_client_id'))->mask('*', 3, 25) : settingHelper('twitter_client_id')) }}" placeholder="{{ __('Twitter Client Id') }}">
-                                            @if ($errors->has('twitter_client_id'))
-                                                <div class="invalid-feedback">
-                                                    {{ $errors->first('twitter_client_id') }}
-                                                </div>
-                                            @endif
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="twitter_client_secret">{{ __('Client Secret') }}</label>
-                                            <input type="text" class="form-control" id="twitter_client_secret" name="twitter_client_secret" value="{{ old('twitter_client_secret') ? old('twitter_client_secret') : (config('app.demo_mode') ? Str::of(settingHelper('twitter_client_secret'))->mask('*', 3, 25) : settingHelper('twitter_client_secret')) }}" placeholder="{{ __('Twitter Client Secret') }}">
-                                            @if ($errors->has('twitter_client_secret'))
-                                                <div class="invalid-feedback">
-                                                    {{ $errors->first('twitter_client_secret') }}
-                                                </div>
-                                            @endif
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="twitter_callback_url">{{ __('Twitter Callback URL') }}</label>
-                                            <input type="text" class="form-control" id="twitter_callback_url" disabled value="{{ url('login/twitter/callback') }}" placeholder="{{ __('Twitter Callback URL') }}">
-                                            @if ($errors->has('twitter_callback_url'))
-                                                <div class="invalid-feedback">
-                                                    {{ $errors->first('twitter_callback_url') }}
-                                                </div>
-                                            @endif
-                                        </div>
-                                        <div class="text-md-right">
-                                            <button class="btn btn-outline-primary">{{ __('Save') }}</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+                      
                     </div>
                 </div>
             </div>

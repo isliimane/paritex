@@ -52,7 +52,7 @@
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('{{ url('serviceworker.js') }}').then(function (registration) {
         }, function (err) {
-            console.log('Yoori-Ecommerce CMS PWA: ServiceWorker registration failed: ', err);
+            console.log('ServiceWorker registration failed: ', err);
         });
     }
 </script>

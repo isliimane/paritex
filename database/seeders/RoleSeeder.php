@@ -121,15 +121,7 @@ class RoleSeeder extends Seeder
             'cache_update',
             'miscellaneous_setting_update',
             'admin_panel_setting_update',
-            'facebook_service_update',
-            'google_service_update',
             'pusher_notification_update',
-
-            'otp_setting_read',
-            'otp_setting_update',
-
-            'sms_template_read',
-            'sms_template_update',
 
             'payment_gateway_read',
             'payment_gateway_update',
@@ -199,12 +191,6 @@ class RoleSeeder extends Seeder
             'app_config_update',
             'ads_config_update',
             'download_link_update',
-
-
-            'mobile_app_intro_read',
-            'mobile_app_intro_create',
-            'mobile_app_intro_update',
-            'mobile_app_intro_delete',
 
 
             'delivery_hero_read',

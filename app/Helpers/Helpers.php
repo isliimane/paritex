@@ -7,7 +7,6 @@ use App\Models\Country;
 use App\Models\Product;
 use App\Models\Setting;
 use App\Models\Language;
-use App\Models\SmsTemplate;
 use App\Models\Notification;
 use App\Events\PusherNotification;
 use App\Utility\AppSettingUtility;
@@ -57,46 +56,6 @@ if (!function_exists('isInstalled')) {
         return \config('app.app_installed');
     }
 }
-if (!function_exists('update_version')):
-    function update_version()
-    {
-        if (settingHelper('current_version') == '1.0.0' || settingHelper('current_version') < 166):
-
-            if (is_dir(base_path('public/frontend/js/chunks-164'))) {
-                \Illuminate\Support\Facades\File::deleteDirectory(base_path('public/frontend/js/chunks-164'));
-            }
-
-            if (isAppMode()) {
-                $version = 121;
-                $version_code = "1.1.0";
-            } else {
-                $version = 166;
-                $version_code = "1.6.6";
-            }
-
-
-            $code = Setting::where('title', 'version_code')->first();
-
-            if ($code) {
-                $code->update([
-                    'value' => $version_code,
-                ]);
-            } else {
-                Setting::create([
-                    'title' => "version_code",
-                    'value' => $version_code
-                ]);
-            }
-
-            $setting = Setting::where('title', 'current_version')->first();
-            $setting->value = $version;
-            $setting->save();
-            Artisan::call('migrate');
-            Cache::forget('settings');
-            Artisan::call('optimize:clear');
-        endif;
-    }
-endif;
 
 if (!function_exists('formatBytes')) {
 
@@ -458,16 +417,6 @@ if (!function_exists('get_yrsetting')) {
     }
 }
 
-if (!function_exists('get_sms_body')) {
-    function get_sms_body($for)
-    {
-        $sms_template = SmsTemplate::where('tab_key', $for)->first();
-
-        $otp = rand(10000, 99999);
-        $sms_body = str_replace('{otp}', $otp, $sms_template->sms_body);
-        return $sms_body;
-    }
-}
 
 if (!function_exists('addon_is_activated')) {
     function addon_is_activated($addon_unique_identity)
@@ -1023,9 +972,9 @@ if (!function_exists('pwa_config')):
     function pwa_config()
     {
         $icon = settingHelper('favicon');
-        $short_name = settingHelper('system_short_name') != '' ? settingHelper('system_short_name') : 'Yoori';
+        $short_name = settingHelper('system_short_name') != '' ? settingHelper('system_short_name') : 'Paritex';
         $pwa = array(
-            'name' => 'Yoori',
+            'name' => 'Paritex',
             'manifest' => [
                 'name' => config('app.name'),
                 'short_name' => $short_name,

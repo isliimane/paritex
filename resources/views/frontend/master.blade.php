@@ -316,8 +316,8 @@
 
 
 @if(config('app.demo_mode'))
-    <div class="sg-yoori-switcher {{ settingHelper('header_theme') == 'header_theme2' ? 'theme-color-switcher' : ''}}">
-        <div class="sg-yoori-switcher-close"><i class="mdi mdi-cog"></i></div>
+    <div class="sg-paritex-switcher {{ settingHelper('header_theme') == 'header_theme2' ? 'theme-color-switcher' : ''}}">
+        <div class="sg-paritex-switcher-close"><i class="mdi mdi-cog"></i></div>
         <div class="color-switcher">
             <div class="color-switcher-title">
                 <h4>Theme Options</h4>
@@ -356,20 +356,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="sg-yoori-purchase-btn">
-        <a href="https://1.envato.market/yoori" target="_blank" class="sg-yoori-purchase">
-            <div class="sg-yoori-purchase-price"><span>$</span>
-                49
-            </div>
-            <div class="em-logo">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                     viewBox="0 0 16 16" xml:space="preserve">
-                <path d="M12.869.088c-.572-.281-3.474.04-5.566 2.047-3.296 3.291-3.217 7.627-3.217 7.627s-.109.446-.573-.201c-1.016-1.295-.484-4.274-.424-4.689.084-.585-.289-.602-.444-.409-3.672 5.098-.356 9.272 1.815 10.597 2.542 1.551 7.556 1.55 9.553-2.85C16.501 6.731 13.586.439 12.869.088z"
-                      fill="#ffffff"></path>
-             </svg>
-            </div>
-        </a>
     </div>
 @endif
 </body>

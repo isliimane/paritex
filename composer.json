@@ -1,11 +1,11 @@
 {
-  "name": "spagreen/yoori",
+  "name": "paritex/paritex",
   "type": "project",
-  "description": "Yoori PWA eCommerce CMS.",
+  "description": "Paritex eCommerce B2B.",
   "authors": [
     {
-      "name": "SpaGreen Creative",
-      "email": "info@spagreen.net"
+      "name": "Paritex Team",
+      "email": "info@paritex.com"
     }
   ],
   "keywords": [

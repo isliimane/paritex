@@ -149,7 +149,7 @@
 
 		<div class="mb-bottom"></div>
 
-		<div class="yoori--cookies" v-if="checkGDPR() && gdpr">
+		<div class="paritex--cookies" v-if="checkGDPR() && gdpr">
 			<div class="cookie-content" v-html="settings.gdpr"> </div>
 			<div class="cookie-btn">
 				<button type="button" @click="setGDPR">{{ lang.accept_all }}</button>

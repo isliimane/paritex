@@ -17,7 +17,6 @@ class CreateAddonsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('addon_identifier');
-            $table->string('purchase_code')->nullable();
             $table->string('version')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->text('image')->nullable();

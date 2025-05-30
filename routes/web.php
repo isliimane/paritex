@@ -24,7 +24,6 @@ use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('cache-clear', [HomeController::class, 'cacheClear'])->name('cache.clear');
-Route::get('get-database', [HomeController::class, 'getDb'])->name('get.database');
 Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
 
 Route::post('password-check', [HomeController::class, 'passwordVerify'])->name('password.check');
@@ -49,7 +48,6 @@ Route::middleware(['XSS', 'isInstalled'])->group(function () {
         Route::post('reset-password', [UserController::class, 'resetPassword'])->name('reset.password');
         Route::get('reset/{email}/{activationCode}', [HomeController::class, 'index']);
         Route::post('create-new-password', [UserController::class, 'createNewPassword'])->name('create.new.password');
-        Route::post('register/by-phone', [RegisterController::class, 'registerByPhone'])->name('register.by.phone');
 
         Route::get('admin/login', [LoginController::class, 'adminLogin'])->name('admin.login.form');
 
@@ -57,8 +55,6 @@ Route::middleware(['XSS', 'isInstalled'])->group(function () {
         Route::get('login', [HomeController::class, 'index'])->name('login');
         Route::post('login', [LoginController::class, 'postLogin'])->name('login.post');
         Route::post('login-admin-seller', [LoginController::class, 'adminSellerlogin'])->name('admin.seller.login');
-        Route::post('get-otp', [LoginController::class, 'getOtp'])->name('login.otp');
-        Route::post('submit-otp', [LoginController::class, 'postLogin'])->name('login.otp.submit');
         //admin logout
     });
 

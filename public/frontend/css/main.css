@@ -8432,7 +8432,7 @@ ul.global-list li ul li a:hover {
 	content: "";
 }
 /* -----Cookies Style Start----- */
-.yoori--cookies {
+.paritex--cookies {
 	position: fixed;
 	bottom: 50px;
 	width: 72%;
@@ -10083,7 +10083,7 @@ ul.product_sidebar_store .global-list li {
 }
 
 /* Country Code & Phone Number Selection Style====== */
-.yoori__signup {
+.paritex__signup {
 	max-width: 370px;
 	background: #eee;
 	padding: 15px;
@@ -10091,18 +10091,18 @@ ul.product_sidebar_store .global-list li {
 	margin: auto;
 }
 
-.yoori__signup h1 {
+.paritex__signup h1 {
 	font-size: 20px;
 	font-weight: 600;
 	text-transform: uppercase;
 }
 
-.yoori__signup p {
+.paritex__signup p {
 	font-size: 16px;
 	padding: 18px 0;
 }
 
-.yoori__signup--form {
+.paritex__signup--form {
 	display: flex;
 	align-items: center;
 	border: 1px solid #ddd;
