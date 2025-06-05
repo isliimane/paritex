@@ -8,13 +8,17 @@
 .search_btn{
     top: 0 !important;
     height: 100% !important;
-    background-color: #348529 !important;
+    /* background-color: #348529 !important; */
+    background-color: #e12203 !important;
 }
 .search-form .form-control{
-    background-color: rgb(52 133 41 / 10%) !important;
+    /* background-color: rgb(52 133 41 / 10%) !important; */
+    background-color: rgb(225 34 3 / 10%) !important;
 }
 .user-option .icon{
-    background-color: rgb(52 133 41 / 10%) !important;
+    /* background-color: rgb(52 133 41 / 10%) !important; */
+    background-color: rgb(225 34 3 / 10%) !important;
+
     border-radius: 50%;
     padding: 8px;
     max-width: 35px;
@@ -24,6 +28,7 @@
 }
 
 .user-option .badge{
+    background-color: #e12203 !important;
     top: -5px;
     inset-inline-end: -5px;
     font-size: 10px;
@@ -70,7 +75,9 @@
 .custom-sort-container{
     border-radius: 5px;
     padding: 10px;
-    background: rgb(52 133 41 / 10%);
+    /* background: rgb(52 133 41 / 10%); */
+    background: rgb(225 34 3 / 10%);
+
 }
 .sg-category-content .title h1{
     font-size: 14px;
@@ -83,9 +90,7 @@
 .sg-rating .reviews{
     margin-top: 4px !important;
 }
-.btnTOP:hover {
-    background-color: #fff;
-}
+
 .product-details-2 .sg-rating {
     margin: 15px 0;
 }
@@ -151,7 +156,9 @@
     margin-left: 2px;
 }
 .footer-section{
-    background-color: rgb(52 133 41 / 10%) !important;
+    /* background-color: rgb(52 133 41 / 10%) !important; */
+    background-color: rgb(225 34 3 / 10%) !important;
+
 }
 .footer-logo {
     position: relative;
@@ -183,8 +190,9 @@
     border-radius: 5px;
 }
 .subscribe-section{
-    background: #eaf3e9;
-    
+    /*background: #eaf3e9;*/
+    background: rgb(225 34 3 / 10%);
+
 }
 .subscribe-text .icon span, .subscribe-text .text{
     color: #444;
@@ -208,5 +216,117 @@
     border-radius: 50%;
 }
 .footer-top .social ul li a:hover {
-    color: var(--primary-color);
+    /*color: var(--primary-color);*/
+    color: #e12203;
+}
+
+.brand_title{
+        background: #e12203 !important;
+        color: #fff;
+}
+
+.subscribe-section button, .subscribe-section-2 button, .btn.btn-primary{
+        background-color: #e12203;
+        border: 1px solid #e12203;
+
+
+}
+.btn.btn-primary{
+        background-color: #e12203;
+
+}
+
+
+.btnTOP{
+            background: #e12203;
+            border: 1px solid #e12203;
+            color: #fff;
+}
+
+.btnTOP:hover {
+    background-color: #fff;
+    border: 1px solid #e12203;
+}
+
+.title a:hover, a:hover, .sg-product a:hover,.footer-widget ul li a:hover,
+.header-middle .botom-content .user-option ul li.user-log-info a:hover,
+.categorie-menu ul li a:hover span, .categorie-menu ul li:hover span.icon,
+.categorie-menu-content ul.global-list li.last-menu-item a span{
+    color: #e12203;
+}
+
+.categorie-menu ul li a::after{
+                background: #e12203;
+    
+}
+.categorie-menu ul li a:hover {
+    color: #e12203;
+    background-color: rgb(225 34 3 / 6%);
+}
+
+.categorie-menu-content ul.global-list li.last-menu-item a,
+.filter-tabs li:hover, .filter-tabs li.active,
+.ragister-account .middle-content a:hover,
+ul.global-list li.has-baby ul li:hover, ul.global-list li ul li a:hover{
+        color: #e12203;
+}
+
+
+.active{
+        color: #e12203 !important;
+}
+
+.subscribe-section button:hover, .subscribe-section-2 button:hover{
+     color: #e12203;
+            border: 1px solid #e12203;
+}
+
+
+
+
+.btn.btn-primary:hover{
+    color: #e12203;
+    border: 1px solid #e12203;
+}
+
+
+.ragister-account button{
+    background-color: #e12203;
+}
+
+.ragister-account button:hover {
+    color: #e12203;
+    border: 1px solid #e12203;
+}
+
+
+.sg-sitebar.new-shop-sitebar .form-checkbox .form-group input:checked + label:before{
+    background-color: rgb(225 34 3 / 13%);
+    border: 1px solid #e12203;
+
+}
+
+.sg-sitebar.new-shop-sitebar ul li span.cat-items{
+    background-color: rgb(225 34 3 / 13%);
+    color: #e12203;
+}
+
+
+.custom-btn-outline, .buyNowBTN a, .custom-btn-fill:hover {
+    color: #e12203;
+    border: 1px solid #e12203;
+}
+
+.custom-btn-outline:hover, .buyNowBTN a:hover{
+    background-color: #e12203;
+}
+
+.buyNowBTN a svg path, .product-cart.sg-quantity a:hover .policy a:hover, .btn.btn-primary:hover svg path{
+    fill: #e12203;
+}
+
+.sg-sitebar.new-shop-sitebar .form-checkbox .form-group input:checked + label:after{
+     border: solid #e12203;
+         border-width: 0 2px 2px 0;
+   
 }

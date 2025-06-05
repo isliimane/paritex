@@ -71,7 +71,10 @@ class OrderController extends Controller
                 Toastr::error(__('Paid order can not be edited'));
                 return back();
             }
-            $delivery_heroes    = $this->user->allTypeUser()->whereHas('deliveryHero')->where('user_type','delivery_hero')->where('status',1)->where('is_user_banned',0)->get();
+            $delivery_heroes = $this->user->allTypeUser()->whereHas('deliveryHero', function ($query) {
+                $query->where('status', 1);
+                
+            })->where('user_type', 'delivery_hero')->where('status', 1)->where('is_user_banned', 0)->get();
             $pickup_hubs = PickupHub::get();
             $countries      = $this->shipping->countries()->where('status', 1)->get();
             $shipping_address = $order->shipping_address;
@@ -104,7 +107,11 @@ class OrderController extends Controller
     public function view($id){
         try{
             $order              = $this->order->get($id);
-            $delivery_heroes    = $this->user->allTypeUser()->whereHas('deliveryHero')->where('user_type','delivery_hero')->where('status',1)->where('is_user_banned',0)->get();
+
+            $delivery_heroes = $this->user->allTypeUser()->whereHas('deliveryHero', function ($query) {
+                $query->where('status', 1);
+                
+            })->where('user_type', 'delivery_hero')->where('status', 1)->where('is_user_banned', 0)->get();
             $warehouses = $this->warehouse->all();
             return view('admin.orders.order-details', compact('order','delivery_heroes','warehouses'));
         } catch (\Exception $e) {

@@ -9,6 +9,7 @@ use App\Traits\ApiReturnFormatTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Repositories\Interfaces\Admin\NotificationInterface;
 
 
 class HomeController extends Controller
@@ -17,11 +18,14 @@ class HomeController extends Controller
 
     protected $order;
     protected $deliveryHero;
+    protected $notification;
 
-    public function __construct(OrderInterface $order,DeliveryHeroInterface $deliveryHero)
+
+    public function __construct(OrderInterface $order,DeliveryHeroInterface $deliveryHero,NotificationInterface $notification)
     {
         $this->order            = $order;
         $this->deliveryHero     = $deliveryHero;
+        $this->notification         = $notification;
     }
 
     public function homePageData(Request $request): \Illuminate\Http\JsonResponse
@@ -65,5 +69,91 @@ class HomeController extends Controller
             return $this->responseWithError($e->getMessage(), [], null);
         }
     }
+    
+    public function getNotifications(Request $request)
+    {
+        try{
+            $user = null;
+            if ($request->token) {
+                try {
+                    if (!$user = JWTAuth::parseToken()->authenticate()) {
+                        return $this->responseWithError(__('unauthorized_user'), [], 401);
+                    }
+                } catch (\Exception $e) {
+                    return $this->responseWithError(__('unauthorized_user'), [], 401);
+                }
+            }
+            
+            $notifications = $user->notifications()->latest()->take(20)->get();
+    
+            return $this->responseWithSuccess(__('Data Retrieved Successfully'), $notifications, 200);
+            
+        }catch (\Exception $e) {
+            return $this->responseWithError($e->getMessage(), [], null);
+        }
+
+    }
+    
+    public function seen(Request $request): \Illuminate\Http\JsonResponse
+    {
+        try {
+            
+            $user = null;
+            if ($request->token) {
+                try {
+                    if (!$user = JWTAuth::parseToken()->authenticate()) {
+                        return $this->responseWithError(__('unauthorized_user'), [], 401);
+                    }
+                } catch (\Exception $e) {
+                    return $this->responseWithError(__('unauthorized_user'), [], 401);
+                }
+            }
+            if($request->id){
+                $this->notification->seen($request->id);
+            $data = [
+                'success' => __('Notification Seen Successfully')
+            ];    
+                      return $this->responseWithSuccess(__('Data Retrieved Successfully'), $data, 200);
+
+            }
+           
+            return $this->responseWithError(__('Notification Not Found'), [], null);
+
+        } catch (\Exception $e) {
+            return $this->responseWithError($e->getMessage(), [], null);
+
+        }
+    }
+    
+    public function markAllSeen(Request $request): \Illuminate\Http\JsonResponse
+    {
+        try {
+            
+            $user = null;
+            if ($request->token) {
+                try {
+                    if (!$user = JWTAuth::parseToken()->authenticate()) {
+                        return $this->responseWithError(__('unauthorized_user'), [], 401);
+                    }
+                } catch (\Exception $e) {
+                    return $this->responseWithError(__('unauthorized_user'), [], 401);
+                }
+            }
+            
+            if($user->notifications()->update(['status' => 'seen'])){
+            $data = [
+                'success' => __('Notification Seen Successfully')
+            ];
+            return $this->responseWithSuccess(__('Data Retrieved Successfully'), $data, 200);    
+            }
+            return $this->responseWithError(__('Notifications Not Updated'), [], null);
+
+
+        } catch (\Exception $e) {
+            return $this->responseWithError($e->getMessage(), [], null);
+
+        }
+    }
+
 
 }

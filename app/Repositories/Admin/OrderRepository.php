@@ -32,6 +32,7 @@ use Illuminate\Http\Request;
 use App\Models\Warehouse;
 use App\Models\WarehouseProduct;
 use App\Notifications\DeliveryHeroAssigned;
+use App\Models\Notification;
 
 class OrderRepository implements OrderInterface
 {
@@ -268,7 +269,14 @@ class OrderRepository implements OrderInterface
 
         $delivery_history->save();
         if(isset($order->deliveryHero)){
-            $order->deliveryHero->notify(new DeliveryHeroAssigned($order->id));
+            $notification = new Notification();
+            $notification->user_id = $order->deliveryHero->user->id;
+       
+            $notification->title = __("New Order Received");
+            $notification->details = __("Tap to view the order details");
+            $notification->url = "/detailsOrder/" . $order->id;
+            $notification->save();
+            $order->deliveryHero->notify(new DeliveryHeroAssigned($order->id,$notification->id));
         }
         return true;
     }
