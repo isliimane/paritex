@@ -229,7 +229,22 @@
                                                 @foreach($order->orderDetails as $detail)
                                                     <tr>
                                                         <input type="hidden" name="order_details[{{ $detail->id }}][id]" value="{{ $detail->id }}">
-                                                        <td>{{ $detail->product->product_name }}</td>
+                                                        <td>
+                                                        
+                                                            @if($detail->product)
+                                                                <div class="ml-1">
+                                                                    {{ $detail->product->getTranslation('name', \App::getLocale()) }}
+                                                                    @if($detail->variation != null)
+                                                                        ({{ $detail->variation }})
+                                                                    @endif
+                                                                </div>
+                                                            @else
+                                                                <div class="ml-1">
+                                                                    N/A
+                                                                </div>
+                                                            @endif
+                                                    
+                                                        </td>
                                                         <td>
                                                             <input type="number" class="form-control" name="order_details[{{ $detail->id }}][price]" value="{{ $detail->price }}">
                                                         </td>

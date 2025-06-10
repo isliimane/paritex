@@ -33,6 +33,7 @@ use App\Models\Warehouse;
 use App\Models\WarehouseProduct;
 use App\Notifications\DeliveryHeroAssigned;
 use App\Models\Notification;
+use App\Repositories\Interfaces\Admin\ShippingInterface;
 
 class OrderRepository implements OrderInterface
 {
@@ -41,12 +42,16 @@ class OrderRepository implements OrderInterface
     protected $lang;
     protected $product;
     protected $wallet;
+    protected $shipping;
 
-    public function __construct(LanguageInterface $lang, ProductInterface $product, \App\Repositories\Interfaces\Admin\Addon\WalletInterface $wallet)
+    public function __construct(LanguageInterface $lang, ProductInterface $product,
+                                \App\Repositories\Interfaces\Admin\Addon\WalletInterface $wallet,
+                                ShippingInterface $shipping)
     {
         $this->lang         = $lang;
         $this->product      = $product;
         $this->wallet       = $wallet;
+        $this->shipping       = $shipping;
     }
 
 

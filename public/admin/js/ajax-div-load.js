@@ -217,6 +217,9 @@
                     /*else {
                         $('.select2').select2();
                     }*/
+                   if (type === 'campaign'){
+                        $('.select2').select2();
+                    }
                     productByAjax();
                     $('.selectric').selectric();
 

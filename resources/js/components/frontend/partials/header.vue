@@ -185,15 +185,16 @@
               <li>
                 <router-link :to="{ name: 'wishlist' }" v-if="authUser && authUser.user_type == 'customer' && isLicenseVerified">
                   <div class="icon">
-                    <img alt="Compare Icon" class="img-fluid" :src="getUrl('public/images/others/wishlist.svg')"/>
+                    <img alt="Wishlist Icon" class="img-fluid" :src="getUrl('public/images/others/wishlist.svg')"/>
                   </div>
-                  <span class="badge">0</span>
+                   <span v-if="wishlists && wishlists.length > 0"
+                        class="badge">{{ wishlists.length }}</span>
                 </router-link>
                 <a href="javascript:void(0)" v-else @click="redirectToProfile">
                   <div class="icon">
-                    <img alt="Compare Icon" class="img-fluid" :src="getUrl('public/images/others/wishlist.svg')"/>
+                    <img alt="Wishlist Icon" class="img-fluid" :src="getUrl('public/images/others/wishlist.svg')"/>
                   </div>
-                  <span class="badge" >0</span>
+                  <!-- <span class="badge" >0</span> -->
                 </a>
               </li>
 
@@ -201,13 +202,14 @@
                 <router-link :to="{ name: 'cart' }" class="" v-if="isLicenseVerified">
                   <div class="icon">
                     <img alt="bag Icon" class="img-fluid" :src="getUrl('public/images/others/bag.svg')"/>
-                    <span  class="badge">0</span>
+                    <span v-if="carts && carts.length > 0"
+                        class="badge">{{ carts.filter(cart => cart.is_buy_now == false).length }}</span>
                   </div>
                 </router-link>
                 <a href="javascript:void(0)" v-else @click="redirectToProfile">
                   <div class="icon">
                     <img alt="bag Icon" class="img-fluid" :src="getUrl('public/images/others/bag.svg')"/>
-                    <span  class="badge">0</span>
+                    <!-- <span  class="badge">0</span> -->
                   </div>
                 </a>
                 <div class="sg-dropdown-menu" v-if="carts && carts.length > 0">
