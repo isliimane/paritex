@@ -44,7 +44,9 @@ class HomeController extends Controller
             $delivery_hero_id             = $user->deliveryHero->id;
             $data['completed']            = $user->deliveryHero->orders->where('delivery_status','delivered')->count();
             $data['canceled']             = $user->deliveryHero->orders->where('delivery_status','canceled')->count();
-            $data['pending']              = $user->deliveryHero->orders->whereNotIn('delivery_status',['delivered','canceled'])->count();
+            $data['pending']              = $user->deliveryHero->orders->whereNotIn('delivery_status',['delivered','canceled','postponed'])->count();
+            $data['postponed']             = $user->deliveryHero->orders->where('delivery_status','postponed')->count();
+
             $data['total_collection']     = get_price($user->deliveryHero->total_collection);
             $data['today_collection']     = get_price($this->deliveryHero->getCommission($delivery_hero_id,'today'));
             $data['earning']              = get_price($user->deliveryHero->total_commission);

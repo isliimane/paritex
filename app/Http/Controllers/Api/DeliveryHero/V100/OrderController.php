@@ -36,12 +36,15 @@ class OrderController extends Controller
                 }
             }
             if ($slug == 'pending'):
-                $data = OrderResource::collection($user->deliveryHero->orders->whereNotIn('delivery_status',['delivered','canceled']));
+                $data = OrderResource::collection($user->deliveryHero->orders->whereNotIn('delivery_status',['delivered','canceled','postponed']));
             elseif($slug == 'canceled'):
                 $data = OrderResource::collection($user->deliveryHero->orders->where('delivery_status','canceled'));
             elseif ($slug == 'delivered'):
                 $data = OrderResource::collection(
                     $user->deliveryHero->orders->where('delivery_status','delivered'));
+            elseif ($slug == 'postponed'):
+                $data = OrderResource::collection(
+                    $user->deliveryHero->orders->where('delivery_status','postponed'));
             endif;
             return $this->responseWithSuccess(__('Data Retrieved Successfully'), $data, 200);
         } catch (\Exception $e) {
