@@ -163,6 +163,12 @@ class UserRepository implements UserInterface
             endif;
 
             $user->save();
+            $license_status = $user->license_verified == 1 ? __("Validated") : __("Rejected");
+            $notification_type = $user->license_verified == 1 ? "success" : "warning";
+            $this->SendNotification(Sentinel::findById($order->user_id),__("Your License is (:status)",['status'=>$license_status]),$notification_type,"user/dashboard", __('Your License Status is :status now.', ['status'=>$license_status]));
+            if ($order->user->email){
+                $this->SendMail($order->user->email, 'License Status Updated', $order->user, 'email.license-status-update',url('/'). '/user/dashboard/');
+            }
             DB::commit();
             return true;
         } catch (\Exception $e) {

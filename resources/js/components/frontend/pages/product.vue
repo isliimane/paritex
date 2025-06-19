@@ -137,8 +137,10 @@ export default {
 			}
 		},
 		isLicenseVerified() {
-          return (this.authUser && this.authUser.user_type == 'admin') || (this.authUser && this.authUser.user_type == 'customer' && this.authUser.license_verified);
-    }
+			if(!this.authUser)  return false;
+			if(this.authUser.user_type == 'customer' && !this.authUser.license_verified) return false;
+			return true;
+		}
 	},
 
 	methods: {

@@ -243,7 +243,9 @@ export default {
       return this.$store.state.module.shimmer
     },
     isLicenseVerified() {
-          return (this.authUser && this.authUser.user_type == 'admin') || (this.authUser && this.authUser.user_type == 'customer' && this.authUser.license_verified);
+      if(!this.authUser)  return false;
+      if(this.authUser.user_type == 'customer' && !this.authUser.license_verified) return false;
+      return true;
     }
  
   },
@@ -284,9 +286,9 @@ export default {
       })
     },
     confirmOrder() {
-      if (!(this.authUser && this.authUser.user_type == 'admin') || (this.authUser && this.authUser.user_type == 'customer' && this.authUser.license_verified)) {
-        toastr.error(this.lang.verify_license_to_continue, this.lang.Error + ' !!');
-        return;
+      if(this.authUser.user_type == 'customer' && !this.authUser.license_verified){
+          toastr.error(this.lang.verify_license_to_continue, this.lang.Error + ' !!');
+          return;
       }
       if (!this.$refs.privacy_agreement.checkAgreements()) {
         return toastr.info(this.lang.accept_terms, this.lang.Error + ' !!');

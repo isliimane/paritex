@@ -151,7 +151,7 @@
                                                          </a>
                                                      @endif
                                                  @endif
-                                                 @if(hasPermission('Delivery_hero_account_deposit'))
+                                                {{-- @if(hasPermission('Delivery_hero_account_deposit'))
                                                     <a href="javascript:void(0)"
                                                        data-title="{{__('Account Deposit')}}"
                                                        data-url="{{ route('edit-info', ['page_name' => 'collection-form-delivery-hero', 'param1' => $value->id]) }}"
@@ -159,7 +159,7 @@
                                                        class="dropdown-item has-icon modal-menu"><i
                                                            class='bx bx-collection' ></i>{{ __('Account Deposit') }}
                                                     </a>
-                                                @endif
+                                                @endif --}}
                                                      @if(hasPermission('delivery_hero_email_activation'))
                                                      @if(\Cartalyst\Sentinel\Laravel\Facades\Activation::completed($value) == true)
                                                          <a href="{{ route('delivery.hero.email.verify', $value->id) }}"

@@ -143,13 +143,13 @@
                                                             </a>
                                                         @endif
                                                     @endif
-                                                    <a href="javascript:void(0)"
+                                                    {{-- <a href="javascript:void(0)"
                                                        data-title="{{__('Account Deposit')}}"
                                                        data-url="{{ route('edit-info', ['page_name' => 'collection-form-staff', 'param1' => $user->id]) }}"
                                                        data-toggle="modal" data-target="#common-modal"
                                                        class="dropdown-item has-icon modal-menu"><i
                                                             class='bx bx-collection' ></i>{{ __('Account Deposit') }}
-                                                    </a>
+                                                    </a>  --}}
                                                 </div>
                                             </td>
                                         </tr>

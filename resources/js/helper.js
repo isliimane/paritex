@@ -240,7 +240,11 @@ export default Vue.mixin({
             return this.productDetails;
         },
         cartBtn(product, index) {
-            if(!((this.authUser && this.authUser.user_type == 'admin') || (this.authUser && this.authUser.user_type == 'customer' && this.authUser.license_verified))){
+            if(!this.authUser && this.settings.disable_guest){
+                toastr.error(this.lang.login_first, this.lang.Error + ' !!');
+                return;
+            }
+            if(this.authUser.user_type == 'customer' && !this.authUser.license_verified){
                 toastr.error(this.lang.verify_license_to_continue, this.lang.Error + ' !!');
                 return;
             }
@@ -331,7 +335,7 @@ export default Vue.mixin({
                 }
                 return false;
             }
-            if(!((this.authUser && this.authUser.user_type == 'admin') || (this.authUser && this.authUser.user_type == 'customer' && this.authUser.license_verified))){
+            if(this.authUser.user_type == 'customer' && !this.authUser.license_verified){
                 return toastr.error(this.lang.verify_license_to_continue, this.lang.Error + ' !!');
             }
             if (this.$route.name != 'checkout')

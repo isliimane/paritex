@@ -693,6 +693,11 @@ class OrderRepository implements OrderInterface
 
                     if ($order->payment_status == 'paid'):
                         $this->wallet->managePlacedOrder($order, $data);
+                        $deliveryStatusChangeRequest = new Request([
+                            'id' => $order->id,
+                            'delivery_status' => 'confirm',
+                        ]);
+                        $this->deliveryStatusChange($deliveryStatusChangeRequest);
                     endif;
                 }
                 $order->status = 1;

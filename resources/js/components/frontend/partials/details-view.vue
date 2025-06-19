@@ -760,7 +760,9 @@ export default {
       return carts;
     },
     isLicenseVerified() {
-          return (this.authUser && this.authUser.user_type == 'admin') || (this.authUser && this.authUser.user_type == 'customer' && this.authUser.license_verified);
+      if(!this.authUser)  return false;
+      if(this.authUser.user_type == 'customer' && !this.authUser.license_verified) return false;
+      return true;
     }
   },
   methods: {
@@ -992,13 +994,15 @@ export default {
       }
     },
     addToCart(min_qty, buy, is_buy_now) {
-      if(!(this.authUser && this.authUser.user_type == 'admin') || (this.authUser && this.authUser.user_type == 'customer' && this.authUser.license_verified)){
-          toastr.error(this.lang.verify_license_to_continue, this.lang.Error + ' !!');
-          return;
-      }
-      if (is_buy_now == 1 && (!this.authUser && this.settings.disable_guest)) {
+    
+      // if (is_buy_now == 1 && (!this.authUser && this.settings.disable_guest)) {
+      if ((!this.authUser && this.settings.disable_guest)) {
         toastr.error(this.lang.login_first, this.lang.Error + ' !!');
         return this.$router.push({name: 'login'});
+      }
+      if(this.authUser.user_type == 'customer' && !this.authUser.license_verified){
+          toastr.error(this.lang.verify_license_to_continue, this.lang.Error + ' !!');
+          return;
       }
       if (this.productDetails.has_variant && !this.product_form.variants_ids) {
         return toastr.error(this.lang.please_select_all_attributes, this.lang.Error + " !!");
