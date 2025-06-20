@@ -995,14 +995,13 @@ export default {
     },
     addToCart(min_qty, buy, is_buy_now) {
     
-      // if (is_buy_now == 1 && (!this.authUser && this.settings.disable_guest)) {
-      if ((!this.authUser && this.settings.disable_guest)) {
-        toastr.error(this.lang.login_first, this.lang.Error + ' !!');
-        return this.$router.push({name: 'login'});
+      // if (is_buy_now == 1 && (!this.authUser)) {
+      if ((!this.authUser)) {
+        return toastr.error(this.lang.login_first, this.lang.Error + ' !!');
+        // return this.$router.push({name: 'login'});
       }
       if(this.authUser.user_type == 'customer' && !this.authUser.license_verified){
-          toastr.error(this.lang.verify_license_to_continue, this.lang.Error + ' !!');
-          return;
+          return toastr.error(this.lang.verify_license_to_continue, this.lang.Error + ' !!');
       }
       if (this.productDetails.has_variant && !this.product_form.variants_ids) {
         return toastr.error(this.lang.please_select_all_attributes, this.lang.Error + " !!");
@@ -1242,7 +1241,10 @@ export default {
     },
     
     redirectToProfile() {
-      toastr.error(this.lang.verify_license_to_continue, this.lang.Error + ' !!');
+      if(!this.authUser){
+        return toastr.error(this.lang.login_first, this.lang.Error + ' !!');
+      }
+      return toastr.error(this.lang.verify_license_to_continue, this.lang.Error + ' !!');
     }
   },
 };

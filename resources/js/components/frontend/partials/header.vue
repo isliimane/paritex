@@ -541,7 +541,7 @@
               </a>
             </li>
             <li>
-              <router-link :to="{ name: 'cart' }" class="c-toggle">
+              <router-link :to="{ name: 'cart' }" class="c-toggle" v-if="isLicenseVerified">
                 <div class="icon">
                   <img alt="bag Icon" class="img-fluid"
                                        :src="getUrl('public/images/others/shopping-bag.svg')"/>
@@ -549,6 +549,11 @@
                         class="badge">{{ carts.filter(cart => cart.is_buy_now == false).length }}</span>
                 </div>
               </router-link>
+              <a href="javascript:void(0)" v-else @click="redirectToProfile">
+                  <div class="icon">
+                    <img alt="bag Icon" class="img-fluid" :src="getUrl('public/images/others/shopping-bag.svg')"/>
+                  </div>
+                </a>
             </li>
             <li>
               <div v-if="authUser">
@@ -872,7 +877,7 @@ export default {
     },
     checkoutPage(event) {
       event.preventDefault();
-      if (!this.authUser && this.settings.disable_guest) {
+      if (!this.authUser) {
         toastr.error(this.lang.login_first, this.lang.Error + ' !!');
         this.$store.commit('setLoginRedirection', this.$route.name);
         if (this.$route.name != 'login') {
@@ -896,7 +901,10 @@ export default {
       return flag;
     },
     redirectToProfile() {
-      toastr.error(this.lang.verify_license_to_continue, this.lang.Error + ' !!');
+      if(!this.authUser){
+        return toastr.error(this.lang.login_first, this.lang.Error + ' !!');
+      }
+      return toastr.error(this.lang.verify_license_to_continue, this.lang.Error + ' !!');
     }
   },
 };

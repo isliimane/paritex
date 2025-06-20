@@ -240,7 +240,7 @@ export default Vue.mixin({
             return this.productDetails;
         },
         cartBtn(product, index) {
-            if(!this.authUser && this.settings.disable_guest){
+            if(!this.authUser){
                 toastr.error(this.lang.login_first, this.lang.Error + ' !!');
                 return;
             }
@@ -326,7 +326,7 @@ export default Vue.mixin({
             event.preventDefault();
         },
         handleCheckout() {
-            if (!this.authUser && this.settings.disable_guest) {
+            if (!this.authUser) {
                 toastr.error(this.lang.login_first, this.lang.Error + ' !!');
                 this.$store.commit('setLoginRedirection', this.$route.name);
                 if (this.$route.name != 'login')

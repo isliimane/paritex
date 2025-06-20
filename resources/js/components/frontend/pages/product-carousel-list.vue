@@ -303,7 +303,10 @@ export default {
 			}, 1000);
 		},
 		redirectToProfile() {
-			toastr.error(this.lang.verify_license_to_continue, this.lang.Error + ' !!');
+			if(!this.authUser){
+				return toastr.error(this.lang.login_first, this.lang.Error + ' !!');
+			}
+			return toastr.error(this.lang.verify_license_to_continue, this.lang.Error + ' !!');
 		}
 	},
 };

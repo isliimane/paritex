@@ -50,7 +50,7 @@ class HomeController extends Controller
             return redirect()->route('admin.login.form');
         }
 ///Vérification des utilisateurs invités pour le checkout
-        if (!authUser() && settingHelper('disable_guest_checkout') == 1 && (url()->current() == url('checkout') || url()->current() == url('payment'))) {
+        if (!authUser() && (url()->current() == url('checkout') || url()->current() == url('payment'))) {
             Toastr::error(__('login_first'), __('Error'));
             return redirect('login');
         }
@@ -232,7 +232,6 @@ class HomeController extends Controller
             'tax_type' => settingHelper('vat_type') && settingHelper('vat_type') == 'after_tax' ? 'after_tax' : 'before_tax',
             'vat_and_tax_type' => settingHelper('vat_and_tax_type'),
             'no_of_decimals' => (int)settingHelper('no_of_decimals'),
-            'disable_guest' => (bool)settingHelper('disable_guest_checkout'),
             'active_color' => settingHelper('menu_active_color') ?: '#000000',
         ];
         return array_merge($settings, $other_data, $header_data, $menu, $footer_data, $social_links, $stripe, $currency_setting, $popup_modal, $recaptcha, $modules, $agreements, $map);
