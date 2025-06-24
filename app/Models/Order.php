@@ -117,4 +117,9 @@ class Order extends Model
     {
         return $this->orderDetails()->sum('quantity');
     }
+
+    public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(OrderComment::class);
+    }
 }

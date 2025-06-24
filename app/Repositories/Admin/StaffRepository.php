@@ -10,6 +10,7 @@ use Cartalyst\Sentinel\Laravel\Facades\Activation;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Sentinel;
+use App\Models\StaffActivityLog;
 
 class StaffRepository implements StaffInterface
 {
@@ -112,6 +113,23 @@ class StaffRepository implements StaffInterface
     public function logActivity($limit)
     {
         return LogActivity::where('user_id', authUser()->id)->latest()->paginate($limit);
+    }
+
+    public function history($request,$user_id)
+    {
+        $start_date = null;
+        $end_date = null;
+        if ($request->dt != null):
+            $dates = explode(" - ", $request->dt);
+            $start_date = Carbon::createFromFormat('m-d-Y g:ia', $dates[0]);
+            $end_date = Carbon::createFromFormat('m-d-Y g:ia', $dates[1]);
+        endif;
+        return StaffActivityLog::where('user_id', $user_id)->when($request->dt != null,
+                                    function ($query) use ($start_date, $end_date) {
+                                        $query->whereDate('created_at', '>=', $start_date)
+                                            ->whereDate('created_at', '<=', $end_date);
+                                    })->orderBy('created_at', 'desc')
+                                    ->paginate(get_pagination('pagination'));
     }
 
     public function updatePassword($request)

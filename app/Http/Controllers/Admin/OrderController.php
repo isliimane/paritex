@@ -303,4 +303,44 @@ class OrderController extends Controller
             return back();
         }
     }
+
+    public function addComment(Request $request){
+        $validated = $request->validate([
+            'content' => 'required',
+        ]);
+        $request->merge([
+        'type' => 'info'
+        ]);
+        $status = $this->order->addComment($request);
+                    if ($status === 'order_not_found'):
+                        Toastr::error(__('Order not found'));
+                        return redirect()->back();
+                    elseif ($status == true):
+                        Toastr::success(__('Comment Added Successfully'));
+                        return back();
+                    else:
+                        Toastr::error(__('Something went wrong, 
+                        Please try again'));
+                        return redirect()->back();
+                    endif;
+
+
+    }
+
+    public function deleteComment(Request $request){
+
+        $status = $this->order->deleteComment($request);
+                    if ($status === 'comment_not_found'):
+                        Toastr::error(__('Comment not found'));
+                        return redirect()->back();
+                    elseif ($status == true):
+                        Toastr::success(__('Comment Deleted Successfully'));
+                        return back();
+                    else:
+                        Toastr::error(__('Something went wrong, 
+                        Please try again'));
+                        return redirect()->back();
+                    endif;
+
+    }
 }

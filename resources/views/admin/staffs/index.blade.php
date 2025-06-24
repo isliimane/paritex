@@ -150,6 +150,10 @@
                                                        class="dropdown-item has-icon modal-menu"><i
                                                             class='bx bx-collection' ></i>{{ __('Account Deposit') }}
                                                     </a>  --}}
+                                                    <a href="{{route('staff.history', $user->id)}}"
+                                                       class="dropdown-item has-icon"><i
+                                                            class='bx bx-history' ></i>{{ __('View History') }}
+                                                    </a>
                                                 </div>
                                             </td>
                                         </tr>

@@ -399,6 +399,7 @@ class ProductRepository implements ProductInterface
             $product_stock->current_stock   = $product->current_stock;
             $product_stock->save();
         endif;
+        logStaffActivity('create_product', 'Product', $product->id);
 
         return true;
     }
@@ -652,6 +653,7 @@ class ProductRepository implements ProductInterface
             $product_stock->current_stock           = $product->current_stock;
             $product_stock->save();
         endif;
+        logStaffActivity('update_product', 'Product', $product->id);
         return true;
     }
 
@@ -680,12 +682,15 @@ class ProductRepository implements ProductInterface
     public function statusChange($request)
     {
             $product = $this->get($request['id']);
+            $action="";
             if ($request['change_for'] != 'status') :
                 $product[$request['change_for']] = $request['status'];
             else:
                 $product->status = $request['status'] == '1' ? 'published' : 'unpublished';
+                $action = $request['status'] == '1' ? 'publish_product' : 'unpublish_product';
             endif;
             $product->save();
+            logStaffActivity($action, 'Product', $product->id);
             return true;
     }
 
@@ -704,6 +709,7 @@ class ProductRepository implements ProductInterface
         $product->save();
 
         Product::withTrashed()->find($id)->restore();
+        logStaffActivity('restore_product', 'Product', $product->id);
         return true;
     }
 

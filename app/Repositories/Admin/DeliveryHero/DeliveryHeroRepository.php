@@ -105,6 +105,7 @@ class DeliveryHeroRepository implements DeliveryHeroInterface
         $deliveryHero->address                  = $request->address;
 
         $deliveryHero->save();
+        logStaffActivity('create_deliveryhero', 'DeliveryHero', $deliveryHero->id);
 
         return true;
     }
@@ -157,6 +158,7 @@ class DeliveryHeroRepository implements DeliveryHeroInterface
         $deliveryHero->address                  = $request->address;
 
         $deliveryHero->save();
+        logStaffActivity('update_deliveryhero', 'DeliveryHero', $deliveryHero->id);
         return true;
     }
 
@@ -165,6 +167,7 @@ class DeliveryHeroRepository implements DeliveryHeroInterface
         $user = $this->get($id);
         $user->is_user_banned = $user->is_user_banned == 0 ? 1 : 0;
         $user->save();
+        logStaffActivity('ban_deliveryhero', 'DeliveryHero', $user->id);
 
         return true;
     }

@@ -27,6 +27,7 @@ class PickupHubRepository implements PickupHubInterface {
                  $request['lang']    = 'en';
              endif;
              $this->langStore($request);
+             logStaffActivity('create_pickup_hub', 'PickupHub', $pickup->id);
              return true;
     }
 
@@ -87,6 +88,7 @@ class PickupHubRepository implements PickupHubInterface {
             else:
                 $this->langUpdate($request);
             endif;
+            logStaffActivity('update_pickup_hub', 'PickupHub', $pickup->id);
             return true;
     }
 
@@ -107,6 +109,11 @@ class PickupHubRepository implements PickupHubInterface {
             $status           = $this->get($request['id']);
             $status->pick_up_status   = $request['status'];
             $status->save();
+            if($request['status'] == 1){
+                logStaffActivity('activate_pickup_hub_status', 'PickupHub', $status->id);
+            }else{
+            logStaffActivity('deactivate_pickup_hub_status', 'PickupHub', $status->id);
+            }
             return true;
     }
 

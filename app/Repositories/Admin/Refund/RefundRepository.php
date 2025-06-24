@@ -69,6 +69,7 @@ class RefundRepository implements RefundInterface
                 $refund->status          = 'approved';
             endif;
             $refund->save();
+            logStaffActivity('approve_refund', 'Refund', $refund->id);
 
             sendNotification($refund->user,"Your refund request for {$refund->orderDetail->product->product_name} is approved.",'success',"get-invoice/{$refund->order->code}",'');
 
@@ -116,7 +117,7 @@ class RefundRepository implements RefundInterface
             $refund->payment_details    = $payment_details;
             $refund->processed_by       = authId();
             $refund->save();
-
+            logStaffActivity('pay_refund', 'Refund', $refund->id);
             $this->order->updateQuantity($refund->orderDetail, false,'refund');
             $this->order->saleUpdate($refund->orderDetail, true);
 
@@ -169,6 +170,7 @@ class RefundRepository implements RefundInterface
             $refund->admin_approval = 'rejected';
             $refund->status = 'rejected';
             $refund->save();
+            logStaffActivity('reject_refund', 'Refund', $refund->id);
 
             sendNotification($refund->user,"Your refund request for {$refund->orderDetail->product->product_name} is rejected.",'warning',"get-invoice/{$refund->order->code}",'');
 

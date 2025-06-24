@@ -34,6 +34,7 @@ use App\Models\WarehouseProduct;
 use App\Notifications\DeliveryHeroAssigned;
 use App\Models\Notification;
 use App\Repositories\Interfaces\Admin\ShippingInterface;
+use App\Models\OrderComment;
 
 class OrderRepository implements OrderInterface
 {
@@ -1135,5 +1136,50 @@ class OrderRepository implements OrderInterface
         $order->discount = $total_discount;
         $order->total_amount = $sub_total + $total_tax - $total_discount;
         $order->total_payable = $order->total_amount + $order->shipping_cost;
+    }
+
+    public function addComment($request)
+    {
+        DB::beginTransaction();
+        try {
+            $order                  = $this->get($request['order_id']);
+
+                if (!$order):
+                        DB::rollback();
+                        return 'order_not_found';
+                endif;
+
+        OrderComment::create([
+            'order_id'                  => $request['order_id'],
+            'user_id'                   => $request['user_id'],
+            'type'                   => $request['type'],
+            'content'                   => $request['content']
+        ]);
+
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollback();
+            return false;
+        }
+    }
+    public function deleteComment($request)
+    {
+        DB::beginTransaction();
+        try {
+            $comment = OrderComment::where('id', $request['id']);
+                if (!$comment):
+                        DB::rollback();
+                        return 'comment_not_found';
+                endif;
+
+                $comment->delete();
+
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollback();
+            return false;
+        }
     }
 }

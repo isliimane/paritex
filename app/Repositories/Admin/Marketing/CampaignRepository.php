@@ -133,6 +133,7 @@ class CampaignRepository implements CampaignInterface
 
                 $this->updateDiscount($campaignProduct, 'update');
             endforeach;
+            logStaffActivity('create_compaign', 'Campaign', $campaign->id);
             return true;
     }
 
@@ -208,6 +209,7 @@ class CampaignRepository implements CampaignInterface
                     $this->updateDiscount($campaignProduct, 'update');
                 endforeach;
             endif;
+            logStaffActivity('update_compaign', 'Campaign', $campaign->id);
             return true;
     }
 

@@ -246,6 +246,7 @@ class WholesaleProductRepository implements WholesaleProductInterface
                     $wholesale->save();
                 endforeach;
             endif;
+            logStaffActivity('create_wholesale_product', 'Product', $product->id);
 
             DB::commit();
             return true;
@@ -514,7 +515,7 @@ class WholesaleProductRepository implements WholesaleProductInterface
                     $wholesale->save();
                 endforeach;
             endif;
-
+            logStaffActivity('update_wholesale_product', 'Product', $product->id);
             DB::commit();
             return true;
         } catch (\Exception $e) {

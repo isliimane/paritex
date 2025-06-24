@@ -30,6 +30,8 @@ class WarehouseRepository implements WarehouseInterface
                 $request['lang'] = 'en';
             }
             $this->langStore($request);
+            logStaffActivity('create_warehouse', 'Warehouse', $warehouse->id);
+
             return true;
         } catch (\Exception $e) {
             Log::error('Warehouse store failed', ['error' => $e->getMessage()]);
@@ -96,6 +98,7 @@ class WarehouseRepository implements WarehouseInterface
         else:
             $this->langUpdate($request);
         endif;
+        logStaffActivity('update_warehouse', 'Warehouse', $warehouse->id);
         return true;
     }
 

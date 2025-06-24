@@ -242,4 +242,39 @@ class OrderController extends Controller
             return $this->responseWithError($e->getMessage(), [], null);
         }
     }
+
+    public function reportIssue(Request $request){
+        $validator = Validator::make($request->all(), [
+                'order_id'          => 'required',
+                'content' => 'required',
+            ]);
+        $request->merge([
+        'type' => 'issue'
+        ]);
+            if ($validator->fails()) {
+                return $this->responseWithError(__('Required field missing'), $validator->errors(), 422);
+            }
+
+            $user = null;
+            if ($request->token) {
+                try {
+                    if (!$user = JWTAuth::parseToken()->authenticate()) {
+                        return $this->responseWithError(__('unauthorized_user'), [], 401);
+                    }
+                } catch (\Exception $e) {
+                    return $this->responseWithError(__('unauthorized_user'), [], 401);
+                }
+            }
+            $status = $this->order->addComment($request);
+                    if ($status === 'order_not_found'):
+                        return $this->responseWithError(__('Order not found'), [] );
+                    elseif ($status == true):
+                        return $this->responseWithSuccess(__('Issue Reported'), [], 200);
+                    else:
+                        return $this->responseWithError(__('Something went wrong, 
+                        Please try again'), [] );
+                    endif;
+
+
+    }
 }

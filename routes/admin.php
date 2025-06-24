@@ -170,6 +170,7 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 Route::get('create-staff', [StaffController::class, 'create'])->name('staffs.create')->middleware('PermissionCheck:staff_create');
                 Route::post('staff-store', [StaffController::class, 'store'])->name('staffs.store')->middleware('PermissionCheck:staff_create');
                 Route::get('edit-staff/{id}', [StaffController::class, 'edit'])->name('staffs.edit')->middleware('PermissionCheck:staff_update');
+                Route::get('staff/history/{id}', [StaffController::class, 'history'])->name('staff.history')->middleware('PermissionCheck:staff_read');
                 Route::put('update-staff', [StaffController::class, 'update'])->name('staffs.update')->middleware('PermissionCheck:staff_update');
                 Route::put('staff-status-change', [CommonController::class, 'statusChange'])->name('admin.staff.status.change')->middleware('PermissionCheck:staff_update');
                 Route::delete('delete/staff/{id}', [CommonController::class, 'delete'])->middleware('PermissionCheck:staff_delete');

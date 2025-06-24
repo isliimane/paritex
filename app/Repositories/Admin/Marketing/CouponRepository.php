@@ -83,6 +83,7 @@ class CouponRepository implements CouponInterface
         endif;
 
         $this->couponLanguage->store($request);
+        logStaffActivity('create_coupon', 'Coupon', $coupon->id);
         return true;
     }
     public function update($request)
@@ -115,6 +116,7 @@ class CouponRepository implements CouponInterface
         else:
             $this->couponLanguage->update($request);
         endif;
+        logStaffActivity('update_coupon', 'Coupon', $coupon->id);
         return true;
     }
 

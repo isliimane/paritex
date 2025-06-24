@@ -414,6 +414,22 @@
                     <a href="#" onclick="window.print();return false;" class="btn btn-primary btn-icon icon-left"><i
                                 class="bx bx-printer"></i> {{__('Print')}}</a>
                 </div>
+                @if($order->comments()->count())
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h4><i class="bx bx-error"></i> {{ __('Reported Issues') }}</h4>
+                        </div>
+                        <div class="card-body">
+                            @foreach($order->comments()->latest()->get() as $comment)
+                                <div class="mb-3">
+                                    <strong>{{ $comment->user->first_name.' '.$comment->user->last_name }}</strong>
+                                    <small class="text-muted">— {{ \Carbon\Carbon::parse($comment->created_at)->isoFormat('DD MMM YYYY, h:mm a') }}</small>
+                                    <p class="mb-1">{{ $comment->comment }}</p>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
                 @if(count($order->deliveryHistories) > 0 || count($order->paymentHistories) > 0)
                     <div class="row">
                         @if(count($order->deliveryHistories) > 0)
@@ -428,15 +444,15 @@
 
                                         @if($history->event == 'order_canceled_event')
                                                 bg-danger shadow-danger
-@elseif($history->event == 'order_delivered_event')
-                                                bg-success shadow-success
-@elseif($history->event == 'order_on_the_way_event')
-                                                bg-warning shadow-warning
-@elseif($history->event == 'order_postponed_event')
-                                                bg-danger shadow-danger
-@else
-                                                bg-primary shadow-primary
-@endif">
+                                @elseif($history->event == 'order_delivered_event')
+                                                                                bg-success shadow-success
+                                @elseif($history->event == 'order_on_the_way_event')
+                                                                                bg-warning shadow-warning
+                                @elseif($history->event == 'order_postponed_event')
+                                                                                bg-danger shadow-danger
+                                @else
+                                                                                bg-primary shadow-primary
+                                @endif">
 
                                                         @if($history->event == 'delivery_hero_assigned' || $history->event == 'delivery_hero_changed')
                                                             <i class="bx bx-purchase-tag"></i>
@@ -499,13 +515,13 @@
 
                                                 @if($history->event == 'order_payment_unpaid_event')
                                                 bg-danger shadow-danger
-@elseif($history->event == 'order_payment_paid_event')
-                                                bg-success shadow-success
-@elseif($history->event == 'order_payment_refunded_to_wallet_event')
-                                                bg-warning shadow-warning
-@else
-                                                bg-primary shadow-primary
-@endif">
+                                @elseif($history->event == 'order_payment_paid_event')
+                                                                                bg-success shadow-success
+                                @elseif($history->event == 'order_payment_refunded_to_wallet_event')
+                                                                                bg-warning shadow-warning
+                                @else
+                                                                                bg-primary shadow-primary
+                                @endif">
                                                         @if($history->event == 'order_payment_unpaid_event')
                                                             <i class="bx bx-x"></i>
                                                         @elseif($history->event == 'order_payment_paid_event')

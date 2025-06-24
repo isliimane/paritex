@@ -19,7 +19,9 @@ class WarehouseProductRepository implements WarehouseProductInterface
 
     public function store($request)
     {
-        return WarehouseProduct::create($request);
+        $warehouseProduct = WarehouseProduct::create($request);
+        logStaffActivity('create_warehouse_product', 'WarehouseProduct', $warehouseProduct->id);
+        return $warehouseProduct;
     }
 
     public function update($request, $id)
@@ -29,6 +31,8 @@ class WarehouseProductRepository implements WarehouseProductInterface
             $warehouseProduct->update($request);
             return $warehouseProduct;
         }
+        logStaffActivity('update_warehouse_product', 'WarehouseProduct', $warehouseProduct->id);
+
         return null;
     }
 
@@ -39,6 +43,7 @@ class WarehouseProductRepository implements WarehouseProductInterface
             $warehouseProduct->delete();
             return true;
         }
+        logStaffActivity('delete_warehouse_product', 'WarehouseProduct', $warehouseProduct->id);
         return false;
     }
 } 

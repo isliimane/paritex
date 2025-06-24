@@ -136,6 +136,14 @@ class StaffController extends Controller
         $logs = $this->staffs->logActivity(get_pagination('pagination'));
         return view('admin.common.login-activity',compact('logs'));
     }
+
+    public function history(Request $request,$user_id)
+    {
+        $staff = $this->staffs->get($user_id);
+        $logs = $this->staffs->history($request,$user_id);
+        return view('admin.staffs.history', compact('staff', 'logs'));
+    }
+
     public function passwordChange(){
         return view('admin.common.password-change');
     }

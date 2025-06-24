@@ -1160,3 +1160,83 @@ if (!function_exists('supplierProductPriceCalculator')) {
         return $price;
     }
 }
+
+if (!function_exists('logStaffActivity')) {
+    function logStaffActivity($action, $subjectType = null, $subjectId = null, $description = null)
+    {
+        \App\Models\StaffActivityLog::create([
+            'staff_id' => auth()->id(), // or pass the staff ID if not logged in
+            'action' => $action,
+            'subject_type' => $subjectType,
+            'subject_id' => $subjectId,
+            'description' => $description,
+        ]);
+    }
+}
+if (!function_exists('getActivityDescription')) {
+function getActivityDescription($action, $data = [])
+{
+    return match($action) {
+        'create_customer' => __('Created a new customer'),
+        'update_customer' => __('Updated customer details'),
+        'ban_customer' => __('Banned a customer'),
+        'unverify_customer_email' => __('Marked customer email as unverified'),
+        'verify_customer_email' => __('Verified customer email'),
+        'unverify_customer_license' => __('Marked customer license as unverified'),
+        'verify_customer_license' => __('Verified customer license'),
+
+        'create_wholesale_product' => __('Created a wholesale product'),
+        'update_wholesale_product' => __('Updated wholesale product details'),
+
+        'create_deliveryhero' => __('Added a new delivery hero'),
+        'update_deliveryhero' => __('Updated delivery hero information'),
+        'ban_deliveryhero' => __('Banned a delivery hero'),
+
+        'create_compaign' => __('Created a new campaign'),
+        'update_compaign' => __('Updated campaign details'),
+
+        'create_coupon' => __('Created a coupon'),
+        'update_coupon' => __('Updated coupon details'),
+
+        'create_pickup_hub' => __('Created a pickup hub'),
+        'update_pickup_hub' => __('Updated pickup hub information'),
+        'activate_pickup_hub_status' => __('Activated pickup hub'),
+        'deactivate_pickup_hub_status' => __('Deactivated pickup hub'),
+
+        'create_product' => __('Created a product'),
+        'update_product' => __('Updated product information'),
+        'publish_product' => __('Published a product'),
+        'unpublish_product' => __('Unpublished a product'),
+        'restore_product' => __('Restored a deleted product'),
+
+        'approve_refund' => __('Approved a refund request'),
+        'pay_refund' => __('Marked refund as paid'),
+        'reject_refund' => __('Rejected a refund request'),
+
+        'create_warehouse' => __('Created a warehouse'),
+        'update_warehouse' => __('Updated warehouse details'),
+
+        'create_warehouse_product' => __('Added a product to warehouse'),
+        'update_warehouse_product' => __('Updated warehouse product'),
+        'delete_warehouse_product' => __('Removed a product from warehouse'),
+
+        default => __('Performed an action'),
+    };
+}
+}
+if (!function_exists('getActivityLink')) {
+function getActivityLink($action, $subjectType, $subjectId)
+{
+    return match($subjectType) {
+        'Customer' => route('customer.edit', $subjectId),
+        'Product' => route('admin.products.products.edit', $subjectId),
+        // 'WarehouseProduct' => null,
+        'Coupon' => route('coupons', $subjectId),
+        'Campaign' => route('campaign', $subjectId),
+        'PickupHub' => route('pickup.hub.edit', $subjectId),
+        'DeliveryHero' => route('delivery.hero.edit', $subjectId),
+        'Warehouse' => route('warehouse.edit', $subjectId),
+        default => null
+    };
+}
+}

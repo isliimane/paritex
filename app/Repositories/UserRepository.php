@@ -77,6 +77,7 @@ class UserRepository implements UserInterface
                 return false;
             }
         }
+        logStaffActivity('create_customer', 'User', $user->id);
 
         return true;
     }
@@ -106,6 +107,7 @@ class UserRepository implements UserInterface
             $user->password         = bcrypt($request->password);
         endif;
         $user->save();
+        logStaffActivity('update_customer', 'User', $user->id);
 
         return $user;
     }
@@ -115,6 +117,7 @@ class UserRepository implements UserInterface
         $user = $this->get($id);
         $user->is_user_banned = $user->is_user_banned == 0 ? 1 : 0;
         $user->save();
+        logStaffActivity('ban_customer', 'User', $user->id);
         return true;
     }
     public function emailVerify($user_id)
@@ -125,6 +128,7 @@ class UserRepository implements UserInterface
             if(Activation::completed($user) == true):
                 Activation::remove($user);
                 Toastr::success(__('User Email Inactivated'));
+                logStaffActivity('unverify_customer_email', 'User', $user->id);
             else:
                  $activation = Activation::exists($user);
 
@@ -138,6 +142,7 @@ class UserRepository implements UserInterface
                 endif;
 
                 Toastr::success(__('User Email Activated'));
+                logStaffActivity('verify_customer_email', 'User', $user->id);
 
             endif;
             DB::commit();
@@ -157,9 +162,11 @@ class UserRepository implements UserInterface
             if($user->license_verified == 1):
                 $user->license_verified = 0;
                 Toastr::success(__('License Number is Inactivated'));
+                logStaffActivity('unverify_customer_license', 'User', $user->id);
             else:
                 $user->license_verified = 1;
                 Toastr::success(__('License Number is Activated')); 
+                logStaffActivity('verify_customer_license', 'User', $user->id);
             endif;
 
             $user->save();
