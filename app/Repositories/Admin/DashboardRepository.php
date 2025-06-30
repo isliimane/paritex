@@ -105,8 +105,8 @@ class DashboardRepository implements DashboardInterface
     {
         $data = [];
         if ($report_type == 'this_year' || $report_type == 'last_year'):
-            $start_month    = $report_type == 'this_year' ? date('Y-'.'01') :  date('Y-'.'01', strtotime('-1 year'));
-            $end_month      = $report_type == 'this_year' ? date('Y-'.'12') : date('Y-'.'12',strtotime('-1 year'));
+            $start_month = $report_type == 'this_year' ? date('Y-01-01') : date('Y-01-01', strtotime('-1 year'));
+            $end_month = $report_type == 'this_year' ? date('Y-12-31') : date('Y-12-31', strtotime('-1 year'));
 
             $orders             = $this->order->all()
                                     ->where('seller_id', 1)

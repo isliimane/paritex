@@ -74,7 +74,7 @@
                                                                                 'class' => 'form-control',
                                                                                 'id' => 'phone',
                                                                                 'country_id_field' => 'phone_country_id',
-                                                                                'country_id' => old('phone_country_id') ? : (@$user->country_id ?? settingHelper('default_country'))
+                                                                                'country_id' => old('phone_country_id') ? : settingHelper('default_country')
                                                                                 ])
                                     </div>
                                 </div>
@@ -211,19 +211,19 @@
                                             </div>
                                         @endif
                                     </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="commission">{{ __('Commission') }} {{ settingHelper('delivery_hero_payment_type') == 'delivery_hero_salary' ? '(N/A)' : '' }}</label>
-                                        <input type="number" step=".01" name="commission" id="commission"
-                                               {{ settingHelper('delivery_hero_payment_type') == 'delivery_hero_salary' ? 'disabled' : '' }}
-                                               value="{{ old('commission') ? old('commission') : priceFormatUpdate(@$user->deliveryHero->commission,settingHelper('default_currency'),$type="*") }}"
-                                               class="form-control" placeholder="{{__('Enter Commission Rate')}}">
+                                    <!--<div class="form-group col-md-6">-->
+                                    <!--    <label for="commission">{{ __('Commission') }} {{ settingHelper('delivery_hero_payment_type') == 'delivery_hero_salary' ? '(N/A)' : '' }}</label>-->
+                                    <!--    <input type="number" step=".01" name="commission" id="commission"-->
+                                    <!--           {{ settingHelper('delivery_hero_payment_type') == 'delivery_hero_salary' ? 'disabled' : '' }}-->
+                                    <!--           value="{{ old('commission') ? old('commission') : priceFormatUpdate(@$user->deliveryHero->commission,settingHelper('default_currency'),$type="*") }}"-->
+                                    <!--           class="form-control" placeholder="{{__('Enter Commission Rate')}}">-->
 
-                                        @if ($errors->has('commission'))
-                                            <div class="invalid-feedback">
-                                                <p>{{ $errors->first('commission') }}</p>
-                                            </div>
-                                        @endif
-                                    </div>
+                                    <!--    @if ($errors->has('commission'))-->
+                                    <!--        <div class="invalid-feedback">-->
+                                    <!--            <p>{{ $errors->first('commission') }}</p>-->
+                                    <!--        </div>-->
+                                    <!--    @endif-->
+                                    <!--</div>-->
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">

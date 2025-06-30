@@ -32,6 +32,7 @@ use Illuminate\Http\Request;
 use App\Models\Warehouse;
 use App\Models\WarehouseProduct;
 use App\Notifications\DeliveryHeroAssigned;
+use App\Notifications\DeliveryHeroOrderUpdate;
 use App\Models\Notification;
 use App\Repositories\Interfaces\Admin\ShippingInterface;
 use App\Models\OrderComment;
@@ -324,6 +325,17 @@ class OrderRepository implements OrderInterface
                     $this->SendMail($order->user->email, 'Order Status Updated', $order, 'email.order-status-update',url('/'). '/get-invoice/' .$order->code);
                 }
             }
+            
+            if(isset($order->deliveryHero)){
+            $notification = new Notification();
+            $notification->user_id = $order->deliveryHero->user->id;
+       
+            $notification->title = __("Order Update");
+            $notification->details = __("Tap to view the order details");
+            $notification->url = "/detailsOrder/" . $order->id;
+            $notification->save();
+            $order->deliveryHero->notify(new DeliveryHeroOrderUpdate($order->id,$notification->id));
+        }
 
             DB::commit();
             return true;
@@ -716,7 +728,7 @@ class OrderRepository implements OrderInterface
                 }
 
                 $order->save();
-                $this->paymentHistoryEvent('order_payment_'.$order->payment_status.'_event', $order->id, 'With_'.$data['payment_type']);
+                $this->paymentHistoryEvent('order_payment_'.$order->payment_status.'_event', $order->id, 'With '.$data['payment_type']);
                 $url = "orders/view/{$order->id}";
                 $this->SendNotification(Sentinel::findById(1),__('New order is created.'),'success',$url,__('See it in Details'));
                 if($order->pickup_hub_id):
@@ -1132,7 +1144,7 @@ class OrderRepository implements OrderInterface
         $order->total_amount = $sub_total + $total_tax - $total_discount;
         $order->total_payable = $order->total_amount + $order->shipping_cost;
     }
-
+    
     public function addComment($request)
     {
         DB::beginTransaction();

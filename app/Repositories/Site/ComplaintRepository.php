@@ -21,7 +21,7 @@ class ComplaintRepository implements ComplaintInterface {
     {
         $support = new Support();
         $support->subject           = $request->subject;
-        $support->user_id           = auth()->id();
+        $support->user_id           = authId();
         $support->ticket_id         = rand(1000,50000);
         $support->support_department_id     = $request->support_department_id;
         $support->priority          = $request->priority;

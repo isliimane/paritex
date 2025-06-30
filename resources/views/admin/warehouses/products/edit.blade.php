@@ -28,7 +28,7 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-primary">{{ __('Update Product') }}</button>
+                                    <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                                     <a href="{{ route('warehouse.products.index', $warehouse->id) }}" class="btn btn-secondary">{{ __('Cancel') }}</a>
                                 </div>
                             </form>

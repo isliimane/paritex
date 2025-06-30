@@ -35,7 +35,8 @@ class User extends EloquentUser implements JWTSubject, ContractAuthenticatable
         'referred_by_user',
         'balance',
         'ai_review_option',
-        'license_verified'
+        'license_verified',
+        'license_checked'
     ];
     protected $hidden = [
         'password',

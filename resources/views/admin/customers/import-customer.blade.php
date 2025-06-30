@@ -58,9 +58,8 @@
                             <ol>
                                 <li>{{ __('Uploaded File type must be') }}: .xlsx {{ __('or') }} .xls {{ __('or') }} .csv</li>
                                 <li>{{ __('The file must contain') }}: first_name, last_name</li>
-                                <li>email is required</li>
-                                <li>If password is provided then it must be within 6-32 characters long</li>
-                                <li>{{ __('Gender must be within') }}: male, female, others</li>
+                                <li>{{ __('email_required') }}</li>
+                                <li>{{__('If password is provided then it must be within 6-32 characters long')}}</li>
                                 <a href="{{route('admin.import.sample','customer')}}" target="_blank">
                                     <span class="nk-menu-icon"><i class="bx bx-download"></i></span>
                                     <span class="nk-menu-text">{{__('Customer Import Sample Download')}}</span>

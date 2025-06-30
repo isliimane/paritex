@@ -35,7 +35,7 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <p class="text-muted fw-medium">{{__('Sale')}}</p>
+                                    <p class="text-muted fw-medium">{{__('Sales')}}</p>
                                     <h4 class="mb-0">{{ get_price($total_sale,user_curr()) }}</h4>
                                 </div>
                                 <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
@@ -53,7 +53,7 @@
                             <div class="card-body">
                                 <div class="d-flex">
                                     <div class="flex-grow-1">
-                                        <p class="text-muted fw-medium">{{__('Product')}}</p>
+                                        <p class="text-muted fw-medium">{{__('Products')}}</p>
                                         <h4 class="mb-0">{{ $total_product }}</h4>
                                     </div>
                                     <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
@@ -72,7 +72,7 @@
                             <div class="card-body">
                                 <div class="d-flex">
                                     <div class="flex-grow-1">
-                                        <p class="text-muted fw-medium">{{__('Customer')}}</p>
+                                        <p class="text-muted fw-medium">{{__('Customers')}}</p>
                                         <h4 class="mb-0">{{ $total_customer }}</h4>
                                     </div>
                                     <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
@@ -398,10 +398,10 @@
                 <div class="col-md-8">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Invoices</h4>
+                            <h4>{{ __('Invoices') }}</h4>
                             <div class="card-header-action">
                                 <a href="{{ route('orders') }}"
-                                   class="btn btn-outline-primary">{{ __('View More') }}<i
+                                   class="btn btn-outline-primary">{{ __('View All') }}<i
                                             class="fas fa-chevron-right"></i></a>
                             </div>
                         </div>
@@ -433,19 +433,19 @@
                                             <td> {{ get_price($value->total_amount,user_curr()) }} </td>
                                             <td>
                                                 @if ($value->delivery_status == 'confirm')
-                                                    <div class="badge badge-confirm">{{__('Confirm')}}</div>
+                                                    <div class="badge badge-confirm">{{__('Confirmed')}}</div>
                                                 @elseif ($value->delivery_status == 'pending')
                                                     <div class="badge badge-warning">{{__('Pending')}}</div>
                                                 @elseif($value->delivery_status == 'canceled')
                                                     <div class="badge badge-danger">{{__('Canceled')}}</div>
                                                 @elseif($value->delivery_status == 'delivered')
-                                                    <div class="badge badge-success">{{__('Delivered')}}</div>
+                                                    <div class="badge badge-success">{{__('delivered')}}</div>
                                                 @elseif($value->delivery_status == 'picked_up')
-                                                    <div class="badge badge-info">{{__('Picked Up')}}</div>
+                                                    <div class="badge badge-info">{{__('picked_up')}}</div>
                                                 @elseif($value->delivery_status == 'on_the_way')
-                                                    <div class="badge badge-secondary">{{__('On The Way')}}</div>
+                                                    <div class="badge badge-secondary">{{__('on_the_way')}}</div>
                                                 @elseif($value->delivery_status == 'postponed')
-                                                    <div class="badge badge-danger">{{__('Postponed')}}</div>
+                                                    <div class="badge badge-danger">{{__('postponed')}}</div>
                                                 @endif
                                             </td>
                                             <td>

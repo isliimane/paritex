@@ -164,6 +164,7 @@ Route::middleware(['XSS','isInstalled'])->group(function () {
                 Route::get('all-user-by-ajax', [UserController::class, 'getAllTypeByAjax'])->name('all.user.by.ajax');
                 Route::get('customer/email-verify/{id}', [UserController::class, 'emailVerify'])->name('customer.email.verify')->middleware('PermissionCheck:customer_update');
                 Route::get('customer/license-verify/{id}', [UserController::class, 'licenseVerify'])->name('customer.license.verify')->middleware('PermissionCheck:customer_update');
+                Route::get('customer/license-reject/{id}', [UserController::class, 'licenseReject'])->name('customer.license.reject')->middleware('PermissionCheck:customer_update');
 
                 //staff
                 Route::get('staffs', [StaffController::class, 'index'])->name('staffs')->middleware('PermissionCheck:staff_read');

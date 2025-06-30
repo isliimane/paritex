@@ -40,7 +40,7 @@
                         @endif
                         @if(hasPermission('pickup_hub_read'))
                             <li class="@yield('pickup-hubs')"><a class="nav-link"
-                                                                 href="{{route('pickup.hub.index')}}">{{ __('Pickup Hub') }}</a>
+                                                                 href="{{route('pickup.hub.index')}}">{{ __('Pick-up Hubs') }}</a>
                             </li>
                         @endif
                     </ul>

@@ -60,7 +60,7 @@
                                                 </label>
                                             </td>
                                             <td>
-                                                <a href="{{ route('warehouse.products.index', $warehouse->id) }}" class="btn btn-outline-info btn-circle" data-toggle="tooltip" title="" data-original-title="{{ __('Manage Products') }}">
+                                                <a href="{{ route('warehouse.products.index', $warehouse->id) }}" class="btn btn-outline-info btn-circle" data-toggle="tooltip" title="" data-original-title="{{ __('Products') }}">
                                                     <i class="bx bx-package"></i>
                                                 </a>
                                                 <a href="{{ route('warehouse.edit', $warehouse->id) }}" class="btn btn-outline-secondary btn-circle" data-toggle="tooltip" title="" data-original-title="{{ __('Edit') }}">

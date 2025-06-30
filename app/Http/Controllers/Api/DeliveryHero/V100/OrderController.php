@@ -242,7 +242,7 @@ class OrderController extends Controller
             return $this->responseWithError($e->getMessage(), [], null);
         }
     }
-
+    
     public function reportIssue(Request $request){
         $validator = Validator::make($request->all(), [
                 'order_id'          => 'required',
@@ -265,7 +265,12 @@ class OrderController extends Controller
                     return $this->responseWithError(__('unauthorized_user'), [], 401);
                 }
             }
+            $request->merge([
+        'user_id' => $user->id
+        ]);
+
             $status = $this->order->addComment($request);
+
                     if ($status === 'order_not_found'):
                         return $this->responseWithError(__('Order not found'), [] );
                     elseif ($status == true):

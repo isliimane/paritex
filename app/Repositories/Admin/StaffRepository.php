@@ -114,7 +114,7 @@ class StaffRepository implements StaffInterface
     {
         return LogActivity::where('user_id', authUser()->id)->latest()->paginate($limit);
     }
-
+    
     public function history($request,$user_id)
     {
         $start_date = null;

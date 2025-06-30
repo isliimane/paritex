@@ -267,6 +267,10 @@ class OrderController extends Controller
 
             // Check if products are available in the selected warehouse
             foreach ($order->orderDetails as $detail) {
+                if(!isset($detail->product)){
+                    Toastr::error(__('Product not found'));
+                    return back();  
+                }
                 $product_stock = ProductStock::where('product_id', $detail->product_id)
                 ->where('name', $detail->variation)
                 ->first();
@@ -290,7 +294,7 @@ class OrderController extends Controller
             $order->save();
 
             // Create order history
-            $this->order->deliveryEvent('warehouse_assigned', $order->id, null, 'Warehouse assigned');
+            $this->order->deliveryEvent('warehouse_assigned', $order->id, null, __('Warehouse assigned'));
 
             DB::commit();
 
@@ -303,7 +307,8 @@ class OrderController extends Controller
             return back();
         }
     }
-
+    
+    
     public function addComment(Request $request){
         $validated = $request->validate([
             'content' => 'required',

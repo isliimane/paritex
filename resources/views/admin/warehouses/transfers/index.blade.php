@@ -15,7 +15,7 @@
                         <div class="buttons mt-3">
                             @if(hasPermission('warehouse_transfer_create'))
                                 <a href="{{ route('transfers.create') }}" class="btn btn-outline-primary">
-                                    <i class="fas fa-plus"></i> {{ __('New Transfer') }}
+                                    <i class="fas fa-plus"></i> {{ __('Create Transfer') }}
                                 </a>
                             @endif
                         </div>

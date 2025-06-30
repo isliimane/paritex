@@ -105,7 +105,7 @@
                                             </div>
                                         </div>
                                         <button type="button" class="btn btn-primary" id="add-item">
-                                            <i class="fas fa-plus"></i> {{ __('Add Item') }}
+                                            <i class="fas fa-plus"></i> {{ __('add') }}
                                         </button>
                                     </div>
                                 </div>

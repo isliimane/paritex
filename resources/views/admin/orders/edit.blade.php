@@ -16,7 +16,7 @@
                             <!-- Billing Address Section -->
                             <div class="row mb-4">
                                 <div class="col-12">
-                                    <h5>{{ __('Billing Address') }}</h5>
+                                    <h5>{{ __('billing_address') }}</h5>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -32,13 +32,13 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="billing_phone">{{ __('Phone') }}</label>
+                                        <label for="billing_phone">{{ __('phone') }}</label>
                                         <input type="text" class="form-control" id="billing_phone" name="billing_address[phone_no]" value="{{ $order->billing_address['phone_no'] ?? '' }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="billing_postal_code">{{ __('Postal Code') }}</label>
+                                        <label for="billing_postal_code">{{ __('postal_code') }}</label>
                                         <input type="text" class="form-control" id="billing_postal_code" name="billing_address[postal_code]" value="{{ $order->billing_address['postal_code'] ?? '' }}">
                                     </div>
                                 </div>
@@ -108,7 +108,7 @@
                             <!-- Shipping Address Section -->
                             <div class="row mb-4">
                                 <div class="col-12">
-                                    <h5>{{ __('Shipping Address') }}</h5>
+                                    <h5>{{ __('shipping_address') }}</h5>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -124,13 +124,13 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="shipping_phone">{{ __('Phone') }}</label>
+                                        <label for="shipping_phone">{{ __('phone') }}</label>
                                         <input type="text" class="form-control" id="shipping_phone" name="shipping_address[phone_no]" value="{{ $order->shipping_address['phone_no'] ?? '' }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="shipping_postal_code">{{ __('Postal Code') }}</label>
+                                        <label for="shipping_postal_code">{{ __('postal_code') }}</label>
                                         <input type="text" class="form-control" id="shipping_postal_code" name="shipping_address[postal_code]" value="{{ $order->shipping_address['postal_code'] ?? '' }}">
                                     </div>
                                 </div>
@@ -267,7 +267,7 @@
 
                             <div class="row">
                                 <div class="col-12">
-                                    <button type="submit" class="btn btn-primary">{{ __('Update Order') }}</button>
+                                    <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                                 </div>
                             </div>
                         </form>

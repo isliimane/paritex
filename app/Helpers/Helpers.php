@@ -1165,7 +1165,7 @@ if (!function_exists('logStaffActivity')) {
     function logStaffActivity($action, $subjectType = null, $subjectId = null, $description = null)
     {
         \App\Models\StaffActivityLog::create([
-            'staff_id' => auth()->id(), // or pass the staff ID if not logged in
+            'staff_id' => authId(),
             'action' => $action,
             'subject_type' => $subjectType,
             'subject_id' => $subjectId,

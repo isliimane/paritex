@@ -194,7 +194,7 @@
                                             </div>
                                         @endif
                                     </div>
-                                    <div class="form-group col-md-6">
+                                    {{--<div class="form-group col-md-6">
                                         <label for="return_fee">{{ __('Commission Per Delivery') }} {{ settingHelper('delivery_hero_payment_type') == 'delivery_hero_salary' ? '(N/A)' : '' }}</label>
                                         <input type="number" step=".01" name="commission" id="commission"
                                                value="{{ old('commission') }}" {{ settingHelper('delivery_hero_payment_type') == 'delivery_hero_salary' ? 'disabled' : '' }}
@@ -205,7 +205,7 @@
                                                 <p>{{ $errors->first('commission') }}</p>
                                             </div>
                                         @endif
-                                    </div>
+                                    </div>--}}
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">

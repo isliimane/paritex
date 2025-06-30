@@ -1,18 +1,11 @@
 @extends('admin.partials.master')
-
-@section('product-create')
-    active
-@endsection
-@section('product_active')
-    active
-@endsection
-
 @php
     $title = __('Add Product');
 @endphp
-@section('title')
-    {{ $title }}
-@endsection
+
+@section('product-create','active')
+@section('product_active','active')
+@section('title', $title)
 
 @section('main-content')
     <section class="section">
@@ -33,13 +26,10 @@
 
 
             <form action="{{ route('admin.product.store') }}" method="post" enctype="multipart/form-data"
-                  data-form="{{ route('get-variants') }}" id="variant" class="col-12 col-sm-12 col-md-12 col-lg-12 middle">
+                  data-form="{{ route('get-variants') }}" id="variant">
                 @csrf
-               
-                  
-           <div class="row">
-                 <div class="col-12 col-sm-12 col-md-8 col-lg-9 middle">
-                    <div class="mb-3 bg-white px-4 py-2 mod">
+                <div class="col-12 col-sm-12 col-md-8 col-lg-9 middle">
+                    <div class="mb-3 bg-white px-4 py-2">
                         <ul class="nav nav-pills" id="myTab3" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link bar active {{ has_key(['name','category','brand','unit','minimum_order_quantity','barcode','tags','slug'],$errors) ? 'error' : '' }}"
@@ -47,12 +37,12 @@
                                    aria-controls="home"
                                    aria-selected="true">{{ __('Product Information') }}</a>
                             </li>
-                            <!--<li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link bar {{ has_key(['thumbnail','images','video_provider','video_url'],$errors) ? 'error' : '' }}"
                                    id="images-and-videos-tab" data-toggle="tab" href="#images-and-videos" role="tab"
                                    aria-controls="home"
                                    aria-selected="true">{{ __('Images & Videos') }}</a>
-                            </li>-->
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link bar {{ has_key(['price','special_discount_type','special_discount','special_discount_period','vat_taxes','has_variant','low_stock_to_notify','stock_visibility',
                                                     'sku','current_stock','colors','variant_sku.*'],$errors) ? 'error' : '' }}"
@@ -86,33 +76,24 @@
                                    aria-selected="false">{{ __('SEO') }}</a>
                             </li>
                         </ul>
-                      </div>
-                     </div>
-                 </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-12 col-sm-12 col-md-8 col-lg-9 middle">
                         <div class="tab-content no-padding" id="myTabContent2">
-                        <div class="tab-pane fade show active" id="product-info" role="tabpanel"
+                            <div class="tab-pane fade show active" id="product-info" role="tabpanel"
                                  aria-labelledby="product-info-tab">
-                                 <!-- product information -->
                                 <div class="card">
                                     <div class="card-header extra-padding">
                                         <h4>{{ __('Product Information') }}</h4>
                                     </div>
                                     <div class="card-body">
-                                        <!--<div class="form-group">-->
-                                        
-                                    <div class="row"> 
-                                      <div class="col-md-6 ">
                                         <div class="form-group">
-                                   
-                                          <div class="col-md-12">
                                             <label for="name">{{ __('Product Name') }} *</label>
                                             <input type="hidden"
                                                    value="{{ old('r') !='' ? old('r') : (@$r ? $r : url()->previous() )}}"
                                                    name="r">
-                                            <input type="text" class="form-control ai_content_name" name="name"
-                                                   id="name"
+                                            <input type="text" class="form-control" name="name" id="name"
                                                    value="{{ old('name') ? old('name') : (@$product_language ? $product_language->name : '') }}"
                                                    placeholder="{{ __('Product Name') }}">
                                             @if($errors->has('name'))
@@ -120,173 +101,8 @@
                                                     <p>{{ $errors->first('name') }}</p>
                                                 </div>
                                             @endif
-                                          </div>
-                                        
-                                            <!-- Button trigger modal -->
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label for="logo">{{ __('Gallery Image') }}</label>
-                                                    <div class="form-group">
-                                                        <div class="input-group gallery-modal" id="btnSubmit"
-                                                             data-for="image"
-                                                             data-selection="multiple"
-                                                             data-target="#galleryModal" data-dismiss="modal">
-                                                            <input type="hidden" name="images"
-                                                                   value="{{ old('images') !='' ? old('images') : ''}}"
-                                                                   class="image-selected">
-                                                            <span class="form-control"><span
-                                                                        class="counter">{{ old('images') != '' ? substr_count(old('images'), ',') + 1  : 0 }}</span> {{ __('file chosen') }}</span>
-                                                            <div class="input-group-prepend">
-                                                                <div class="input-group-text">
-                                                                    {{ __('Choose File') }}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                       
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-12">
-                                               <label for="thumbnail">{{ __('Thumbnail') }} </label>
-                                             <div class="input-group gallery-modal" id="btnSubmit"
-                                                             data-for="image"
-                                                             data-selection="single"
-                                                             data-target="#galleryModal" data-dismiss="modal">
-                                                            <input type="hidden" name="thumbnail"
-                                                                   value="{{ old('thumbnail') !='' ? old('thumbnail') : ''}}"
-                                                                   class="image-selected">
-                                                            <span class="form-control"><span
-                                                                        class="counter">{{ old('thumbnail') != '' ? substr_count(old('thumbnail'), ',') + 1  : 0 }}</span> {{ __('file chosen') }}</span>
-                                                            <div class="input-group-prepend">
-                                                                <div class="input-group-text">
-                                                                    {{ __('Choose File') }}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                            </div>                                            
-                                       </div>
-                                     </div>
-
-                                          <div class="col-md-6">
-                                            <div class="col-md-12">
-                                            <div class="selected-media-box">
-                                                            <div class="mt-12 gallery gallery-md d-flex">
-                                                                @if(old('images') != null)
-                                                                    @php
-                                                                        $images = explode(',', old('images'));
-                                                                        $images = \App\Models\Media::find($images);
-                                                                    @endphp
-                                                                    @foreach($images as $key => $media)
-                                                                        <div class="selected-media mr-2 mb-2 mt-3 ml-0"
-                                                                             data-id="{{ $media->id }}">
-                                                                            @if(@is_file_exists($media->image_variants['image_72x72'], $media->image_variants['storage']))
-                                                                                <img
-                                                                                        src="{{ get_media($media->image_variants['image_72x72'], $media->image_variants['storage']) }}"
-                                                                                        alt="img-thumbnail"
-                                                                                        class="img-thumbnail logo-profile">
-                                                                            @else
-                                                                                <img
-                                                                                        src="{{ static_asset('images/default/default-image-72x72.png') }}"
-                                                                                        alt="img-thumbnail"
-                                                                                        class="img-thumbnail logo-profile">
-                                                                            @endif
-                                                                            <div class="image-remove">
-                                                                                <a href="javascript:void(0)"
-                                                                                   class="remove"><i
-                                                                                            class="bx bx-x"></i></a>
-                                                                            </div>
-                                                                        </div>
-                                                                    @endforeach
-                                                                @endif
-                                                            </div>
-                                                        </div>
-                                                             </div>
-                                                            </div>
-                                                
-                                                        <div class="selected-media-box">
-                                                            <div class="mt-2 gallery gallery-md d-flex">
-                                                                @if(old('thumbnail') != null)
-                                                                    <div class="selected-media mr-2 mb-2 mt-3 ml-0"
-                                                                         data-id="{{ old('thumbnail') }}">
-                                                                        @php
-                                                                            $media = \App\Models\Media::find(old('thumbnail'));
-                                                                        @endphp
-                                                                        @if(@is_file_exists($media->image_variants['image_72x72'], $media->image_variants['storage']))
-                                                                            <img
-                                                                                    src="{{ get_media($media->image_variants['image_72x72'], $media->image_variants['storage']) }}"
-                                                                                    alt="img-thumbnail"
-                                                                                    class="img-thumbnail logo-profile">
-                                                                        @else
-                                                                            <img
-                                                                                    src="{{ static_asset('images/default/default-image-72x72.png') }}"
-                                                                                    alt="img-thumbnail"
-                                                                                    class="img-thumbnail logo-profile">
-                                                                        @endif
-                                                                        <div class="image-remove">
-                                                                            <a href="javascript:void(0)" class="remove"><i
-                                                                                        class="bx bx-x"></i></a>
-                                                                        </div>
-                                                                    </div>
-                                                                @else
-                                                                    <div class="selected-media mr-2 mb-2 mt-3 ml-0">
-                                                                        <img
-                                                                                src="{{ static_asset('images/default/default-image-72x72.png') }}"
-                                                                                data-default="{{ static_asset('images/default/default-image-72x72.png') }}"
-                                                                                alt="brand-logo"
-                                                                                class="img-thumbnail logo-profile">
-                                                                    </div>
-                                                                @endif
-                                                            </div>
-                                                       </div>
-                                                    
-                                             
-                                           
-                                        
-                                        
-                                     </div>
-                                     <div class="row">
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="video_provider">{{ __('Video Provider') }}</label>
-                                                    <select class="form-control selectric" name="video_provider"
-                                                            id="video_provider">
-                                                        <option value=""
-                                                                selected>{{ __('Select video provider') }}</option>
-                                                        <option
-                                                                value="youtube" {{ old('video_provider') == 'youtube' ? 'selected' : '' }}>{{ __('Youtube') }}</option>
-                                                        <option
-                                                                value="vimeo" {{ old('video_provider') == 'vimeo' ? 'selected' : '' }}>{{ __('Vimeo') }}</option>
-                                                        <option
-                                                                value="mp4" {{ old('video_provider') == 'mp4' ? 'selected' : '' }}>{{ __('Mp4') }}</option>
-                                                    </select>
-                                                    @if ($errors->has('video_provider'))
-                                                        <div class="invalid-feedback">
-                                                            <p>{{ $errors->first('video_provider') }}</p>
-                                                        </div>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            <div class="col-md-9">
-                                                <div class="form-group">
-                                                    <label for="video_url">{{ __('Video URL') }}</label>
-                                                    <input type="text" name="video_url" id="video_url"
-                                                           value="{{ old('video_url') != '' ? old('video_url') : '' }}"
-                                                           class="form-control" placeholder="https://">
-                                                    @if ($errors->has('video_url'))
-                                                        <div class="invalid-feedback">
-                                                            <p>{{ $errors->first('video_url') }}</p>
-                                                        </div>
-                                                    @endif
-                                                </div>
-                                            </div>
                                         </div>
-                                       
                                         <div class="row">
-                                            <style>
-                                               
-                                            </style>
-                                            <!--Category -->
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="category">{{ __('Category') }} *</label>
@@ -304,7 +120,6 @@
                                                     @endif
                                                 </div>
                                             </div>
-                                            <!--Brand -->
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="brand">{{ __('Brand') }}</label>
@@ -322,7 +137,6 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <!--unit -->
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="unit">{{__('Unit') }} *</label>
@@ -338,7 +152,6 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <!--min order quantity -->
                                                 <div class="form-group">
                                                     <label for="minimum_order_quantity">{{ __('Min. Order Quantity') }}
                                                         *</label>
@@ -377,7 +190,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="tags">{{ __('Tags') }}</label>
-                                         <!-- c'été class="form-control inputtags"-->   <input type="text" name="tags" id="tags" class="form-control "  
+                                            <input type="text" name="tags" id="tags" class="form-control inputtags"
                                                    value="{{ old('tags') ? old('tags') : '' }}"
                                                    placeholder="{{ __('Write & hit enter') }}">
                                             @if ($errors->has('tags'))
@@ -466,7 +279,7 @@
                                                 </div>
                                             </div>
                                             <!-- Button trigger modal -->
-                                           <!-- <div class="col-md-6">
+                                            <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="logo">{{ __('Gallery Image') }}(320X320)</label>
                                                     <div class="form-group">
@@ -518,11 +331,12 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>-->
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                               <!-- <div class="card">
+
+                                <div class="card">
                                     <div class="card-header extra-padding">
                                         <h4>{{ __('Product Video') }}</h4>
                                     </div>
@@ -564,7 +378,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>-->
+                                </div>
                             </div>
                             <div class="tab-pane fade" id="price-and-stock" role="tabpane1"
                                  aria-labelledby="price-and-stock-tab">
@@ -658,7 +472,7 @@
                                                 @endif
                                             </div>
                                         @else
-                                          <!--  {{ __('Product base VAT & Tax is disabled. Configure your VAT & Tax here') }}-->
+                                            {{ __('Product base VAT & Tax is disabled. Configure your VAT & Tax here') }}
                                             <a
                                                     href="{{ route('vat.tax') }}">{{ __('VAT & Tax Configuration') }}</a>
                                         @endif
@@ -683,6 +497,7 @@
                                             </div>
                                         </div>
                                         <div class="card-body">
+                                            @if(!isset($is_catalog))
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
@@ -718,6 +533,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                            @endif
                                             <div class="without-variant {{ old('has_variant') == 1 ? 'd-none' : '' }}">
                                                 <div class="row">
                                                     <div class="col-md-6">
@@ -728,11 +544,11 @@
                                                                        value="{{ old('sku') ? old('sku') : '' }}"
                                                                        class="form-control"
                                                                        placeholder="{{ __('Enter product sku') }}">
-                                                                <div class="input-group-append barcode">
-                                                                    <div class="input-group-text">
-                                                                        <i class="bx bx-refresh"></i>
+                                                                       <div class="input-group-append barcode">
+                                                                        <div class="input-group-text">
+                                                                            <i class="bx bx-refresh"></i>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
                                                             </div>
 
                                                             @if ($errors->has('sku'))
@@ -884,8 +700,7 @@
                                                        name="description_images[]" multiple>
                                             </div>
 
-                                            <div class="selected-media mr-2 mb-2 mt-3 ml-0"
-                                                 id="description_image_modal">
+                                            <div class="selected-media mr-2 mb-2 mt-3 ml-0" id="description_image_modal">
                                             </div>
 
                                             @if ($errors->has('description_images'))
@@ -947,80 +762,78 @@
                                         <h4>{{__('Shipping Info')}}</h4>
                                     </div>
                                     <div class="card-body extra-padding">
-                                                    @if(settingHelper('shipping_fee_type') == 'product_base')
+                                                @if(settingHelper('shipping_fee_type') == 'product_base')
+                                                    <div class="form-group">
+                                                        <label for="shipping_type">{{ __('Shipping Fee Type') }}</label>
+                                                        <select class="form-control selectric shipping-type"
+                                                                name="shipping_type"
+                                                                id="shipping_type">
+                                                            <option
+                                                                    value="flat_rate" {{ old('shipping_type') == 'flat_rate' ? 'selected' : '' }}>{{ __('Flat Rate') }}</option>
+                                                            <option value="free_shipping" {{ old('shipping_type') != 'flat_rate' ? 'selected' : '' }}>{{ __('Free Shipping') }}</option>
+                                                        </select>
+                                                        @if ($errors->has('shipping_type'))
+                                                            <div class="invalid-feedback">
+                                                                <p>{{ $errors->first('shipping_type') }}</p>
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                    <div class="shipping-cost {{ old('shipping_type') == 'flat_rate' ? '' : 'd-none' }}">
                                                         <div class="form-group">
-                                                            <label for="shipping_type">{{ __('Shipping Fee Type') }}</label>
-                                                            <select class="form-control selectric shipping-type"
-                                                                    name="shipping_type"
-                                                                    id="shipping_type">
-                                                                <option
-                                                                        value="flat_rate" {{ old('shipping_type') == 'flat_rate' ? 'selected' : '' }}>{{ __('Flat Rate') }}</option>
-                                                                <option value="free_shipping" {{ old('shipping_type') != 'flat_rate' ? 'selected' : '' }}>{{ __('Free Shipping') }}</option>
-                                                            </select>
-                                                            @if ($errors->has('shipping_type'))
+                                                            <label for="shipping_fee">{{ __('Shipping Fee') }} *</label>
+                                                            <input type="number" name="shipping_fee"
+                                                                   value="{{ old('shipping_fee') != '' ? old('shipping_fee') : '' }}"
+                                                                   class="form-control" min="0" step="any"
+                                                                   placeholder="{{ __('Enter Shipping fee') }}">
+                                                            @if ($errors->has('shipping_fee'))
                                                                 <div class="invalid-feedback">
-                                                                    <p>{{ $errors->first('shipping_type') }}</p>
+                                                                    <p>{{ $errors->first('shipping_fee') }}</p>
                                                                 </div>
                                                             @endif
                                                         </div>
-                                                        <div class="shipping-cost {{ old('shipping_type') == 'flat_rate' ? '' : 'd-none' }}">
-                                                            <div class="form-group">
-                                                                <label for="shipping_fee">{{ __('Shipping Fee') }}
-                                                                    *</label>
-                                                                <input type="number" name="shipping_fee"
-                                                                       value="{{ old('shipping_fee') != '' ? old('shipping_fee') : '' }}"
-                                                                       class="form-control" min="0" step="any"
-                                                                       placeholder="{{ __('Enter Shipping fee') }}">
-                                                                @if ($errors->has('shipping_fee'))
-                                                                    <div class="invalid-feedback">
-                                                                        <p>{{ $errors->first('shipping_fee') }}</p>
-                                                                    </div>
-                                                                @endif
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <label class="col-md-6 col-from-label"
-                                                                       for="shipping_fee_depend_on_quantity">{{ __('Is Depend On Quantity') }}</label>
-                                                                <div class="col-md-6">
-                                                                    <label class="custom-switch">
-                                                                        <input type="checkbox" value="1"
-                                                                               name="shipping_fee_depend_on_quantity"
-                                                                               {{ old('shipping_fee_depend_on_quantity') == 1 ? 'checked' :  '' }}
-                                                                               class="custom-switch-input">
-                                                                        <span class="custom-switch-indicator"></span>
-                                                                        <span class="custom-switch-description"></span>
-                                                                    </label>
-                                                                    @if ($errors->has('shipping_fee_depend_on_quantity'))
-                                                                        <div class="invalid-feedback">
-                                                                            <p>{{ $errors->first('shipping_fee_depend_on_quantity') }}</p>
-                                                                        </div>
-                                                                    @endif
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    @else
-                                                        {{ __('Product base shipping fee is disabled. Configure your shipping fee here') }}
-                                                        <a href="{{ route('shipping-configuration') }}">{{ __('Shipping Configuration') }}</a>
-                                                    @endif
-                                                        <div class="section-title mt-0">{{ __('Estimated Shipping Days & COD') }}</div>
-                                                        <div class="form-group row mt-2 shipping-days">
-                                                            <label class="col-md-5 col-from-label">{{ __('Cash On Delivery') }}</label>
-                                                            <div class="col-md-7">
+                                                        <div class="form-group row">
+                                                            <label class="col-md-6 col-from-label"
+                                                                   for="shipping_fee_depend_on_quantity">{{ __('Is Depend On Quantity') }}</label>
+                                                            <div class="col-md-6">
                                                                 <label class="custom-switch">
                                                                     <input type="checkbox" value="1"
-                                                                           name="cash_on_delivery"
-                                                                           {{ old('cash_on_delivery') == 1 ? 'checked' : '' }}
+                                                                           name="shipping_fee_depend_on_quantity"
+                                                                           {{ old('shipping_fee_depend_on_quantity') == 1 ? 'checked' :  '' }}
                                                                            class="custom-switch-input">
                                                                     <span class="custom-switch-indicator"></span>
-                                                                    <span
-                                                                            class="custom-switch-description">{{ __('Collect cash after delivery') }}</span>
+                                                                    <span class="custom-switch-description"></span>
                                                                 </label>
-                                                                @if ($errors->has('cash_on_delivery'))
+                                                                @if ($errors->has('shipping_fee_depend_on_quantity'))
                                                                     <div class="invalid-feedback">
-                                                                        <p>{{ $errors->first('cash_on_delivery') }}</p>
+                                                                        <p>{{ $errors->first('shipping_fee_depend_on_quantity') }}</p>
                                                                     </div>
                                                                 @endif
                                                             </div>
                                                         </div>
+                                                    </div>
+                                                @else
+                                                    {{ __('Product base shipping fee is disabled. Configure your shipping fee here') }}
+                                                    <a href="{{ route('shipping-configuration') }}">{{ __('Shipping Configuration') }}</a>
+                                                @endif
+                                                    <div class="section-title mt-0">{{ __('Estimated Shipping Days & COD') }}</div>
+                                                    <div class="form-group row mt-2 shipping-days {{ old('is_digital') == 1 ? 'd-none' : '' }}">
+                                                        <label class="col-md-5 col-from-label">{{ __('Cash On Delivery') }}</label>
+                                                        <div class="col-md-7">
+                                                            <label class="custom-switch">
+                                                                <input type="checkbox" value="1" name="cash_on_delivery"
+                                                                       {{ old('cash_on_delivery') == 1 ? 'checked' : '' }}
+                                                                       class="custom-switch-input">
+                                                                <span class="custom-switch-indicator"></span>
+                                                                <span
+                                                                        class="custom-switch-description">{{ __('Collect cash after delivery') }}</span>
+                                                            </label>
+                                                            @if ($errors->has('cash_on_delivery'))
+                                                                <div class="invalid-feedback">
+                                                                    <p>{{ $errors->first('cash_on_delivery') }}</p>
+                                                                </div>
+                                                            @endif
+                                                        </div>
+                                                    </div>
                                                     <div class="form-group mt-2 shipping-days">
                                                         <label for="estimated_shipping_days">{{ __('Shipping Days') }}</label>
                                                         <input type="text" name="estimated_shipping_days"
@@ -1308,7 +1121,7 @@
                         for (let i = 0; i < filesAmount; i++) {
                             var reader = new FileReader();
 
-                            reader.onload = function (event) {
+                            reader.onload = function(event) {
                                 $($.parseHTML('<img class="description_image">')).attr('src', event.target.result).appendTo('#description_image_modal');
                             }
 

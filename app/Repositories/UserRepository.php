@@ -11,10 +11,11 @@ use Brian2694\Toastr\Facades\Toastr;
 use Cartalyst\Sentinel\Laravel\Facades\Activation;
 use Illuminate\Support\Facades\DB;
 use Sentinel;
+use App\Traits\SendNotification;
 
 class UserRepository implements UserInterface
 {
-    use ImageTrait, SendMailTrait;
+    use ImageTrait, SendMailTrait, SendNotification;
 
     public function all()
     {
@@ -161,20 +162,42 @@ class UserRepository implements UserInterface
             $user = User::find($user_id);
             if($user->license_verified == 1):
                 $user->license_verified = 0;
-                Toastr::success(__('License Number is Inactivated'));
+                Toastr::success(__('License Number is Unverified'));
                 logStaffActivity('unverify_customer_license', 'User', $user->id);
             else:
                 $user->license_verified = 1;
-                Toastr::success(__('License Number is Activated')); 
+                Toastr::success(__('License Number is Verified'));
                 logStaffActivity('verify_customer_license', 'User', $user->id);
             endif;
-
+            $user->license_checked = 1;
             $user->save();
             $license_status = $user->license_verified == 1 ? __("Validated") : __("Rejected");
             $notification_type = $user->license_verified == 1 ? "success" : "warning";
-            $this->SendNotification(Sentinel::findById($order->user_id),__("Your License is (:status)",['status'=>$license_status]),$notification_type,"user/dashboard", __('Your License Status is :status now.', ['status'=>$license_status]));
-            if ($order->user->email){
-                $this->SendMail($order->user->email, 'License Status Updated', $order->user, 'email.license-status-update',url('/'). '/user/dashboard/');
+            $this->SendNotification(Sentinel::findById($user->id),__("Your License is (:status)",['status'=>$license_status]),$notification_type,"user/dashboard", __('Your License Status is :status now.', ['status'=>$license_status]));
+            if ($user->email){
+                $this->SendMail($user->email, 'License Status Updated', $user, 'email.license-status-update',url('/'). '/user/dashboard/');
+            }
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollback();
+            Toastr::error(__('Something went wrong, please try again'));
+            return false;
+        }
+    }
+    public function licenseReject($user_id)
+    {
+        DB::beginTransaction();
+        try {
+            $user = User::find($user_id);
+            $user->license_verified = 0;
+            Toastr::success(__('License Number Rejected'));
+            logStaffActivity('reject_customer_license', 'User', $user->id);
+            $user->license_checked = 1;
+            $user->save();
+            $this->SendNotification(Sentinel::findById($user->id),__("Your License is :status",['status'=>__("Rejected")]),"warning","user/dashboard", __('Your License is :status', ['status'=>__("Rejected")]));
+            if ($user->email){
+                $this->SendMail($user->email, 'License Status Updated', $user, 'email.license-status-update',url('/'). '/user/dashboard/');
             }
             DB::commit();
             return true;
